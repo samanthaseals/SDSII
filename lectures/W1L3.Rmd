@@ -6,10 +6,14 @@ output:
       in_header: header.tex
 classoption: 
   - "aspectratio=169"
+  
+knit: (function(inputFile, encoding) {
+  rmarkdown::render(inputFile, encoding = encoding, output_dir = "../lectures/PDF") })
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE, warning = FALSE, message = FALSE, fig.path = "figure/listings-")
+knitr::opts_chunk$set(echo = TRUE, warning = FALSE, message = FALSE, fig.path = "images")
+
 library(tidyverse)
 library(palmerpenguins)
 library(fastDummies)
