@@ -9,7 +9,7 @@ classoption:
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE, warning = FALSE, message = FALSE, fig.path = "figure/listings-")
+knitr::opts_chunk$set(echo = TRUE, warning = FALSE, message = FALSE, fig.path = "images")
 library(tidyverse)
 library(palmerpenguins)
 library(fastDummies)
