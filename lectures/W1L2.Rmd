@@ -439,7 +439,7 @@ p <- ggplot(data, aes(x=flipper_length_mm, y=bill_length_mm, color=Species)) +
 ```
 
 ```{r, echo = FALSE}
-ggsave("/Volumes/GoogleDrive/My Drive/IAIA - SDSII/SDSII/lectures/images/w1l2fig2.png")
+ggsave("/Volumes/GoogleDrive/My Drive/IAIA/SDSII/lectures/images/w1l2fig2.png")
 ```
 
 

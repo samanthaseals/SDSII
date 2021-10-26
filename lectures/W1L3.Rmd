@@ -592,7 +592,7 @@ p1 <- ggplot(data, aes(x=flipper_length_mm, y=bill_length_mm, color=species)) +
 ```
 
 ```{r, echo = FALSE}
-ggsave("/Volumes/GoogleDrive/My Drive/IAIA - SDSII/SDSII/lectures/images/w1l3fig1.png")
+ggsave("/Volumes/GoogleDrive/My Drive/IAIA/SDSII/lectures/images/w1l3fig1.png")
 ```
 
 ## Visualization
@@ -647,7 +647,7 @@ p2 <- ggplot(data, aes(x=body_mass_g, y=bill_length_mm, color=species)) +
 ```
 
 ```{r, echo = FALSE}
-ggsave("/Volumes/GoogleDrive/My Drive/IAIA - SDSII/SDSII/lectures/images/w1l3fig2.png")
+ggsave("/Volumes/GoogleDrive/My Drive/IAIA/SDSII/lectures/images/w1l3fig2.png")
 ```
 
 ## Visualization
@@ -680,7 +680,7 @@ p3 <- ggplot(data, aes(x=flipper_length_mm, y=bill_length_mm, color=species)) +
 ```
 
 ```{r, echo = FALSE}
-ggsave("/Volumes/GoogleDrive/My Drive/IAIA - SDSII/SDSII/lectures/images/w1l3fig3.png")
+ggsave("/Volumes/GoogleDrive/My Drive/IAIA/SDSII/lectures/images/w1l3fig3.png")
 ```
 
 ## Visualization
@@ -692,3 +692,10 @@ ggsave("/Volumes/GoogleDrive/My Drive/IAIA - SDSII/SDSII/lectures/images/w1l3fig
 knitr::include_graphics("images/w1l3fig3.png")
 ```
 
+## Future Considerations
+
+As was mentioned in the categorical predictor lecture, we examined simple examples here.
+
+Modeling and visualizing becomes more difficult as we increase the number of predictors, especially with interaction terms.
+
+It is easy to go down a rabbit hole with regard to visualization -- always communicate with your team to determine what will be \textit{useful}.
