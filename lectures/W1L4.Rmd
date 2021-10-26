@@ -1,0 +1,318 @@
+---
+output: 
+  beamer_presentation:
+    fig_caption: false
+    includes:
+      in_header: header.tex
+classoption: 
+  - "aspectratio=169"
+  
+knit: (function(inputFile, encoding) {
+  rmarkdown::render(inputFile, encoding = encoding, output_dir = "../lectures/PDF") })
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, warning = FALSE, message = FALSE, fig.path = "images")
+
+library(tidyverse)
+library(palmerpenguins)
+library(fastDummies)
+
+options(scipen = 1, digits = 4)
+
+data <- as_tibble(na.omit((penguins %>% select(species,
+                                      bill_length_mm,
+                                      flipper_length_mm,
+                                      body_mass_g,
+                                      sex))))
+
+data <- dummy_cols(data, select_columns = c("sex", "species"))
+
+m1 <- lm(bill_length_mm ~ flipper_length_mm + species_Chinstrap + 
+           species_Gentoo + species_Chinstrap:flipper_length_mm +
+           species_Gentoo:flipper_length_mm, data = data)
+
+m2 <- lm(bill_length_mm ~ sex_male + species_Chinstrap +  species_Gentoo + 
+         species_Chinstrap:sex_male + species_Gentoo:sex_male, data = data)
+
+m3 <- lm(bill_length_mm ~ flipper_length_mm + body_mass_g + flipper_length_mm:body_mass_g, 
+         data = data)
+
+c1 <- coefficients(m1)
+c2 <- coefficients(m2)
+c3 <- coefficients(m3)
+```
+
+## {.standout} 
+\vskip12em
+\begin{center}{\color{white} \huge \textbf{Model Accuracy}} \vskip1em
+{\color{white} \Large Statistics for Data Science II}
+\end{center}
+
+## Introduction
+
+Recall the linear model,
+\[ y = \beta_0 + \beta_1 x_1 + \cdots + \beta_k x_k + \varepsilon \]
+
+Even if we know the true parameters ($\beta_0$, $\beta_1$, etc.), the linear model will not perfectly fit the data.
+
+Thus, when constructing a model, we want to measure the model fit.
+
+We can assess this with two quantities:
+\begin{itemize}
+  \item Residual standard error (RSE)
+  \item $R^2$ statistic
+\end{itemize}
+
+
+## Residuals
+
+Recall the residual,
+\[ e_i = y_i - \hat{y}_i \]
+
+This measures the distance between the observed value ($y$) and the predicted value ($\hat{y}$) for every observation.
+
+We can also calculate the residual sum of squares (RSS),
+\[ \text{RSS} = \sum_{i=1}^n e_i^2 \]
+
+## Residual Standard Error
+
+Then, we can calculate the residual standard error (RSE),
+\[ \text{RSE} = \sqrt{\frac{1}{n-2} \text{RSS}} = \sqrt{\frac{1}{n-2} \sum_{i=1}^n e_i^2} \]
+
+The RSE estimates the standard deviation of $\varepsilon$. 
+
+We can actually pull this from the ANOVA table:
+\[ \text{RSE} = \sqrt{\text{MSE}} \]
+
+## Residual Standard Error
+
+\textbf{Example:} 
+\begin{itemize}
+  \item Recall the models from the previous lecture,
+\end{itemize} \vskip-1em
+
+\scriptsize
+\begin{align*}
+\text{M1:} & \hat{y} = `r round(c1[1],2)` + `r round(c1[2], 2)` \text{flipper}  `r round(c1[3], 2)` \text{Chinstrap} `r round(c1[4], 2)` \text{Gentoo}  + `r round(c1[5], 2)` (\text{flipper} \times \text{Chinstrap}) + `r round(c1[6], 2)` (\text{flipper} \times \text{Gentoo}) \\
+\text{M2:} & \hat{y} = `r round(c2[1], 2)` + `r round(c2[2], 2)` \text{male} + `r round(c2[3], 2)` \text{Chinstrap} + `r round(c2[4], 2)` \text{Gentoo} + `r round(c2[5], 2)` \text{male $\times$ Chinstrap} + `r round(c2[6], 2)` \text{male $\times$ Gentoo} \\
+\text{M3:} & \hat{y} = `r round(c3[1], 2)` + `r round(c3[2], 2)` \text{flipper} + `r round(c3[3], 2)` \text{body mass} - 0.00003 \text{(flipper $\times$ body mass)}
+\end{align*}
+
+\normalsize
+\begin{itemize}
+  \item Let's find the RSE for each model.
+  \begin{itemize}
+    \item We can use either \texttt{summary()} or \texttt{anova()}
+  \end{itemize}
+\end{itemize}
+
+## Residual Standard Error
+
+\textbf{Example: M1} 
+
+\tiny
+```{r, echo = FALSE}
+summary(m1)
+```
+
+## Residual Standard Error
+
+\vskip1em
+\textbf{Example: M1} \vskip.5em
+
+\scriptsize
+```{r}
+anova(m1)
+```
+\normalsize
+\begin{itemize}
+  \item Notice that $\text{RSE} = \sqrt{7} = 2.65 \ne 2.55$
+\end{itemize}
+
+## Residual Standard Error
+
+\vskip1em
+\textbf{Example: M1} 
+
+\begin{itemize}
+  \item Beware that sometimes R rounds things displayed -- we may want to save things as a tibble (or data frame) to see the true values.
+\end{itemize} \vskip.5em
+
+\scriptsize
+```{r}
+print.data.frame(round(anova(m1), 4))
+```
+\normalsize
+\begin{itemize}
+  \item Thus, we see that the MSE is not actually 7. Instead, it is 6.5187.
+  \item Now, we match the output from \texttt{summary()}: $\sqrt{6.5187} = 2.55$.
+\end{itemize}
+
+## Residual Standard Error
+
+\vskip1em
+\textbf{Example: M2} 
+
+\tiny
+```{r, echo = FALSE}
+summary(m2)
+```
+
+## Residual Standard Error
+
+\textbf{Example: M3} 
+
+\tiny
+```{r, echo = FALSE}
+summary(m3)
+```
+## Residual Standard Error
+
+\textbf{Example:}
+
+\begin{itemize}
+  \item Comparing the three models,
+\end{itemize}
+
+\begin{center}
+  \begin{tabular}{clc} \toprule
+    \textbf{Model} & \multicolumn{1}{c}{\textbf{Predictors}} & \textbf{RSE} \\ \midrule
+    1 & species, flipper length & 2.55 \\
+    2 & species, sex & 2.32 \\
+    3 & flipper length, body mass & 4.15 \\ \bottomrule
+  \end{tabular}
+\end{center} \vskip1em
+
+\begin{itemize}
+  \item In theory, the model with the smallest RSE is the ``best fitting'' ... but how different is 2.32 and 2.55?
+\end{itemize}
+
+## $R^2$ Statistic
+
+\vskip1em
+The downside to using the RSE is that it takes on the units of $Y$.
+\begin{itemize}
+  \item This means we cannot define a ``good'' RSE.
+\end{itemize}    \vskip.5em
+
+We now turn to a proportion, the $R^2$ statistic.
+\begin{itemize}
+  \item $R^2$ is the proportion of variance explained by the model.
+  \item Because it is a proportion, $R^2 \in [0, 1]$ and is independent of the units of $Y$.
+\end{itemize} \vskip.5em
+
+If $R^2 \to 0$, the model does not fit the data well; if $R^2 \to 1$, the model fits the data well.
+\begin{itemize}
+  \item Note that if $R^2=1$, all observations fall on the response surface.
+\end{itemize}
+
+## $R^2$ Statistic
+
+\vskip1em
+To calculate $R^2$, we need RSS as well as the total sum of squares (TSS),
+\[ \text{RSS} = \sum_{i=1}^n e_i^2 \ \ \ \ \ \text{and} \ \ \ \ \ \text{TSS} = \sum_{i=1}^n \left(y_i - \bar{y} \right)^2  \]
+
+Then,
+\[ R^2 = \frac{\text{TSS}-\text{RSS}}{\text{TSS}} = 1 - \frac{\text{RSS}}{\text{TSS}} \]
+
+Note that other places may have different language (using the ANOVA table),
+\[ R^2 = \frac{\text{SSTot}-\text{SSE}}{\text{SSTot}} = 1 - \frac{\text{SSReg}}{\text{SSTot}} \]
+
+## $R^2$ Statistic
+
+Remember that we are partitioning the variability in $Y$ (TSS, or SSTot) into two pieces:
+\begin{itemize}
+  \item The variability explained by the regression model (TSS - RSS, or SSReg) and
+  \item the variability explained by outside sources (RSS, or SSE).
+\end{itemize}
+
+As predictors are added to the model, we necessarily increase SSReg / decrease SSE.
+
+We want a measure of model fit that is resistant to this fluxuation.
+\[ R^2_{\text{adj}} = 1 - \left( \frac{n-1}{n-k-1} \right) \left( 1 - R^2 \right) \]
+
+## $R^2$ Statistic
+
+\textbf{Example:} 
+\begin{itemize}
+  \item Recall the models from the previous lecture,
+\end{itemize} \vskip-1em
+
+\scriptsize
+\begin{align*}
+\text{M1:} & \hat{y} = `r round(c1[1],2)` + `r round(c1[2], 2)` \text{flipper}  `r round(c1[3], 2)` \text{Chinstrap} `r round(c1[4], 2)` \text{Gentoo}  + `r round(c1[5], 2)` (\text{flipper} \times \text{Chinstrap}) + `r round(c1[6], 2)` (\text{flipper} \times \text{Gentoo}) \\
+\text{M2:} & \hat{y} = `r round(c2[1], 2)` + `r round(c2[2], 2)` \text{male} + `r round(c2[3], 2)` \text{Chinstrap} + `r round(c2[4], 2)` \text{Gentoo} + `r round(c2[5], 2)` \text{male $\times$ Chinstrap} + `r round(c2[6], 2)` \text{male $\times$ Gentoo} \\
+\text{M3:} & \hat{y} = `r round(c3[1], 2)` + `r round(c3[2], 2)` \text{flipper} + `r round(c3[3], 2)` \text{body mass} - 0.00003 \text{(flipper $\times$ body mass)}
+\end{align*}
+
+\normalsize
+\begin{itemize}
+  \item Let's find the $R^2_{\text{adj}}$ for each model.
+  \begin{itemize}
+    \item Again, we can use either \texttt{summary()} or \texttt{anova()}
+  \end{itemize}
+\end{itemize}
+
+## $R^2$ Statistic
+
+\textbf{Example: M1} 
+
+\tiny
+```{r, echo = FALSE}
+summary(m1)
+```
+
+## $R^2$ Statistic
+
+\textbf{Example: M2} 
+
+\tiny
+```{r, echo = FALSE}
+summary(m2)
+```
+
+## $R^2$ Statistic
+
+\textbf{Example: M3} 
+
+\tiny
+```{r, echo = FALSE}
+summary(m3)
+```
+
+## $R^2$ Statistic
+
+\textbf{Example:}
+
+\begin{itemize}
+  \item Comparing the three models,
+\end{itemize}
+
+\begin{center}
+  \begin{tabular}{clcc} \toprule
+    \textbf{Model} & \multicolumn{1}{c}{\textbf{Predictors}} & \textbf{RSE} & \textbf{\boldmath $R^2_{\text{adj}}$} \\ \midrule
+    1 & species, flipper length & 2.55 & 0.782 \\
+    2 & species, sex & 2.32 & 0.821 \\
+    3 & flipper length, body mass & 4.15 & 0.425 \\ \bottomrule
+  \end{tabular}
+\end{center} \vskip1em
+
+\begin{itemize}
+  \item Model 2 accounts for the highest amount of variability in bill length at 82.1%.
+  \item Model 3 accounts for the lowest amount of variability in bill length at 42.5%
+\end{itemize}
+
+## Further Considerations
+
+Both RSE and $R^2_{\text{adj}}$ are tools for us to assess how a model fits the data. \vskip.5em
+
+Sometimes, we just aren't going to have a high $R^2_{\text{adj}}$... and we should be cautious about $R^2_{\text{adj}}$ that are too high. \vskip.5em
+
+We should consider the change in $R^2_{\text{adj}}$ when removing/adding predictors to the model.
+\begin{itemize}
+  \item How much ``better'' is the model with/without the term?
+  \item If it is going to complicate the analysis (e.g., an interaction term), is it worth the increase in $R^2_{\text{adj}}$?
+\end{itemize}
+
+
