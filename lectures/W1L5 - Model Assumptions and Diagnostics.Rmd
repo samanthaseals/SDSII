@@ -1,0 +1,406 @@
+---
+output: 
+  beamer_presentation:
+    fig_caption: false
+    includes:
+      in_header: header.tex
+classoption: 
+  - "aspectratio=169"
+  
+knit: (function(inputFile, encoding) {
+  rmarkdown::render(inputFile, encoding = encoding, output_dir = "../lectures/PDF") })
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, warning = FALSE, message = FALSE, fig.path = "images")
+
+library(tidyverse)
+library(palmerpenguins)
+library(fastDummies)
+library(lindia)
+library(car)
+
+options(scipen = 1, digits = 4)
+
+data <- as_tibble(na.omit((penguins %>% select(species,
+                                      bill_length_mm,
+                                      flipper_length_mm,
+                                      body_mass_g,
+                                      sex))))
+
+data <- dummy_cols(data, select_columns = c("sex", "species"))
+```
+
+## {.standout} 
+\vskip12em
+\begin{center}{\color{white} \huge \textbf{Model Assumptions and Diagnostics}} \vskip1em
+{\color{white} \Large Statistics for Data Science II}
+\end{center}
+
+## Introduction
+
+\vskip1em
+When fitting a linear regression model, we may encounter issues:
+\begin{itemize}
+  \item[1.] Non-linearity of the response-predictor relationships.
+  \item[2.] Correlation of error terms.
+  \item[3.] Non-constant variance of error terms.
+  \item[4.] Outliers.
+  \item[5.] High-leverage points.
+  \item[6.] Collinearity.
+\end{itemize} \vskip.5em
+
+Model building is an \textit{art} rather than a \textit{science}.
+
+## Non-Linearity
+
+\vskip1em
+The linear regression model assumes a straight-line relationship between the outcome and the predictors. \vskip.5em
+
+As we stray further away from linearity: 
+\begin{itemize}
+  \item Any conclusions drawn are questionable.
+  \item The prediction accuracy of the model is reduced.
+\end{itemize}
+
+We will use a residual plot to assess non-linearity.
+\begin{itemize}
+  \item We plot the residuals, $e_i = y_i - \hat{y}_i$, against the predicted value, $\hat{y}_i$.
+  \item The presence of a pattern may indicate a problem with some aspect of the model.
+\end{itemize}
+
+## Non-Linearity
+
+\vskip1em
+\textbf{Example:}
+
+\begin{itemize}
+  \item Recall the penguin data. Consider the simple example of modeling bill length as a function of sex and flipper length. Let's look at the residual plot.
+\end{itemize} \vskip.5em
+
+\scriptsize
+```{r}
+m1 <- lm(bill_length_mm ~ flipper_length_mm + sex_male, data = data)
+data <- data %>% mutate(
+  e = residuals(m1),
+  yhat = predict(m1)
+  )
+
+p1 <- data %>% ggplot(aes(x = yhat, y = e)) +
+  geom_point() +
+  geom_smooth() +
+  theme_bw() +
+  xlab("Predicted Value") +
+  ylab("Residual")
+```
+
+```{r, echo = FALSE}
+ggsave("/Volumes/GoogleDrive/My Drive/IAIA/SDSII/lectures/images/w1l5fig1.png")
+```
+
+## Non-Linearity
+
+\vskip1em
+\textbf{Example:} \vskip1em
+
+```{r, echo = FALSE, fig.align="center", out.width = "60%", fig.alt = "Scatterplot with the predicted value on the x-axis and the residual on the y-axis. A smoothed line with confidence bound is overlaid."}
+knitr::include_graphics("images/w1l5fig1.png")
+```
+
+## Non-Linearity
+
+\vskip1em
+\textbf{Example:} \vskip1em
+
+```{r, echo = FALSE, fig.align="center", out.width = "80%", fig.alt = "Side-by-side scatterplots with the predicted value on the x-axis and the residual on the y-axis. A smoothed line is overlaid."}
+knitr::include_graphics("images/w1l5fig2.png")
+```
+
+## Non-Linearity
+
+What should we do if the residual plot clearly indicates a non-linear relationship?
+
+We can perform transformations on the predictors:
+\begin{itemize}
+  \item log($x$)
+  \item $\sqrt{x}$
+  \item $x^2$
+  \item etc.
+\end{itemize}
+
+We will deal with this more later on in the course.
+
+## Correlation of Error Terms
+
+\vskip1em
+An important assumption is that the error terms ($e_i$) are uncorrelated. 
+
+If there is correlation among the error terms (repeated measures, time series data, etc.), we must account for it in the model.
+
+If we have correlated error terms but do not account for them, our inferences may not be correct -- standard errors will be too small.
+\begin{itemize}
+  \item test statistics are larger than they should be,
+  \item $p$-values are smaller than they should be,
+  \item and confidence intervals are narrower than they should be.
+\end{itemize}
+
+## Correlation of Error Terms
+
+\vskip1em
+If time is a component of the analysis, we can plot the residuals against time.
+\begin{itemize}
+  \item If small correlation, then there should be no pattern.
+  \item If positive correlation, then adjacent residuals may have similar values.
+\end{itemize} 
+
+```{r, echo = FALSE, fig.align="center", out.width = "35%", fig.alt = "Stacked scatterplots demonstrating residuals plotted against time. The top graph shows a correlation of 0, the middle graph shows a correlation of 0.5, and the bottom graph shows a correlation of 0.9."}
+knitr::include_graphics("images/w1l5fig3.png")
+```
+
+## Correlation of Error Terms
+
+We can also have repeated measures data.
+\begin{itemize}
+\item e.g., ACT scores: English, math, reading, science
+\item e.g., Jackson Heart Study: Visit 1, Visit 2, Visit 3, Visit 4; annual follow up
+\end{itemize} \vskip1em
+
+We can account for this using correlation structures in our models.
+\begin{itemize}
+  \item This type of model is beyond the scope of this course.
+\end{itemize} \vskip1em
+
+All of the models in this course assume that we do not have repeated measures data.
+
+## Non-Constant Variance of Error Terms
+
+We assume that the error terms have a constant variance, $\sigma^2$.
+\begin{itemize}
+  \item We need this assumption for the purpose of statistical inference (hypothesis tests, confidence intervals).
+\end{itemize}
+
+We will examine a residual plot with the predicted value on the $x$-axis and the residual on the $y$-axis.
+\begin{itemize}
+  \item We are examining the spread of the data along the $y$-axis.
+  \item Ideally, we will see a "cloud" -- we do not want to see a pattern. 
+  \item e.g., if we see a funnel shape, the assumption is broken.
+\end{itemize}
+
+## Non-Constant Variance of Error Terms
+
+\vskip1em
+\textbf{Example:} \vskip1em
+
+```{r, echo = FALSE, fig.align="center", out.width = "60%", fig.alt = "Scatterplot with the predicted value on the x-axis and the residual on the y-axis. A smoothed line with confidence bound is overlaid."}
+knitr::include_graphics("images/w1l5fig1.png")
+```
+
+## Non-Constant Variance of Error Terms
+
+\vskip1em
+\textbf{Example:} \vskip1em
+
+```{r, echo = FALSE, fig.align="center", out.width = "80%", fig.alt = "Side-by-side scatterplots with the predicted value on the x-axis and the residual on the y-axis. Smoothed lines are overlaid."}
+knitr::include_graphics("images/w1l5fig4.png")
+```
+
+## Outliers
+
+An outlier is defined as follows:
+\begin{itemize}
+  \item A point for which $y_i$ is far from the value predicted by the model. 
+\end{itemize}
+
+Outliers happen for several reasons:
+\begin{itemize}
+  \item Data collection error
+  \item Large value that is unusual/out of place
+  \item Large value that is valid
+\end{itemize}
+
+## Outliers
+
+Recall the residual,
+\[ e_i = y_i - \hat{y}_i \]
+
+We will look at the Studentized residual,
+\[ r_i = \frac{e_i}{\sqrt{\text{MSE}} \sqrt{1-h_i}}, \]
+
+If abs($r_i$) $>$ 2.5, we say that the observation is an outlier.
+
+If abs($r_i$) $>$ 3, we say that the observation is an extreme outlier.
+
+## Outliers
+
+\vskip1em
+\textbf{Example:} \vskip.5em
+
+\tiny
+```{r}
+data$outlier <- abs(rstandard(m1))>2.5
+data %>% count(outlier)
+```
+\vskip.5em
+```{r}
+data %>% filter(outlier == TRUE)
+```
+
+
+## Outliers
+
+\vskip1em
+If an outlier is detected, we should not remove the observation unless there is a non-statistical reason to do so.
+\begin{itemize}
+  \item i.e., there is a data collection error and we cannot recover the true value
+  \item i.e., the value is abnormally large and we cannot verify the value
+\end{itemize}
+
+## Leverage and Influence Points
+
+A leverage point is defined as follows:
+\begin{itemize}
+  \item A point for which $x_i$ is far from the other values. 
+\end{itemize}
+
+An influential point is defined as follows:
+\begin{itemize}
+  \item A point that significantly affects the regression model. 
+\end{itemize}
+
+We check these together using Cook's distance.
+\begin{itemize}
+  \item We will look for ``spikes'' in the plot.
+\end{itemize}
+
+## Leverage and Influence Points
+
+We use the \texttt{lindia} package to construct the graph we need. 
+
+Note that it is built in \texttt{ggplot} -- we can make edits / modifications like we normally do in \texttt{ggplot}. \vskip1em
+
+\textbf{Example:} \vskip.5em
+```{r}
+p2 <- gg_cooksd(m1) + theme_bw()
+```
+
+```{r, echo = FALSE}
+ggsave("/Volumes/GoogleDrive/My Drive/IAIA/SDSII/lectures/images/w1l5fig5.png")
+```
+
+## Leverage and Influence Points
+
+\vskip1em
+\textbf{Example:} 
+
+```{r, echo = FALSE, fig.align="center", out.width = "55%", fig.alt = "Plot for Cook's distance. Observation number is on the x axis, Cook's distance is on the y-axis."}
+knitr::include_graphics("images/w1l5fig5.png")
+```
+
+## Leverage and Influence Points
+
+\textbf{Example:} \vskip.5em
+```{r}
+data$rownumber = 1:nrow(data) # identify row number
+
+# is the leverage/influence point the same as the outlier?
+data %>% filter(rownumber == 283) %>% select(outlier) 
+```
+
+## Sensitivity Analysis
+
+We can perform sensitivity analysis to determine how much our model changes when we exclude the outliers.
+\begin{itemize}
+  \item Model 1: model using data with all observations
+  \item Model 2: model using data without identified outliers
+  \item How different are the $\hat{\beta}_i$? Did a predictor go from being significant to non-significant? (or vice-versa?) Does the direction of $\hat{\beta}_i$ change? What is the difference in $R^2$?
+\end{itemize}
+
+We only look at sensitivity analysis one time (i.e., only remove data points once for reanalysis).
+\begin{itemize}
+  \item If we keep going, we will whittle down the dataset to as close to a "perfect fit" as possible, introducing other issues.
+\end{itemize}
+
+## Sensitivity Analysis
+
+\vskip1em
+\textbf{Example:}
+\begin{itemize}
+  \item First, we will create a dataset that does not contain the problem observation(s).
+\end{itemize}
+
+\scriptsize
+```{r}
+data2 <- data %>% filter(outlier == FALSE)
+
+nrow(data)
+nrow(data2)
+```
+
+## Sensitivity Analysis
+
+\vskip1em
+\textbf{Example:}
+
+\tiny
+```{r}
+m1 <- lm(bill_length_mm ~ flipper_length_mm + sex_male, data = data)
+summary(m1)[4]
+
+m2 <- lm(bill_length_mm ~ flipper_length_mm + sex_male, data = data2)
+summary(m2)[4]
+```
+
+## Multicollinearity
+
+Two predictor variables are collinear if they are highly correlated. 
+\begin{itemize}
+  \item It can be hard to detect multicollinearity using correlation when there are three or more predictor variables of interest.
+\end{itemize}
+
+Thus, we assess multicollinearity using the variance inflation factor (VIF):
+\[ \text{VIF}\left( \hat{\beta}_j \right) = \frac{1}{1-R^2_{X_j|X_{-j}}} \]
+where $R^2_{X_j|X_{-j}}$ is the $R^2$ from a regression of $X_j$ onto all other predictors.
+
+We say that multicollinearity is present if VIF > 10.
+
+## Multicollinearity
+
+\vskip1em
+There are issues with checking multicollinearity in a model with either categorical predictors or interaction terms.
+
+Remember that we are assessing if predictors are correlated.
+\begin{itemize}
+  \item If we have a three-level categorical predictor, then necessarily the two corresponding predictors in the model are related. 
+  \item Interaction terms arise from multiplying two predictors together, thus, the interaction term will be highly correlated with those two predictors.
+\end{itemize}
+
+When assessing multicollinearity, it should only be on the main effects model. 
+
+With categorical variables, we can assess with them present but may need to remove them if there are issues within the variable.
+
+## Multicollinearity
+
+\vskip1em
+\textbf{Example:}
+\scriptsize
+```{r}
+m3 <- lm(bill_length_mm ~ sex_male + flipper_length_mm + sex_male:flipper_length_mm, data = data)
+vif(m3)
+m1 <- lm(bill_length_mm ~ sex_male + flipper_length_mm, data = data)
+vif(m1)
+```
+
+## Multicollinearity
+
+If we detect two predictors that cannot be in a model together, we have a couple of options:
+\begin{itemize}
+  \item Move forward modeling with only one of the variables ("more important" variable),
+  \item Create separate models with each of the predictors.
+\end{itemize}
+
+This step requires discussion with the research team.
+
+## Final Thoughts
+
+\huge
+Model building is an art and not a science!
