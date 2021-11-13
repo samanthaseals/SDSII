@@ -1,0 +1,410 @@
+---
+output: 
+  beamer_presentation:
+    fig_caption: false
+    includes:
+      in_header: header.tex
+classoption: 
+  - "aspectratio=169"
+  
+knit: (function(inputFile, encoding) {
+  rmarkdown::render(inputFile, encoding = encoding, output_dir = "../lectures/PDF") })
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, warning = FALSE, message = FALSE, fig.path = "images")
+
+library(tidyverse)
+library(fastDummies)
+library(gsheet)
+library(car)
+
+data <- as_tibble(gsheet2tbl("https://docs.google.com/spreadsheets/d/1fCIhZTf4BnE_Xly4zp8Cg_cz4wAYrQN0WPN9vDnqSEE/edit#gid=0"))
+```
+
+
+## {.standout} 
+\vskip12em
+\begin{center}{\color{white} \huge \textbf{Binary Logistic Regression}} \vskip1em
+{\color{white} \Large Statistics for Data Science II}
+\end{center}
+
+## Introduction
+
+Suppose we now have outcomes that are binary (only two possible responses).
+
+For example, suppose $Y_i$ was ``the student passes the class,'' then:
+  \[ 
+    Y_{i} = 
+      \begin{cases} 
+    1 & \text{if student passes} \\
+    0 & \text{if student does not pass} 
+    \end{cases}
+    \]
+
+Binary variables do not always take on yes/no answers!
+  \begin{itemize}
+\item e.g., ``Do you prefer cats or dogs?''
+\item e.g., ``Is the pug fawn or black?''
+\end{itemize} 
+
+## Introduction
+
+We model binary outcomes using logistic regression.
+\[ \ln \left( \frac{\pi}{1-\pi} \right) = \beta_0 + \beta_1 X_1 + \hdots + \beta_k X_k, \] 
+
+where $\pi = P[Y = 1]$ = the probability of the outcome. \vskip1em
+
+How is this different from linear regression?
+\[ Y = \beta_0 + \beta_1 X_1 + \hdots + \beta_k X_k \]
+
+## Introduction
+
+Why can't we use OLS estimation? \vskip1em
+\begin{itemize}
+    \item[1.] The residuals are not normally distributed. \vskip1em
+    \item[2.] The residuals do not have constant variance. \vskip1em
+    \item[3.] The predicted values (probabilities) do not always fall between 0 and 1, the only possible values for the probability of success. 
+\end{itemize}
+
+## Modeling
+
+Recall the binary logistic regression model,
+\[ \ln \left( \frac{\pi}{1-\pi} \right) = \beta_0 + \beta_1 X_1 + \hdots + \beta_k X_k, \] 
+
+We will specify this in R using the \texttt{glm()} function, specifying \texttt{family = "binomial"}. \vskip.5em
+
+e.g., \texttt{glm(outcome $\sim$ predictor1 + predictor2 + ..., data = dataset, family = "binomial")} \vskip.5em
+
+The binomial distribution is used for 0/1 outcomes, thus, is why we specify it here.
+
+## Modeling
+
+\textbf{Example:} \vskip1em
+\begin{itemize}
+  \item A researcher is interested in how the GRE, college GPA, and prestige of the undergraduate institution affect admission into graduate school. The response variable, admit/don't admit, is a binary variable. Let's model graduate school admission as a function of GRE, college GPA, and prestige of the undergraduate institution.
+\end{itemize}
+
+```{r}
+m1 <- glm(admit ~ gre + gpa + rank, data = data, family = "binomial")
+```
+
+## Modeling
+\vskip1em
+\textbf{Example:} \vskip.5em
+\scriptsize
+```{r}
+summary(m1)[12]
+```
+
+\normalsize
+\begin{itemize}
+  \item The resulting model is
+\end{itemize} \vskip-.5em
+\[ \ln \left( \frac{\hat{\pi}}{1-\hat{\pi}} \right) = -3.45 + 0.002 \text{ GRE} + 0.78 \text{ GPA} - 0.56 \text{ rank}, \] 
+\begin{itemize}
+  \item where $\hat{\pi}$ is the probability of admittance to graduate school.
+\end{itemize}
+
+## Interpretations
+
+Recall the binary logistic regression model,
+\[ \ln \left( \frac{\pi}{1-\pi} \right) = \beta_0 + \beta_1 X_1 + \hdots + \beta_k X_k, \] 
+
+We are modeling the log odds, which are not intuitive with interpretations.
+
+To be able to discuss the odds, we will "undo" the natural log by exponentiation. 
+
+i.e., if we want to interpret the slope for $X_i$, we will look at $e^{\hat{\beta}_i}$.
+
+When interpreting $\hat{\beta}_i$, it is an additive effect on the log odds. 
+
+When interpreting $e^{\hat{\beta}_i}$, it is a multiplicative effect on the odds.
+
+## Interpretations
+
+Why is it a multiplicative effect?
+
+\begin{align*}
+  \ln \left( \frac{\pi}{1-\pi} \right) &= \beta_0 + \beta_1 X_1 + \hdots + \beta_k X_k \\
+  \exp\left\{ \ln \left( \frac{\pi}{1-\pi} \right) \right\} &= \exp\left\{ \beta_0 + \beta_1 X_1 + \hdots + \beta_k X_k \right\} \\
+  \frac{\pi}{1-\pi}  &= e^{\beta_0} e^{\beta_1 X_1} \hdots e^{\beta_k X_k}
+\end{align*}
+
+## Interpretations
+
+\vskip1em
+In linear regression, we interpret $\hat{\beta}_i$: 
+\begin{itemize}
+  \item For a 1 [unit of predictor] increase in [predictor name], we expect [outcome] to [increase or decrease] by $\left[|\hat{\beta}_i| \right]$ [unit of outcome].
+\end{itemize}  \vskip.5em
+
+In logistic regression, we interpret $e^{\hat{\beta}_i}$ (the odds ratio):
+\begin{itemize}
+  \item For a 1 [unit of predictor] increase in [predictor name], we expect the odds of [outcome] to be multiplied by  [$e^{\hat{\beta}_i}$]. 
+  \item For a 1 [unit of predictor] increase in [predictor name], we expect the odds of [outcome] to [increase or decrease] by $\left[ 100\times \left(1-e^{\hat{\beta}_i} \right) \right]\%$. 
+\end{itemize}
+
+## Interpretations
+
+\textbf{Example:}
+\begin{itemize}
+\item Convert all $\hat{\beta}_i$ to odds ratios and provide brief interpretations for the graduate school admissions data.
+\end{itemize}
+
+```{r}
+round(exp(coefficients(m1)), 4)
+```
+
+## Interpretations
+
+\textbf{Example:}
+
+```{r, echo = FALSE}
+round(exp(coefficients(m1)), 4)
+```
+
+\begin{itemize}
+  \item For a 1 point increase in GRE score, the odds of admission increase by .23\%.
+  \item For a 1 point increase in GPA, the odds of admission increase by 118\%.
+  \item For a 1 point increase in rank of undergraduate institution, the odds of admission decrease by 43\%.
+\end{itemize}
+
+
+## Interpretations
+
+\vskip1em
+\textbf{Example:}
+\begin{itemize}
+  \item Suppose we turn the rank of undergraduate institution into a factor variable and use that as the only predictor of admission to graduate school. Let a top tier (rank = 1) undergraduate institution be the reference.
+\end{itemize}
+
+\scriptsize
+```{r}
+data <- dummy_cols(data, select_columns = "rank")
+m2 <- glm(admit ~ rank_2 + rank_3 + rank_4, data = data, family = "binomial")
+round(exp(coefficients(m2)), 4)
+```
+
+\normalsize
+\begin{itemize}
+  \item The odds of someone from a 2nd tier undergraduate institution being admitted to graduate school are 0.47 times that of someone from a top tier undergraduate institution.
+\end{itemize}
+
+## Inference
+
+\vskip1em
+\textbf{\boldmath Statistical Test for $\beta_i$} \vskip.5em
+Hypotheses \vskip-1em
+\begin{itemize}
+\item $H_0: \ \beta_i = \beta_i^{(0)}$  $|$ $\beta_i \ge \beta_i^{(0)}$ $|$ $\beta_i \le \beta_i^{(0)}$ 
+  \item $H_1: \ \beta_i = \beta_i^{(0)}$ $|$ $\beta_i < \beta_i^{(0)}$ $|$ $\beta_i > \beta_i^{(0)}$
+\end{itemize} 
+Test Statistic \vskip-2em
+\begin{flalign*}
+\ \ \ \ \ z_0 &= \frac{\hat{\beta}_i-\beta_i^{(0)}}{\textnormal{SE}_{\hat{\beta}_i}} &&
+\end{flalign*} \vskip-1em
+Rejection Region 
+\begin{itemize}
+\item Reject $H_0$ if $p < \alpha$.
+\end{itemize} 
+
+## Inference
+
+\textbf{Example:} \vskip.5em
+```{r}
+summary(m1)[12]
+```
+
+\begin{itemize}
+  \item Thus, all are significant predictors of admission to graduate school.
+\end{itemize}
+
+## Inference
+
+\vskip1em
+\textbf{\boldmath Confidence Interval for $\beta_i$}
+\[ \hat{\beta}_i \pm z_{1-\alpha/2} \text{SE}_{\hat{\beta}_i}\]
+
+\textbf{Example:}\vskip.5em
+```{r}
+confint(m1)
+```
+
+## Inference
+
+We can also find the CI for OR$_i$ by exponentiating the lower and upper bounds.
+
+\textbf{Example:}\vskip.5em
+```{r}
+round(exp(confint(m1)),3)
+```
+
+## Predictions
+
+Recall the logistic regression model,
+\[ \ln \left( \frac{\pi_i}{1-\pi_i} \right) = \beta_0 + \beta_1 X_{1i} + \hdots + \beta_k X_{ki} \]
+
+We can solve for the probability, which allows us to predict the probability that $Y_i=1$ given the specified model:
+  \[ \pi_i = \frac{\exp\left\{ \beta_0 + \beta_1 X_{1i} + \hdots + \beta_k X_{ki} \right\}}{1 + \exp\left\{ \beta_0 + \beta_1 X_{1i} + \hdots + \beta_k X_{ki} \right\}} \]
+
+```{r, echo = FALSE}
+data <- as_tibble(gsheet2tbl("https://docs.google.com/spreadsheets/d/1fCIhZTf4BnE_Xly4zp8Cg_cz4wAYrQN0WPN9vDnqSEE/edit#gid=0"))
+```
+
+## Predictions
+
+\textbf{Example:} \vskip.5em
+\scriptsize
+```{r}
+data$p_hat <- predict(m1, type="response")
+head(data)
+```
+
+## Diagnostics
+
+We generally are not worried about residuals in logistic regression. \vskip.5em
+
+We can still look at Cook's distance.
+\begin{itemize}
+  \item Recall that we look for "spikes" on the graph.
+\end{itemize}\vskip.5em
+
+This allows us to determine any leverage/influence points.
+\begin{itemize}
+  \item Leverage/influence points are ones that have an effect on the regression model.
+\end{itemize}\vskip.5em
+
+If we detect leverage/influence points, we can perform sensitivity analysis to determine how "different" the model is.
+
+## Diagnostics
+
+\vskip1em
+\textbf{Example:} \vskip.5em
+
+```{r include = FALSE, eval = FALSE}
+png(file="/Volumes/GoogleDrive/My Drive/IAIA/SDSII/lectures/images/w2l1fig1.png",
+width=800)
+plot(m1, which = 4, cex.lab=1.5, cex.main=1.5, cex.axis=1.5, cex.sum=1.5)
+dev.off()
+```
+
+```{r, eval = FALSE}
+plot(m1, which = 4)
+```
+
+```{r, echo = FALSE, fig.align="center", out.width = "50%", fig.alt = "Plot for Cook's distance. Observation number is on the x axis, Cook's distance is on the y-axis."}
+knitr::include_graphics("images/w2l1fig1.png")
+```
+
+## Diagnostics
+
+We can also check for multicollinearity using the VIF.
+\begin{itemize}
+  \item Recall that VIF > 10 indicates multicollinearity.
+\end{itemize}
+
+\textbf{Example:} \vskip.5em
+```{r}
+vif(m1)
+```
+
+## Visualization
+
+\vskip1em
+\textbf{Example:}
+\begin{itemize}
+  \item Let the probability of admittance to graduate school be on the $y$-axis and GPA be on the $x$-axis. We will hold the GRE score and rank of undergraduate institution constant by plugging in their median values.
+\end{itemize}
+
+
+```{r}
+c1 <- coefficients(m1)
+data$pred_med <- exp(c1[1] + c1[2]*median(data$gre) + c1[3]*data$gpa + 
+                   c1[4]*median(data$rank))/(1+exp(c1[1] + 
+                   c1[2]*median(data$gre) + c1[3]*data$gpa + 
+                   c1[4]*median(data$rank)))
+```
+
+## Visualization
+
+\vskip1em
+\textbf{Example:}
+```{r}
+head(data)
+```
+
+## Visualization
+
+\vskip1em
+\textbf{Example:}
+```{r}
+p2 <- data %>% ggplot(aes(x = gpa, y = admit)) +
+  geom_point() +
+  geom_line(aes(y = pred_med))+ 
+  xlab("Undergraduate GPA") +
+  ylab("Probability of Admission to Graduate School") +
+  theme_bw() 
+```
+```{r, echo = FALSE}
+ggsave("/Volumes/GoogleDrive/My Drive/IAIA/SDSII/lectures/images/w2l1fig2.png")
+```
+\vskip5em
+
+## Visualization
+
+\vskip1em
+\textbf{Example:}
+```{r, echo = FALSE, fig.align="center", out.width = "60%", fig.alt = "Scatterplot with regression line overlaid; probability of admission to graduate school is on the y-axis while undergraduate GPA is on the x-axis. Line represents predicted probability for admission to graduate school for those with median GRE score and median rank of undergraduate institution."}
+knitr::include_graphics("images/w2l1fig2.png")
+```
+
+## Visualization
+
+\textbf{Example:}
+\begin{itemize}
+  \item Instead of looking at median values, let's plug in the best possible values for GRE (the maximum) and rank of undergraduate institution (the minimum). 
+\end{itemize}
+
+```{r}
+data$pred_best <- exp(c1[1] + c1[2]*max(data$gre) + c1[3]*data$gpa + 
+                   c1[4]*min(data$rank))/(1+exp(c1[1] + 
+                   c1[2]*max(data$gre) + c1[3]*data$gpa + 
+                   c1[4]*min(data$rank)))
+```
+\vskip1em
+
+## Visualization
+
+\vskip1em
+\textbf{Example:}
+```{r}
+head(data)
+```
+
+## Visualization
+
+\vskip1em
+\textbf{Example:}
+```{r}
+p3 <- data %>% ggplot(aes(x = gpa, y = admit)) +
+  geom_point() +
+  geom_line(aes(y = pred_best))+ 
+  xlab("Undergraduate GPA") +
+  ylab("Probability of Admission to Graduate School") +
+  theme_bw() 
+```
+```{r, echo = FALSE}
+ggsave("/Volumes/GoogleDrive/My Drive/IAIA/SDSII/lectures/images/w2l1fig3.png")
+```
+
+\vskip5em
+
+## Visualization
+
+\vskip1em
+\textbf{Example:}
+```{r, echo = FALSE, fig.align="center", out.width = "60%", fig.alt = "Scatterplot with regression line overlaid; probability of admission to graduate school is on the y-axis while undergraduate GPA is on the x-axis. Line represents predicted probability for admission to graduate school for those with a perfect GRE score and top-tier rank of undergraduate institution."}
+knitr::include_graphics("images/w2l1fig3.png")
+```
+
