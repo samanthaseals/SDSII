@@ -33,7 +33,7 @@ data <- as_tibble(gsheet2tbl("https://docs.google.com/spreadsheets/d/1fCIhZTf4Bn
 
 Suppose we now have outcomes that are binary (only two possible responses).
 
-For example, suppose $Y_i$ was ``the student passes the class,'' then:
+For example, suppose $Y_i$ was "the student passes the class," then:
   \[ 
     Y_{i} = 
       \begin{cases} 
@@ -44,8 +44,8 @@ For example, suppose $Y_i$ was ``the student passes the class,'' then:
 
 Binary variables do not always take on yes/no answers!
   \begin{itemize}
-\item e.g., ``Do you prefer cats or dogs?''
-\item e.g., ``Is the pug fawn or black?''
+\item e.g., "Do you prefer cats or dogs?"
+\item e.g., "Is the pug fawn or black?"
 \end{itemize} 
 
 ## Introduction
@@ -128,7 +128,7 @@ Why is it a multiplicative effect?
 \begin{align*}
   \ln \left( \frac{\pi}{1-\pi} \right) &= \beta_0 + \beta_1 X_1 + \hdots + \beta_k X_k \\
   \exp\left\{ \ln \left( \frac{\pi}{1-\pi} \right) \right\} &= \exp\left\{ \beta_0 + \beta_1 X_1 + \hdots + \beta_k X_k \right\} \\
-  \frac{\pi}{1-\pi}  &= e^{\beta_0} e^{\beta_1 X_1} \hdots e^{\beta_k X_k}
+  \frac{\pi}{1-\pi}  &= e^{\beta_0} e^{\beta_1 X_1} \cdots e^{\beta_k X_k}
 \end{align*}
 
 ## Interpretations
@@ -136,13 +136,13 @@ Why is it a multiplicative effect?
 \vskip1em
 In linear regression, we interpret $\hat{\beta}_i$: 
 \begin{itemize}
-  \item For a 1 [unit of predictor] increase in [predictor name], we expect [outcome] to [increase or decrease] by $\left[|\hat{\beta}_i| \right]$ [unit of outcome].
+  \item For a 1 [unit of predictor] increase in [predictor name], the [outcome] to [increases or decreases] by $\left[|\hat{\beta}_i| \right]$ [unit of outcome].
 \end{itemize}  \vskip.5em
 
 In logistic regression, we interpret $e^{\hat{\beta}_i}$ (the odds ratio):
 \begin{itemize}
-  \item For a 1 [unit of predictor] increase in [predictor name], we expect the odds of [outcome] to be multiplied by  [$e^{\hat{\beta}_i}$]. 
-  \item For a 1 [unit of predictor] increase in [predictor name], we expect the odds of [outcome] to [increase or decrease] by $\left[ 100\times \left(1-e^{\hat{\beta}_i} \right) \right]\%$. 
+  \item For a 1 [unit of predictor] increase in [predictor name], the odds of [outcome] to be multiplied by  [$e^{\hat{\beta}_i}$]. 
+  \item For a 1 [unit of predictor] increase in [predictor name], the odds of [outcome] are [increased or decreased] by [100(e$^{\hat{\beta}_i}$-1)\% or 100(1-e$^{\hat{\beta}_i}$)\%].
 \end{itemize}
 
 ## Interpretations
@@ -198,7 +198,7 @@ round(exp(coefficients(m2)), 4)
 Hypotheses \vskip-1em
 \begin{itemize}
 \item $H_0: \ \beta_i = \beta_i^{(0)}$  $|$ $\beta_i \ge \beta_i^{(0)}$ $|$ $\beta_i \le \beta_i^{(0)}$ 
-  \item $H_1: \ \beta_i = \beta_i^{(0)}$ $|$ $\beta_i < \beta_i^{(0)}$ $|$ $\beta_i > \beta_i^{(0)}$
+  \item $H_1: \ \beta_i \ne \beta_i^{(0)}$ $|$ $\beta_i < \beta_i^{(0)}$ $|$ $\beta_i > \beta_i^{(0)}$
 \end{itemize} 
 Test Statistic \vskip-2em
 \begin{flalign*}

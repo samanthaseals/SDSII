@@ -1,0 +1,294 @@
+---
+output: 
+  beamer_presentation:
+    fig_caption: false
+    includes:
+      in_header: header.tex
+classoption: 
+  - "aspectratio=169"
+  
+knit: (function(inputFile, encoding) {
+  rmarkdown::render(inputFile, encoding = encoding, output_dir = "../lectures/PDF") })
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, warning = FALSE, message = FALSE, fig.path = "images")
+
+library(tidyverse)
+library(gsheet)
+library(nnet)
+library(AER)
+library(fastDummies)
+
+data <- as_tibble(gsheet2tbl("https://docs.google.com/spreadsheets/d/1T2JvJY2IG9fH8Q26RvLV6MM9ed5f8EbECGRnt0aZQ2M/edit?usp=sharing"))
+```
+
+
+## {.standout} 
+\vskip12em
+\begin{center}{\color{white} \huge \textbf{Nominal Logistic Regression}} \vskip1em
+{\color{white} \Large Statistics for Data Science II}
+\end{center}
+
+## Introduction
+
+Suppose we now have an outcome with more than two possible nominal outcomes.
+\begin{itemize}
+  \item e.g., type of account at bank: mortgage, credit card, personal
+\end{itemize} \vskip.5em
+
+When we have a response variable with $c$ categories, we can create multicategory logistic models simultaneously.
+\begin{itemize}
+\item We will choose a reference category and create $c-1$ models.
+\item Each model will compare outcome $j$ to outcome $c$ (reference group).
+\end{itemize} 
+
+## Model
+
+The baseline-category logit model (or the multinomial logit model):
+  \[ \ln \left( \frac{\pi_j}{\pi_c} \right) = \beta_0 + \beta_1 X_1 + \hdots + \beta_k X_k, \]
+\begin{itemize}
+\item where $j=1, \hdots, c-1$.
+\end{itemize} 
+
+Again, each model is comparing outcome $j$ to outcome $c$. 
+
+## Model
+
+\textbf{Example:}
+\begin{itemize}
+  \item Let us examine foods that alligators in the wild choose to eat. For 59 alligators sampled in Lake George, Florida, the alligator data shows the primary food type (in volume) found in the alligator's stomach. Primary food type has three categories: Fish, Invertebrate, and Other. The invertebrates were primarily apple snails, aquatic insects, and crayfish. The ``other'' category included amphibian, mammal, plant material, stones or other debris, and reptiles. Let's model food choice as a function of alligator length.
+\end{itemize}
+
+## Model
+
+\vskip1em
+\textbf{Example:}\vskip.5em
+```{r}
+head(data)
+data$food <- factor(data$food, levels = c("O", "I", "F"))
+```
+
+## Model
+
+\textbf{Example:}\vskip.5em
+```{r}
+m1 <- multinom(food ~ length, data = data)
+```
+
+## Model
+
+\vskip1em
+\scriptsize
+\textbf{Example:} \vskip.5em
+```{r}
+coefficients(m1)
+```
+\normalsize
+\begin{itemize}
+  \item This results in two models:
+\end{itemize} \vskip-1.5em
+\begin{align*}
+  \ln \left( \frac{\pi_{\text{I}}}{\pi_{\text{O}}} \right) &= 5.70 - 2.47 \text{length} \\
+  \ln \left( \frac{\pi_{\text{F}}}{\pi_{\text{O}}} \right) &= 1.62 - 0.11 \text{length}
+\end{align*}
+
+## Interpretations
+
+Interpretation for continuous predictors: \vskip1em 
+\begin{itemize}
+  \item For a 1 [predictor's unit] increase in [predictor name], the odds in favor of [response category $j$] over [response reference category] are multiplied by $e^{\hat{\beta}_i}$. \vskip1em
+  \item For a 1 [predictor's unit] increase in [predictor name], the odds of [response category $j$] are [increased or decreased] by [100($e^{\hat{\beta}_i}$-1)\% or 100(1-$e^{\hat{\beta}_i}$)\%] as compared to the [response reference category].
+\end{itemize} 
+
+## Interpretations
+
+Interpretations for categorical predictors:\vskip1em
+\begin{itemize}
+  \item As compared to [predictor reference category], the odds of [predictor category of interest] in favor of [response category $j$] over [response reference category] are multiplied by $e^{\hat{\beta}_i}$. \vskip1em
+  \item As compared to [predictor reference category], the odds of [predictor category of interest] in favor of [response category $j$] over [response reference category] are [increased or decreased] by [100($e^{\hat{\beta}_i}$-1)\% or 100(1-$e^{\hat{\beta}_i}$)\%].
+\end{itemize} 
+
+## Interpretations
+
+\vskip1em
+\textbf{Example:}
+\begin{itemize}
+  \item Let's convert the $\hat{\beta}_i$ to odds ratios and provide brief interpretations.
+\end{itemize}
+
+\scriptsize
+```{r}
+round(exp(coefficients(m1)), 2)
+```
+
+\normalsize
+\begin{itemize}
+  \item For a 1 meter increase in alligator length, the odds of choosing invertebrates over other food are multiplied by 0.08, or decreased by 92\%.
+  \item For a 1 meter increase in alligator length, the odds of choosing fish over other food are multiplied by 0.90, or decreased by 10\%.
+\end{itemize}
+
+## Inference
+
+\vskip1em
+We will first test for overall (global) significance, as we saw in previous lectures, using the \texttt{anova()} function.
+
+\textbf{Example:}
+
+\scriptsize
+```{r, results = FALSE}
+full <- multinom(food ~ length, data = data)
+reduced <- multinom(food ~ 1, data = data)
+``` 
+
+```{r}
+anova(reduced, full)
+```
+
+\normalsize
+\begin{itemize}
+  \item Yes, length of alligator is a significant predictor of food choice ($p < 0.001$).
+\end{itemize}
+
+## Inference
+
+\vskip1em
+Like in binary logistic regression, we can construct Wald $Z$ statistics that will allow us to test for significance within each model constructed.
+
+\textbf{Example:}
+\tiny
+```{r}
+coeftest(m1)
+```
+
+\normalsize
+\begin{itemize}
+  \item Length is a significant predictor of choosing invertebrates over other food choices ($p=0.001$) but not when choosing fish over other food choices ($p=0.831$).
+\end{itemize}
+
+## Inference
+
+\vskip2em
+Like in binary logistic regression, we can construct confidence intervals using $\hat{\beta}_i$, $z_{1-\alpha/2}$, and SE$_{\hat{\beta}_i}$. We will run the model results through the \texttt{confint()} function.
+
+\textbf{Example:}
+\scriptsize
+```{r}
+round(exp(confint(m1)),2)
+```
+
+
+## Inference
+
+\textbf{Example:}
+```{r}
+round(exp(confint(m1)),2)[,,1]
+```
+\normalsize
+\begin{itemize}
+  \item The 95\% CI for the OR for length when choosing invertebrates over other food choices is (0.01, 0.50).
+\end{itemize}
+
+## Inference
+
+\textbf{Example:}
+```{r}
+round(exp(confint(m1)),2)[,,2]
+```
+\normalsize
+\begin{itemize}
+  \item The 95\% CI for the OR for length when choosing fish over other food choices is (0.33, 2.47).
+\end{itemize}
+
+## Predictions
+
+We can construct predicted probabilities for the non-baseline categories as follows:
+  \[ \pi_i = \frac{\exp\left\{ \beta_0 + \beta_1 X_{1i} + \hdots + \beta_k X_{ki} \right\}}{ 1+\sum_{h} \exp\left\{ \beta_{0h} + \beta_{1h} X_{1i} + \hdots + \beta_{kh} X_{ki} \right\}} \]
+  
+Then, for the baseline category,
+  \[ \pi_i = \frac{1}{1+ \sum_{h} \exp\left\{ \beta_{0h} + \beta_{1h} X_{1i} + \hdots + \beta_{kh} X_{ki} \right\}} \]
+  
+## Predictions
+
+\textbf{Example:}
+```{r}
+c1 <- coefficients(m1)
+data <- data %>% mutate(pred_I = exp(c1[1] + c1[3]*data$length)/
+                                 (1+exp(c1[1] + c1[3]*data$length)
+                                 +exp(c1[2] + c1[4]*data$length)),
+                        pred_F = exp(c1[2] + c1[4]*data$length)/
+                                 (1+exp(c1[1] + c1[3]*data$length)
+                                 +exp(c1[2] + c1[4]*data$length)),
+                        pred_O = 1/(1+exp(c1[1] + c1[3]*data$length)
+                                   +exp(c1[2] + c1[4]*data$length)))
+```
+
+## Predictions
+
+\vskip1em
+\textbf{Example:}
+```{r}
+head(data)
+```
+
+```{r, eval = FALSE, echo = FALSE}
+c1[1] # intercept of I
+c1[2] # intercept of F
+c1[3] # slope of I
+c1[4] # slope of F
+```
+
+## Visualization
+
+\vskip1em
+\textbf{Example:}
+\begin{itemize}
+  \item Create visualizations for the probability of food choice vs. the length of the alligator.
+\end{itemize}
+
+```{r}
+data <- dummy_cols(data, select_columns = "food")
+p1 <- data %>% ggplot(aes(x = length, y = food_I)) +
+  geom_point() +
+  geom_line(aes(y = pred_I)) +
+  ylab("Probability of Choosing Invertebrates") +
+  xlab("Length of Alligator") + 
+  theme_bw()
+```
+
+```{r, echo = FALSE}
+ggsave("/Volumes/GoogleDrive/My Drive/IAIA/SDSII/lectures/images/w2l2fig1.png")
+```
+
+## Visualization
+
+\vskip1em
+\textbf{Example:}
+```{r, echo = FALSE, fig.align="center", out.width = "60%", fig.alt = "Scatterplot with regression line overlaid; probability of alligator eating invertebrates is on the y-axis while length of alligator is on the x-axis. Line represents the predicted probability for choosing invertebrates given the length of the alligator."}
+knitr::include_graphics("images/w2l2fig1.png")
+```
+
+## Visualization
+
+\textbf{Example:}
+
+```{r}
+p2 <- data %>% ggplot(aes(x = length, y = food_F)) +
+  geom_point() +
+  geom_line(aes(y = pred_F)) +
+  ylab("Probability of Choosing Fish") +
+  xlab("Length of Alligator") + 
+  theme_bw()
+```
+
+```{r, echo = FALSE}
+ggsave("/Volumes/GoogleDrive/My Drive/IAIA/SDSII/lectures/images/w2l2fig2.png")
+```
+
+## Visualization
+
+\vskip1em
+\textbf{Example:}
+```{r, echo = FALSE, fig.align="center", out.width = "60%", fig.alt = "Scatterplot with regression line overlaid; probability of alligator eating fish is on the y-axis while length of alligator is on the x-axis. Line represents the predicted probability for choosing fish given the length of the alligator."}
+knitr::include_graphics("images/w2l2fig2.png")
+```

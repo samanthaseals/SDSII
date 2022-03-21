@@ -1,0 +1,434 @@
+---
+output: 
+  beamer_presentation:
+    fig_caption: false
+    includes:
+      in_header: header.tex
+classoption: 
+  - "aspectratio=169"
+  
+knit: (function(inputFile, encoding) {
+  rmarkdown::render(inputFile, encoding = encoding, output_dir = "../lectures/PDF") })
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, warning = FALSE, message = FALSE, fig.path = "images")
+
+library(tidyverse)
+library(fastDummies)
+library(gsheet)
+library(car)
+
+data <- as_tibble(gsheet2tbl("https://docs.google.com/spreadsheets/d/1JoI0AffzZdGkW3FCCWHgRaZeuGrBt1Qa-WMT3_l8XCA/edit?usp=sharing"))
+```
+
+
+## {.standout} 
+\vskip12em
+\begin{center}{\color{white} \huge \textbf{Poisson Regression}} \vskip1em
+{\color{white} \Large Statistics for Data Science II}
+\end{center}
+
+## Introduction
+
+Suppose we are faced with \textit{count} data.
+\begin{itemize}
+\item This is discrete data, not continuous.
+\end{itemize} 
+
+Fortunately, the Poisson distribution is appropriate for count data. 
+
+The Poisson regression model is as follows:
+  \[ \ln\left( Y \right) = \beta_0 + \beta_1 X_1 + \hdots + \beta_k X_k  \] 
+
+Note that this is similar to logistic regression in that we are modeling the natural log of the outcome. 
+
+## Modeling
+
+\vskip1em
+We will specify this in R using the \texttt{glm()} function, specifying \texttt{family = "poisson"}. \vskip.5em
+
+e.g., \texttt{glm(outcome $\sim$ predictor1 + predictor2 + ..., data = dataset, family = "poisson")} \vskip.5em
+
+The Poisson distribution is used for count outcomes, thus, is why we specify it here.
+
+\textbf{Example:} \vskip1em
+
+```{r}
+m1 <- glm(satellites_num ~ width_cm + spine_cond +
+            width_cm:spine_cond, family="poisson",
+          data=data)
+```
+
+## Modeling
+\vskip1em
+\textbf{Example:} \vskip.5em
+\scriptsize
+```{r}
+summary(m1)[12]
+```
+
+\normalsize
+\begin{itemize}
+  \item The resulting model is
+\end{itemize} \vskip-1em
+\[ \ln \left( Y \right) = 0.27 + 0.04 \text{width} - 1.58 \text{spine} + 0.06 (\text{width $\times$ spine}), \] 
+\begin{itemize}
+  \item where $y$ is the number of satellites a female horseshoe crab has
+\end{itemize}
+
+## Interpretations
+
+\vskip1em
+In Poisson regression, we convert the $\hat{\beta}_i$ values to incident rate ratios (IRR).
+\[ \text{IRR}_i = \exp\left\{\hat{\beta}_i\right\} \] \vskip-1em
+
+This is a multiplicative effect, like an odds ratio in logistic regression. 
+\begin{itemize}
+\item An IRR $>$ 1 indicates an increase in the expected count. 
+\item An IRR $<$ 1 indicates a decrease in the expected count.
+\end{itemize}
+
+We also interpret the IRR similar to the odds ratio:
+\begin{itemize}
+  \item For a 1 [unit of predictor] increase in [predictor name], the expected count of [outcome] is multiplied by  [$e^{\hat{\beta}_i}$]. 
+  \item For a 1 [unit of predictor] increase in [predictor name], the expected count of [outcome] are [increased or decreased] by [100(e$^{\hat{\beta}_i}$-1)\% or 100(1-e$^{\hat{\beta}_i}$)\%].
+\end{itemize}
+
+## Interpretations
+
+\vskip1em
+\textbf{Example:}
+\begin{itemize}
+\item Because our model contains an interaction, we must set one predictor (width or shell condition) to be constant. Then we can interpret the IRR for the other predictor. Let's look at a spine condition of 1 (best).
+\end{itemize} \vskip-2em
+\begin{align*}
+  \ln \left( Y \right) &= 0.27 + 0.04 \text{width} - 1.58 \text{spine} + 0.06 (\text{width $\times$ spine}) \\
+  &= 0.27 + 0.04 \text{width} - 1.58(1) + 0.06 (\text{width $\times$ 1}) \\  
+  &= -1.31 + 0.10 \text{width} 
+\end{align*} 
+\begin{itemize}
+  \item Thus, the IRR = $\exp\left\{ 0.10 \right\} = 1.11$.
+  \item When a female horseshoe crab has the best spine condition, for a 1 cm increase in shell width, we expect the number of satellites to increase by 11\%.
+\end{itemize}
+
+
+## Interpretations
+
+\vskip1em
+\textbf{Example:}
+\begin{itemize}
+\item Because our model contains an interaction, we must set one predictor (width or shell condition) to be constant. Then we can interpret the IRR for the other predictor. Let's look at a shell width of 25 cm.
+\end{itemize} \vskip-2em
+\begin{align*}
+  \ln \left( Y \right) &= 0.27 + 0.04 \text{width} - 1.58 \text{spine} + 0.06 (\text{width $\times$ spine}) \\
+  &= 0.27 + 0.04 \text{25} - 1.58\text{spine} + 0.06 (\text{25 $\times$ spine}) \\  
+  &= 10.27 -0.08 \text{width} 
+\end{align*} 
+\begin{itemize}
+  \item Thus, the IRR = $\exp\left\{-0.08 \right\} = 0.92$.
+  \item When a female horseshoe crab has a shell width of 25 cm, for a 1 unit increase in shell condition (i.e., deteriorating spine), we expect the number of satellites to decrease by 8\%.
+\end{itemize}
+
+## Visualization of Interaction
+
+\vskip1em
+\textbf{Example:}
+\scriptsize
+```{r}
+min(data$width_cm)
+max(data$width_cm)
+shell_width <- seq(21, 34, 0.1)
+head(shell_width)
+```
+
+## Visualization of Interaction
+
+\textbf{Example:}
+
+```{r}
+spine_slope <- -1.58 + 0.6*shell_width
+graph <- tibble(shell_width, spine_slope)
+
+p1 <- graph %>% ggplot(aes(x = shell_width, y = spine_slope)) +
+  geom_line() + 
+  ylab("Slope for Spine Condition") +
+  xlab("Shell Width (cm)") +
+  theme_bw()
+```
+
+```{r, echo = FALSE}
+ggsave("/Volumes/GoogleDrive/My Drive/IAIA/SDSII/lectures/images/w3l1fig1.png")
+```
+
+## Visualization of Interaction
+
+\vskip1em
+\textbf{Example:} \vskip1em
+
+```{r, echo = FALSE, out.width = "60%", fig.align="center", fig.alt = "A line graph depicting how the slope for spine condition (y-axis) changes depending on the shell width (x-axis). As shell width increases, the slope for spine condition also increases."}
+knitr::include_graphics("images/w3l1fig1.png")
+```
+
+## Visualization of Interaction
+
+\vskip1em
+\textbf{Example:}
+\scriptsize
+```{r}
+min(data$spine_cond)
+max(data$spine_cond)
+spine <- seq(1, 3, 0.1)
+head(spine)
+```
+
+## Visualization of Interaction
+
+\textbf{Example:}
+
+```{r}
+shell_slope <- 0.04+0.06*spine
+graph <- tibble(spine, shell_slope)
+
+p2 <- graph %>% ggplot(aes(x = spine, y = shell_slope)) +
+  geom_line() + 
+  ylab("Slope for Shell Width (cm)") +
+  xlab("Spine Condition") +
+  theme_bw()
+```
+
+```{r, echo = FALSE}
+ggsave("/Volumes/GoogleDrive/My Drive/IAIA/SDSII/lectures/images/w3l1fig2.png")
+```
+
+## Visualization of Interaction
+
+\vskip1em
+\textbf{Example:} \vskip1em
+
+```{r, echo = FALSE, out.width = "60%", fig.align="center", fig.alt = "A line graph depicting how the slope for shell width (y-axis) changes depending on the spine condition (x-axis). As spine condition deteriorates, the slope for shell width increases."}
+knitr::include_graphics("images/w3l1fig2.png")
+```
+
+## Visualizations of Lines
+
+\vskip2em
+\textbf{Example:} 
+\scriptsize
+```{r}
+data <- data %>%
+  mutate(exp_shell1 = exp(0.27+0.04*width_cm - 1.58*1 + 0.06*1*width_cm),
+         exp_shell2 = exp(0.27+0.04*width_cm - 1.58*2 + 0.06*2*width_cm),
+         exp_shell3 = exp(0.27+0.04*width_cm - 1.58*3 + 0.06*3*width_cm))
+
+p3 <- data %>% ggplot(aes(x = width_cm)) +
+  geom_point(aes(y = satellites_num)) +
+  geom_line(aes(y = exp_shell1), color = "black") +
+  geom_line(aes(y = exp_shell2), color = "black") +
+  geom_line(aes(y = exp_shell3), color = "black") +
+  geom_text(aes(x = 35, y = 7.7, label = "Spine 1 (best)"), color="black", show.legend = FALSE) + 
+  geom_text(aes(x = 34.5, y = 11.9, label = "Spine 2"), color="black", show.legend = FALSE) + 
+  geom_text(aes(x = 35.1, y = 18.2, label = "Spine 3 (worst)"), color="black", show.legend = FALSE) + 
+  ylab("Number of Satellites") +
+  xlab("Shell Width (cm)") +
+  xlim(20, 37) +
+  theme_bw()
+```
+
+```{r, echo = FALSE}
+ggsave("/Volumes/GoogleDrive/My Drive/IAIA/SDSII/lectures/images/w3l1fig3.png")
+```
+
+## Visualization of Lines
+
+\vskip1em
+\textbf{Example:} \vskip1em
+
+```{r, echo = FALSE, out.width = "60%", fig.align="center", fig.alt = "A scatterplot with regression lines overlaid for each spine condition (1, 2, and 3)."}
+knitr::include_graphics("images/w3l1fig3.png")
+```
+
+
+## Visualizations of Lines
+
+\vskip1em
+\textbf{Example:} 
+\scriptsize
+```{r}
+quantile(data$width_cm, c(.25, .5, .75))
+
+data <- data %>%
+  mutate(exp_width25 = exp(0.27+0.04*25 - 1.58*spine_cond + 0.06*spine_cond*25),
+         exp_width26 = exp(0.27+0.04*26 - 1.58*spine_cond + 0.06*spine_cond*26),
+         exp_width28 = exp(0.27+0.04*28 - 1.58*spine_cond + 0.06*spine_cond*28))
+```
+
+## Visualizations of Lines
+
+\vskip1em
+\textbf{Example:} 
+\scriptsize
+```{r}
+p4 <- data %>% ggplot(aes(x = spine_cond)) +
+  geom_point(aes(y = satellites_num)) +
+  geom_line(aes(y = exp_width25), color = "black") +
+  geom_line(aes(y = exp_width26), color = "black") +
+  geom_line(aes(y = exp_width28), color = "black") +
+  geom_text(aes(x = 3.25, y = 5.45, label = "28 cm width"), color="black", show.legend = FALSE) + 
+  geom_text(aes(x = 3.25, y = 3.5, label = "26 cm width"), color="black", show.legend = FALSE) + 
+  geom_text(aes(x = 3.25, y = 2.8, label = "25 cm width"), color="black", show.legend = FALSE) + 
+  ylab("Number of Satellites") +
+  scale_x_discrete(name ="Spine Condition", limits=c("1","2","3")) +
+  theme_bw()
+```
+
+```{r, echo = FALSE}
+ggsave("/Volumes/GoogleDrive/My Drive/IAIA/SDSII/lectures/images/w3l1fig4.png")
+```
+
+## Visualization of Lines
+
+\vskip1em
+\textbf{Example:} \vskip1em
+
+```{r, echo = FALSE, out.width = "60%", fig.align="center", fig.alt = "A scatterplot with regression lines overlaid for each spine condition (1, 2, and 3)."}
+knitr::include_graphics("images/w3l1fig4.png")
+```
+
+## Inference
+
+\vskip1em
+\textbf{\boldmath Statistical Test for $\beta_i$} \vskip.5em
+Hypotheses \vskip-1em
+\begin{itemize}
+\item $H_0: \ \beta_i = \beta_i^{(0)}$  $|$ $\beta_i \ge \beta_i^{(0)}$ $|$ $\beta_i \le \beta_i^{(0)}$ 
+  \item $H_1: \ \beta_i \ne \beta_i^{(0)}$ $|$ $\beta_i < \beta_i^{(0)}$ $|$ $\beta_i > \beta_i^{(0)}$
+\end{itemize} 
+Test Statistic \vskip-2em
+\begin{flalign*}
+\ \ \ \ \ z_0 &= \frac{\hat{\beta}_i-\beta_i^{(0)}}{\textnormal{SE}_{\hat{\beta}_i}} &&
+\end{flalign*} \vskip-1em
+Rejection Region 
+\begin{itemize}
+\item Reject $H_0$ if $p < \alpha$.
+\end{itemize} 
+
+## Inference
+\vskip2em
+\textbf{Example:}  \scriptsize
+```{r}
+summary(m1)[12]
+```
+\small
+\begin{itemize}
+  \item The interaction between spine condition and shell width (cm) is significant. This means that the relationship between shell width and number of satellites depends on the spine condition. While number of satellites increases as shell width increases, spine condition matters with smaller shell widths -- the best spine condition has the most satellites while the worst spine condition has the fewest satellites.
+\end{itemize}
+
+## Inference
+
+\vskip2em
+\textbf{\boldmath Confidence Interval for $\beta_i$}
+\[ \hat{\beta}_i \pm z_{1-\alpha/2} \text{SE}_{\hat{\beta}_i}\]
+
+\textbf{Example:}
+```{r}
+m2 <- glm(satellites_num ~ width_cm + spine_cond,
+          family="poisson", data=data)
+confint(m2)
+```
+
+## Inference
+
+We can also find the CI for IRR$_i$ by exponentiating the lower and upper bounds.
+
+\textbf{Example:}\vskip.5em
+```{r}
+round(exp(confint(m2)),3)
+```
+
+## Predictions
+
+Given a set of values for the predictors in the model, we can return an estimated count.
+\begin{itemize}
+\item In linear regression, we returned an expected value. 
+\item In logistic regression, we returned a probability.
+\end{itemize}
+
+\[  \hat{Y} = \exp\left\{\hat{\beta}_0 + \hat{\beta}_1 X_1 + \hdots + \hat{\beta}_k X_k \right\}  \] 
+
+## Predictions
+
+```{r, echo = FALSE}
+data <- as_tibble(gsheet2tbl("https://docs.google.com/spreadsheets/d/1JoI0AffzZdGkW3FCCWHgRaZeuGrBt1Qa-WMT3_l8XCA/edit?usp=sharing"))
+```
+
+\textbf{Example:} \vskip.5em
+\scriptsize
+```{r}
+data$p_hat <- predict(m1, type="response")
+head(data)
+```
+
+## Diagnostics
+
+We generally are not worried about residuals in Poisson regression. \vskip.5em
+
+We can still look at Cook's distance.
+\begin{itemize}
+  \item Recall that we look for "spikes" on the graph.
+\end{itemize}\vskip.5em
+
+This allows us to determine any leverage/influence points.
+\begin{itemize}
+  \item Leverage/influence points are ones that have an effect on the regression model.
+\end{itemize}\vskip.5em
+
+If we detect leverage/influence points, we can perform sensitivity analysis to determine how "different" the model is.
+
+## Diagnostics
+
+\vskip1em
+\textbf{Example:} \vskip.5em
+
+```{r include = FALSE}
+png(file="/Volumes/GoogleDrive/My Drive/IAIA/SDSII/lectures/images/w3l1fig5.png",width=800)
+plot(m1, which = 4)
+dev.off()
+```
+
+```{r, eval = FALSE}
+plot(m1, which = 4)
+```
+
+```{r, echo = FALSE, fig.align="center", out.width = "50%", fig.alt = "Plot for Cook's distance. Observation number is on the x axis, Cook's distance is on the y-axis."}
+knitr::include_graphics("images/w3l1fig5.png")
+```
+
+## Diagnostics
+
+We can also check for multicollinearity using the VIF.
+\begin{itemize}
+  \item Recall that VIF > 10 indicates multicollinearity.
+\end{itemize}
+
+\textbf{Example:} \vskip.5em
+```{r}
+vif(m1)
+```
+\vskip1em
+\begin{itemize}
+\item \scriptsize A reminder that we should not include an interaction when checking VIF
+\end{itemize}
+
+## Diagnostics
+
+We can also check for multicollinearity using the VIF.
+\begin{itemize}
+  \item Recall that VIF > 10 indicates multicollinearity.
+\end{itemize}
+
+\textbf{Example:} \vskip.5em
+```{r}
+vif(m2)
+```
+
