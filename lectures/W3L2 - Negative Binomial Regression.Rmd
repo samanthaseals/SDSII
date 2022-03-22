@@ -1,0 +1,175 @@
+---
+output: 
+  beamer_presentation:
+    fig_caption: false
+    includes:
+      in_header: header.tex
+classoption: 
+  - "aspectratio=169"
+  
+knit: (function(inputFile, encoding) {
+  rmarkdown::render(inputFile, encoding = encoding, output_dir = "../lectures/PDF") })
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, warning = FALSE, message = FALSE, fig.path = "images")
+
+library(tidyverse)
+library(fastDummies)
+library(gsheet)
+library(car)
+library(MASS)
+
+data <- as_tibble(gsheet2tbl("https://docs.google.com/spreadsheets/d/1JoI0AffzZdGkW3FCCWHgRaZeuGrBt1Qa-WMT3_l8XCA/edit?usp=sharing"))
+```
+
+
+## {.standout} 
+\vskip12em
+\begin{center}{\color{white} \huge \textbf{Negative Binomial Regression}} \vskip1em
+{\color{white} \Large Statistics for Data Science II}
+\end{center}
+
+## Introduction
+
+In the last lecture, we learned that the Poisson distribution is appropriate for count data. 
+\begin{itemize}
+  \item However, the Poisson distribution assumes that the mean is equal to the variance.
+  \item The negative binomial distribution is an alternative that relaxes Poisson's assumption.
+\end{itemize}
+
+The negative binomial regression model is as follows:
+  \[ \ln\left( Y \right) = \beta_0 + \beta_1 X_1 + \hdots + \beta_k X_k  \] 
+
+Note that this is the same model as Poisson, however, we are assuming a different underlying distribution. 
+
+## Check Assumptions
+
+\textbf{Example:}
+\begin{itemize}
+  \item Recall the horseshoe crab example from the last lecture. Let's determine if Poisson was appropriate -- we will compare the mean and the variance.
+\end{itemize}
+
+```{r}
+mean(data$satellites_num)
+var(data$satellites_num)
+```
+
+\begin{itemize}
+  \item Because the variance is larger than the mean, we know the data is overdispersed.
+\end{itemize}
+
+## Check Assumptions
+
+\textbf{Example:}
+\begin{itemize}
+  \item Let's also look at a histogram of the outcome to see if we can detect the overdispersion
+\end{itemize} \vskip1em
+
+```{r}
+p1 <- ggplot(data, aes(x=satellites_num)) + 
+  geom_bar(width = 1, color = "black") +
+  scale_x_continuous(breaks=seq(0,15,1)) +
+  xlab("Number of Satellites") +
+  theme_bw() 
+```
+
+```{r, echo = FALSE}
+ggsave("/Volumes/GoogleDrive/My Drive/IAIA/SDSII/lectures/images/w3l2fig1.png")
+```
+
+## Check Assumptions
+
+\vskip1em
+\textbf{Example:} \vskip1em
+
+```{r, echo = FALSE, out.width = "60%", fig.align="center", fig.alt = "A bar graph depicting showing the count of each of the number of satellites, from 0 to 15."}
+knitr::include_graphics("images/w3l2fig1.png")
+```
+
+## Modeling
+
+\vskip1em
+We will specify the negative binomial in R using the \texttt{glm.nb()} function. \vskip.5em
+
+e.g., \texttt{glm.nb(outcome $\sim$ predictor1 + predictor2 + ..., data = dataset} \vskip.5em
+
+\textbf{Example:} \vskip1em
+
+```{r}
+m1 <- glm.nb(satellites_num ~ width_cm + spine_cond +
+            width_cm:spine_cond, data=data)
+```
+
+## Modeling
+\vskip1em
+\textbf{Example:} \vskip.5em
+\scriptsize
+```{r}
+summary(m1)[11]
+```
+
+\normalsize
+\begin{itemize}
+  \item The resulting model is
+\end{itemize} \vskip-1em
+\[ \ln \left( Y \right) = -0.77 + 0.08 \text{width} - 1.34 \text{spine} + 0.05 (\text{width $\times$ spine}) \] 
+
+
+## Comparing to Poisson
+
+```{r, echo = FALSE}
+poi <- glm(satellites_num ~ width_cm + spine_cond + width_cm:spine_cond, family="poisson", data=data)
+nb <- glm.nb(satellites_num ~ width_cm + spine_cond + width_cm:spine_cond, data=data)
+```
+\vskip1em
+\textbf{Example:} \vskip.5em
+\scriptsize
+```{r}
+summary(poi)[12]
+```
+\vskip1em
+```{r}
+summary(nb)[11]
+```
+
+## Interpretations, Inference, Diagnostics, etc.
+
+Like under Poisson regression, we will convert the $\hat{\beta}$ to an IRR and interpret in terms of a multiplicative effect.
+
+We construct the same Wald's $z$ test for significant predictors using the \texttt{summary()} function.
+
+We also construct the same confidence intervals using the \texttt{confint()} function. 
+
+We can obtain predicted values from the \texttt{predict()} function.
+
+Finally, diagnostics are the same, too -- we look at the plot for Cook's distance and check the VIF for multicollinearity. 
+
+## Theoretical Considerations
+
+\vskip1em
+The negative binomial regression includes a parameter which accounts for the overdispersion in the data.
+\begin{itemize}
+  \item This is how we relax the assumption from Poisson regression.
+\end{itemize}
+
+Why do we care about overdispersion?
+\begin{itemize}
+  \item When the data is overdispersed and we apply Poisson regression, we are underestimating the standard error.
+  \item When we underestimate the standard error, our test statistic ($\hat{\beta}$/stderr) becomes larger than it should be, which in turn causes the corresponding $p$-value to be smaller than it should be.
+  \item That is, we may determine there is a relationship more often than we should.
+\end{itemize}
+
+## Theoretical Considerations
+
+What if we use negative binomial when the mean is equal to the variance?
+\begin{itemize}
+  \item As the dispersion parameter approaches 1 (mean = variance), the negative binomial converges in distribution to the Poisson.
+\end{itemize}
+
+Because it is easy to check the assumption, we can quickly make the determiniation between the two.
+\begin{itemize}
+  \item However, it never ``hurts'' to use negative binomial regression over Poisson regression!
+\end{itemize}
+\vskip2em
+
