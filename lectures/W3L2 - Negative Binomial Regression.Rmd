@@ -92,7 +92,7 @@ knitr::include_graphics("images/w3l2fig1.png")
 \vskip1em
 We will specify the negative binomial in R using the \texttt{glm.nb()} function. \vskip.5em
 
-e.g., \texttt{glm.nb(outcome $\sim$ predictor1 + predictor2 + ..., data = dataset} \vskip.5em
+e.g., \texttt{glm.nb(outcome $\sim$ predictor1 + predictor2 + ..., data = dataset)} \vskip.5em
 
 \textbf{Example:} \vskip1em
 
