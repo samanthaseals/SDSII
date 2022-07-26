@@ -1,0 +1,370 @@
+---
+output: 
+  beamer_presentation:
+    fig_caption: false
+    includes:
+      in_header: header.tex
+classoption: 
+  - "aspectratio=169"
+  
+knit: (function(inputFile, encoding) {
+  rmarkdown::render(inputFile, encoding = encoding, output_dir = "../lectures/PDF") })
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, warning = FALSE, message = FALSE, fig.path = "images")
+library(tidyverse)
+library(palmerpenguins)
+library(ggpubr)
+```
+
+## {.standout} 
+\vskip12em
+\begin{center}{\color{white} \huge \textbf{Review of General Linear Models}} \vskip1em
+{\color{white} \Large Statistics for Data Science II}
+\end{center}
+
+## Introduction
+
+Recall the general linear model,
+\[ y = \beta_0 + \beta_1 x_1 + \hdots + \beta_k x_k \]
+
+This is a multiple regression model because it has multiple predictors ($x_i$).
+
+  - A special case is simple linear regression, when there is a single predictor.
+
+$\beta_0$ is the $y$-intercept, or the average outcome ($y$) when all $x_i = 0$.
+
+$\beta_i$ is the slope for predictor $i$ and describes the relationship between the predictor and the outcome, after adjusting (or accounting) for the other predictors in the model.
+  
+## Constructing the Model in R
+
+We will use the `lm()` function to construct the linear model,
+
+```{r, eval = FALSE}
+m <- lm([outcome] ~ [pred1] + [pred2] + [pred3] + ..., 
+        data = [dataset])
+```
+
+Then we run the model results through the `summary()` function to obtain information about the model,
+
+```{r, eval = FALSE}
+summary(m)
+```
+
+## Constructing the Model in R
+
+\textbf{Example}
+\begin{itemize}
+    \item Consider the data from the \href{https://allisonhorst.github.io/palmerpenguins/}{\texttt{palmerpenguin}} package. Let's create a dataset with the variables \texttt{body\_mass\_g}, \texttt{bill\_length\_mm}, and \texttt{flipper\_length\_mm}.
+\end{itemize} \vskip.5em
+
+\scriptsize
+```{r}
+data <- as_tibble(penguins %>% select(body_mass_g,
+                                      bill_length_mm,
+                                      flipper_length_mm))
+head(data)
+```
+
+## Constructing the Model in R
+\vskip2em
+\tiny
+```{r}
+m1 <- lm(bill_length_mm ~ body_mass_g + flipper_length_mm,
+         data = data)
+summary(m1)
+```
+
+## Interpretation of Slope
+
+We want to put the slope into perspective for whoever we are collaborating with.
+
+Basic interpretation: for every 1 [units of $x_i$] increase in [$x_i$], [$y$] [increases or decreases] by $\left[ \left| \hat{\beta}_i \right| \right]$ [units of $y$].
+
+We say that $y$ is decreasing if $\hat{\beta}_0 < 0$ and $y$ is increasing if $\hat{\beta}_0 > 0$.
+
+We can also scale our interpretations. e.g.,
+
+  - For every 7 [units of $x_i$] increase in [$x_i$], [$y$] [increases or decreases] by $\left[ 7 \times \left| \hat{\beta}_i \right| \right]$ [units of $y$].
+  
+## Interpretation of Slope
+
+\textbf{Example:} \vskip.5em
+
+```{r}
+coefficients(m1)
+```
+\vskip.5em
+
+  - For a 1 gram increase in body mass, we expect bill length to increase by 0.0007 mm.
+  
+      - For a 1000 gram increase in body mass (i.e., 1 kg or $\sim$ 2.2 lbs), we expect bill length to increase by 0.66 mm.
+      
+  - For a 1 mm increase in flipper length, we expect bill length to increase by 0.22 mm.
+  
+## Confidence Intervals for $\beta_i$
+
+Recall confidence intervals -- they allow us to determine how ``good'' our estimation is.
+
+In general CIs will take the form
+\[ \text{point estimate } \pm \text{ margin of error},  \]
+
+where the margin of error is a critical value (e.g., $t_{1-\alpha/2}$) multiplied by the standard error of the point estimate.
+
+  - Recall that the standard error accounts for the sample size.
+  
+In R, we will run the model results through the `confint()` function. 
+
+```{r, eval = FALSE}
+confint(m)
+```
+
+## Confidence Intervals for $\beta_i$
+
+\textbf{Example:} \vskip.5em
+
+```{r}
+confint(m1)
+```
+We have the following CIs:
+
+  - 95\% CI for $\beta_{\text{mass}}$ is (-0.0005, 0.0018)
+  - 95\% CI for $\beta_{\text{flipper}}$ is (0.1582, 0.2855)
+  
+## Confidence Intervals for $\beta_i$
+
+We can change the confidence level by specifying the `level`.
+
+\textbf{Example:} \vskip.5em
+
+\scriptsize
+```{r}
+confint(m1, level=0.99)
+```
+\vskip1em
+```{r}
+confint(m1, level=0.8914)
+```
+
+## Significant Regression Line
+
+Hypotheses
+\begin{itemize}
+  \item $H_0: \ \beta_1 = \hdots = \beta_k = 0$ 
+  \item $H_1:$ at least one $\beta_i \ne 0$ 
+\end{itemize}
+  
+Test Statistic and $p$-Value
+\begin{itemize}
+  \item $F_0$ and $p$ from \texttt{summary()} (last line)
+\end{itemize}
+
+Rejection Region
+\begin{itemize}
+  \item Reject $H_0$ if $p < \alpha$
+\end{itemize}
+
+## Significant Regression Line
+\vskip2em
+\tiny
+```{r}
+m1 <- lm(bill_length_mm ~ body_mass_g + flipper_length_mm,
+         data = data)
+summary(m1)
+```
+
+## Significant Regression Line
+
+\vskip1em
+Hypotheses
+\begin{itemize}
+  \item $H_0: \ \beta_{\text{mass}} = \beta_{\text{flipper}} = 0$ 
+  \item $H_1:$ at least one $\beta_i \ne 0$ 
+\end{itemize}
+  
+Test Statistic and $p$-Value
+\begin{itemize}
+  \item $F_0 = 129.4$ ($p < 0.001$)
+\end{itemize}
+
+Rejection Region
+\begin{itemize}
+  \item Reject $H_0$ if $p < \alpha$; $\alpha=0.05$
+\end{itemize}
+
+Conclusion/Interpretation
+\begin{itemize}
+  \item Reject $H_0$. There is sufficient evidence to suggest that at least one slope is non-zero.
+\end{itemize}
+
+## Significant Predictors of $y$
+Hypotheses
+\begin{itemize}
+  \item $H_0: \ \beta_i  = 0$ 
+  \item $H_1: \ \beta_i \ne 0$ 
+\end{itemize}
+  
+Test Statistic and $p$-Value
+\begin{itemize}
+  \item $t_0$ and $p$ from \texttt{summary()} (last two columns)
+\end{itemize}
+
+Rejection Region
+\begin{itemize}
+  \item Reject $H_0$ if $p < \alpha$
+\end{itemize}
+
+## Significant Predictors of $y$
+\vskip2em
+\tiny
+```{r}
+m1 <- lm(bill_length_mm ~ body_mass_g + flipper_length_mm,
+         data = data)
+summary(m1)
+```
+
+## Significant Predictors of $y$
+\vskip1em
+
+Hypotheses
+\begin{itemize}
+  \item $H_0: \ \beta_{\text{mass}}  = 0$ 
+  \item $H_1: \ \beta_{\text{mass}} \ne 0$ 
+\end{itemize}
+  
+Test Statistic and $p$-Value
+\begin{itemize}
+  \item $t_0 = 1.168$ ($p = 0.244$)
+\end{itemize}
+
+Rejection Region
+\begin{itemize}
+  \item Reject $H_0$ if $p < \alpha$; $\alpha=0.05$
+\end{itemize}
+
+Conclusion / Interpretation
+\begin{itemize}
+  \item Fail to reject $H_0$. There is not sufficient evidence to suggest that body mass significantly predicts bill length.
+\end{itemize}
+
+## Significant Predictors of $y$
+\vskip1em 
+
+Hypotheses
+\begin{itemize}
+  \item $H_0: \ \beta_{\text{flipper}}  = 0$ 
+  \item $H_1: \ \beta_{\text{flipper}} \ne 0$ 
+\end{itemize}
+  
+Test Statistic and $p$-Value
+\begin{itemize}
+  \item $t_0 = 6.859$ ($p < 0.001$)
+\end{itemize}
+
+Rejection Region
+\begin{itemize}
+  \item Reject $H_0$ if $p < \alpha$; $\alpha=0.05$
+\end{itemize}
+
+Conclusion / Interpretation
+\begin{itemize}
+  \item Reject $H_0$. There is sufficient evidence to suggest that flipper length significantly predicts bill length.
+\end{itemize}
+
+## Visualizing the Data
+
+\vskip1em
+We can construct basic scatterplots to try to visualize the relationships*.
+
+\textbf{Example:} \vskip.5em
+\footnotesize 
+```{r}
+p1 <- data %>% ggplot(aes(x = body_mass_g, y = bill_length_mm)) +
+               geom_point(size=3) +
+               ylab("Bill Length (mm)") +
+               xlab("Body Mass (g)") +
+               theme_bw() 
+```
+
+```{r}
+p2 <- data %>% ggplot(aes(x = flipper_length_mm, y = bill_length_mm)) +
+               geom_point(size=3) +
+               ylab("Bill Length (mm)") +
+               xlab("Flipper Length (mm)") +
+               theme_bw() 
+```
+
+```{r, echo = FALSE}
+both <- ggarrange(p1, p2, ncol=2, nrow=1)
+ggsave("/Volumes/GoogleDrive/My Drive/IAIA/SDSII/lectures/images/w1l1fig1.png")
+```
+
+## Visualizing the Data
+
+\vskip1em
+\textbf{Example}:
+
+```{r, echo = FALSE, out.width = "60%", fig.align="center", fig.alt = "Side-by-side scatterplots with bill length (mm) on the y-axis. On the left, body mass (g) is on the x-axis, while on the right, flipper length (mm) is on the x-axis."}
+knitr::include_graphics("images/w1l1fig1.png")
+```
+
+## Visualizing the Model
+
+\vskip1em
+We can construct predicted values to overlay the resulting regression line.
+
+  - To do this, we must pick one predictor to vary. All other predictors must be held constant in order to overlay a regression line.
+
+  - First, we will plug in the average flipper length and let body mass vary (`p_mass`).
+  
+  - Then, we will plug in the average body mass and let flipper length vary (`p_flip`).
+
+\textbf{Example:} \vskip.5em
+\footnotesize
+```{r}
+c1 <- coefficients(m1)
+
+data <- data %>%
+  mutate(p_mass = c1[1] + c1[2]*body_mass_g + c1[3]*mean(data$flipper_length_mm, na.rm = TRUE), 
+         p_flip = c1[1] + c1[2]*mean(data$body_mass_g, na.rm = TRUE) + c1[3]*flipper_length_mm)
+```
+
+## Visualizing the Model
+
+\textbf{Example:} \vskip.5em
+\footnotesize 
+```{r}
+p3 <- data %>% ggplot(aes(x = body_mass_g, y = bill_length_mm)) +
+               geom_point(size=3) +
+               geom_line(aes(y = p_mass)) +
+               ylab("Bill Length (mm)") +
+               xlab("Body Mass (g)") +
+               theme_bw() 
+```
+
+```{r}
+p4 <- data %>% ggplot(aes(x = flipper_length_mm, y = bill_length_mm)) +
+               geom_point(size=3) +
+               geom_line(aes(y = p_flip)) +
+               ylab("Bill Length (mm)") +
+               xlab("Flipper Length (mm)") +
+               theme_bw() 
+```
+
+```{r, echo = FALSE}
+both <- ggarrange(p3, p4, ncol=2, nrow=1)
+ggsave("/Volumes/GoogleDrive/My Drive/IAIA/SDSII/lectures/images/w1l1fig2.png")
+```
+
+## Visualizing the Data
+
+\vskip1em
+\textbf{Example}:
+
+```{r, echo = FALSE, out.width = "60%", fig.align="center", fig.alt = "Side-by-side scatterplots with bill length (mm) on the y-axis and regression lines overlaid. On the left, body mass (g) is on the x-axis, while on the right, flipper length (mm) is on the x-axis."}
+knitr::include_graphics("images/w1l1fig2.png")
+```
+
+
+  

@@ -1,0 +1,386 @@
+---
+output: 
+  beamer_presentation:
+    fig_caption: false
+    includes:
+      in_header: header.tex
+classoption: 
+  - "aspectratio=169"
+  
+knit: (function(inputFile, encoding) {
+  rmarkdown::render(inputFile, encoding = encoding, output_dir = "../lectures/PDF") })
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, warning = FALSE, message = FALSE, fig.path = "images")
+
+library(tidyverse)
+library(palmerpenguins)
+library(tidymodels)
+library(boot)
+
+data <- na.omit(penguins) %>%
+  mutate(obs = row_number()) %>%
+  relocate(obs)
+```
+
+
+## {.standout} 
+\vskip12em
+\begin{center}{\color{white} \huge \textbf{Cross-Validation}} \vskip1em
+{\color{white} \Large Statistics for Data Science II}
+\end{center}
+
+## Introduction
+
+\vskip1em
+
+We are often interested in how well our model performs with ``real data."
+
+We cannot truly determine the performance of the model with data used to construct the model as this data is considered \textit{biased}.
+
+In this lecture, we will learn about the validation set approach, leave-one-out cross-validation, and k-fold cross-validation. 
+
+\textbf{Example:}
+\begin{itemize}
+  \item[] We will return to the penguin dataset as a basic example. Let us consider modeling penguin body mass (g) as a function of flipper length (mm).
+  \item[] M1: body mass $\sim$ flipper
+  \item[] M2: body mass $\sim$ flipper + flipper$^2$
+\end{itemize}
+
+## Introduction
+\vskip1em
+
+\textbf{Example:} \vskip.5em
+
+\scriptsize
+```{r}
+m1 <- glm(body_mass_g ~ flipper_length_mm, data = data)
+summary(m1)[12]
+``` 
+
+\vskip.5em 
+
+```{r}
+data <- data %>% mutate(flipper2 = flipper_length_mm^2)
+m2 <- glm(body_mass_g ~ flipper_length_mm + flipper2, data = data)
+summary(m2)[12]
+```
+
+## Validation Set Approach
+
+\vskip1em
+
+We will first split our data into training and validation datasets.
+
+```{r, echo = FALSE, out.width = "60%", fig.align="center", fig.alt = "Splitting a dataset (with observations 1 to n) into two sets: training data and validation data. Half of the data is highlighted for exclusion in the training data."}
+knitr::include_graphics("images/w4l1fig1.png")
+```
+
+
+The training data will be what we use to construct the model.
+
+We will then apply the model to the validation data to determine how good the prediction is.
+
+Why do we need a separate (validation) dataset? 
+\begin{itemize}
+  \item[] We need to use data that was \textit{not} used to create the model. (i.e., unbiased data)
+\end{itemize}
+
+## Validation Set Approach
+
+We will use the mean square error (MSE) to assess how well the model performs.
+\begin{itemize}
+  \item[] squared error = $(y_i - \hat{y}_i)^2$
+  \item[] MSE = average of squared error for all observations in the validation set
+\end{itemize} 
+
+We should construct multiple training and validation sets.
+\begin{itemize}
+  \item[] When we construct multiple models, we will choose the model with the lowest MSE.
+\end{itemize}
+
+We will use the \texttt{tidymodels} package to split the data. \vskip1em
+
+## Validation Set Approach
+
+\vskip1em
+\textbf{Example:} \vskip.5em
+
+\scriptsize
+```{r}
+set.seed(906282) # reproducible sampling
+split <- initial_split(data, prop = 0.5)
+training <- training(split)
+validation <- testing(split)
+head(training)
+```
+
+## Validation Set Approach
+
+\vskip1em
+
+\textbf{Example:} 
+\begin{itemize}
+  \item Now, we will construct our models using the training dataset.
+\end{itemize} \vskip.5em
+
+```{r}
+m1v <- lm(body_mass_g ~ flipper_length_mm, data = training)
+m2v <- lm(body_mass_g ~ flipper_length_mm + flipper2, data = training)
+```
+
+\begin{itemize}
+  \item[] We now need to compute the MSE for each model using the validation dataset.
+  \begin{itemize}
+    \item[] First, we will set up the squared errors, $(y_i - \hat{y}_i)^2$, under each model.
+    \item[] Then, we take the average of the squared error to find the MSE for each model.
+  \end{itemize}
+\end{itemize}
+
+## Validation Set Approach
+
+\vskip1em
+\textbf{Example:} \vskip.5em
+
+\scriptsize
+```{r}
+validation <- validation %>% 
+  mutate(yhat_m1 = predict(m1v, newdata = validation),
+         yhat_m2 = predict(m2v, newdata = validation)) %>%
+  mutate(sqerr_m1 = (yhat_m1 - body_mass_g)^2,
+         sqerr_m2 = (yhat_m2 - body_mass_g)^2) 
+```
+
+```{r, echo = FALSE}
+validation <- validation %>%
+  relocate(obs, body_mass_g, yhat_m1, sqerr_m1, yhat_m2, sqerr_m2)
+  
+head(validation)
+```
+
+
+## Validation Set Approach
+
+\vskip1em
+\textbf{Example:} \vskip.5em
+
+```{r}
+mean(validation$sqerr_m1)
+```
+
+\vskip1em
+
+```{r}
+mean(validation$sqerr_m2)
+```
+
+\normalsize
+\begin{itemize}
+  \item Of the two candidate models, the model including the quadratic term (M2) gives the lowest MSE.
+\end{itemize} 
+
+## Leave-One-Out Cross-Validation
+
+The leave-one-out cross-validation is similar to what we discussed under the validation set approach, however, we now leave out a single observation.
+
+```{r, echo = FALSE, out.width = "60%", fig.align="center", fig.alt = "Splitting a dataset (with observations 1 to n) into two sets: training data and validation data. A single observation is highlighted for exclusion in the training data."}
+knitr::include_graphics("images/w4l1fig2.png")
+```
+
+## Leave-One-Out Cross-Validation
+
+\vskip1em
+
+As we are only excluding a single observation for validation purposes, we will have $n$ MSEs to consider.
+\[ \text{MSE}_i = (y_i - \hat{y}_i)^2 \]
+
+Because the MSE is now based on a single observation, the variability is high.
+
+Thus, we then consider the leave-one-out cross-validation estimate for the test MSE,
+\[ \text{CV}_{(n)} = \frac{\sum_{i=1}^n \text{MSE}_i}{n}  \]
+
+These are useful when considering various models in terms of what is being included as predictors (e.g., higher order polynomial terms).
+
+## Leave-One-Out Cross-Validation
+
+Note that as $n$ increases \textit{and} as the model complexity increases, it will be computationally intensive/expensive to implement this method.
+
+If using least squares regression, we can use the following estimate:
+\[ \text{CV}_{(n)} = \frac{1}{n} \sum_{i=1}^n \left( \frac{y_i - \hat{y}_i}{1-h_i} \right)^2, \]
+where $h_i$ is the leverage as defined in the lecture on model assumptions and diagnostics.\vskip3em
+
+## Leave-One-Out Cross-Validation
+
+\vskip1em
+
+\textbf{Example:} \vskip.5em
+```{r}
+cv_error <- cv.glm(data, m1)
+cv_error$delta
+```
+
+\vskip.5em
+
+```{r}
+cv_error <- cv.glm(data, m2)
+cv_error$delta
+```
+
+\begin{itemize}
+  \item[] The first value is the estimated CV$_{(n)}$ while the second value is the true CV$_{(n)}$.
+  \item[] The model with the quadratic term has a lower test CV$_{(n)}$, thus, fits better.
+\end{itemize}
+
+## $k$-Fold Cross-Validation
+
+An alternative to leave-one-out cross-validation is the $k$-fold cross-validation. 
+
+Instead of leaving a single observation out, we now leave a group of observations out.
+
+```{r, echo = FALSE, out.width = "60%", fig.align="center", fig.alt = "Splitting a dataset (with observations 1 to n) into two sets: training data and validation data. A group of observations is highlighted for exclusion in the training data."}
+knitr::include_graphics("images/w4l1fig3.png")
+```
+
+## $k$-Fold Cross-Validation
+
+\vskip1em
+
+We are dividing the dataset into $k$ groups (or folds) of approximately equal size.
+\begin{itemize}
+  \item[] We treat the first group as the validation set.
+  \item[] The other $k-1$ groups are used to construct the model.
+  \item[] Then, we compute the MSE on the first group.
+\end{itemize}
+
+We repeat this process $k$ times, giving us $k$ estimates of the test error. 
+
+We construct CV$_{(k)}$ as the average MSE, \vskip-.5em
+\[ \text{CV}_{(k)} = \frac{\sum_{i=1}^k \text{MSE}_i}{k} \] \vskip-.5em
+
+Note that leave-one-out cross-validation is a special case of $k$-fold cross-validation, where $k=n$.
+
+## $k$-Fold Cross-Validation
+
+\vskip1em
+
+\textbf{Example:}  \vskip.5em
+
+\scriptsize
+```{r}
+m1 <- glm(body_mass_g ~ flipper_length_mm, data=data)
+cv_error <- cv.glm(data, m1, K=10)
+cv_error$delta
+```
+\vskip.5em
+```{r}
+m2 <- glm(body_mass_g ~ flipper_length_mm + flipper2, data=data)
+cv_error <- cv.glm(data, m2, K=10)
+cv_error$delta
+```
+
+\normalsize
+\begin{itemize}
+  \item[] The first value is the estimated CV$_{(k)}$ while the second value is the true CV$_{(k)}$. 
+  \item[] The values above indicate that the model with the quadratic term offers a better fit.
+\end{itemize}
+
+## Cross-Validation in Classification Problems
+
+What if we are working with categorical data and using logistic regression?
+
+Instead of calculating a CV$_{(n)}$ based on the MSE, we will now base it on the number of misclassified observations.
+\[ \text{CV}_{(n)} = \frac{\sum_{i=1}^n \text{Err}_i}{n}, \]
+where Err$_i = I(y_i \ne \hat{y}_i)$. (i.e., is the count of the number of misclassifications.)
+
+We will again use the glm() function for modeling and then employ the  cv.glm() function for cross-validation. \vskip2em
+
+## Cross-Validation in Classification Problems
+
+\vskip1em
+\textbf{Example:} 
+\begin{itemize}
+  \item Recall the graduate school admissions data from the binary logistic regression lecture: A researcher is interested in how student characteristics affect admission into graduate school. We modeled graduate school admission as a function of GRE, college GPA, and prestige of the undergraduate institution.
+\end{itemize} \vskip.5em
+
+```{r, echo=FALSE}
+library(gsheet)
+data <- as_tibble(gsheet2tbl("https://docs.google.com/spreadsheets/d/1fCIhZTf4BnE_Xly4zp8Cg_cz4wAYrQN0WPN9vDnqSEE/edit#gid=0"))
+```
+
+\scriptsize
+```{r}
+m1 <- glm(admit ~ gre + gpa + rank, data = data, family = "binomial")
+summary(m1)[12]
+```
+
+## Cross-Validation in Classification Problems
+
+\vskip1em
+
+\textbf{Example:}
+\begin{itemize}
+  \item[] Let us compare models with/without the prestige of the undergraduate institution predictor using leave-one-out cross-validation:
+\end{itemize} \vskip.5em
+
+\scriptsize
+```{r}
+m1 <- glm(admit ~ gre + gpa + rank, data = data, family = "binomial")
+cv_error <- cv.glm(data, m1)
+cv_error$delta
+```
+\vskip.5em
+```{r}
+m2 <- glm(admit ~ gre + gpa, data = data, family = "binomial")
+cv_error <- cv.glm(data, m2)
+cv_error$delta
+```
+\normalsize
+\begin{itemize}
+  \item[] The model with the prestige predictor fits better than the model without.
+\end{itemize}
+
+## Cross-Validation in Classification Problems
+
+\vskip1em
+
+\textbf{Example:}
+\begin{itemize}
+  \item[] Let us repeat the last example under $k$-fold cross-validation:
+\end{itemize} \vskip.5em
+
+\scriptsize
+```{r}
+m1 <- glm(admit ~ gre + gpa + rank, data = data, family = "binomial")
+cv_error <- cv.glm(data, m1, K=10)
+cv_error$delta
+```
+\vskip.5em
+```{r}
+m2 <- glm(admit ~ gre + gpa, data = data, family = "binomial")
+cv_error <- cv.glm(data, m2, K=10)
+cv_error$delta
+```
+
+\normalsize
+\begin{itemize}
+  \item[] Again, the model with the prestige predictor fits better than the model without.
+\end{itemize}
+
+## Conclusions
+
+Cross-validation is another tool in our toolbox for quantifying the error in our models.
+\begin{itemize}
+  \item[] When we use it to compare several candidate models, we can quantify that reduction in error.
+\end{itemize}
+
+While our examples showed that specific models fit better, it could be the case that the reduction is very small.
+\begin{itemize}
+  \item[] It may not be ``worth" a more complicated model for a small reduction in error.
+\end{itemize}
+
+\vskip4em
+
+
+
+

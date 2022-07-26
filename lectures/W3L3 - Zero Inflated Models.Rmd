@@ -1,0 +1,153 @@
+---
+output: 
+  beamer_presentation:
+    fig_caption: false
+    includes:
+      in_header: header.tex
+classoption: 
+  - "aspectratio=169"
+  
+knit: (function(inputFile, encoding) {
+  rmarkdown::render(inputFile, encoding = encoding, output_dir = "../lectures/PDF") })
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, warning = FALSE, message = FALSE, fig.path = "images")
+
+library(tidyverse)
+library(fastDummies)
+library(gsheet)
+library(car)
+library(pscl)
+
+data <- as_tibble(gsheet2tbl("https://docs.google.com/spreadsheets/d/1JoI0AffzZdGkW3FCCWHgRaZeuGrBt1Qa-WMT3_l8XCA/edit?usp=sharing"))
+```
+
+
+## {.standout} 
+\vskip12em
+\begin{center}{\color{white} \huge \textbf{Zero-Inflated Models}} \vskip1em
+{\color{white} \Large Statistics for Data Science II}
+\end{center}
+
+## Introduction
+
+\vskip1em
+Now that we know how to handle count data, we need to discuss what to do if there are "too many" zeros in the response.
+\begin{itemize}
+  \item If we look at a histogram or bar chart of the responses, we may see a ``spike'' at zero -- this spike indicates zero inflation.
+\end{itemize}
+
+The zero-inflated Poisson model is as follows:
+\[  y_i \sim \left\{
+\begin{array}{ll}
+      0, & \text{with probability }1 - \phi_i \\
+      \text{Poisson}(\lambda_i), & \text{with probability } \phi_i \\
+\end{array} 
+\right. \]
+
+Thus, we are jointly modeling (1) a logit model for predicting excess zeros, (2) the Poisson count model.
+
+## Modeling
+
+\vskip1em
+We will specify this in R using the \texttt{zeroinfl()} function. \vskip.5em
+
+e.g., \texttt{zeroinfl(outcome $\sim$ predCount1 + predCount2 + ... | predZero1 + predZero2 + ..., data = dataset)} 
+
+\begin{itemize}
+  \item Note that we do not need the same predictors in each model.
+\end{itemize}
+
+\textbf{Example:} \vskip1em
+
+```{r}
+m1 <- zeroinfl(satellites_num ~ width_cm + spine_cond +
+            width_cm:spine_cond | width_cm + spine_cond,
+          data=data)
+```
+
+## Modeling
+\vskip1em
+\textbf{Example:} \vskip.5em
+\scriptsize
+```{r}
+summary(m1)[1]
+```
+## Modeling
+ 
+\vskip1em
+\textbf{Example}:
+\begin{itemize}
+  \item The resulting models are
+\end{itemize} \vskip-2em
+\begin{align*}
+\ln \left( \hat{Y}_i \right) &= 2.94 - 0.04 \text{width} - 1.01 \text{spine} + 0.03 (\text{width $\times$ spine}) \\
+\text{ln}\left( \frac{\hat{\pi}_i}{1-\hat{\pi}_i}  \right) &= 12.50 - 0.50 \text{width} - 0.04 \text{spine}
+\end{align*}
+\begin{itemize}
+  \item $Y_i$ is the number of satellites, 
+  \item $\pi_i = P[Z = 1]$, where
+  \begin{itemize}
+    \item \vskip-2em \begin{flalign*}
+  Z_i &= \left\{
+  \begin{array}{ll}
+        0 & \text{ if } Y_i = 0 \\
+        1 & \text{ if } Y_i > 0 
+  \end{array} 
+  \right. &
+  \end{flalign*}
+\end{itemize}
+\end{itemize}
+
+## Interpretations
+
+Because we are really interested in modeling the count data ($Y$), we will focus on interpreting the Poisson regression. 
+
+Like before, we will convert the $\hat{\beta}_i$ to IRR$_i$ and interpret in terms of the multiplicative effect.
+
+See previous lectures for interpretations in models for count data.
+
+## Inference
+
+\vskip2em
+Testing for significant predictors is the same as previously discussed. 
+
+\textbf{Example:}
+\scriptsize
+```{r}
+summary(m1)[1]
+```
+
+## Inference
+
+\vskip1em
+Constructing confidence intervals is the same as previously discussed. \vskip.5em
+
+\textbf{Example:}
+\scriptsize
+```{r}
+confint(m1)
+```
+
+## Modeling - Negative Binomial
+
+Recall that Poisson regression is not always appropriate. When this is the case, we will use the zero-inflated negative binomial.
+
+We are still using the \texttt{zeroinfl()} function, but now we specify \texttt{dist = "negbin"}.
+
+\textbf{Example:}
+
+```{r}
+m2 <- zeroinfl(satellites_num ~ width_cm + spine_cond +
+            width_cm:spine_cond | width_cm + spine_cond,
+          dist = "negbin", data=data)
+```
+
+## Modeling - Negative Binomial
+\vskip1em
+\textbf{Example:} \vskip.5em
+\scriptsize
+```{r}
+summary(m2)[1]
+```
