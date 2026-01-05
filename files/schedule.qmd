@@ -1,0 +1,41 @@
+---
+title: "Course Schedule"
+format: html
+---
+
+::: {.callout-tip title="Week 1: Review of Linear Regression" collapse="true" open="true"}
+
+- Lecture Schedule:
+    1. Review of Linear Regression [slides](lectures/W1_L1_review.qmd) [qmd](https://github.com/samanthaseals/STA4173Fa25/blob/main/files/slides/01-1-estimation-in-R.qmd)
+
+:::
+
+::: {.callout-tip title="Week 2: More on Linear Regression" collapse="true" open="true"}
+
+:::
+
+::: {.callout-tip title="Week 3: More on Linear Regression" collapse="true" open="true"}
+
+:::
+
+::: {.callout-tip title="Week 4: Gamma and Beta Regressions" collapse="true" open="true"}
+
+:::
+
+::: {.callout-tip title="Week 5: Binary, Ordinal, and Nominal Logistic Regressions" collapse="true" open="true"}
+
+:::
+
+::: {.callout-tip title="Week 6: Poisson and Negative Binomial Regressions" collapse="true" open="true"}
+
+:::
+
+::: {.callout-tip title="Week 7: Choosing a Distribution" collapse="true" open="true"}
+
+:::
+
+::: {.callout-tip title="Week 8: Final Exam" collapse="true" open="true"}
+
+:::
+
+

@@ -1,0 +1,6 @@
+---
+title: "W2_L3b_full_reduced"
+format: html
+---
+
+## Full vs. Reduced Models

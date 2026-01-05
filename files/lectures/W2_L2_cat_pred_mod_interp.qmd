@@ -1,0 +1,456 @@
+---
+title: "Categorical Predictors: Modeling"
+execute:
+  echo: true
+  warning: false
+  message: false
+format: 
+  revealjs:
+    theme: default
+    self-contained: true
+    slide-number: true
+    width: 1600
+    height: 900
+    df-print: paged
+    html-math-method: katex
+    code-fold: false
+    code-tools: false
+    incremental: false
+editor: source
+---
+        
+## Introduction  
+
+- Recall the general linear model, $$ y = \beta_0 + \beta_1 x_1 + ... + \beta_k x_k + \varepsilon $$
+
+- In the last lecture, we introduced the concept of categorical predictors.
+
+    - Remember, if a categorical predictor has $c$ classes, we include $c-1$ in the model.
+
+- We also discussed how to deal with categorical variables either as a factor variable or as a set of indicator variables.
+    
+## Lecture Example Set Up
+
+<!-- 
+if you are looking at the raw .qmd, note that
+the following code chunk has the option "echo: false" so that
+the code will execute but does not appear on the slide
+i.e., using echo: false here is just to make the slides cleaner
+      you should not use it :)
+-->
+
+```{r}
+#| echo: false
+library(tidyverse)
+library(broom)
+library(ssstats)
+library(kableExtra)
+library(fastDummies)
+```
+
+- Recall our example dataset of duck-related incidents,
+
+```{r}
+duck_incidents <- read_csv("~/Desktop/GitHub/samanthaseals/STA4231_STA6262/files/data/lectures/W2_duck_incidents.csv") %>%
+  mutate(loc_yard = if_else(location == "Backyard", 1, 0),
+         loc_garage = if_else(location == "Garage", 1, 0),
+         loc_kitchen = if_else(location == "Kitchen", 1, 0),
+         loc_living = if_else(location == "Living Room", 1, 0))
+duck_incidents %>% head()
+```   
+
+## Modeling with Categorical Predictors
+
+- Recall that for a categorical variable with $c$ categories, we include $c-1$ indicator variables in the model.
+
+    - If we specify a factor variable in our model, R takes care of the indicator variable creation for us.
+
+- The category that is *not* included in the model is called the *reference group*.
+
+    - We will not be discussing interpretations in this lecture, so this detail is just for context.
+    
+    - Choice of reference group is important for interpretation, but is **arbitrary** for model fit and predictions.
+    
+## Modeling with Categorical Predictors    
+    
+- How does R handle reference groups when modeling?
+
+    - If we include a factor variable in the model, R automatically creates the indicator variables and selects the reference group (default is the "first" level).
+    
+    - If we include indicator variables in the model, we must ensure that we include only $c-1$ of them. 
+    
+        - The $c$^th^ one is the reference group.
+    
+        - If we include all $c$, R will not return an estimate for one of the categorical terms. 
+        
+            - If you are using SAS, it will also skip an estimate for one of the categorical terms, *but* it will give you a warning about it. The warning shown depends on the PROC in use.
+
+## Modeling with Categorical Predictors
+
+- Why will all programs skip an estimate? Let's consider the *nephew* variable in our dataset,
+    
+| Nephew | $x_{\text{H}}$ | $x_{\text{D}}$ | $x_{\text{L}}$ |    
+|:-|:-:|:-:|:-:|
+| Huey | 1 | 0 | 0 |
+| Dewey | 0 | 1 | 0 |
+| Louie | 0 | 0 | 1 |
+
+- We only need two indicators to represent the three categories.
+
+    - Suppose Louie is the reference group. That means we include $x_{\text{H}}$ and $x_{\text{D}}$ in the model.
+    
+    - When $x_{\text{H}} = 1$ and $x_{\text{D}} = 0$, we know $nephew = \text{Huey}$.
+    
+    - When $x_{\text{H}} = 0$ and $x_{\text{D}} = 1$, we know $nephew = \text{Dewey}$.
+    
+    - When $x_{\text{H}} = 0$ and $x_{\text{D}} = 0$, we know $nephew = \text{Louie}$.
+    
+## Modeling with Categorical Predictors
+
+- Now, let's consider this from the mathematical standpoint.
+
+- If we included all three indicators, we would have the following in our model:
+
+$$ 
+y = \beta_0 + \beta_1 x_{\text{H}} + \beta_2 x_{\text{D}} + \beta_3 x_{\text{L}} + \varepsilon 
+$$
+
+- However, we know that $x_{\text{L}} = 1 - x_{\text{H}} - x_{\text{D}}$. i.e., $x_{\text{L}}$ is a *linear combination* of $x_{\text{H}}$ and $x_{\text{D}}$.
+    
+$$ 
+y = \beta_0 + \beta_1 x_{\text{H}} + \beta_2 x_{\text{D}} + \beta_3 (1 - x_{\text{H}} - x_{\text{D}}) + \varepsilon 
+$$
+
+- The algebraically simplified model is *not identifiable* because we cannot uniquely estimate all of the $\beta$ terms.
+
+
+$$ 
+y = (\beta_0 + \beta_3) + (\beta_1 - \beta_3) x_{\text{H}} + (\beta_2 - \beta_3) x_{\text{D}} + \varepsilon 
+$$
+
+## Modeling with Categorical Predictors
+        
+- How do we change reference groups for modeling/testing purposes?
+
+    - If using a factor variable, we can relevel the factor using the `factor()` function with the `levels` argument.
+    
+    - If using indicator variables, we simply update the set of $c-1$ indicators in the model.
+    
+- Prepare yourself to see a lot of "if you are using a factor variable... but if you are using indicator variables..." throughout the course. 
+
+    - This is because of the different ways that categorical variables can be stored in datasets. 
+    
+## Modeling with Categorical Predictors
+
+- What is my approach (in practice) to choosing a reference group?
+
+    - If there is some natural order, I select the lowest as the reference.
+    
+    - If there is not an order, I will select one that "makes sense" as the comparison group when thinking of the context surrounding the question being asked of the data.
+    
+    - When I am communicating results to collaborators, I will explain my choice and then ask if they would like a different reference group.
+    
+## Modeling with Categorical Predictors (R)
+
+- To actually model with categorical predictors in R, we use the appropriate modeling function as usual.
+
+    - Note that the distribution we assume is what drives the choice of *function* while the type of predictor affects the *syntax* within the function.
+    
+- If we are using stored-as-factor variables, we simply include them,
+
+```{r}
+#| eval: false
+m <- glm(y ~ continuous_var + continuous_var + factor_var +.....)
+```
+
+- If we are using numerically stored categorical predictors, we can wrap them with `as.factor()`,
+
+```{r}
+#| eval: false
+m <- glm(y ~ continuous_var + continuous_var + as.factor(numeric_var) +.....)
+```
+
+- If we are using indicator variables, we include $c-1$ of them,
+
+```{r}
+#| eval: false
+m <- glm(y ~ continuous_var + continuous_var + indicator_1 + ... + indicator_(c-1) +.....)
+```
+
+## Example 1: One Categorical Predictor
+
+- Let's model damage cost using only the *location* variable.
+
+```{r}
+m1 <- glm(damage_cost ~ location, 
+          data = duck_incidents)
+tidy(m1, conf.int = TRUE)
+```
+
+- Here, R has automatically created the indicator variables for us and selected "Backyard" as the reference group (alphabetically first).
+
+## Example 1: One Categorical Predictor
+
+- Let's now model damage cost using the related indicator variables instead.
+
+```{r}
+m2 <- glm(damage_cost ~ loc_garage + loc_kitchen + loc_living,
+          data = duck_incidents)
+tidy(m2, conf.int = TRUE)
+```
+
+- This is the same output as we saw when using the factor variable instead.
+
+## Example 1: One Categorical Predictor
+
+- Putting them side-by-side,
+
+```{r}
+tidy(m1, conf.int = TRUE)
+tidy(m2, conf.int = TRUE)
+```
+
+## Example 1: One Categorical Predictor
+
+- Remember, we will want to restate the model in mathematical form:
+
+```{r}
+coefficients(m1)
+```
+
+$$
+\hat{\text{cost}} = 202.78 + 64.34 \text{ garage} + 131.85 \text{ kitchen} + 58.70 \text{ living}
+$$
+
+- From here, we can easily create the estimated costs for each location:
+
+    - Backyard (reference): $202.78
+    - Garage: $202.78 + $64.34 = $267.12
+    - Kitchen: $202.78 + $131.85 = $334.63
+    - Living Room: $202.78 + $58.70 = $261.48
+
+## Intepreting Categorical Predictors
+
+- We know that for *continuous* predictors, the interpretation is "for a one unit increase in $x_i$, we expect the outcome to [increase or decrease] by $\beta_i$ units, holding all other predictors constant."
+
+- For *categorical* predictors, what is a one unit increase in $x_j$?
+
+    - For an indicator variable, a one unit increase means going from not being in that category to being in that category.
+    
+    - For a factor variable, a one unit increase means going from the reference group to the category represented by that term.
+    
+## Intepreting Categorical Predictors    
+
+- Thus, the interpretation for categorical predictors becomes "for those in category $j$, as compared to the reference group, we expect the outcome to [increase or decrease] by $\beta_j$ units, holding all other predictors constant."    
+
+    - That is, $\beta_j$ represents the difference in the expected outcome between those in category $j$ and those in the reference group.
+    
+## Example 1: Intepretations
+
+- Using our previous model output,
+
+```{r}
+coefficients(m1)
+```
+
+- We can interpret the model estimates as follows:
+
+    - The average cost of damage for incidents that occurred in the Backyard is $202.78.
+
+    - For incidents that occurred in the Garage, we expect the damage cost to increase by $64.34.
+    
+    - For incidents that occurred in the Kitchen, we expect the damage cost to increase by $131.85.
+    
+    - For incidents that occurred in the Living Room, we expect the damage cost to increase $58.70.
+    
+## Example 1: Changing Reference Groups
+
+- We have said that the choice of reference group is *arbitrary* mathematically. Let's prove this to ourselves.
+
+- Let's now model damage cost using *location* but with "Kitchen" as the reference group.
+
+```{r}
+m3 <- glm(damage_cost ~ loc_yard + loc_garage + loc_living,
+          data = duck_incidents)
+tidy(m3, conf.int = TRUE)
+```
+
+- We see that the estimates themselves have changed.
+
+    - In future lectures, we will see that model fit and diagnostics remain the same.
+
+## Example 1: Changing Reference Groups
+
+- Let's compare the estimates from the two models side-by-side.
+
+```{r}
+coefficients(m2)
+coefficients(m3)
+```
+
+- The intercepts tell us the expected damage cost for the reference groups.
+    - The average cost for the backyard is $202.78.
+    - The average cost for the kitchen is $334.63.
+    
+- Remember that the coefficient for `loc_kitchen` was $131.85 -- this is the *difference* between the backyard and the kitchen averages.
+    - $334.63 - $202.78 = $131.85
+
+## Example 2: Two Categorical Predictors
+
+- Let's now model damage cost using both the *location* and *nephew* variables.
+
+```{r}
+m4 <- glm(damage_cost ~ location + nephew,
+          data = duck_incidents)
+tidy(m4, conf.int = TRUE)
+```
+
+## Example 2: Two Categorical Predictors
+
+- Restating our model mathematically,
+
+```{r}
+coefficients(m4)
+```
+
+$$
+\begin{align*}
+\hat{\text{cost}} = 139.29 &+ 51.49 \text{ garage} + 113.78 \text{ kitchen} + 66.87 \text{ living} \\
+& - 7.97 \text{ Huey} + 206.61 \text{ Louie}
+\end{align*}
+$$
+
+- We now have two reference groups!
+
+    - Location: Backyard
+    - Nephew: Dewey
+
+## Example 2: Two Categorical Predictors
+
+$$
+\begin{align*}
+\hat{\text{cost}} = 139.29 &+ 51.49 \text{ garage} + 113.78 \text{ kitchen} + 66.87 \text{ living} \\
+& - 7.97 \text{ Huey} + 206.61 \text{ Louie}
+\end{align*}
+$$
+    
+- The intercept represents the expected damage cost for incidents that occurred in the backyard with Dewey present.
+
+- Locations:
+    
+    - The garage increases expected damage cost by $51.49.
+    - The kitchen increases expected damage cost by $113.78.
+    - The living room increases expected damage cost by $66.87.
+    
+- Nephews:
+
+    - Having Huey present decreases expected damage cost by $7.97.
+    - Having Louie present increases expected damage cost by $206.61.
+    
+## Example 3: Mixing Continuous and Categorical Predictors
+
+- Let's now model damage cost using *location*, *nephew*, and *sugar_grams*.
+
+```{r}
+m5 <- glm(damage_cost ~ location + nephew + sugar_grams,
+          data = duck_incidents)
+tidy(m5, conf.int = TRUE)
+```
+
+## Example 3: Mixing Continuous and Categorical Predictors
+
+- Restating our model mathematically,
+
+```{r}
+coefficients(m5)
+```
+
+$$
+\begin{align*}
+\hat{\text{cost}} = 62.16 &+ 54.77 \text{ garage} + 92.65 \text{ kitchen} + 58.37 \text{ living} \\
+& - 0.90 \text{ Huey} + 198.79 \text{ Louie} \\
+& + 1.84 \text{ sugar}
+\end{align*}
+$$
+
+## Example 3: Mixing Continuous and Categorical Predictors
+
+$$
+\begin{align*}
+\hat{\text{cost}} = 62.16 &+ 54.77 \text{ garage} + 92.65 \text{ kitchen} + 58.37 \text{ living} \\
+& - 0.90 \text{ Huey} + 198.79 \text{ Louie} \\
+& + 1.84 \text{ sugar}
+\end{align*}
+$$
+
+- The interpretation of predictors remains the same as we have previously learned.  
+
+    - The garage costs an additional $54.77
+    - The kitchen costs an additional $92.65
+    - The living room costs an additional $58.37
+    - Having Huey present decreases expected damage cost by $0.90
+    - Having Louie present increases expected damage cost by $198.79
+    - For each additional gram of sugar intake, we expect the damage cost to increase by $1.84
+    
+## Example 4: Binary Predictors
+
+- Recall the `punished` binary indicator we created that identifies if Donald punishes the nephews (either "Assigns Chores" or "Grounds") or not (either "Laughs" or "Yells").
+
+```{r}
+duck_incidents <- duck_incidents %>%
+  mutate(donald_action = case_when(donald_reaction %in% c("Assigns Chores", "Grounds") ~ "Punished",
+                                   donald_reaction %in% c("Laughs", "Yells") ~ "No Punishment")) %>%
+  mutate(punished = if_else(donald_action == "Punished", 1, 0))
+```
+
+- Double checking,
+
+```{r}
+kable(duck_incidents %>% n_pct(donald_reaction, punished))
+```
+
+## Example 4: Binary Predictors
+
+- Let's now model damage cost using *sugar_grams* and *punished*.
+
+```{r}
+m6 <- glm(damage_cost ~ sugar_grams + punished,
+          data = duck_incidents)
+tidy(m6, conf.int = TRUE)
+```
+
+- Comparing this to the model using the `donald_action` factor variable instead,
+
+```{r}
+m7 <- glm(damage_cost ~ sugar_grams + donald_action,
+          data = duck_incidents)
+tidy(m7, conf.int = TRUE)
+```
+
+## Example 4: Binary Predictors
+
+- Mathematically, our model is
+
+$$
+\hat{\text{cost}} =  86.61 + 3.80 \text{ sugar} + 8.28 \text{ punished}
+$$
+
+- Interpreting our model coefficients,
+
+    - The average cost of damage when Donald does not punish the nephews *and* no sugar is involved is $86.61.
+    
+    - For each additional gram of sugar intake, we expect the damage cost to increase by $3.80.
+    
+    - When Donald punishes the nephews, we expect the damage cost to increase by $8.28.
+
+## Wrap Up  
+
+- In this lecture, we have introduced modeling with categorical predictors.
+
+- Always remember that if there are $c$ categories, there will be $c-1$ predictor terms in the model.
+
+- Whether we use a true factor variable or we use a set of indicator variables, the model fit and predictions will be the same.
+
+- The choice of reference group is arbitrary mathematically, but important for interpretation.
+
+- In the next lecture, we will discuss statistical inference with categorical predictors.

@@ -1,0 +1,451 @@
+nephew,mischief_type,location,donald_present,donald_reaction,sugar_grams,damage_cost
+Louie,Explosive,Kitchen,No,Yells,58,1172.92
+Louie,Explosive,Living Room,No,Grounds,75.2,696.66
+Huey,Explosive,Kitchen,No,Yells,54,561.76
+Louie,Explosive,Kitchen,No,Laughs,55.5,1020.26
+Huey,Mechanical,Backyard,Yes,Yells,56.3,128.64
+Huey,Explosive,Backyard,No,Yells,31.8,212.29
+Dewey,Mechanical,Garage,Yes,Grounds,33.2,252.37
+Louie,Explosive,Garage,No,Grounds,62,1019.66
+Huey,Animal-Related,Garage,No,Laughs,39.4,128.14
+Louie,Sneaking,Backyard,No,Yells,42.9,119.78
+Dewey,Sneaking,Kitchen,Yes,Laughs,67.5,114.9
+Louie,Animal-Related,Living Room,Yes,Yells,45.6,350.76
+Dewey,Sneaking,Backyard,No,Yells,34,115.81
+Louie,Sneaking,Garage,No,Yells,51.9,161.12
+Louie,Sneaking,Backyard,No,Laughs,62.3,222.61
+Dewey,Explosive,Backyard,No,Laughs,30.8,398.61
+Louie,Mechanical,Backyard,No,Yells,32.4,156.69
+Dewey,Mechanical,Backyard,Yes,Laughs,46.1,286.58
+Huey,Mechanical,Kitchen,No,Yells,60.6,193.94
+Dewey,Animal-Related,Living Room,No,Grounds,43.6,50.2
+Dewey,Explosive,Kitchen,No,Laughs,51.4,599.02
+Dewey,Mechanical,Backyard,No,Laughs,39.4,206.41
+Dewey,Explosive,Backyard,Yes,Yells,53.9,547.07
+Louie,Mechanical,Living Room,Yes,Grounds,53.8,59.39
+Huey,Explosive,Garage,Yes,Grounds,31,642.41
+Louie,Explosive,Backyard,Yes,Assigns Chores,56.4,575.36
+Dewey,Animal-Related,Living Room,Yes,Grounds,54.7,180.09
+Louie,Mechanical,Living Room,No,Grounds,35.6,204.28
+Dewey,Mechanical,Living Room,No,Assigns Chores,41.5,259.69
+Louie,Sneaking,Backyard,No,Laughs,75.3,181.41
+Huey,Sneaking,Living Room,No,Assigns Chores,42.1,114.85
+Huey,Animal-Related,Backyard,Yes,Grounds,6.1,53.09
+Huey,Animal-Related,Backyard,Yes,Assigns Chores,35.3,99.08
+Huey,Sneaking,Kitchen,No,Yells,39.1,96.74
+Dewey,Animal-Related,Living Room,No,Grounds,42.1,131.57
+Huey,Mechanical,Living Room,Yes,Laughs,18.3,67.15
+Dewey,Explosive,Kitchen,Yes,Yells,42.5,239.11
+Dewey,Animal-Related,Living Room,Yes,Laughs,33.8,74.03
+Louie,Mechanical,Backyard,No,Yells,55.6,327.69
+Huey,Mechanical,Backyard,No,Yells,25.3,76.4
+Louie,Sneaking,Living Room,No,Assigns Chores,67.2,241.56
+Huey,Explosive,Living Room,Yes,Yells,29.7,258.69
+Louie,Explosive,Garage,Yes,Grounds,37.4,593.66
+Dewey,Explosive,Living Room,No,Grounds,86.4,425.71
+Huey,Animal-Related,Backyard,Yes,Yells,54.1,120.57
+Louie,Explosive,Kitchen,No,Assigns Chores,66.6,2078.26
+Huey,Mechanical,Living Room,No,Laughs,65.8,224.48
+Dewey,Mechanical,Living Room,No,Yells,49.4,309.74
+Huey,Mechanical,Kitchen,Yes,Yells,42,339.48
+Louie,Mechanical,Backyard,Yes,Grounds,52.6,287.79
+Louie,Sneaking,Kitchen,Yes,Assigns Chores,85.7,55.91
+Dewey,Sneaking,Living Room,No,Assigns Chores,65.8,155.94
+Louie,Explosive,Living Room,No,Yells,48.2,1061
+Dewey,Sneaking,Kitchen,No,Assigns Chores,84.5,82.72
+Dewey,Mechanical,Backyard,Yes,Yells,33.3,160.82
+Huey,Sneaking,Living Room,Yes,Yells,48.1,107.08
+Louie,Animal-Related,Backyard,Yes,Yells,65.1,41.58
+Huey,Animal-Related,Kitchen,Yes,Assigns Chores,56.5,33.76
+Huey,Sneaking,Garage,No,Yells,50.3,127.14
+Dewey,Animal-Related,Living Room,No,Grounds,41.1,161.18
+Huey,Explosive,Living Room,No,Laughs,41,514.67
+Huey,Mechanical,Backyard,Yes,Yells,19.7,54.28
+Huey,Animal-Related,Garage,No,Yells,57.2,71.93
+Dewey,Sneaking,Backyard,Yes,Yells,50.1,49.78
+Huey,Animal-Related,Living Room,Yes,Assigns Chores,47,141.58
+Huey,Mechanical,Garage,Yes,Assigns Chores,22.1,131.78
+Louie,Mechanical,Backyard,No,Laughs,46.1,225.09
+Dewey,Explosive,Backyard,Yes,Assigns Chores,47.6,265.47
+Louie,Animal-Related,Backyard,No,Assigns Chores,45.8,120.08
+Huey,Mechanical,Garage,No,Grounds,50.7,362.19
+Louie,Animal-Related,Living Room,No,Laughs,46.2,83.98
+Huey,Animal-Related,Living Room,Yes,Yells,50.2,70.26
+Louie,Explosive,Garage,Yes,Yells,61.9,1077.71
+Dewey,Animal-Related,Garage,No,Grounds,31.2,224.07
+Louie,Sneaking,Kitchen,Yes,Grounds,49.1,68.75
+Louie,Sneaking,Kitchen,Yes,Yells,68.9,184.17
+Louie,Explosive,Garage,Yes,Yells,70.1,1686.82
+Louie,Mechanical,Living Room,No,Assigns Chores,43,155.22
+Huey,Explosive,Kitchen,No,Grounds,59.3,191.45
+Dewey,Explosive,Garage,Yes,Yells,7.4,481.42
+Dewey,Animal-Related,Kitchen,Yes,Yells,62.3,72.28
+Louie,Explosive,Living Room,Yes,Yells,56.7,1009.39
+Huey,Animal-Related,Backyard,No,Yells,33.3,294.88
+Dewey,Sneaking,Garage,No,Grounds,63,157.4
+Huey,Animal-Related,Garage,Yes,Grounds,24.5,51.77
+Huey,Animal-Related,Living Room,No,Laughs,42.4,54.95
+Dewey,Animal-Related,Backyard,Yes,Yells,49.3,129.42
+Huey,Mechanical,Living Room,Yes,Laughs,31.2,128.19
+Dewey,Animal-Related,Garage,No,Yells,42.9,86.92
+Dewey,Animal-Related,Backyard,Yes,Assigns Chores,33.1,158.38
+Dewey,Mechanical,Kitchen,No,Yells,50.9,216.62
+Louie,Mechanical,Backyard,Yes,Assigns Chores,29.5,237.52
+Huey,Animal-Related,Backyard,No,Yells,25.2,83.4
+Louie,Sneaking,Kitchen,Yes,Assigns Chores,59.5,129.79
+Louie,Animal-Related,Garage,No,Laughs,58.9,70.12
+Dewey,Sneaking,Living Room,Yes,Assigns Chores,48.3,132.3
+Huey,Sneaking,Kitchen,No,Yells,45.5,102.27
+Louie,Mechanical,Garage,No,Yells,54.7,325.35
+Dewey,Mechanical,Backyard,No,Laughs,29.5,202.86
+Huey,Mechanical,Kitchen,No,Assigns Chores,51.3,180.96
+Dewey,Sneaking,Living Room,No,Grounds,56.9,128.79
+Dewey,Animal-Related,Garage,No,Grounds,27.3,98.09
+Dewey,Mechanical,Garage,No,Yells,36.8,67.55
+Dewey,Sneaking,Kitchen,Yes,Grounds,65.2,102.83
+Huey,Explosive,Garage,Yes,Laughs,26.2,227.73
+Dewey,Mechanical,Backyard,No,Grounds,33.5,163.29
+Louie,Mechanical,Garage,No,Grounds,51.5,249.12
+Dewey,Mechanical,Kitchen,No,Grounds,42.3,212.42
+Louie,Mechanical,Kitchen,Yes,Laughs,45.6,262.05
+Huey,Sneaking,Backyard,Yes,Yells,35.2,113.21
+Huey,Mechanical,Living Room,No,Grounds,46.8,65.19
+Louie,Explosive,Backyard,No,Assigns Chores,36.4,658
+Dewey,Explosive,Backyard,Yes,Grounds,32.8,318.27
+Dewey,Sneaking,Garage,Yes,Yells,40.4,146.83
+Dewey,Animal-Related,Backyard,Yes,Grounds,41.2,137.07
+Louie,Explosive,Living Room,Yes,Yells,38.9,1862.12
+Louie,Explosive,Garage,No,Yells,68.4,800.73
+Louie,Explosive,Garage,No,Yells,45.4,789.43
+Louie,Animal-Related,Backyard,No,Assigns Chores,29.3,107.09
+Dewey,Mechanical,Garage,No,Yells,71.4,400.9
+Louie,Animal-Related,Backyard,Yes,Grounds,29.3,165.18
+Huey,Sneaking,Kitchen,No,Yells,54,91.99
+Huey,Sneaking,Living Room,No,Laughs,62.7,79.03
+Huey,Sneaking,Backyard,Yes,Laughs,47.8,58.37
+Dewey,Sneaking,Garage,No,Grounds,43.6,49.04
+Huey,Sneaking,Garage,Yes,Yells,46.7,69.16
+Huey,Sneaking,Kitchen,No,Laughs,54.7,84.81
+Louie,Explosive,Living Room,No,Grounds,44.6,2561.75
+Louie,Animal-Related,Backyard,No,Yells,60.2,609.98
+Huey,Mechanical,Living Room,Yes,Yells,22.9,68.27
+Huey,Animal-Related,Kitchen,Yes,Assigns Chores,45.1,108.86
+Louie,Mechanical,Kitchen,No,Yells,72.1,407.37
+Dewey,Mechanical,Living Room,No,Assigns Chores,33.4,111.64
+Dewey,Mechanical,Backyard,Yes,Assigns Chores,36.8,72.64
+Huey,Sneaking,Living Room,No,Grounds,52.4,112.03
+Dewey,Explosive,Garage,No,Yells,28.4,200.02
+Louie,Animal-Related,Kitchen,No,Grounds,49.8,208.27
+Dewey,Mechanical,Backyard,Yes,Yells,50,205.25
+Dewey,Sneaking,Living Room,No,Assigns Chores,51.1,122.87
+Dewey,Animal-Related,Living Room,No,Grounds,27.7,172.03
+Louie,Sneaking,Garage,No,Assigns Chores,41.5,404.73
+Huey,Animal-Related,Living Room,Yes,Assigns Chores,48.4,86.44
+Huey,Sneaking,Living Room,No,Yells,57.3,104.05
+Huey,Explosive,Kitchen,No,Grounds,46.1,409.92
+Dewey,Sneaking,Kitchen,No,Laughs,66.9,108.16
+Dewey,Sneaking,Kitchen,No,Grounds,56.5,89.75
+Dewey,Sneaking,Living Room,No,Grounds,57.8,157.41
+Huey,Mechanical,Kitchen,Yes,Yells,52,388.42
+Huey,Sneaking,Backyard,No,Assigns Chores,52.8,194.17
+Louie,Animal-Related,Kitchen,No,Yells,35.8,644.22
+Louie,Sneaking,Living Room,Yes,Grounds,59.7,172.56
+Huey,Sneaking,Backyard,Yes,Yells,32.1,150.66
+Huey,Sneaking,Living Room,No,Assigns Chores,51.1,142.48
+Louie,Animal-Related,Kitchen,No,Laughs,56.3,278.19
+Huey,Animal-Related,Backyard,No,Yells,21.3,101.02
+Huey,Explosive,Kitchen,No,Grounds,74.4,876.1
+Louie,Animal-Related,Garage,No,Grounds,45.9,149.11
+Louie,Mechanical,Kitchen,No,Grounds,32.2,197.51
+Dewey,Animal-Related,Living Room,No,Grounds,37.1,283.99
+Huey,Mechanical,Garage,No,Assigns Chores,26.6,204.49
+Dewey,Animal-Related,Living Room,No,Yells,19.2,58.14
+Louie,Explosive,Kitchen,No,Laughs,30.1,547.26
+Dewey,Sneaking,Living Room,No,Laughs,61.6,81.95
+Louie,Mechanical,Backyard,Yes,Yells,26.3,289.19
+Huey,Mechanical,Living Room,No,Grounds,18.9,264.92
+Dewey,Animal-Related,Garage,Yes,Grounds,63.3,706.35
+Louie,Mechanical,Living Room,No,Grounds,38.3,342.7
+Dewey,Mechanical,Kitchen,Yes,Yells,49.2,282.87
+Huey,Sneaking,Living Room,No,Yells,38.6,91.83
+Louie,Mechanical,Kitchen,Yes,Laughs,43,201.06
+Louie,Sneaking,Living Room,No,Assigns Chores,47.1,90.87
+Louie,Sneaking,Kitchen,Yes,Yells,63.6,95.98
+Dewey,Animal-Related,Backyard,Yes,Grounds,49.6,102.46
+Dewey,Explosive,Living Room,No,Yells,66.3,716.19
+Louie,Sneaking,Kitchen,Yes,Yells,51.4,60.59
+Louie,Explosive,Living Room,Yes,Yells,57.9,887.31
+Dewey,Animal-Related,Garage,Yes,Yells,55.8,157.36
+Huey,Animal-Related,Backyard,Yes,Yells,28.7,164.36
+Louie,Explosive,Kitchen,No,Assigns Chores,65.1,1311.18
+Dewey,Animal-Related,Garage,Yes,Grounds,15.3,63.85
+Dewey,Mechanical,Living Room,Yes,Grounds,22.6,119.91
+Dewey,Mechanical,Kitchen,Yes,Grounds,41.2,105.65
+Huey,Sneaking,Backyard,No,Yells,55,177.14
+Huey,Mechanical,Garage,No,Grounds,28.7,71.38
+Louie,Explosive,Garage,No,Grounds,25.7,733.12
+Huey,Animal-Related,Living Room,Yes,Laughs,28.5,254.64
+Huey,Animal-Related,Garage,No,Yells,25.9,52.42
+Huey,Explosive,Backyard,Yes,Yells,33.8,411.61
+Louie,Sneaking,Kitchen,No,Yells,70.2,249.61
+Louie,Sneaking,Garage,Yes,Laughs,64.9,145.74
+Dewey,Sneaking,Garage,Yes,Yells,41,137.75
+Huey,Sneaking,Backyard,No,Assigns Chores,35.4,65.08
+Huey,Sneaking,Living Room,No,Assigns Chores,60.3,90.25
+Louie,Mechanical,Living Room,Yes,Laughs,32.1,209.23
+Huey,Mechanical,Living Room,No,Grounds,46.2,233.46
+Dewey,Animal-Related,Living Room,Yes,Grounds,38.4,53.95
+Huey,Animal-Related,Backyard,No,Laughs,44.5,212.92
+Louie,Mechanical,Garage,No,Laughs,39.5,114.94
+Louie,Explosive,Kitchen,Yes,Grounds,44.9,1434.45
+Huey,Explosive,Backyard,No,Grounds,33.9,384.73
+Dewey,Explosive,Garage,Yes,Laughs,33.4,404.22
+Louie,Animal-Related,Kitchen,No,Grounds,56,327.41
+Huey,Explosive,Backyard,Yes,Laughs,18.1,240.81
+Louie,Sneaking,Backyard,Yes,Laughs,47.5,176.27
+Huey,Explosive,Backyard,No,Yells,36.6,231.42
+Louie,Mechanical,Backyard,Yes,Yells,59.7,177.43
+Louie,Explosive,Living Room,No,Grounds,20.7,810.5
+Huey,Explosive,Living Room,No,Laughs,41.7,253.98
+Louie,Animal-Related,Living Room,No,Grounds,49.4,106.18
+Huey,Explosive,Kitchen,No,Assigns Chores,57.9,466.21
+Dewey,Animal-Related,Living Room,No,Grounds,48.7,286.19
+Huey,Sneaking,Backyard,No,Grounds,39.4,54.97
+Huey,Mechanical,Garage,Yes,Laughs,38.5,93.57
+Dewey,Animal-Related,Living Room,No,Yells,77.3,117.27
+Huey,Sneaking,Living Room,Yes,Assigns Chores,56.1,83.36
+Dewey,Explosive,Living Room,Yes,Laughs,69.3,370.98
+Huey,Sneaking,Backyard,No,Assigns Chores,35.6,116.85
+Huey,Sneaking,Kitchen,Yes,Grounds,58.6,85.63
+Louie,Animal-Related,Living Room,No,Grounds,56.6,250.1
+Huey,Explosive,Living Room,No,Grounds,56.2,423.06
+Dewey,Explosive,Living Room,Yes,Grounds,38.3,190.33
+Dewey,Explosive,Kitchen,No,Yells,39.5,406.67
+Louie,Animal-Related,Backyard,Yes,Yells,50.2,380.55
+Huey,Sneaking,Backyard,No,Grounds,29.2,62.48
+Louie,Explosive,Living Room,No,Grounds,44.3,393.99
+Dewey,Animal-Related,Living Room,No,Grounds,33.2,220.61
+Louie,Mechanical,Living Room,No,Yells,47.3,177.32
+Louie,Animal-Related,Garage,Yes,Grounds,48.8,246.71
+Louie,Mechanical,Kitchen,No,Yells,46.1,366.36
+Louie,Animal-Related,Living Room,Yes,Grounds,25,172.66
+Louie,Mechanical,Backyard,Yes,Yells,47.1,132.1
+Louie,Sneaking,Backyard,Yes,Yells,72.1,240.73
+Louie,Mechanical,Kitchen,No,Yells,63.7,257.88
+Dewey,Mechanical,Backyard,Yes,Yells,40,152.59
+Huey,Sneaking,Backyard,No,Yells,64.5,243.87
+Huey,Explosive,Kitchen,No,Grounds,41,326.9
+Dewey,Sneaking,Backyard,Yes,Yells,48.6,108.38
+Dewey,Animal-Related,Backyard,Yes,Grounds,39.5,109.25
+Dewey,Animal-Related,Kitchen,Yes,Yells,58.1,182.01
+Louie,Animal-Related,Backyard,Yes,Assigns Chores,42.9,173.25
+Dewey,Sneaking,Garage,Yes,Laughs,57.1,117.17
+Huey,Mechanical,Garage,Yes,Yells,26.4,107.29
+Louie,Mechanical,Kitchen,No,Yells,40.3,160.82
+Dewey,Mechanical,Living Room,No,Yells,31.3,237.1
+Dewey,Animal-Related,Backyard,Yes,Yells,36.7,46.85
+Dewey,Mechanical,Garage,Yes,Laughs,10.3,113.49
+Dewey,Explosive,Garage,No,Laughs,36.5,434.58
+Louie,Sneaking,Garage,No,Yells,39.6,257.37
+Dewey,Sneaking,Kitchen,No,Grounds,62.4,74.12
+Huey,Mechanical,Kitchen,No,Grounds,44,310.67
+Huey,Sneaking,Living Room,No,Yells,53.4,81.7
+Dewey,Mechanical,Living Room,No,Grounds,55.2,252.9
+Dewey,Explosive,Backyard,No,Grounds,42.3,202.75
+Dewey,Animal-Related,Backyard,No,Grounds,44.3,125.46
+Louie,Mechanical,Living Room,No,Assigns Chores,48.8,363.77
+Dewey,Sneaking,Kitchen,Yes,Assigns Chores,37.6,63.25
+Louie,Mechanical,Living Room,No,Yells,54.7,792.48
+Huey,Sneaking,Living Room,No,Assigns Chores,69.4,157.57
+Dewey,Mechanical,Kitchen,Yes,Laughs,62.5,182.14
+Huey,Animal-Related,Backyard,Yes,Assigns Chores,53.8,118.56
+Louie,Animal-Related,Kitchen,Yes,Grounds,44.9,118.77
+Louie,Mechanical,Garage,Yes,Yells,20.6,554.84
+Louie,Animal-Related,Backyard,Yes,Grounds,30.2,58.28
+Dewey,Animal-Related,Living Room,Yes,Grounds,48.6,126.19
+Louie,Animal-Related,Backyard,Yes,Laughs,52.6,98.43
+Dewey,Sneaking,Backyard,Yes,Grounds,45.4,92.68
+Dewey,Sneaking,Living Room,Yes,Grounds,49.8,100.69
+Louie,Sneaking,Backyard,Yes,Assigns Chores,46.2,275.93
+Huey,Sneaking,Backyard,No,Grounds,77.8,94.85
+Louie,Animal-Related,Kitchen,No,Grounds,78.3,340.63
+Dewey,Mechanical,Garage,Yes,Yells,45.2,120.85
+Louie,Explosive,Living Room,No,Assigns Chores,63.2,1263.57
+Dewey,Explosive,Living Room,No,Grounds,52.8,317.04
+Dewey,Mechanical,Kitchen,Yes,Grounds,44.6,239.3
+Huey,Explosive,Kitchen,No,Yells,73.5,727.14
+Louie,Animal-Related,Backyard,No,Grounds,28,150.53
+Dewey,Explosive,Garage,No,Grounds,54.9,509.11
+Louie,Sneaking,Garage,Yes,Yells,58.9,66.37
+Huey,Sneaking,Backyard,Yes,Yells,37.3,40.06
+Huey,Mechanical,Garage,No,Laughs,30.2,371.78
+Dewey,Mechanical,Backyard,Yes,Yells,2.8,86.19
+Louie,Mechanical,Living Room,No,Laughs,37.9,173.69
+Louie,Mechanical,Living Room,Yes,Yells,61.2,271.74
+Dewey,Mechanical,Backyard,No,Assigns Chores,36.5,161.45
+Dewey,Explosive,Living Room,No,Assigns Chores,34.6,198.99
+Louie,Animal-Related,Backyard,Yes,Grounds,32.1,85.09
+Louie,Animal-Related,Living Room,No,Assigns Chores,58.8,115.74
+Huey,Explosive,Kitchen,Yes,Grounds,71.8,419.8
+Louie,Sneaking,Living Room,Yes,Assigns Chores,64,81.68
+Huey,Animal-Related,Garage,Yes,Assigns Chores,23.7,118.76
+Huey,Mechanical,Backyard,No,Laughs,41.7,81.97
+Huey,Explosive,Living Room,Yes,Assigns Chores,39.7,464.24
+Huey,Mechanical,Living Room,No,Yells,24.5,67.09
+Louie,Animal-Related,Living Room,No,Yells,45.1,131.54
+Dewey,Animal-Related,Living Room,No,Yells,39,171.97
+Dewey,Sneaking,Garage,Yes,Assigns Chores,42.5,72.53
+Louie,Sneaking,Backyard,No,Assigns Chores,46.2,115.78
+Dewey,Animal-Related,Living Room,No,Yells,26.4,141.8
+Huey,Sneaking,Kitchen,Yes,Grounds,48.8,82.16
+Huey,Mechanical,Living Room,Yes,Assigns Chores,57.5,249.72
+Dewey,Explosive,Garage,No,Assigns Chores,37.7,140.46
+Dewey,Explosive,Living Room,Yes,Grounds,50.4,383.62
+Dewey,Animal-Related,Garage,No,Yells,27.8,88.54
+Louie,Sneaking,Living Room,Yes,Assigns Chores,55.1,75.57
+Huey,Mechanical,Living Room,Yes,Yells,43,52.75
+Louie,Explosive,Garage,Yes,Yells,41,1339.58
+Dewey,Mechanical,Kitchen,Yes,Grounds,55.1,99.33
+Louie,Explosive,Backyard,No,Yells,53.1,685.12
+Huey,Mechanical,Garage,No,Yells,8.6,39.08
+Louie,Explosive,Kitchen,No,Assigns Chores,70.3,1892.64
+Louie,Mechanical,Kitchen,Yes,Laughs,57.7,302.01
+Huey,Explosive,Living Room,No,Laughs,48.7,250.04
+Louie,Mechanical,Kitchen,No,Laughs,36.3,486.79
+Huey,Mechanical,Living Room,No,Yells,31.9,273.52
+Huey,Animal-Related,Backyard,No,Grounds,25,128.46
+Huey,Mechanical,Garage,No,Yells,15.7,118.5
+Dewey,Mechanical,Garage,Yes,Laughs,28.9,197.81
+Dewey,Explosive,Backyard,Yes,Grounds,59.5,1286.71
+Dewey,Sneaking,Backyard,No,Assigns Chores,52.6,96.79
+Louie,Mechanical,Garage,No,Grounds,45.8,84.58
+Huey,Animal-Related,Kitchen,Yes,Yells,41.7,100.73
+Dewey,Sneaking,Kitchen,No,Laughs,67.5,167.24
+Huey,Sneaking,Garage,No,Yells,39.5,117.43
+Louie,Mechanical,Backyard,Yes,Laughs,49.1,112.21
+Dewey,Explosive,Kitchen,Yes,Yells,55.8,290
+Louie,Explosive,Living Room,Yes,Grounds,31.6,362.23
+Huey,Mechanical,Kitchen,No,Grounds,64,435.5
+Dewey,Explosive,Kitchen,No,Laughs,50.3,402.15
+Dewey,Sneaking,Living Room,No,Grounds,33.2,83.87
+Dewey,Explosive,Garage,Yes,Grounds,42.1,391.54
+Louie,Sneaking,Living Room,No,Assigns Chores,82.8,542.02
+Dewey,Animal-Related,Living Room,Yes,Yells,37.2,89.11
+Louie,Animal-Related,Backyard,No,Yells,47.3,106.84
+Huey,Mechanical,Backyard,No,Grounds,29.2,113.28
+Dewey,Mechanical,Living Room,No,Yells,39.7,281.21
+Dewey,Mechanical,Backyard,No,Assigns Chores,39.3,105.87
+Louie,Explosive,Garage,No,Yells,40.4,300.68
+Dewey,Mechanical,Garage,Yes,Grounds,48.6,148.35
+Huey,Mechanical,Backyard,Yes,Assigns Chores,23.9,47.25
+Huey,Sneaking,Living Room,No,Grounds,46.4,79.56
+Dewey,Explosive,Backyard,No,Assigns Chores,56.4,235.53
+Huey,Explosive,Kitchen,No,Laughs,54.9,288.05
+Louie,Sneaking,Living Room,No,Yells,57.1,204.66
+Huey,Mechanical,Kitchen,Yes,Yells,37.6,77.69
+Dewey,Explosive,Backyard,No,Yells,51.2,554.8
+Louie,Animal-Related,Backyard,No,Grounds,58.3,279.42
+Louie,Animal-Related,Garage,No,Yells,34.8,165.43
+Louie,Mechanical,Garage,Yes,Yells,32.2,129.23
+Louie,Explosive,Kitchen,No,Assigns Chores,50.4,893.83
+Huey,Explosive,Kitchen,Yes,Yells,46,321.26
+Louie,Mechanical,Kitchen,No,Yells,56.5,177.5
+Louie,Sneaking,Kitchen,No,Grounds,73.1,170.22
+Louie,Explosive,Kitchen,Yes,Assigns Chores,63.6,1136.64
+Louie,Animal-Related,Kitchen,No,Laughs,53.5,221.18
+Huey,Mechanical,Backyard,No,Assigns Chores,13.1,462.39
+Dewey,Sneaking,Kitchen,Yes,Yells,58.1,172.84
+Huey,Explosive,Backyard,No,Grounds,57,206.09
+Huey,Sneaking,Garage,No,Laughs,46.5,146.69
+Huey,Mechanical,Living Room,No,Grounds,29.7,292.14
+Dewey,Animal-Related,Living Room,Yes,Assigns Chores,28.9,74.29
+Louie,Mechanical,Kitchen,No,Yells,27.2,225.13
+Louie,Mechanical,Garage,Yes,Yells,51.4,129.2
+Dewey,Mechanical,Living Room,No,Assigns Chores,60.8,102.81
+Louie,Mechanical,Garage,Yes,Yells,56.4,45.92
+Dewey,Mechanical,Kitchen,Yes,Assigns Chores,33.6,186.65
+Dewey,Mechanical,Living Room,Yes,Yells,22.8,169.85
+Huey,Sneaking,Garage,Yes,Assigns Chores,39.2,171.15
+Louie,Explosive,Kitchen,No,Yells,46.2,1848.78
+Dewey,Sneaking,Kitchen,No,Assigns Chores,69.4,98.17
+Louie,Explosive,Garage,Yes,Grounds,52.7,1073.64
+Huey,Explosive,Garage,Yes,Laughs,5.9,106.04
+Huey,Explosive,Living Room,Yes,Assigns Chores,47.3,303.82
+Dewey,Sneaking,Living Room,No,Laughs,49.5,114.54
+Dewey,Sneaking,Backyard,No,Yells,58.5,137.29
+Dewey,Animal-Related,Kitchen,No,Assigns Chores,56.2,348.97
+Huey,Explosive,Living Room,No,Laughs,46.4,393.82
+Dewey,Mechanical,Living Room,No,Assigns Chores,33.8,340.11
+Huey,Mechanical,Backyard,Yes,Yells,30,98.16
+Louie,Mechanical,Garage,Yes,Yells,63.2,217.53
+Huey,Mechanical,Garage,No,Yells,44.1,82.3
+Huey,Explosive,Garage,Yes,Grounds,13.4,184.66
+Dewey,Sneaking,Kitchen,No,Grounds,72.5,56.53
+Louie,Animal-Related,Garage,No,Yells,34.6,102.6
+Huey,Mechanical,Living Room,No,Grounds,29.5,267.59
+Huey,Explosive,Backyard,No,Laughs,46.5,308.63
+Louie,Mechanical,Backyard,No,Laughs,31.6,124.58
+Huey,Sneaking,Living Room,Yes,Grounds,63,85.84
+Huey,Explosive,Backyard,Yes,Grounds,39.6,157.38
+Louie,Mechanical,Backyard,No,Yells,53.4,144.78
+Huey,Sneaking,Garage,No,Grounds,56,66.06
+Huey,Mechanical,Backyard,Yes,Assigns Chores,46.1,149.47
+Dewey,Sneaking,Living Room,Yes,Yells,39.4,54.9
+Dewey,Sneaking,Living Room,No,Grounds,50.4,57.38
+Louie,Animal-Related,Living Room,No,Laughs,66.6,120.62
+Louie,Mechanical,Living Room,No,Yells,51.2,206.34
+Huey,Mechanical,Living Room,No,Yells,26.5,571.39
+Louie,Sneaking,Garage,Yes,Assigns Chores,63.2,195.98
+Huey,Mechanical,Kitchen,No,Grounds,49.5,185.47
+Huey,Sneaking,Kitchen,Yes,Yells,44.4,46.9
+Louie,Mechanical,Garage,No,Assigns Chores,51,342.21
+Dewey,Animal-Related,Backyard,No,Yells,52.5,125.55
+Dewey,Mechanical,Living Room,Yes,Yells,37.8,297.51
+Louie,Explosive,Garage,No,Grounds,41.1,731.5
+Louie,Sneaking,Kitchen,No,Grounds,55.5,184.06
+Dewey,Mechanical,Garage,No,Yells,39.7,147.71
+Dewey,Animal-Related,Living Room,Yes,Yells,56.5,102.6
+Louie,Animal-Related,Kitchen,No,Assigns Chores,67.1,555.77
+Dewey,Animal-Related,Backyard,Yes,Yells,22.7,57.97
+Huey,Sneaking,Living Room,No,Yells,51.6,106.49
+Huey,Mechanical,Backyard,Yes,Assigns Chores,49.5,142.88
+Huey,Mechanical,Garage,No,Grounds,13.1,178.18
+Louie,Animal-Related,Kitchen,No,Laughs,51.4,169.17
+Louie,Animal-Related,Garage,No,Yells,45.7,205.01
+Huey,Mechanical,Garage,Yes,Yells,32.3,39.72
+Huey,Explosive,Backyard,Yes,Yells,42.3,222.4
+Huey,Sneaking,Backyard,Yes,Yells,48.6,201.7
+Huey,Mechanical,Living Room,Yes,Yells,29.9,97.26
+Huey,Sneaking,Living Room,Yes,Laughs,31.7,42
+Louie,Sneaking,Garage,Yes,Yells,63.9,164.57
+Dewey,Explosive,Garage,No,Grounds,41,192.23
+Louie,Animal-Related,Kitchen,No,Yells,29.5,173.81
+Louie,Mechanical,Backyard,No,Yells,49.8,209.49
+Dewey,Sneaking,Kitchen,Yes,Grounds,47.2,144.83
+Dewey,Mechanical,Kitchen,Yes,Laughs,43.6,67.23
+Louie,Sneaking,Garage,Yes,Grounds,45.2,130.33
+Dewey,Sneaking,Living Room,No,Grounds,73.2,79.85
+Dewey,Sneaking,Kitchen,Yes,Grounds,65,55.19
+Dewey,Animal-Related,Living Room,Yes,Assigns Chores,38.4,108.33
+Huey,Sneaking,Garage,No,Assigns Chores,33,50.49
+Dewey,Sneaking,Living Room,Yes,Assigns Chores,68,27.8
+Dewey,Animal-Related,Living Room,No,Assigns Chores,40.3,170.16
+Huey,Animal-Related,Backyard,No,Grounds,27.1,26.72
+Louie,Mechanical,Kitchen,No,Yells,64.6,291.12
+Louie,Explosive,Backyard,Yes,Yells,49.6,269.79
+Huey,Explosive,Kitchen,No,Yells,55.2,515.31
+Louie,Sneaking,Kitchen,Yes,Yells,47.8,186.63
+Louie,Sneaking,Garage,Yes,Laughs,55,114.27
+Dewey,Animal-Related,Garage,Yes,Grounds,27.1,85.2
+Dewey,Mechanical,Living Room,No,Assigns Chores,54.3,228.42
+Louie,Animal-Related,Kitchen,No,Laughs,52.4,260.77
+Dewey,Mechanical,Kitchen,No,Yells,32.3,284.57
+Huey,Sneaking,Garage,No,Grounds,44.7,111.05
+Huey,Sneaking,Garage,No,Yells,36,75.93
+Dewey,Animal-Related,Kitchen,Yes,Yells,80.3,160.43
+Louie,Explosive,Living Room,No,Yells,64.8,652.56
+Louie,Mechanical,Backyard,Yes,Grounds,27.1,407.01
+Louie,Animal-Related,Garage,No,Laughs,28.3,278.96
+Dewey,Mechanical,Kitchen,Yes,Yells,41,98.36
+Huey,Animal-Related,Kitchen,Yes,Yells,68.5,58.52
+Dewey,Explosive,Backyard,Yes,Yells,64,678.18

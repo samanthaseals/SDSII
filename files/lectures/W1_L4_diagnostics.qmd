@@ -1,0 +1,1102 @@
+---
+title: "Model Assumptions and Diagnostics"
+execute:
+  echo: true
+  warning: false
+  message: false
+format: 
+  revealjs:
+    theme: default
+    self-contained: true
+    slide-number: true
+    width: 1600
+    height: 900
+    df-print: paged
+    html-math-method: katex
+    code-fold: false
+    code-tools: false
+    incremental: false
+editor: source
+---
+
+## Introduction
+
+
+```{r setup}
+#| echo: false
+library(tidyverse)
+library(ssstats)
+library(broom)
+
+# examples from last lecture
+set.seed(9176)
+reg_data <- tibble(id = 1:100,
+                   x  = runif(100, 0, 10),
+                   epsilon = rnorm(100, mean = 0, sd = 2)) %>%
+  mutate(y = 3 + 1.5 * x + epsilon)
+
+m1 <- glm(y ~ x, data = reg_data)
+set.seed(651965)
+reg_data <- tibble(
+  id = 1:150,
+  x1 = runif(150, 0, 10),   # predictor 1
+  x2 = runif(150, 0, 5),    # predictor 2
+  epsilon = rnorm(150, mean = 0, sd = 2)  # homoskedastic errors
+) %>%
+  mutate(
+    y = 4 + 1.2 * x1 - 0.8 * x2 + epsilon
+  )
+m2 <- glm(y ~ x1 + x2, data = reg_data)
+set.seed(19877)
+n <- 150
+reg_data <- tibble(
+  id = 1:n,
+  x1 = runif(n, 0, 10),
+  x2 = runif(n, 0, 5),
+  # Non-normal but equal-variance errors
+  epsilon = rexp(n, rate = 1) - 1   # mean-centered exponential
+) %>%
+  mutate(
+    y = 5 + 1.1 * x1 - 0.9 * x2 + epsilon
+  )
+m3 <- glm(y ~ x1 + x2, data = reg_data)
+set.seed(01759)
+n <- 150
+reg_data <- tibble(
+  id = 1:n,
+  x1 = runif(n, 0, 10),
+  x2 = runif(n, 0, 5)
+) %>%
+  mutate(
+    # Variance increases with x1
+    sigma = 0.5 + 0.4 * x1,
+    # Normal errors, but heteroskedastic
+    epsilon = rnorm(n, mean = 0, sd = sigma),
+    y = 4 + 1.0 * x1 - 0.7 * x2 + epsilon
+  )
+m4 <- glm(y ~ x1 + x2, data = reg_data)
+set.seed(5715)
+n <- 200
+reg_data <- tibble(
+  id = 1:n,
+  x1 = runif(n, 0, 10),
+  x2 = runif(n, 0, 5)
+) %>%
+  mutate(
+    # Strong variance inflation → obvious fan
+    sigma = 0.3 + 0.8 * x1,
+    # Normal but heteroskedastic errors
+    epsilon = rnorm(n, mean = 0, sd = sigma),
+    y = 3 + 1.3 * x1 - 0.9 * x2 + epsilon
+  )
+m5 <- glm(y ~ x1 + x2, data = reg_data)
+set.seed(855)
+n <- 250
+wild_data <- tibble(
+  id = 1:n,
+  x1 = runif(n, 0, 10),
+  x2 = runif(n, 0, 5)
+) %>%
+  mutate(
+    # variance explodes with x1 (big-time fan opening)
+    sigma = 0.2 + 0.25 * (x1^2),
+    # non-normal core: heavy tails (t-dist with low df)
+    eps_core = rt(n, df = 2) * sigma,
+    # add skew: exponential shock (mean-centered) scaled by sigma
+    eps_skew = (rexp(n, rate = 1) - 1) * (0.6 * sigma),
+    # occasional "catastrophic" outliers (mixture component)
+    is_outlier = rbinom(n, size = 1, prob = 0.08),
+    eps_outlier = is_outlier * rnorm(n, mean = 0, sd = 10 * sigma),
+    epsilon = eps_core + eps_skew + eps_outlier,
+    # response
+    y = 2 + 1.1 * x1 - 0.8 * x2 + epsilon
+  ) %>%
+  select(id, x1, x2, y)
+m6 <- glm(y ~ x1 + x2, data = wild_data)
+```
+
+- Recall the glm, 
+
+$$ 
+y = \beta_0 + \beta_1 x_1 + \beta_2 x_2 + ... \beta_k x_k + \varepsilon 
+$$ 
+
+- In this model, $\varepsilon$ is the *residual error* term.
+
+- Recall that the residual error (how far away the observation is from the response surface) is defined as 
+$$\varepsilon = y - \hat{y}$$ 
+
+- Note that
+
+    - $y$ is the observed value
+    
+    - $\hat{y}$ is the predicted value
+
+## Model Diagnostics
+
+- In addition to checking assumptions, we should also perform model diagnostics to identify potential issues with our model.
+
+- Common diagnostics include:
+
+    - Assessing overall model fit (e.g., $R^2$, AIC, BIC).
+    
+    - Identifying outliers (points that are far from the predicted values).
+
+    - Identifying influential observations (points that have a large impact on the model's estimates).
+    
+    - Checking for multicollinearity (high correlation between predictors).
+    
+## Model Diagnostics    
+    
+- The diagnostics needed depend on the context of our analysis and the specific model we are using.
+
+    - Context matters! Applied statistics: we do not want our model to be *perfect*, we want it to be *generalizable*. Does the interpretation make intuitive (scientific) sense? If not, why? Is there a weird data point (or points) affecting our analysis?
+    
+    - Context matters! Machine learning/predictive modeling: we care about *predictive accuracy*, not *interpretability.* Does the model predict well on new data? If not, why? Is there overfitting or underfitting? Is that due to weird data points?
+
+## Model Diagnostics: Model Fit
+
+- We can assess overall model fit using metrics such as:
+
+    - $R^2$: proportion of variance in the response variable explained by the model.
+    
+    - Adjusted $R^2$: adjusts $R^2$ for the number of predictors in the model.
+    
+    - AIC (Akaike Information Criterion): measures the relative quality of the specified model for the given data. This balances goodness-of-fit and model complexity.
+    
+    - BIC (Bayesian Information Criterion): same conecpt of AIC, but has a stronger penalty as the number of parameters ($p$) estimated increases.
+    
+        - In our course, we are only estimating $\beta_i$, which we typically say that $i = 1, ..., k$ predictors + 1 intercept. Thus, $p = k + 1$.
+        
+        - If we are accounting for correlated data (*not in this course*), we are introducing additional parameters to estimate (e.g., correlation structure parameters).
+        
+## Model Diagnostics: Model Fit -- $R^2$
+
+- If we want to know how well the model fits this particular dataset, we can look at the $R^2$.
+
+    - $R^2$ is the proportion of variance explained by the model.
+    
+$$R^2 = \frac{\text{SSReg}}{\text{SSTot}}$$    
+
+- Because it is a proportion, $R^2 \in [0, 1]$ and is independent of the units of $y$.
+
+- If $R^2 \to 0$, the model does not fit the data well.
+
+- If $R^2 \to 1$, the model fits the data well.
+
+    - Note that if $R^2=1$, all observations fall on the response surface.
+
+## Model Diagnostics: Model Fit -- $R^2$
+
+- Remember that we are partitioning the variability in $y$ (SSTot), which is *constant*, into two pieces:
+
+    - The variability explained by the regression model (SSReg).
+  
+    - The variability explained by outside sources (SSE).
+
+- As predictors are added to the model, we necessarily increase SSReg / decrease SSE.
+
+    - Remember, SSTot = SSReg + SSE.
+
+- We want a measure of model fit that is resistant to this fluctuation, 
+
+$$R^2_{\text{adj}} = 1 - \left( \frac{n-1}{n-k-1} \right) \left( 1 - R^2 \right),$$ 
+
+- Remember, $k$ is the number of *predictor terms* in the model.
+
+## Model Diagnostics: Model Fit -- $R^2$ (R)
+
+- We will use the `ssstats` package to check diagnostics.
+
+- For normality, we can use the `r_squared()` function.
+
+```{r}
+#| eval: false
+model %>% r_squared()
+```
+
+## Model Diagnostics: Model Fit -- $R^2$
+
+- Recall our example model, `m1`:
+
+$$
+\hat{y} = 3 + 1.5 x + \hat{\varepsilon}
+$$
+
+```{r}
+m1 %>% r_squared()
+```
+
+- Recall our example model, `m6`:
+
+$$
+\hat{y} = 2 + 1.1 x_1 - 0.8 x_2 + \hat{\varepsilon}
+$$
+
+```{r}
+m6 %>% r_squared()
+```
+
+## Model Diagnostics: Model Fit -- $R^2$
+
+- What do I do when there is a very low $R^2$ value? The questions I ask:
+
+    - What did the assumption graphs look like?
+    
+        - Do we actually meet the normality assumption? 
+        
+            -If not, should we consider taking a different methodological approach?
+    
+    - I should graph the data to see what it looks like. 
+    
+        - Is the relationship non-linear?
+        
+        - Is there an outlier affecting the relationship?
+        
+        - Is the data just super noisy?
+        
+    - Is there a variable missing from the model that could help explain the response? 
+    
+## Model Diagnostics: Model Fit -- $R^2$
+
+- Remember that the $R^2$ value is not the end-all, be-all.
+    
+- Like everything in statistics/data science, context matters.
+
+    - In some applications, low $R^2$ values are common.
+    
+        - e.g., human behavior, social sciences, biological systems.
+        
+    - In other applications, high $R^2$ values are expected.
+    
+        - e.g., physical sciences, engineering.
+        
+- Always interpret $R^2$ in the context of your specific field and research question.        
+
+## Model Diagnostics: Model Fit -- AIC and BIC
+
+- Because the calculation of the AIC and BIC depend on the likelihood, we will not dive into the formulas here.
+
+- Instead, let's discuss how the AIC and BIC penalize our models.
+
+    - Both AIC and BIC balance model fit and model complexity.
+    
+    - AIC imposes a penalty of $2p$.
+    
+    - BIC imposes a penalty of $p \times \log(n)$.
+    
+- Remember, $p$ is the number of parameters estimated in the model.
+
+    - In this course, we will not see a great difference between the AIC and BIC values.
+    
+    - However, in more complex models (e.g., analyzing dependent data, where $p > k$), the difference can be more pronounced.
+    
+## Model Diagnostics: Model Fit -- AIC and BIC    
+
+- What do the values actually mean?
+
+    - Inherently, we cannot "interpret" the values -- they are arbitrary numbers based on the data itself and the model specified.
+    
+- How do we use these?
+
+    - We use these to *compare* models.
+    
+    - The model with the *lowest* AIC or BIC is fits the data "better".
+    
+- Consider an example dataset with $y$, $x_1$, $x_2$, and $x_3$; we fit the following models:
+
+    - `m1`: $y \sim x_1$ (AIC = 250, BIC = 255)
+    
+    - `m2`: $y \sim x_1 + x_2$ (AIC = 240, BIC = 248)
+    
+    - `m3`: $y \sim x_1 + x_2 + x_3$ (AIC = 245, BIC = 256)
+    
+- We would then declare `m2` the best fitting model as its AIC and BIC values are the lowest.
+
+## Model Diagnostics: Model Fit -- AIC and BIC (R)
+
+- To check AIC and BIC, we will use the standard functions in base R,
+
+```{r}
+#| eval: false
+model %>% AIC()
+model %>% BIC()
+```
+
+## Example Set Up
+
+- Let's return to our Mickey and friends example,
+
+```{r}
+clubhouse <- read_csv("~/Desktop/GitHub/samanthaseals/STA4231_STA6262/files/data/lectures/W1_mickey_clubhouse.csv")
+head(clubhouse)
+```
+
+## Model Diagnostics: Model Fit -- AIC and BIC
+
+- Recall one of the models we examined in the visualization lecture.
+
+    - We looked at clubhouse happiness (*clubhouse_happiness*) as a function of time spent with friends (*time_with_friends*), big, goofy laughs (*goofy_laughs*), and how much Donald grumbles (*donald_grumbles*).
+
+```{r}
+h1 <- glm(clubhouse_happiness ~ time_with_friends + goofy_laughs + donald_grumbles,
+          family = "gaussian",
+          data = clubhouse)
+h1 %>% tidy()
+```
+
+$$
+\hat{\text{happiness}} = 47.58 + 3.58 \text{ time} + 0.66 \text{ laughs} - 1.06 \text{ grumbles}
+$$
+
+## Model Diagnostics: Model Fit -- AIC and BIC
+
+- Let's now consider a set of models,
+
+    - `h1`: clubhouse_happiness ~ time_with_friends + goofy_laughs + donald_grumbles
+    
+    - `h2`: clubhouse_happiness ~ time_with_friends + goofy_laughs
+    
+    - `h3`: clubhouse_happiness ~ goofy_laughs + donald_grumbles
+
+```{r}
+h1 <- glm(clubhouse_happiness ~ time_with_friends + goofy_laughs + donald_grumbles, family = "gaussian", data = clubhouse)
+h2 <- glm(clubhouse_happiness ~ time_with_friends + goofy_laughs, family = "gaussian", data = clubhouse)
+h3 <- glm(clubhouse_happiness ~ goofy_laughs + donald_grumbles, family = "gaussian", data = clubhouse)
+```
+
+## Model Diagnostics: Model Fit -- AIC and BIC
+
+- Now, let's compare the AIC values for these models.
+
+```{r}
+AIC(h1) # time_with_friends + goofy_laughs + donald_grumbles
+AIC(h2) # time_with_friends + goofy_laughs
+AIC(h3) # goofy_laughs + donald_grumbles
+```
+
+- According to the AIC, the full model (`time_with_friends + goofy_laughs + donald_grumbles`) fits the data best.
+
+## Model Diagnostics: Model Fit -- AIC and BIC
+
+- Now, let's compare the BIC values for these models.
+
+```{r}
+BIC(h1) # time_with_friends + goofy_laughs + donald_grumbles
+BIC(h2) # time_with_friends + goofy_laughs
+BIC(h3) # goofy_laughs + donald_grumbles
+```
+
+- According to the BIC, the full model (`time_with_friends + goofy_laughs + donald_grumbles`) fits the data best.
+
+## Model Diagnostics: Model Fit -- AIC and BIC
+
+- Putting the values in a table,
+
+| Model | AIC    | BIC    |
+|:-------:|:--------:|:--------:|
+| `h1`    | 2222.259 | 2240.778 |
+| `h2`    | 2274.454 | 2289.269 |
+| `h3`    | 2252.592 | 2267.407 |
+
+- Both the AIC and BIC indicate that `h1` is the best fitting model.
+
+- We can see that BIC > AIC consistently, which is expected.
+
+    - Remember, the BIC has a stronger penalty for the number of terms in the model. 
+
+    
+## Model Diagnostics: Outliers
+
+- The word "outlier" is part of our every day language.
+
+- Mathematically, an outlier is an observation that lies an abnormal distance from other values in a random sample from a population.
+
+    - We can have outliers in $y$ (response) or in $x_i$ (predictors).
+    
+- Outliers in $y$ are observations with large residuals and what we mean by "outliers" in the formal sense.
+
+- Outliers can have a significant impact on the regression model.
+
+    - They can skew the results, leading to biased estimates of the regression coefficients.
+    
+    - They can also affect the overall fit of the model, leading to misleading conclusions.
+    
+    
+## Model Diagnostics: Outliers 
+
+- Recall the (mathematical) definition of the residual:
+
+$$
+e_i = y_i - \hat{y}_i
+$$
+
+- We are instead interested in the *standardized* residual, which accounts for the leverage ($h_i$) of the observation.
+
+$$
+e_{i_{\text{std}}} = \frac{e_i}{\sqrt{\text{MSE}(1-h_i)}}
+$$
+
+- Ultimately, we want all of our residuals as close to 0 as possible. However, 
+    
+    - if $|e_{i_{\text{std}}}| > 2.5 \ \to \ $ outlier, and
+    - if $|e_{i_{\text{std}}}| > 3 \ \to \ $ extreme outlier.
+
+## Model Diagnostics: Outliers (R)
+
+- We will use the `rstandard()` function in base R to find the residuals.
+
+- For ease of examining in large datasets, we will use it to create a "flag."
+
+```{r}
+#| eval: false
+dataset <- dataset %>%
+  mutate(outlier =  if_else(abs(rstandard(model))>2.5, "Suspected", "Not Suspected"))
+```
+
+- Then, we can count the number of outliers,
+
+```{r}
+#| eval: false
+dataset %>% count(outlier)
+```
+
+- or we could only look at outliers from the dataset,
+
+```{r}
+#| eval: false
+all_outliers <- dataset %>% filter(outlier == TRUE)
+```
+
+- or we also exclude outliers from the dataset,
+
+```{r}
+#| eval: false
+no_outliers <- dataset %>% filter(outlier == FALSE)
+```
+
+## Model Diagnostics: Outliers
+
+- Let's return to our Mickey and friends example, recalling the models we created for the AIC and BIC example.
+
+    - `h1`: clubhouse_happiness ~ time_with_friends + goofy_laughs + donald_grumbles
+    
+    - `h2`: clubhouse_happiness ~ time_with_friends + goofy_laughs
+    
+    - `h3`: clubhouse_happiness ~ goofy_laughs + donald_grumbles
+
+- Let's examine the outliers. First, we create the flags.
+
+```{r}
+clubhouse <- clubhouse %>%
+  mutate(outlier_h1 =  if_else(abs(rstandard(h1))>2.5, "Suspected", "Not Suspected"),
+         outlier_h2 =  if_else(abs(rstandard(h2))>2.5, "Suspected", "Not Suspected"),
+         outlier_h3 =  if_else(abs(rstandard(h3))>2.5, "Suspected", "Not Suspected"))
+```
+
+- Note!!! I am adding the flags *for each model* because the outliers can differ by model, and I want to demonstrate that here.
+
+    - In my every day life, I only look at diagnostics for the final model we are using.
+
+## Model Diagnostics: Outliers
+
+- Now that we have the flags, let's look at the number of outliers by model:
+
+```{r}
+clubhouse %>% count(outlier_h1)
+clubhouse %>% count(outlier_h2)
+clubhouse %>% count(outlier_h3)
+```
+
+## Model Diagnostics: Outliers
+
+- Looking at the residual patterns across models:
+
+```{r}
+clubhouse %>% count(outlier_h1, outlier_h2, outlier_h3)
+```
+
+- This demonstrates that just because it is a suspected outlier in one model, it may not be a suspected outlier in another model.
+
+## Model Diagnostics: Outliers
+
+- Finally, how do we handle outliers?
+
+- My approach:
+
+    - Investigate the outlier: try to determine if it is a data entry error or a valid observation.
+    
+        - This requires discussion with those involved with data collection and is not possible in the classroom setting.
+        
+        - e.g., BMI of 93 in the Jackson Heart Study
+    
+    - Sensitivity analysis: fit the model with and without the outlier(s) to see how much the results change.
+    
+- Please note that we should always be cautious when removing outliers from the dataset.
+
+    - We do not want to curate data to fit our preconceived notions.
+    
+    - Always document any decisions made regarding outliers and justify them based on nonstatistical reasoning (e.g., data entry error that cannot be remedied).
+
+## Model Diagnostics: Leverage and Influence
+
+- Now, what about outliers in $x_i$ (the predictors)?
+
+- These points can have high *leverage* and/or be *influential*.
+
+    - Leverage measures how far an observation's predictor values are from the *mean* of the predictor values.
+    
+    - Influential points are observations that have a *significant impact* on the regression model's estimates.
+    
+        - i.e., they are observations that are "pulling" the regression line towards themselves.
+        
+- We will use Cook's distance to assess leverage and influence.
+
+- Like outliers, an observation's leverage and influence values depend on the model that was specified.
+
+    - i.e., we will need to check these diagnostics for each model we are considering.
+    
+## Model Diagnostics: Leverage and Influence
+
+- Before we talk about Cook's distance, let's consider the *leverage*, or $h_i$. Mathematically,
+
+$$
+h_i = \frac{1}{n} + \frac{(x_i - \bar{x})^2}{\sum_{j=1}^{n} (x_j - \bar{x})^2}
+$$
+
+- Conceputally, leverage measures how far an observation's predictor values are from the *mean* of the predictor values and compares it to the overall variability in the predictor values.
+
+    - Observations with high leverage have predictor values that are far from the mean of the predictor values.
+
+- On the previous slide, we said we will instead use Cook's distance, which combines information about both the residual and leverage of each observation.
+
+    - Thus, we will not find the $h_i$ values directly.
+
+## Model Diagnostics: Leverage and Influence 
+
+- Cook's distance combines information about the residual and leverage of each observation. Mathematically,
+
+$$
+D_i = \frac{1}{(k+1)\text{MSE}} \left( \frac{h_i}{(1-h_i)^2} \right)e_i^2
+$$
+
+- where
+    
+    - $e_i$ is the residual for observation $i$, 
+    
+    - $h_i$ is the leverage for observation $i$,
+    
+    - $k$ is the number of predictor terms in the model, and
+    
+    - MSE is the mean squared error of the model.
+    
+## Model Diagnostics: Leverage and Influence 
+
+- How do we interpret Cook's distance?
+
+    - There are different cutoff rules suggested in the literature. 
+    
+    - Common cutoff: if $D_i > 4/(n - k - 1)$, then observation $i$ is considered influential.
+    
+- For a more intuitive approach, we will graph the Cook's distance values.
+
+    - I look for observations with substantially larger Cook's distance values than the rest of the observations.
+    
+    - These are the influential points.
+
+## Model Diagnostics: Influence and Leverage (R)
+
+- We will return to the `ssstats` package and use the `cooks()` function to generate the graph we need.
+
+```{r}
+#| eval: false
+model %>% cooks()
+```
+
+## Model Diagnostics: Influence and Leverage
+
+- Applying this to our example,
+
+```{r}
+#| fig-align: 'center'
+h1 %>% cooks()
+```
+
+## Model Diagnostics: Influence and Leverage
+
+- Applying this to our example,
+
+```{r}
+#| fig-align: 'center'
+h2 %>% cooks()
+```
+
+## Model Diagnostics: Influence and Leverage
+
+- Applying this to our example,
+
+```{r}
+#| fig-align: 'center'
+h3 %>% cooks()
+```
+
+## Model Diagnostics: Influence and Leverage
+
+- Let's put these graph side-by-side for comparison.
+
+```{r}
+#| echo: false
+#| fig-align: 'center'
+max_cd <- max(
+  cooks.distance(h1),
+  cooks.distance(h2),
+  cooks.distance(h3),
+  na.rm = TRUE
+)
+ggpubr::ggarrange(
+  h1 %>% cooks() + ggtitle("h1") + ylim(0, max_cd),
+  h2 %>% cooks() + ggtitle("h2") + ylim(0, max_cd),
+  h3 %>% cooks() + ggtitle("h3") + ylim(0, max_cd),
+  ncol = 3, nrow = 1
+)
+```
+
+## Model Diagnostics: Leverage and Influence
+
+- Finally, how do we handle influential points? Recall: they are technically outliers....
+
+- My approach:
+
+    - Investigate the outlier: try to determine if it is a data entry error or a valid observation.
+    
+        - This requires discussion with those involved with data collection and is not possible in the classroom setting.
+    
+    - Sensitivity analysis: fit the model with and without the outlier(s) to see how much the results change.
+    
+- Again, we should not formally remove influential points without investigation.
+
+    - Always document any decisions made regarding influential points and justify them based on nonstatistical reasoning (e.g., data entry error that cannot be remedied).
+
+## Model Diagnostics: Multicollinearity
+
+- Multicollinearity occurs when two or more predictor variables in a regression model are highly correlated.
+    
+- Consequences of multicollinearity:
+
+    - Inflated standard errors of the regression coefficients.
+    
+    - Unstable coefficient estimates that can change significantly with small changes in the data.
+    
+    - Difficulty in determining the individual effect of each predictor on the response variable.
+    
+        - Mulitcollinearity $\to$ predictors contain overlapping information.
+        
+- Note that multicollinearity doesn't necessarily "break" the model, but instead, makes the coefficients hard to trust.        
+
+## Model Diagnostics: Multicollinearity
+
+- To assess multicollinearity, we can use the variance inflation factor (VIF). 
+
+    - VIF measures how much the variance of a coefficient is inflated because *predictors overlap*.
+
+- Mathematically,
+
+$$
+\text{VIF}_j = \frac{1}{1 - R_j^2}
+$$
+
+- here,
+
+    - $j$ indexes the predictor number; $j = 1, 2, ..., k$, and
+    
+    - $R_j^2$ is the $R^2$ when regressing predictor $j$ on all other predictors in the model.
+    
+        - i.e., we find the $R^2$ value for j ~ x<sub>1</sub> + ... x<sub>j-1</sub> + x<sub>j+1</sub> + ... + x<sub>k</sub>.
+        
+## Model Diagnostics: Multicollinearity
+
+- How do we make the call that multicollinearity exists?
+
+    - Like Cook's distance, there are different cutoff rules suggested in the literature.
+    
+    - Typical cutoff: if VIF > 5 (or 10), then multicollinearity is a concern.
+    
+$$
+\text{VIF}_j = \frac{1}{1 - R_j^2}
+$$    
+    
+- The closer VIF is to 1, the less multicollinearity there is.
+
+    - If $R_j^2 \to 0$ (the other $k-1$ predictors do a terrible job of predicting $x_j$) then $\text{VIF}_j \to 1$ (no multicollinearity).
+    
+    - If $R_j^2 \to 1$ (the other $k-1$ predictors do a fantastic job of predicting $x_j$), then $\text{VIF}_j \to \infty$ (severe multicollinearity).
+
+## Model Diagnostics: Multicollinearity (R)
+
+- We will use the `vif()` function from the `car` package.
+
+```{r}
+#| eval: false
+model %>% car::vif()
+```
+
+- Note: recall that the `car` package overwrites some functions from `tidyverse`, so I typically do not load the full library.
+    
+## Model Diagnostics:  Multicollinearity
+
+- Let's check the multicollinearity in our Mickey and friends examples,
+
+```{r}
+h1 %>% car::vif()
+h2 %>% car::vif()
+h3 %>% car::vif()
+```
+
+## Model Diagnostics: Multicollinearity
+
+- Chip and Dale are running "Snack Recovery Missions" around Mickey's Clubhouse after Pluto keeps "misplacing" everyone’s treats.
+
+- For each mission, they record:
+
+    - minutes_to_recover (response): How long it took to recover the snack stash (minutes)
+    - distance_m: Total distance traveled during the mission (meters)
+    - steps: Total steps taken (wearable tracker)
+    - calories: Calories burned during the mission
+    - wrong_turns: Number of wrong turns / false leads
+    - rainbow_map: Whether they used Minnie's Rainbow Map (0/1), which helps reduce time.
+    
+```{r}
+#| echo: false
+set.seed(2222)
+n <- 200
+effort <- rnorm(n, mean = 0, sd = 1)
+chip_dale <- tibble(
+  mission_id = 1:n,
+  distance_m = 1200 + 350*effort + rnorm(n, 0, 60),
+  steps      = 1600 + 520*effort + rnorm(n, 0, 90),
+  calories   =  70 +  18*effort + rnorm(n, 0, 4),
+  wrong_turns = pmax(0, round(rnorm(n, mean = 3.2, sd = 1.7))),
+  rainbow_map = rbinom(n, size = 1, prob = 0.45)
+) %>%
+  mutate(
+    minutes_to_recover =
+      18 +
+      3.2*effort +                      # underlying difficulty/effort
+      1.9*wrong_turns -                 # wrong turns slow things down
+      3.5*rainbow_map +                 # map helps
+      rnorm(n, 0, 2.8)                  # mission-to-mission randomness
+  )
+```
+
+## Model Diagnostics: Multicollinearity
+
+- Fitting the full model,
+
+```{r}
+m_full <- glm(minutes_to_recover ~ distance_m + steps + calories + wrong_turns + rainbow_map,
+              family = "gaussian",
+              data = chip_dale)
+tidy(m_full)
+```
+
+## Model Diagnostics: Multicollinearity
+
+- For completeness, let's check the assumptions,
+
+```{r}
+#| fig-align: 'center'
+m_full %>% reg_check()
+```
+
+## Model Diagnostics: Multicollinearity
+
+- Let's also check for outliers,
+
+```{r}
+chip_dale <- chip_dale %>%
+  mutate(outlier =  if_else(abs(rstandard(m_full))>2.5, "Suspected", "Not Suspected"))
+chip_dale %>% count(outlier)
+```
+
+## Model Diagnostics: Multicollinearity
+
+- Let's check Cook's distance,
+
+```{r}
+#| fig-align: 'center'
+m_full %>% cooks()
+```
+
+## Model Diagnostics: Multicollinearity
+
+- Finally, let's look at multicollinearity,
+
+```{r}
+m_full %>% car::vif()
+```
+
+- YIKES! Distance, steps, and calories indicate multicollinearity.
+
+    - Scientifically, this makes sense: they are all measuring "effort," but in different ways.
+    
+## Model Diagnostics: Multicollinearity
+
+- How do we handle multicollinearity?
+
+    - Simple: remove one or more of the correlated predictors from the model.
+    
+        - e.g., in our example, we could remove distance and steps, keeping only calories.
+        
+    - Advanced: combine the correlated predictors into a single predictor using techniques such as principal component analysis (PCA) or factor analysis.
+    
+        - e.g., in our example, we could create an "effort" score that combines distance, steps, and calories.
+    
+- When this happens, I will figure out specifically what variables do not play well with others.
+
+    - Then, I will have a conversation with the person I'm working with to determine which variable(s) make the most sense to keep in the model.
+    
+        - e.g., in our example, maybe we are focused on calories burned, so we keep that variable rather than the distance walked or the steps taken.
+
+## Model Diagnostics: Multicollinearity
+
+- Let's fit a reduced model without distance and steps,
+
+```{r}
+m_reduced <- glm(minutes_to_recover ~ calories + wrong_turns + rainbow_map,
+              family = "gaussian",
+              data = chip_dale)
+tidy(m_reduced)
+```
+
+## Model Diagnostics: Multicollinearity
+
+- Checking multicollinearity,
+
+```{r}
+m_reduced %>% car::vif()
+```
+
+## Model Diagnostics: Multicollinearity
+
+- What about other diagnostics?
+
+```{r}
+#| echo: false
+#| fig-align: 'center'
+ggpubr::ggarrange(
+  m_full %>% reg_check() + ggtitle("full"),
+  m_reduced %>% reg_check() + ggtitle("reduced"),
+  ncol = 2, nrow = 1
+)
+```
+
+## Model Diagnostics: Multicollinearity
+
+- What about other diagnostics?
+
+```{r}
+chip_dale %>% 
+  mutate(outlier =  if_else(abs(rstandard(m_full))>2.5, "Suspected", "Not Suspected")) %>% 
+  count(outlier)
+chip_dale %>% 
+  mutate(outlier =  if_else(abs(rstandard(m_reduced))>2.5, "Suspected", "Not Suspected")) %>% 
+  count(outlier)
+```
+
+## Model Diagnostics: Multicollinearity
+
+- What about other diagnostics?
+
+```{r}
+#| echo: false
+#| fig-align: 'center'
+ggpubr::ggarrange(
+  m_full %>% cooks() + ggtitle("full"),
+  m_reduced %>% cooks() + ggtitle("reduced"),
+  ncol = 2, nrow = 1
+)
+```
+
+## Model Diagnostics: Sensitivity Analysis
+
+- The concept of sensitivity analysis has been mentioned on previous slides.
+
+- This is where we remove specific "problem points" (outliers or influential points) from the dataset and refit the model to see how much the results change.
+
+- Let's consider the final model from the Chip and Dale example,
+
+```{r}
+m_reduced %>% tidy(conf.int = TRUE)
+```
+
+$$
+\hat{\text{recover}} = 16.95 + 0.18 \text{ calories} + 1.92 \text{ wrong turns} - 3.48 \text{ rainbow map}
+$$
+
+## Model Diagnostics: Sensitivity Analysis
+
+- When we checked the potential outliers, we saw
+
+```{r}
+chip_dale <- chip_dale %>% 
+  mutate(outlier =  if_else(abs(rstandard(m_reduced))>2.5, "Suspected", "Not Suspected")) 
+chip_dale %>% count(outlier) 
+```
+
+- There are 2 potential outliers.
+
+## Model Diagnostics: Sensitivity Analysis
+
+- Let's check these observations:
+
+```{r}
+chip_dale %>% filter(outlier == "Suspected") %>% head()
+```
+- Looking at summary statistics,
+
+```{r}
+chip_dale %>% mean_median(minutes_to_recover, distance_m, steps, calories, wrong_turns) 
+```
+
+## Model Diagnostics: Sensitivity Analysis
+
+- Let's also revisit Cook's distance,
+
+```{r}
+#| fig-align: 'center'
+#| echo: false
+m_reduced %>% cooks()
+```
+
+## Model Diagnostics: Sensitivity Analysis
+
+- In our diagnostics for extreme values, we have found that observation 29 is both an issue as an outlier *and* as a leverage point, while observation 40 only shows up as an outlier.
+
+- Let's consider the following modeling situations:
+
+    1. Full dataset -- do not remove either observation.
+    2. Remove observation 29 only.
+    3. Remove observation 29 and 40.
+    
+- We will then compare the results across these three situations.
+
+## Model Diagnostics: Sensitivity Analysis
+
+- There are multiple ways to approach this in R.
+
+    - We could create separate datasets removing values.
+    - We could use `tidyverse` functions to filter within the modeling function.
+
+- For simplicity, we will use three datasets:
+
+    1. `chip_dale`: original (full) dataset.
+    2. `chip_dale_29`: dataset without observation 29.
+    3. `chip_dale_29_40`: dataset without observations 29 and 40.
+
+- The data steps are as follows,
+
+```{r}
+chip_dale_29 <- chip_dale %>% filter(mission_id != 29)
+chip_dale_29_40 <- chip_dale %>% filter(!mission_id %in% c(29,40))
+```
+
+## Model Diagnostics: Sensitivity Analysis
+
+- Now, we fit the three models,
+
+```{r}
+m_full <- glm(minutes_to_recover ~ calories + wrong_turns + rainbow_map,
+              family = "gaussian",
+              data = chip_dale)
+m_29 <- glm(minutes_to_recover ~ calories + wrong_turns + rainbow_map,
+              family = "gaussian",
+              data = chip_dale_29)
+m_29_40 <- glm(minutes_to_recover ~ calories + wrong_turns + rainbow_map,
+              family = "gaussian",
+              data = chip_dale_29_40)
+```
+
+
+## Model Diagnostics: Sensitivity Analysis
+
+- Putting the results together in a table,
+
+| Term          | [Full](#app-m-full) | [No 29](#app-m-29) | [No 29 or 40](#app-m-29-40) |
+|:--------------|:----------------------:|:-----------------:|:----------------------:|
+| (Intercept) | 7.10 (*p* < 0.001) | 6.90 (*p* < 0.001) | 7.15 (*p* < 0.001) |
+| calories | 0.16 (*p* < 0.001) | 0.16 (*p* < 0.001) | 0.16 (*p* < 0.001) |
+| wrong turns | 1.75 (*p* < 0.001) | 1.81 (*p* < 0.001) | 1.79 (*p* < 0.001) |
+| rainbow map | -3.88 (*p* < 0.001) | -3.20 (*p* < 0.001) | -3.29 (*p* < 0.001) |
+
+- Questions to ask:
+
+    - Do the coefficient estimates change meaningfully? Is the scientific interpretation the "same"?
+    
+    - Do the statistical significances change?
+    
+## Model Diagnostics: Sensitivity Analysis
+
+- Removing these observations did not meaningfully change the coefficient estimates or their statistical significance.
+
+    - Across models, the scientific interpretations remained approximately the same.
+    
+        - Direction did not change.
+        
+        - Value of coefficients is similar across models.
+
+    - All predictors remained statistically significant at $\alpha = 0.05$, specifically with $p < 0.001$.
+    
+- So what would I do?
+
+    - My itention would be to keep all observations.
+    
+    - I would bring the results of the sensitivity analysis up when discussing the results with collaborators, and ask if they see anything "weird" about those specific observations.
+
+## Wrap Up
+
+- This lecture has covered the basics of model diagnostics related to model fit, outliers, leverage/influence, and multicollinearity.
+
+- We also discussed sensitivity analysis as a way to assess the impact of "problem points".
+
+- We must have a nonstatistical justification for removing any data points from the final analysis.
+
+    - Always document any decisions made regarding inclusion or exclusion of data points.
+    
+- We are helping others explore their data on the quantitative side, but we need their domain expertise to make final decisions.
+
+    - I tend to tell my collaborators, "I am just the statistician." I am a fact finder and a detective. I can answer questions using the data, but I need their scientific expertise to help make sense of it all.
+
+# Appendix
+
+## Appendix: `m_full` results {#app-m-full}
+
+- For the full model,
+
+```{r}
+m_full <- glm(minutes_to_recover ~ calories + wrong_turns + rainbow_map,
+              family = "gaussian",
+              data = chip_dale)
+m_full %>% tidy(conf.int = TRUE) %>% select(term, estimate, conf.low, conf.high, p.value)
+```
+
+## Appendix: `m_29` results {#app-m-29}
+
+- For the model without observation 29,
+
+```{r}
+m_29 <- glm(minutes_to_recover ~ calories + wrong_turns + rainbow_map,
+              family = "gaussian",
+              data = chip_dale_29)
+m_29 %>% tidy(conf.int = TRUE) %>% select(term, estimate, conf.low, conf.high, p.value)
+```
+
+## Appendix: `m_29_40` results {#app-m-29-40}
+
+- For the model without observations 29 and 40,
+
+```{r}
+m_29_40 <- glm(minutes_to_recover ~ calories + wrong_turns + rainbow_map,
+              family = "gaussian",
+              data = chip_dale_29_40)
+m_29_40 %>% tidy(conf.int = TRUE) %>% select(term, estimate, conf.low, conf.high, p.value)
+```

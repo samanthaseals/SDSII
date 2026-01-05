@@ -1,0 +1,755 @@
+---
+title: "Visualization of the Model: <br>Multiple Linear Regression"
+execute:
+  echo: true
+  warning: false
+  message: false
+format: 
+  revealjs:
+    theme: default
+    self-contained: true
+    slide-number: true
+    width: 1600
+    height: 900
+    df-print: paged
+    html-math-method: katex
+    code-fold: false
+    code-tools: false
+    incremental: false
+editor: source
+---
+
+## Introduction
+
+- Recall the general linear model, $$y = \beta_0 + \beta_1 x_1 + ... + \beta_k x_k$$
+
+    - $\beta_0$ is the $y$-intercept, or the average outcome ($y$) when all $x_i = 0$.
+
+    - $\beta_i$ is the slope for predictor $i$ and describes the relationship between the predictor and the outcome, after adjusting (or accounting) for the other predictors in the model.
+    
+- In the last lecture, we used a linear model to explore the relationships between clubhouse happiness and laughs, grumbles, and time spent with friends.    
+
+## Lecture Example Set Up
+
+<!-- 
+If you are looking at the raw .qmd, note that
+the following code chunk has the option "echo: false" so that
+the output is displayed but the code itself is hidden. 
+using echo: false here is just to make the slides cleaner.
+-->
+
+```{r}
+#| echo: false
+library(tidyverse)
+library(broom)
+```
+
+- On a busy day at the clubhouse, Mickey Mouse wants to understand what drives "happiness" at the end of the day. For each day, he records (in the <u>**clubhouse**</u> dataset):
+
+    - Time with friends (in hours; *time_with_friends*): how many hours Mickey spends hanging out with his friends.
+    - Goofy Laughs (a count; *goofy_laughs*) – how many big goofy laughs happen that day.
+    - Donald Grumbles (a count; *donald_grumbles*): how many times Donald gets frustrated and grumbles.
+    - Clubhouse Happiness (a score; *clubhouse_happiness*): an overall happiness score at the end of the day.
+    
+```{r}
+clubhouse <- read_csv("~/Desktop/GitHub/samanthaseals/STA4231_STA6262/files/data/lectures/W1_mickey_clubhouse.csv")
+```    
+
+
+
+## Example 1: Simple Linear Regression
+
+- For our first example, let's look at clubhouse happiness as a function of time spent with friends.
+
+```{r}
+m1 <- glm(clubhouse_happiness ~ time_with_friends, 
+         family = "gaussian",
+         data = clubhouse)
+m1 %>% tidy()
+```
+
+$$
+\hat{\text{happiness}} = 57.55 + 3.49 \text{ time}
+$$
+
+## Model Visualization: Simple Linear Regression
+
+- We can visualize this simple linear regression model with a scatterplot and regression line.
+
+- To create the regression line, we need to create predicted values from our model.
+
+```{r}
+clubhouse <- clubhouse %>%
+  mutate(predicted_happiness_k1 = 57.55 + 3.49*time_with_friends)
+```
+
+<!-- 
+note: I only include the code below to make a few obs
+to the slides. please do not use head() on your assignments
+-->
+
+<!-- 
+If you are looking at the raw .qmd, note that
+the following code chunk has the option "echo: false" so that
+the output is displayed but the code itself is hidden. 
+using echo: false here is just to make the slides cleaner.
+-->
+
+```{r}
+#| echo: false
+clubhouse %>% 
+  select(clubhouse_happiness, time_with_friends, predicted_happiness_k1) %>% 
+  head()
+```
+
+- Now we can plot the data and the regression line.
+
+## Plotting using `library(ggplot2)`
+
+- The `ggplot()` function initializes a ggplot object.
+
+```{r}
+#| eval: false
+#| fig-align: 'center'
+dataset_name %>% ggplot()
+```
+
+- In our example,
+
+```{r}
+#| eval: false
+#| fig-align: 'center'
+clubhouse %>% ggplot()
+```
+
+## Plotting using `library(ggplot2)`
+
+```{r}
+#| echo: false
+#| fig-align: 'center'
+clubhouse %>% ggplot()
+```
+
+## Plotting using `library(ggplot2)`
+
+- We must define the aesthetics (i.e., the $x$ and $y$ variables) inside `ggplot()`.
+    
+```{r}
+#| eval: false
+#| fig-align: 'center'
+dataset_name %>% ggplot(aes(x = variable_on_x,
+                            y = variable_on_y))
+```
+
+- In our example,
+
+```{r}
+#| eval: false
+#| fig-align: 'center'
+clubhouse %>% ggplot(aes(x = time_with_friends,
+                         y = clubhouse_happiness))
+```
+
+## Plotting using `library(ggplot2)`
+    
+```{r}
+#| echo: false
+#| fig-align: 'center'
+clubhouse %>% ggplot(aes(x = time_with_friends,
+                         y = clubhouse_happiness))
+```
+
+## Plotting using `library(ggplot2)`
+
+- We must add `geom_TYPE()` layers to actually see anything on the plot.
+
+    - We layer multiple `geom`s to the plot using `+` operator. 
+    
+```{r}
+#| eval: false
+#| fig-align: 'center'
+dataset_name %>% ggplot(aes(x = variable_on_x,
+                            y = variable_on_y)) +
+  geom_TYPE()
+```
+
+- In our example,
+
+```{r}
+#| eval: false
+#| fig-align: 'center'
+clubhouse %>% ggplot(aes(x = time_with_friends,
+                         y = clubhouse_happiness)) +
+  geom_point()
+```
+
+## Plotting using `library(ggplot2)`
+    
+```{r}
+#| echo: false
+#| fig-align: 'center'
+clubhouse %>% ggplot(aes(x = time_with_friends,
+                         y = clubhouse_happiness)) +
+  geom_point()
+```
+
+## Plotting using `library(ggplot2)`
+
+- We continue to layer our plot with additional `geom_TYPE()`s,
+    
+```{r}
+#| eval: false
+#| fig-align: 'center'
+dataset_name %>% ggplot(aes(x = variable_on_x,
+                            y = variable_on_y)) +
+  geom_TYPE() +
+  geom_TYPE()
+```
+
+- In our example,
+
+```{r}
+#| eval: false
+#| fig-align: 'center'
+clubhouse %>% ggplot(aes(x = time_with_friends,
+                         y = clubhouse_happiness)) +
+  geom_point() + 
+  geom_line()
+```
+
+## Plotting using `library(ggplot2)`
+    
+```{r}
+#| echo: false
+#| fig-align: 'center'
+clubhouse %>% ggplot(aes(x = time_with_friends,
+                         y = clubhouse_happiness)) +
+  geom_point() + 
+  geom_line()
+```
+
+## Plotting using `library(ggplot2)`
+
+- Ooops! That `geom_line()` didn't work as expected. 
+
+    - In the `ggplot()`, we set $y$ to be the actual happiness values (*clubhouse_happiness*).
+    - We now need to overwrite the $y$ variable to be the the predicted values from our model (*predicted_happiness*).
+    
+```{r}
+#| eval: false
+#| fig-align: 'center'
+dataset_name %>% ggplot(aes(x = variable_on_x,
+                            y = variable_on_y)) +
+  geom_TYPE() +
+  geom_TYPE(aes(y = predicted_y))
+```
+
+- In our example,
+
+```{r}
+#| eval: false
+#| fig-align: 'center'
+clubhouse %>% ggplot(aes(x = time_with_friends,
+                         y = clubhouse_happiness)) +
+  geom_point() + 
+  geom_line(aes(y = predicted_happiness_k1))
+```
+
+## Plotting using `library(ggplot2)`
+    
+```{r}
+#| echo: false
+#| fig-align: 'center'
+clubhouse %>% ggplot(aes(x = time_with_friends,
+                         y = clubhouse_happiness)) +
+  geom_point() + 
+  geom_line(aes(y = predicted_happiness_k1))
+```
+
+## Plotting using `library(ggplot2)`
+
+- Now, we can work on "prettying" up our plot.
+
+    - My first step is to change the theme using `theme_NAME()`.
+    
+```{r}
+#| eval: false
+#| fig-align: 'center'
+dataset_name %>% ggplot(aes(x = variable_on_x,
+                            y = variable_on_y)) +
+  geom_TYPE() +
+  geom_TYPE(aes(y = predicted_y)) +
+  theme_NAME()
+```
+
+- In our example,
+
+```{r}
+#| eval: false
+#| fig-align: 'center'
+clubhouse %>% ggplot(aes(x = time_with_friends,
+                         y = clubhouse_happiness)) +
+  geom_point() + 
+  geom_line(aes(y = predicted_happiness_k1)) +
+  theme_bw()
+```
+
+## Plotting using `library(ggplot2)`
+    
+```{r}
+#| echo: false
+#| fig-align: 'center'
+clubhouse %>% ggplot(aes(x = time_with_friends,
+                         y = clubhouse_happiness)) +
+  geom_point() + 
+  geom_line(aes(y = predicted_happiness_k1)) +
+  theme_bw()
+```
+
+## Plotting using `library(ggplot2)`
+
+- Now, we can work on "prettying" up our plot.
+
+    - Then, I want to clean up the axis titles.
+    
+```{r}
+#| eval: false
+#| fig-align: 'center'
+dataset_name %>% ggplot(aes(x = variable_on_x,
+                            y = variable_on_y)) +
+  geom_TYPE() +
+  geom_TYPE(aes(y = predicted_y)) +
+  labs(x = "x axis title",
+       y = "y axis title") +
+  theme_NAME()
+```
+
+- In our example,
+
+```{r}
+#| eval: false
+#| fig-align: 'center'
+clubhouse %>% ggplot(aes(x = time_with_friends,
+                         y = clubhouse_happiness)) +
+  geom_point() + 
+  geom_line(aes(y = predicted_happiness_k1)) +
+  labs(x = "Time Spent with Friends (minutes)",
+       y = "Clubhouse Happiness") +
+  theme_bw()
+```
+
+## Plotting using `library(ggplot2)`
+    
+```{r}
+#| echo: false
+#| fig-align: 'center'
+clubhouse %>% ggplot(aes(x = time_with_friends,
+                         y = clubhouse_happiness)) +
+  geom_point() + 
+  geom_line(aes(y = predicted_happiness_k1)) +
+  labs(x = "Time Spent with Friends (minutes)",
+       y = "Clubhouse Happiness") +
+  theme_bw()
+```
+
+## Plotting using `library(ggplot2)`
+
+- Now, we can work on "prettying" up our plot.
+
+    - We could also add a graph title.
+    
+```{r}
+#| eval: false
+#| fig-align: 'center'
+dataset_name %>% ggplot(aes(x = variable_on_x,
+                            y = variable_on_y)) +
+  geom_TYPE() +
+  geom_TYPE(aes(y = new_y)) +
+  labs(x = "x axis title",
+       y = "y axis title",
+       title = "title of graph") +
+  theme_NAME()
+```
+
+- In our example,
+
+```{r}
+#| eval: false
+#| fig-align: 'center'
+clubhouse %>% ggplot(aes(x = time_with_friends,
+                         y = clubhouse_happiness)) +
+  geom_point() + 
+  geom_line(aes(y = predicted_happiness_k1)) +
+  labs(x = "Time Spent with Friends (minutes)",
+       y = "Clubhouse Happiness",
+       title = "Predicted relationship between happiness and time spent with friends") +
+  theme_bw()
+```
+
+## Plotting using `library(ggplot2)`
+    
+```{r}
+#| echo: false
+#| fig-align: 'center'
+clubhouse %>% ggplot(aes(x = time_with_friends,
+                         y = clubhouse_happiness)) +
+  geom_point() + 
+  geom_line(aes(y = predicted_happiness_k1)) +
+  labs(x = "Time Spent with Friends (minutes)",
+       y = "Clubhouse Happiness",
+       title = "Predicted relationship between happiness and time spent with friends") +
+  theme_bw()
+```
+
+## Plotting using `library(ggplot2)`
+
+- Now, we can work on "prettying" up our plot.
+
+    - Outside of `aes()`, we can specify colors, line types, point shapes, etc.
+    
+```{r}
+#| eval: false
+#| fig-align: 'center'
+dataset_name %>% ggplot(aes(x = variable_on_x,
+                            y = variable_on_y)) +
+  geom_TYPE(color = "#HEX", size = size_number) +
+  geom_TYPE(aes(y = new_y), color = "#HEX", size = size_number) +
+  labs(x = "x axis title",
+       y = "y axis title",
+       title = "title of graph") +
+  theme_NAME()
+```
+
+- In our example,
+
+```{r}
+#| eval: false
+#| fig-align: 'center'
+clubhouse %>% ggplot(aes(x = time_with_friends,
+                         y = clubhouse_happiness)) +
+  geom_point(color = "#009CDE", size = 3) + 
+  geom_line(aes(y = predicted_happiness_k1), color = "#004C97", size = 1.5) +
+  labs(x = "Time Spent with Friends (minutes)",
+       y = "Clubhouse Happiness") +
+  theme_bw()
+```
+
+## Plotting using `library(ggplot2)`
+    
+```{r}
+#| echo: false
+#| fig-align: 'center'
+(k1 <- clubhouse %>% ggplot(aes(x = time_with_friends,
+                         y = clubhouse_happiness)) +
+  geom_point(color = "#009CDE", size = 3) + 
+  geom_line(aes(y = predicted_happiness_k1), color = "#004C97", size = 1.5) +
+  labs(x = "Time Spent with Friends (minutes)",
+       y = "Clubhouse Happiness") +
+  theme_bw())
+```
+
+## Example 2: Multiple Regression (*k* = 2)
+
+- For our second example, let's look at clubhouse happiness (*clubhouse_happiness*) as a function of time spent with friends (*time_with_friends*) and big, goofy laughs (*goofy_laughs*).
+
+```{r}
+m2 <- glm(clubhouse_happiness ~ time_with_friends + goofy_laughs, 
+          family = "gaussian",
+          data = clubhouse)
+m2 %>% tidy()
+```
+
+$$
+\hat{\text{happiness}} = 39.25 + 3.06 \text{ time} + 0.66 \text{ laughs}
+$$
+
+## Model Visualization: Multiple Regression
+
+- Now that there's an additional predictor, we can't easily visualize the model with a simple 2D scatterplot.
+
+    - In theory, we could create a 3D scatterplot with a regression plane, but those are hard to read and interpret.
+    
+- Instead, we will visualize the relationship between $y$ (clubhouse happiness) and $x_1$ (one predictor) while holding $x_2$ (the other predictor) constant.
+    
+- In our example,
+
+    - We will visualize the relationship between clubhouse happiness and time spent with friends.
+    
+    - Time spent with friends will be on the $x$-axis and allowed to vary.
+    
+    - We will hold goofy laughs constant at some value.
+    
+        - With continuous predictors, I typically plug in the `median()` when drafting initial graphs for collaborators.
+        
+## Model Visualization: Multiple Regression        
+
+```{r}
+clubhouse <- clubhouse %>%
+  mutate(predicted_happiness_k2 = 39.25 + 3.06*time_with_friends + 0.66*median(goofy_laughs))
+```
+
+<!-- 
+note: I only include the code below to make a few obs
+to the slides. please do not use head() on your assignments
+-->
+
+<!-- 
+If you are looking at the raw .qmd, note that
+the following code chunk has the option "echo: false" so that
+the output is displayed but the code itself is hidden. 
+using echo: false here is just to make the slides cleaner.
+-->
+
+```{r}
+#| echo: false
+clubhouse %>% 
+  mutate(goofy_laughs = median(goofy_laughs)) %>%
+  select(time_with_friends, goofy_laughs) %>% 
+  head()
+```
+
+## Plotting using `library(ggplot2)`
+
+- Then, constructing our graph,
+    
+```{r}
+#| eval: false
+#| fig-align: 'center'
+clubhouse %>% ggplot(aes(x = time_with_friends,
+                         y = clubhouse_happiness)) +
+  geom_point(color = "#009CDE", size = 3) + 
+  geom_line(aes(y = predicted_happiness_k2), color = "#004C97", size = 1.5) +
+  labs(x = "Time Spent with Friends (minutes)",
+       y = "Clubhouse Happiness") +
+  theme_bw()
+```
+
+## Plotting using `library(ggplot2)`
+    
+```{r}
+#| echo: false
+#| fig-align: 'center'
+(k2 <- clubhouse %>% ggplot(aes(x = time_with_friends,
+                         y = clubhouse_happiness)) +
+  geom_point(color = "#009CDE", size = 3) + 
+  geom_line(aes(y = predicted_happiness_k2), color = "#004C97", size = 1.5) +
+  labs(x = "Time Spent with Friends (minutes)",
+       y = "Clubhouse Happiness") +
+  theme_bw())
+```
+
+## Example 3: Multiple Regression (*k* = 3)
+
+- For our third example, let's return to our full model.
+
+- We looked at clubhouse happiness (*clubhouse_happiness*) as a function of time spent with friends (*time_with_friends*), big, goofy laughs (*goofy_laughs*), and how much Donald grumbles (*donald_grumbles*).
+
+```{r}
+m3 <- glm(clubhouse_happiness ~ time_with_friends + goofy_laughs + donald_grumbles,
+          family = "gaussian",
+          data = clubhouse)
+m3 %>% tidy()
+```
+
+$$
+\hat{\text{happiness}} = 47.58 + 3.58 \text{ time} + 0.66 \text{ laughs} - 1.06 \text{ grumbles}
+$$
+
+## Model Visualization: Multiple Regression
+
+- In this example, we have $k=3$ predictors.
+
+    - We can't easily visualize the model with a simple 2D scatterplot or even a 3D scatterplot.
+    
+- Instead, we will visualize the relationship between $y$ (clubhouse happiness) and $x_1$ (one predictor) while holding all other $x_i$ (the other predictors) constant.
+
+    - One $x_i$ will vary on the $x$-axis.
+    - We will plug in plausible values for the other predictors.
+    
+- In our example,
+
+    - We will visualize the relationship between clubhouse happiness and time spent with friends.
+    
+    - Time spent with friends will be on the $x$-axis and allowed to vary.
+    
+    - We will hold goofy laughs constant at some value.
+    - We will also hold Donald grumbles constant at some value.
+
+## Model Visualization: Multiple Regression
+
+```{r}
+clubhouse <- clubhouse %>%
+  mutate(predicted_happiness_k3 = 47.58 + 3.58*time_with_friends + 0.66*median(goofy_laughs) - 1.06*median(donald_grumbles))
+```
+
+<!-- 
+note: I only include the code below to make a few obs
+to the slides. please do not use head() on your assignments
+-->
+
+<!-- 
+If you are looking at the raw .qmd, note that
+the following code chunk has the option "echo: false" so that
+the output is displayed but the code itself is hidden. 
+using echo: false here is just to make the slides cleaner.
+-->
+
+```{r}
+#| echo: false
+clubhouse %>% 
+  mutate(goofy_laughs = median(goofy_laughs),
+         donald_grumbles = median(donald_grumbles)) %>% 
+  select(time_with_friends, goofy_laughs, donald_grumbles) %>%
+  head()
+```    
+
+## Plotting using `library(ggplot2)`
+
+- Then, constructing our graph,
+    
+```{r}
+#| eval: false
+#| fig-align: 'center'
+clubhouse %>% ggplot(aes(x = time_with_friends,
+                         y = clubhouse_happiness)) +
+  geom_point(color = "#009CDE", size = 3) + 
+  geom_line(aes(y = predicted_happiness_k3), color = "#004C97", size = 1.5) +
+  labs(x = "Time Spent with Friends (minutes)",
+       y = "Clubhouse Happiness") +
+  theme_bw()
+```
+
+## Plotting using `library(ggplot2)`
+    
+```{r}
+#| echo: false
+#| fig-align: 'center'
+(k3 <- clubhouse %>% ggplot(aes(x = time_with_friends,
+                         y = clubhouse_happiness)) +
+  geom_point(color = "#009CDE", size = 3) + 
+  geom_line(aes(y = predicted_happiness_k3), color = "#004C97", size = 1.5) +
+  labs(x = "Time Spent with Friends (minutes)",
+       y = "Clubhouse Happiness") +
+  theme_bw())
+```
+
+## Let's Explore...
+
+- Hm... what if we put the three lines on top of one another? How different are the adjusted slopes?
+
+
+```{r}
+#| echo: false
+#| fig-align: 'center'
+clubhouse %>% ggplot(aes(x = time_with_friends,
+                         y = clubhouse_happiness)) +
+  geom_point(color = "#009CDE", size = 3, alpha = .15) + 
+  geom_line(aes(y = predicted_happiness_k1), color = "black", size = 1) +
+  geom_line(aes(y = predicted_happiness_k2), color = "blue", size = 1) +
+  geom_line(aes(y = predicted_happiness_k3), color = "red", size = 1) +
+  annotate("text", x = .5, y = 38, label = "k=1", color = "black") +
+  annotate("text", x = .5, y = 35, label = "k=2", color = "blue") +
+  annotate("text", x = .5, y = 32, label = "k=3", color = "red") +
+  labs(x = "Time Spent with Friends (minutes)",
+       y = "Clubhouse Happiness") +
+  theme_bw()
+```
+
+## Example 4: Multiple Regression (*k* = 3)
+
+- For our fourth example, let's again return to our full model.
+
+- We looked at clubhouse happiness (*clubhouse_happiness*) as a function of time spent with friends (*time_with_friends*), big, goofy laughs (*goofy_laughs*), and how much Donald grumbles (*donald_grumbles*).
+
+```{r}
+m4 <- glm(clubhouse_happiness ~ time_with_friends + goofy_laughs + donald_grumbles,
+          family = "gaussian",
+          data = clubhouse)
+m4 %>% tidy()
+```
+
+$$
+\hat{\text{happiness}} = 47.58 + 3.58 \text{ time} + 0.66 \text{ laughs} - 1.06 \text{ grumbles}
+$$
+
+## Model Visualization: Multiple Regression
+
+- Let's now consider the relationship between clubhouse happiness and Donald's grumbles.
+
+    - Donald grumbles will be on the $x$-axis and allowed to vary.
+    - We will hold goofy laughs constant at some value.
+    - We will also hold time spent with friends constant at some value.
+    
+## Model Visualization: Multiple Regression
+
+```{r}
+clubhouse <- clubhouse %>%
+  mutate(predicted_happiness_d = 47.58 + 3.58*median(time_with_friends) + 0.66*median(goofy_laughs) - 1.06*donald_grumbles)
+```
+
+<!-- 
+note: I only include the code below to make a few obs
+to the slides. please do not use head() on your assignments
+-->
+
+<!-- 
+If you are looking at the raw .qmd, note that
+the following code chunk has the option "echo: false" so that
+the output is displayed but the code itself is hidden. 
+using echo: false here is just to make the slides cleaner.
+-->
+
+```{r}
+#| echo: false
+clubhouse %>% 
+  mutate(goofy_laughs = median(goofy_laughs),
+         time_with_friends = median(time_with_friends)) %>% 
+  select(time_with_friends, goofy_laughs, donald_grumbles) %>%
+  head()
+```       
+
+## Plotting using `library(ggplot2)`
+
+- Then, constructing our graph,
+    
+```{r}
+#| eval: false
+#| fig-align: 'center'
+clubhouse %>% ggplot(aes(x = donald_grumbles,
+                         y = clubhouse_happiness)) +
+  geom_point(color = "#009CDE", size = 3) + 
+  geom_line(aes(y = predicted_happiness_d), color = "#004C97", size = 1.5) +
+  labs(x = "Number of Donald Grumbles",
+       y = "Clubhouse Happiness") +
+  theme_bw()
+```
+
+## Plotting using `library(ggplot2)`
+
+- Then, constructing our graph,
+    
+```{r}
+#| echo: false
+#| fig-align: 'center'
+clubhouse %>% ggplot(aes(x = donald_grumbles,
+                         y = clubhouse_happiness)) +
+  geom_point(color = "#009CDE", size = 3) + 
+  geom_line(aes(y = predicted_happiness_d), color = "#004C97", size = 1.5) +
+  labs(x = "Number of Donald Grumbles",
+       y = "Clubhouse Happiness") +
+  theme_bw()
+```
+
+## Wrap Up
+
+- In this lecture, we explored how to visualize simple and multiple linear regression models using the `ggplot2` library.
+
+- For simple linear regression, we visualized the relationship between the outcome and predictor using a scatterplot and regression line.
+
+- For multiple linear regression, we visualized the relationship between the outcome and one predictor while holding the other predictors constant.
+
+- Every week, we will review model visualization.
+
+    - The general ideas won't change, but things will get tricky when we add categorical predictors and leave the normal distribution.
+    
+- Next lecture: Model Assumptions and Diagnostics    

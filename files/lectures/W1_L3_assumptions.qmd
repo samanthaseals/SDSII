@@ -1,0 +1,561 @@
+---
+title: "Model Assumptions and Diagnostics"
+execute:
+  echo: true
+  warning: false
+  message: false
+format: 
+  revealjs:
+    theme: default
+    self-contained: true
+    slide-number: true
+    width: 1600
+    height: 900
+    df-print: paged
+    html-math-method: katex
+    code-fold: false
+    code-tools: false
+    incremental: false
+editor: source
+---
+
+## Introduction
+
+
+```{r setup}
+#| echo: false
+library(tidyverse)
+library(ssstats)
+library(broom)
+```
+
+- Recall the glm, 
+
+$$ 
+y = \beta_0 + \beta_1 x_1 + \beta_2 x_2 + ... \beta_k x_k + \varepsilon 
+$$ 
+
+- In this model, $\varepsilon$ is the *residual error* term.
+
+- Recall that the residual error (how far away the observation is from the response surface) is defined as 
+
+$$\varepsilon = y - \hat{y}$$ 
+
+- Note that
+
+    - $y$ is the observed value
+    
+    - $\hat{y}$ is the predicted value
+
+## Model Assumptions: HILE+G
+
+- To ensure the validity of the least squares estimation, we have several assumptions:
+
+    - Homogeneity of variance
+
+    - Independence of observations
+
+    - Linearity
+
+    - Existence
+
+    - Gaussian errors
+    
+- Think: HILE+G
+
+    - We require HILE for the OLS to be valid.
+    - We require +G for maximum likelihood estimation.
+
+## Model Assumptions: Homogeneity of Variance
+
+- Homogeneity of variance (also called homoscedasticity) means that the variance of the residuals is constant across all levels of the predictors.
+
+- If the variance of the residuals changes at different levels of the predictors, we have heteroscedasticity.
+
+- We will check this assumption graphically using a scatterplot of residual vs. fitted values.
+
+    - We do not want to see a pattern.
+    
+    - A "funnel" or "open fan" shape indicates heteroscedasticity.
+    
+    - A general "cloud" shape indicates homoscedasticity.
+    
+## Model Assumptions: Homogeneity of Variance (R)
+
+- We will use the `ssstats` package to check assumptions.
+
+- For variance, we can use the `variance_check()` function.
+
+```{r}
+#| eval: false
+model %>% variance_check()
+```
+
+## Model Assumptions: Homogeneity of Variance
+
+- Suppose we have a model, `m1`,
+
+$$
+\hat{y} = 3 + 1.5 x + \hat{\varepsilon}
+$$
+
+```{r}
+#| echo: false
+set.seed(9176)
+reg_data <- tibble(id = 1:100,
+                   x  = runif(100, 0, 10),
+                   epsilon = rnorm(100, mean = 0, sd = 2)) %>%
+  mutate(y = 3 + 1.5 * x + epsilon)
+
+m1 <- glm(y ~ x, data = reg_data)
+```
+
+
+```{r}
+#| fig-align: 'center'
+m1 %>% variance_check()
+```
+
+## Model Assumptions: Homogeneity of Variance
+
+- Suppose we have a model, `m2`,
+
+$$
+\hat{y} = 4 + 1.2 x_1 - 0.8 x_2 + \hat{\varepsilon}
+$$
+
+```{r}
+#| echo: false
+set.seed(651965)
+reg_data <- tibble(
+  id = 1:150,
+  x1 = runif(150, 0, 10),   # predictor 1
+  x2 = runif(150, 0, 5),    # predictor 2
+  epsilon = rnorm(150, mean = 0, sd = 2)  # homoskedastic errors
+) %>%
+  mutate(
+    y = 4 + 1.2 * x1 - 0.8 * x2 + epsilon
+  )
+m2 <- glm(y ~ x1 + x2, data = reg_data)
+```
+
+
+```{r}
+#| fig-align: 'center'
+m2 %>% variance_check()
+```
+
+## Model Assumptions: Homogeneity of Variance
+
+- Suppose we have a model, `m3`,
+
+$$
+\hat{y} = 5 + 1.1 x_1 - 0.9 x_2 + \hat{\varepsilon}
+$$
+
+```{r}
+#| echo: false
+set.seed(19877)
+n <- 150
+reg_data <- tibble(
+  id = 1:n,
+  x1 = runif(n, 0, 10),
+  x2 = runif(n, 0, 5),
+  # Non-normal but equal-variance errors
+  epsilon = rexp(n, rate = 1) - 1   # mean-centered exponential
+) %>%
+  mutate(
+    y = 5 + 1.1 * x1 - 0.9 * x2 + epsilon
+  )
+m3 <- glm(y ~ x1 + x2, data = reg_data)
+```
+
+```{r}
+#| fig-align: 'center'
+m3 %>% variance_check()
+```
+
+## Model Assumptions: Homogeneity of Variance
+
+- Suppose we have a model, `m4`,
+
+$$
+\hat{y} = 4 + 1.0 x_1 - 0.7 x_2 + \hat{\varepsilon}
+$$
+
+```{r}
+#| echo: false
+set.seed(01759)
+n <- 150
+reg_data <- tibble(
+  id = 1:n,
+  x1 = runif(n, 0, 10),
+  x2 = runif(n, 0, 5)
+) %>%
+  mutate(
+    # Variance increases with x1
+    sigma = 0.5 + 0.4 * x1,
+    # Normal errors, but heteroskedastic
+    epsilon = rnorm(n, mean = 0, sd = sigma),
+    y = 4 + 1.0 * x1 - 0.7 * x2 + epsilon
+  )
+m4 <- glm(y ~ x1 + x2, data = reg_data)
+```
+
+```{r}
+#| fig-align: 'center'
+m4 %>% variance_check()
+```
+
+## Model Assumptions: Homogeneity of Variance
+
+- Suppose we have a model, `m5`,
+
+$$
+\hat{y} = 3 + 1.3 x_1 - 0.9 x_2 + \hat{\varepsilon}
+$$
+    
+```{r}
+#| echo: false
+set.seed(5715)
+n <- 200
+reg_data <- tibble(
+  id = 1:n,
+  x1 = runif(n, 0, 10),
+  x2 = runif(n, 0, 5)
+) %>%
+  mutate(
+    # Strong variance inflation → obvious fan
+    sigma = 0.3 + 0.8 * x1,
+    # Normal but heteroskedastic errors
+    epsilon = rnorm(n, mean = 0, sd = sigma),
+    y = 3 + 1.3 * x1 - 0.9 * x2 + epsilon
+  )
+m5 <- glm(y ~ x1 + x2, data = reg_data)
+```
+    
+```{r}
+#| fig-align: 'center'
+m5 %>% variance_check()
+```    
+
+## Model Assumptions: Homogeneity of Variance
+
+- Suppose we have a model, `m6`,
+
+$$
+\hat{y} = 2 + 1.1 x_1 - 0.8 x_2 + \hat{\varepsilon}
+$$
+
+```{r}
+#| echo: false
+set.seed(855)
+n <- 250
+wild_data <- tibble(
+  id = 1:n,
+  x1 = runif(n, 0, 10),
+  x2 = runif(n, 0, 5)
+) %>%
+  mutate(
+    # variance explodes with x1 (big-time fan opening)
+    sigma = 0.2 + 0.25 * (x1^2),
+    # non-normal core: heavy tails (t-dist with low df)
+    eps_core = rt(n, df = 2) * sigma,
+    # add skew: exponential shock (mean-centered) scaled by sigma
+    eps_skew = (rexp(n, rate = 1) - 1) * (0.6 * sigma),
+    # occasional "catastrophic" outliers (mixture component)
+    is_outlier = rbinom(n, size = 1, prob = 0.08),
+    eps_outlier = is_outlier * rnorm(n, mean = 0, sd = 10 * sigma),
+    epsilon = eps_core + eps_skew + eps_outlier,
+    # response
+    y = 2 + 1.1 * x1 - 0.8 * x2 + epsilon
+  ) %>%
+  select(id, x1, x2, y)
+m6 <- glm(y ~ x1 + x2, data = wild_data)
+```
+
+```{r}
+#| fig-align: 'center'
+m6 %>% variance_check()
+```   
+
+## Model Assumptions: Independence of Observations
+
+- We also assume that our observations are *independent*.
+
+    - This means that the value of one observation does not influence or provide information about another observation.
+    
+- Examples of *independent data*:
+
+    - Randomly sampled individuals from a large population.
+    - Measurements taken from different individuals with no inherent relationship         
+
+- Examples of *dependent data*:
+    
+    - Measurements taken from the same individual over time (repeated measures)
+    - Measurements taken from individuals within the same group or cluster (e.g., students within the same classroom; people in the same family)
+    - Spatial data where observations are collected from nearby locations.
+        
+## Model Assumptions: Independence of Observations   
+
+- Violations of independence often occur in longitudinal, time series, and spatial data.
+
+- When analyzing correlated data, the methodology learned in this course *is not appropriate*.
+
+    - Honestly, it's really not a big deal: we include a covariance structure in the model to account for dependence.
+    
+    - However, this methodology is *beyond the scope* of this course -- we will focus only on independent data.
+    
+- What about squicky cases?
+
+    - We know that perfect independence may not be achievable in practice.
+    
+    - Mild violations of independence may not severely impact results, but this is context-dependent.
+    
+    - Ultimately, we do the best with what we can and notate any potential limitations in our analysis.
+    
+## Model Assumptions: Linearity    
+
+- We assume that the relationship between each predictor and the response is linear in the *parameters* (i.e., $\beta_i$).
+
+    - This means that the effect of a one-unit change in a predictor on the response is constant, regardless of the value of that predictor.
+    
+- In this course, all of the models we will construct are *linear models*. 
+
+- The language gets tricky because we can have non-linear relationships in a linear model.
+
+    - For example, we can include polynomial terms (e.g., $x^2$, $x^3$) or interaction terms (e.g., $x_1 \times x_2$) in a linear model.
+    
+    - As long as the model is linear <u>in the parameters</u>, it is considered a linear model.
+    
+## Model Assumptions: Linearity 
+
+- Consider the following models -- which are linear in $\beta$?
+
+    1. $\hat{y} = \beta_0 + \beta_1 x_1 + \beta_2 x_2 + \hat{\varepsilon}$
+    
+    2. $\hat{y} = \beta_0 + \beta_1 x_1 + \beta_2 x_1^2 + \hat{\varepsilon}$
+    
+    3. $\hat{y} = \beta_0 + \beta_1 x_1 + \beta_2 x_2 x_3 + \hat{\varepsilon}$
+    
+    4. $\hat{y} = \beta_0 + \beta_1 x_1 + \beta_2^2 x_2 + \hat{\varepsilon}$
+    
+    5. $\hat{y} = \beta_0 + \beta_1 \log(x_1) + \beta_2 x_2 + \hat{\varepsilon}$
+    
+    6. $\hat{y} = \beta_0 + \log(\beta_1) x_1 + \beta_2 x_2 + \hat{\varepsilon}$
+    
+## Model Assumptions: Linearity 
+
+- Consider the following models -- which are linear in $\beta$?
+
+    1. $\hat{y} = \beta_0 + \beta_1 x_1 + \beta_2 x_2 + \hat{\varepsilon}$ -- linear
+    
+    2. $\hat{y} = \beta_0 + \beta_1 x_1 + \beta_2 x_1^2 + \hat{\varepsilon}$ -- linear
+    
+    3. $\hat{y} = \beta_0 + \beta_1 x_1 + \beta_2 x_2 x_3 + \hat{\varepsilon}$ -- linear
+    
+    4. $\hat{y} = \beta_0 + \beta_1 x_1 + \beta_2^2 x_2 + \hat{\varepsilon}$ -- broken by $\beta_2^2$
+    
+    5. $\hat{y} = \beta_0 + \beta_1 \log(x_1) + \beta_2 x_2 + \hat{\varepsilon}$ -- linear
+    
+    6. $\hat{y} = \beta_0 + \log(\beta_1) x_1 + \beta_2 x_2 + \hat{\varepsilon}$ -- broken by $\log(\beta_1)$
+    
+## Model Assumptions: Existence
+
+- The residuals have a finite mean and variance.
+
+    - Mean (first moment): $E[X] = \mu$
+    - Variance (second central moment): $E[(X - \mu)^2] = \sigma^2$
+
+- This assumption is almost always satisfied in practical applications.
+
+    - We can think of this as: the residuals are not so extreme that their average or variability is infinite.
+    
+- This is not an assumption we check -- we will see estimation errors when this assumption is violated.
+
+## Model Assumptions: Gaussian Distribution
+
+- Note! The normal distribution is also known as the Gaussian distribution.
+
+- For our inference to be valid, we must assume that the residuals are normally distributed.
+
+    - Otherwise, our estimation may not be accurate (i.e., inference may lead us to the "wrong" decision).
+
+- We will check this assumption using a quantile-quantile (q-q) plot of the residuals.
+
+    - We want to see points roughly along the line.
+    
+    - Large deviations from the line indicate non-normality.
+    
+- We can also use a histogram to "back up" our decision from the q-q plot.   
+
+    - We want to see it roughly mound-shaped and symmetric.
+    
+    - Skewed or multi-modal histograms indicate non-normality.
+    
+## Model Assumptions: Gaussian Distribution (R)
+
+- We will use the `ssstats` package to check assumptions.
+
+- For normality, we can use the `normality_check()` function.
+
+```{r}
+#| eval: false
+model %>% normality_check()
+```
+
+## Model Assumptions: Gaussian Distribution 
+
+- Recall our example model, `m1`:
+
+$$
+\hat{y} = 3 + 1.5 x + \hat{\varepsilon}
+$$
+
+```{r}
+#| fig-align: 'center'
+m1 %>% normality_check()
+```
+
+
+## Model Assumptions: Gaussian Distribution 
+
+- Recall our example model, `m2`:
+
+$$
+\hat{y} = 4 + 1.2 x_1 - 0.8 x_2 + \hat{\varepsilon}
+$$
+
+```{r}
+#| fig-align: 'center'
+m2 %>% normality_check()
+```
+
+## Model Assumptions: Gaussian Distribution 
+
+- Recall our example model, `m3`:
+
+$$
+\hat{y} = 5 + 1.1 x_1 - 0.9 x_2 + \hat{\varepsilon}
+$$
+
+```{r}
+#| fig-align: 'center'
+m3 %>% normality_check()
+```
+
+## Model Assumptions: Gaussian Distribution 
+
+- Recall our example model, `m4`:
+
+$$
+\hat{y} = 4 + 1.0 x_1 - 0.7 x_2 + \hat{\varepsilon}
+$$
+
+```{r}
+#| fig-align: 'center'
+m4 %>% normality_check()
+```
+
+## Model Assumptions: Gaussian Distribution 
+
+- Recall our example model, `m5`:
+
+$$
+\hat{y} = 3 + 1.3 x_1 - 0.9 x_2 + \hat{\varepsilon}
+$$
+
+```{r}
+#| fig-align: 'center'
+m5 %>% normality_check()
+```
+
+## Model Assumptions: Gaussian Distribution 
+
+- Recall our example model, `m6`:
+
+$$
+\hat{y} = 2 + 1.1 x_1 - 0.8 x_2 + \hat{\varepsilon}
+$$
+
+```{r}
+#| fig-align: 'center'
+m6 %>% normality_check()
+```
+
+## Model Assumptions (R)
+
+- To summarize, our model assumptions can be written as:
+
+$$\varepsilon \overset{\text{iid}}{\sim} N(0, \sigma^2)$$
+
+- This notation combines our checkable assumptions:
+
+    - Residuals are independent and identically distributed (I)
+    
+    - Residuals follow a normal distribution (G), centered at 0 and with some constant variance, $\sigma^2 (H)$.
+    
+- We can look at a graph with all of these checks at once using the `reg_check()` function in the `ssstats` package.
+
+```{r}
+#| eval: false
+model %>% reg_check()
+```
+    
+## Model Assumptions
+
+- Consider this for `m1`:
+
+```{r}
+#| fig-align: 'center'
+m1 %>% reg_check()
+```
+
+## Model Assumptions
+
+- Consider this for `m3`:
+
+```{r}
+#| fig-align: 'center'
+m3 %>% reg_check()
+```
+
+## Model Assumptions
+
+- Consider this for `m5`:
+
+```{r}
+#| fig-align: 'center'
+m5 %>% reg_check()
+```
+
+
+## Testing for Normality...?
+
+- No.
+
+    - Formal tests for normality (e.g., Shapiro-Wilk test, Kolmogorov-Smirnov test) are generally not recommended in practice.
+    
+    - These tests are sensitive to large sample sizes, leading to the rejection of normality, even for minor infractions that do not affect our inferential conclusions.
+    
+        - As sample size ($n$) increases, our standard error ($\text{s.d.} / \sqrt{n}$) decreases, increasing our test statistic ($\text{observed} / \text{s.e.}_{\hat{\beta}_i}$), decreasing the $p$-value...... making it easier to reject $H_0$: the data follows a normal distribution.
+    
+    - Instead, graphical methods (q-q plots, histograms) and practical considerations are preferred for assessing normality.
+
+## Wrap Up
+
+- This lecture has covered the assumptions on the linear model for continuous outcomes assuming independent data and Gaussian errors.
+
+- My approach in "real life" is:
+
+    1. Fit the model.
+    
+    2. Check assumptions using graphical diagnostics.
+    
+    3. If assumptions are violated, consider an alternative approach.
+    
+    4. Document any assumption violations and their potential impact on results.
+    
+    5. Discuss findings (including relevant failed assumption checks) with collaborators/stakeholders.
+    
+- Note that this is a simplified overview; real-world data analysis may require more nuanced approaches with field/application-specific considerations and methodologies.

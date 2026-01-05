@@ -1,0 +1,387 @@
+---
+title: "Data Management for Categorical Predictors"
+execute:
+  echo: true
+  warning: false
+  message: false
+format: 
+  revealjs:
+    theme: default
+    self-contained: true
+    slide-number: true
+    width: 1600
+    height: 900
+    df-print: paged
+    html-math-method: katex
+    code-fold: false
+    code-tools: false
+    incremental: false
+editor: source
+---
+        
+## Introduction  
+
+- Recall the general linear model, $$ y = \beta_0 + \beta_1 x_1 + ... + \beta_k x_k + \varepsilon $$
+
+- Until now, we have discussed *continuous* predictors.
+
+- Now we will introduce the use of *categorical*, or qualitative, predictors. 
+
+- This means that we will include predictors that *categorize* the observations.
+
+    - We can assign numbers to the categories, however, the numbers are *nominal*.
+    
+## Lecture Example Set Up
+
+<!-- 
+if you are looking at the raw .qmd, note that
+the following code chunk has the option "echo: false" so that
+the code will execute but does not appear on the slide
+i.e., using echo: false here is just to make the slides cleaner
+      you should not use it :)
+-->
+
+```{r}
+#| echo: false
+library(tidyverse)
+library(broom)
+library(ssstats)
+library(kableExtra)
+library(fastDummies)
+```
+
+- The Duckburg Department of Neighborhood Affairs (DDNA) has been collecting incident reports involving Donald Duck and his nephews (Huey, Dewey, and Louie) after a noticeable rise in household mishaps.
+
+```{r}
+duck_incidents <- read_csv("~/Desktop/GitHub/samanthaseals/STA4231_STA6262/files/data/lectures/W2_duck_incidents.csv")
+```   
+
+- In this dataset (<u>duck_incidents</u>), we have access to the following from the reports:
+
+    - Which nephew was involved (*nephew*)
+    - What kind of mischief occurred (*mischief_type*)
+    - Where it happened (*location*)
+    - Whether Donald was present (*donald_present*)
+    - Donald's reaction (*donald_reaction*)
+    - The amount of sugar ingested prior to the incident (*sugar_grams*)
+    - The estimated dollar cost of damage resulting from the incident (*damage_cost*)
+    
+## Lecture Example Set Up
+
+- Looking at the dataset,
+
+```{r}
+duck_incidents %>% head()
+```
+    
+## Categorical Variables  
+
+- Categorical variables can show up in datasets two ways:
+
+    - As ordinal variables: there is natural order to the categories.
+    
+        - e.g., small, medium, large; freshman, sophomore, junior, senior.
+        
+    - As nominal variables: there is no natural order to the categories.
+    
+        - e.g., treatment groups A, B, C; colors red, blue, green.
+        
+- Further, they can be stored multiple ways in a dataset:
+
+    - As character/factor variables.
+    
+    - As numeric variables (e.g., 1, 2, 3 for treatment groups A, B, C).
+    
+    - As binary indicator variables (i.e., 0/1 where 1 indicates "yes" for the characteristic).
+    
+## Exploring Categorical Variables
+
+- When first sitting down to examine categorical variables, I will look at frequency charts (using `count()` or something similar) to see what responses are possible.
+    
+    - This allows us to catch any typos/casing issues. e.g., stats programs will read "FL" different from "Fl" different from "fl".
+    - If there are typos, we **must** fix them before including this variable in analysis. 
+
+- We also want to evaluate the number of responses in each category.
+
+    - If there are categories with very few responses, we may want to consider condensing categories.
+    - e.g., if we have a variable with categories A, B, C, D, and E but only two observations in E vs. 10+ in each of the others -- we should ask ourselves if we can combine E with another cateogry.
+        - Note that we can only do this when it makes sense to! Ask yourself (and your collaborator) if the categories are similar enough to combine.
+
+## Example: Exploring Categorical Variables
+
+- Let's look at the *nephew* variable in our duck incident dataset.
+
+```{r}
+kable(duck_incidents %>% n_pct(nephew)) 
+```
+
+## Example: Exploring Categorical Variables
+
+- Let's look at the *mischief_type* variable in our duck incident dataset.
+
+```{r}
+kable(duck_incidents %>% n_pct(mischief_type)) 
+```
+
+## Example: Exploring Categorical Variables
+
+- Let's look at the *location* variable in our duck incident dataset.
+
+```{r}
+kable(duck_incidents %>% n_pct(location)) 
+```
+
+## Example: Exploring Categorical Variables
+
+- Let's look at the *donald_present* variable in our duck incident dataset.
+
+```{r}
+kable(duck_incidents %>% n_pct(donald_present)) 
+```
+
+## Example: Exploring Categorical Variables
+
+- Finally, let's look at` the *donald_reaction* variable in our duck incident dataset.
+
+```{r}
+kable(duck_incidents %>% n_pct(donald_reaction)) 
+```
+
+## Categorical Variables: Formatting
+
+- All of the variables we just explored are stored as *string* variables.
+
+    - i.e., R sees what is stored in the column as *character* data -- not numeric data.
+    
+- There are other ways to store variables in R (and other programs).
+
+    - Numeric: e.g., 1, 2, 3 for treatment groups A, B, C.
+    - Indicator variables: e.g., 0/1 where 1 indicates "yes" for the characteristic.
+    - Factor: a special R data type for categorical variables.
+
+## Example: Factor Variables
+
+- In R, we can convert character variables to factors using the `factor()` function.
+
+    - This *permanently* changes the variable type in the dataset.
+    - We can check the variable type using the `class()` function.
+
+```{r}
+class(duck_incidents$donald_present)
+duck_incidents <- duck_incidents %>%
+  mutate(donald_present = factor(donald_present))
+class(duck_incidents$donald_present)
+```
+
+## Categorical Variables: Factor Variables
+
+- The levels of the factor are stored in the variable as strings.
+
+- When we include factor variables, R defaults to the "first" level as the reference group.
+
+    - "First" means alphabetically first for strings and numerically smallest for numbers.
+    
+- There are (more than) two approaches we can take to "relevel" a variable.
+
+    - Use the `factor()` function with the `levels` argument to set the order of the levels.
+    
+    - "Brute force" by defining a new character variable using `if_else()` statements and defining the levels as "1 - first category name", "2 - second category name", etc.
+
+## Example: Factor Variables    
+
+- In our example,
+    
+```{r}
+levels(duck_incidents$donald_present) # default (alphabetical)
+duck_incidents <- duck_incidents %>%
+  mutate(donald_present2 = factor(donald_present,
+                                 levels = c("Yes", "No")))
+levels(duck_incidents$donald_present2) # specified order
+```
+
+## Example: Factor Variables  
+
+- This ordering extends to output display,
+
+```{r}
+duck_incidents %>% 
+  n_pct(donald_present) # default (alphabetical)
+duck_incidents %>% 
+  n_pct(donald_present2) # specified order
+```
+
+
+## Categorical Variables: Indicator Variables
+
+- We can create *indicator* (or dummy) variables to include in our model.
+
+    - We will create a variable for *each level* of our factor variable.
+    
+- For a categorical (or factor) variable with $c$ classes, we define *binary* indicators as follows:    
+
+$$ 
+x_i = 
+\begin{cases} 
+      1 & \textnormal{if category $i$} \\
+      0 & \textnormal{if another category}
+\end{cases}
+$$
+
+- We will include $c-1$ in our models, but we create all $c$ of them for flexibility in model specification.
+
+## Example: Indicator Variables (Manual)
+
+- We can do this manually,
+
+```{r}
+duck_incidents <- duck_incidents %>%
+  mutate(loc_yard = if_else(location == "Backyard", 1, 0),
+         loc_garage = if_else(location == "Garage", 1, 0),
+         loc_kitchen = if_else(location == "Kitchen", 1, 0),
+         loc_living = if_else(location == "Living Room", 1, 0))
+duck_incidents %>%
+  select(location, 
+         loc_yard, loc_garage, loc_kitchen, loc_living) %>%
+  head()
+```
+
+## Example: Indicator Variables (`fastDummies`)
+
+- Alternatively, we can use the `dummy_cols()` function from the `fastDummies` package,
+
+```{r}
+duck_incidents <- duck_incidents %>%
+  dummy_cols(select_columns = "location")
+duck_incidents %>%
+  select(location, 
+         location_Backyard, location_Garage, location_Kitchen, `location_Living Room`) %>%
+  head()
+```
+
+## Example: Indicator Variables (Comparison)
+
+- The manual approach:
+
+    - gives us control over the names of the new variables
+    - shows the *logic* under the hood
+        - this definition can then be easily replicated in another software package...     
+    - but unfortunately is more tedious and error-prone.
+
+```{r}
+#| eval: false
+mutate(loc_yard = if_else(location == "Backyard", 1, 0),
+       loc_garage = if_else(location == "Garage", 1, 0),
+       loc_kitchen = if_else(location == "Kitchen", 1, 0),
+       loc_living = if_else(location == "Living Room", 1, 0))
+```
+
+## Example: Indicator Variables (Comparison)
+
+- The `fastDummies` approach:
+
+    - is quick and easy
+    - but the names of the new variables can be cumbersome when the original category names are long or have spaces and/or special characters.
+
+```{r}
+#| eval: false
+dummy_cols(select_columns = "location")
+```
+     
+- Let's compare the code used to print the relevant variables:
+
+```{r}
+#| eval: false
+# manual creation: 
+select(location, loc_yard, loc_garage, loc_kitchen, loc_living) 
+
+# using fastDummies:
+select(location, location_Backyard, location_Garage, location_Kitchen, `location_Living Room`)
+```
+
+## Combining Categories
+
+- Sometimes, we will be interested in combining categories. Reasons include:
+
+    - categories are similar in meaning
+        - e.g., "playground" and "park" locations
+    - some categories have very few observations
+        - e.g., only 2 incidents occurred in the "garage" location while 30+ incidents happened in the other locations  
+    - there are too many categories to reasonably include in modeling
+        - e.g., states, countries, job titles, etc.
+
+- We can combine categories using either `case_when()` or `if_else()` statements.
+
+## Example: Combining Categories
+
+- Let's look at the donald_reaction variable.
+
+```{r}
+kable(duck_incidents %>% n_pct(donald_reaction))
+```
+
+- Although we have sufficient sample size in each group, let's look at this from a different perspective: Donald took action vs. Donald did not take action.
+
+```{r}
+duck_incidents <- duck_incidents %>%
+  mutate(donald_action = case_when(donald_reaction %in% c("Assigns Chores", "Grounds") ~ "Punished",
+                                   donald_reaction %in% c("Laughs", "Yells") ~ "No Punishment"))
+```
+
+## Example: Combining Categories
+
+- Although we have sufficient sample size in each group, let's look at this from a different perspective: Donald took action vs. Donald did not take action.
+
+- I always look at a frequency table after combining categories to ensure everything looks correct.
+
+- In our example,
+
+```{r}
+kable(duck_incidents %>% n_pct(donald_reaction, donald_action))
+```
+
+## Special Case: Binary Predictors
+
+- So far, we have focused on categorical predictors with more than two categories.
+
+- Sometimes, we have categorical predictors that are just two categories.
+
+    - The variable we just created, `donald_action`, is binary.
+    
+- In this case, we can include the variable as a factor or as a single indicator variable.
+
+    - My preference is to include binary predictors as indicators for ease.
+    
+## Example: Binary Predictors
+
+- We just created a variable that indicates if Donald punished his nephews or not,
+
+```{r}
+kable(duck_incidents %>% n_pct(donald_action))
+```
+
+- Let's now create a binary indicator for this variable.
+
+    - My approach: name the variable after the characteristic being indicated. Then I always know that 1 = the characteristic, 0 = not the characteristic.
+
+## Example: Binary Predictors
+
+- Executing this, 
+
+```{r}
+duck_incidents <- duck_incidents %>%
+  mutate(punished = if_else(donald_action == "Punished", 1, 0))
+```
+
+- Then, double checking our work,
+
+```{r}
+kable(duck_incidents %>% n_pct(donald_action, punished))
+```
+
+## Wrap Up  
+
+- In this lecture, we have introduced the concept of categorical predictors.
+
+- We focused only on the data management associated with categorical predictors.
+
+- In the next lecture, we will focus on including categorical predictors in our linear models.

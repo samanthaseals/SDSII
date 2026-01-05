@@ -1,0 +1,285 @@
+---
+title: "Visualization of the Model: <br>Categorical Predictors"
+execute:
+  echo: true
+  warning: false
+  message: false
+format: 
+  revealjs:
+    theme: default
+    self-contained: true
+    slide-number: true
+    width: 1600
+    height: 900
+    df-print: paged
+    html-math-method: katex
+    code-fold: false
+    code-tools: false
+    incremental: false
+editor: source
+---
+
+## Introduction
+
+- Last week, we discussed how to visualize the resulting model. 
+
+## Lecture Example Set Up
+
+<!-- 
+if you are looking at the raw .qmd, note that
+the following code chunk has the option "echo: false" so that
+the code will execute but does not appear on the slide
+i.e., using echo: false here is just to make the slides cleaner
+      you should not use it :)
+-->
+
+```{r}
+#| echo: false
+library(tidyverse)
+library(broom)
+library(ssstats)
+library(kableExtra)
+library(fastDummies)
+library(emmeans)
+```
+
+- Recall our example dataset of duck-related incidents,
+
+```{r}
+duck_incidents <- read_csv("~/Desktop/GitHub/samanthaseals/STA4231_STA6262/files/data/lectures/W2_duck_incidents.csv") %>%
+  mutate(loc_yard = if_else(location == "Backyard", 1, 0),
+         loc_garage = if_else(location == "Garage", 1, 0),
+         loc_kitchen = if_else(location == "Kitchen", 1, 0),
+         loc_living = if_else(location == "Living Room", 1, 0))
+duck_incidents %>% head()
+```   
+
+## Example 1: One Categorical Predictor
+
+- Recall our example from the last lectures,
+
+```{r}
+m1 <- glm(damage_cost ~ location, 
+          data = duck_incidents)
+tidy(m1, conf.int = TRUE)
+```
+
+## Example 1: One Categorical Predictor
+
+- This model only has categorical predictors that have no order to them.
+
+$$
+\hat{\text{cost}} = 202.78 + 64.34 \text{ garage} + 131.85 \text{ kitchen} + 58.70 \text{ living}
+$$
+
+- Because this is effectively a simple linear regression (one predictor with 4 levels - *location*), the way we visualized the model before does not make sense.
+
+    - Why? We do not have a variable to put on the $x$-axis. 
+    
+- Instead, we will use a different type of plot to visualize the results.
+
+    - In this case, I would graph the predicted damage cost for each location and include error bars for the confidence intervals.
+    
+- First, we need to find the marginal means and the simultaneous confidence intervals.  
+
+## Side Note: Marginal Means & Simultaneous CI
+
+- What are marginal means and simultaneous confidence intervals?
+
+- Marginal means are the predicted means for each level of a categorical predictor, averaging (or "marginalizing") over the other predictors in the model.
+
+- Simultaneous confidence intervals are confidence intervals that *account for multiple comparisons*, ensuring that the overall confidence level is maintained across all intervals.
+
+    - That is, we know that *together*, the condfidence intervals have an overall 95% confidence level.
+    
+- This means that the resulting CI will depend on the number of comparisons we are performing.
+
+    - When using the Bonferroni correction, we <u>only</u> divide by the number of comparisons we are <u>interested in</u>.
+    
+    - The simultaneous CI accounts for <u>all possible</u> comparisons.
+    
+## Side Note: Marginal Means & Simultaneous CI (R)    
+    
+- In R, we will use the `emmeans()` function from the `emmeans` package to calculate the marginal means. 
+
+```{r}
+#| eval: false
+emm <- emmeans(model_name, ~ categorical_variable) 
+```
+
+- Then, we use the `confint()` function to calculate the simultaneous confidence intervals.    
+```{r}
+#| eval: false
+emm_ci <- confint(emm, adjust = "Sidak") 
+```
+
+- Finally, we can create the dataset for graphing.
+
+```{r}
+#| eval: false
+conf_data <- as_tibble(emm_ci)
+```
+
+## Example 1: One Categorical Predictor
+    
+- In our example,
+
+```{r}
+emm <- emmeans(m1, ~ location) 
+emm_ci <- confint(emm, adjust = "Sidak") 
+graph <- as_tibble(emm_ci)
+```
+
+- Looking at the resulting data,
+
+```{r}
+#| echo: false
+kable(graph %>% select(location, emmean, lower.CL, upper.CL) %>%
+        rename(Location = location,
+               `Average Cost` = emmean,
+               LCL = lower.CL,
+               UCL = upper.CL))
+```
+
+## Graphing Means and Simultaneous CIs
+
+- Now that our dataset has been created, we can construct the graph.
+
+```{r}
+#| eval: false
+graph %>% ggplot(aes(x = categorical_variable, y = emmean)) +
+    geom_point() +
+    geom_errorbar(aes(ymin = lower.CL, ymax = upper.CL), width = 0.2) +
+    labs(x = "Categorical Label",
+         y = "Outcome Label") +
+    theme_bw()
+```
+
+## Example 1: One Categorical Predictor
+
+- In our example,
+
+```{r}
+#| fig-align: 'center'
+graph %>% ggplot(aes(x = location, y = emmean)) +
+    geom_point() +
+    geom_errorbar(aes(ymin = lower.CL, ymax = upper.CL), width = 0.2) +
+    labs(x = "Location",
+         y = "Average Damage Cost") +
+    theme_bw()
+```
+
+
+## Example 3: Mixing Continuous and Categorical Predictors
+
+- Recall the model examining damage cost as a function of *location*, *nephew*, and *sugar_grams*.
+
+```{r}
+m5 <- glm(damage_cost ~ location + nephew + sugar_grams,
+          data = duck_incidents)
+tidy(m5, conf.int = TRUE)
+```
+
+## Visualizing Models with Mixed Predictor Types
+
+- Now we have a model with one continuous predictor and two categorical predictors.
+
+- This means that we can return to our previous method of visualizing the model.
+
+    - We will graph the predicted damage cost ($y$) as a function of sugar grams ($x$); our predicted values will depend on location and nephew.
+    
+- How do we include categorical predictors in this graph? There are two approaches: 
+    
+    - Look at individual graphs for different categories.
+    - Create different lines for specific categories.
+
+## Example 3: Mixing Continuous and Categorical Predictors
+
+- Our current model has both categorical and continuous predictors,
+
+$$
+\begin{align*}
+\hat{\text{cost}} = 62.16 &+ 54.77 \text{ garage} + 92.65 \text{ kitchen} + 58.37 \text{ living} \\
+& - 0.90 \text{ Huey} + 198.79 \text{ Louie} \\
+& + 1.84 \text{ sugar}
+\end{align*}
+$$
+    
+- In our example,
+
+    - We could create four graphs: one for each location with the lines defined by nephew.
+    - We could create three graphs: one for each nephew with the lines defined by location.
+    - We could create a single graph with lines defined by both location and nephew.
+    - etc.
+    
+## Visualizing Models with Mixed Predictor Types   
+
+- Wait! There are multiple approaches!
+
+- Which approach is appropriate?
+
+    - It depends on the context of the problem and what comparisons are most relevant.    
+    - Note: I do not put a ton of effort on graphs when drafting them for collaborators. I will draft something basic for demonstration purposes and discussion.
+        - e.g., maybe a graph for a single nephew or a single location, then ask which is preferred before I draft the graphs for the additional nephews or locations.
+        
+- For class credit: I am looking for competency in graphing. I am <u>not</u> looking for perfect graphs. Remember that we are *practicing* and cannot talk to our (hypothetical) collaborators in our projects.        
+
+## Creating Predicted Values with Categorical Predictors
+
+- Recall how we defined our indicator variables for *nephew*,
+
+| Nephew | $x_{\text{H}}$ | $x_{\text{D}}$ | $x_{\text{L}}$ |    
+|:-|:-:|:-:|:-:|
+| Huey | 1 | 0 | 0 |
+| Dewey | 0 | 1 | 0 |
+| Louie | 0 | 0 | 1 |
+
+- That means, to create predicted values for specific nephews, we need to set the indicator variables accordingly.
+
+    - e.g., for Huey, set $x_{\text{H}} = 1$, $x_{\text{D}} = 0$, and $x_{\text{L}} = 0$.
+    - e.g., for Dewey, set $x_{\text{H}} = 0$, $x_{\text{D}} = 1$, and $x_{\text{L}} = 0$.
+    - e.g., for Louie, set $x_{\text{H}} = 0$, $x_{\text{D}} = 0$, and $x_{\text{L}} = 1$.
+
+- Remember, we only plug in for two of the newphews in the model (the third is the reference category). 
+
+## Creating Predicted Values with Categorical Predictors
+
+- We will take the same approach for *location*.
+
+| Location | $x_{\text{B}}$ | $x_{\text{G}}$ | $x_{\text{K}}$ | $x_{\text{L}}$ |   
+|:---|:-:|:-:|:-:|:-:|
+| Backyard | 1 | 0 | 0 | 0 |
+| Garage | 0 | 1 | 0 | 0 |
+| Kitchen | 0 | 0 | 1 | 0 |
+| Living Room | 0 | 0 | 0 | 1 |
+
+- Then, the indicators will be plugged in as follows,
+
+    - e.g., for backyard, set $x_{\text{B}} = 1$, $x_{\text{G}} = 0$, $x_{\text{K}} = 0$, and $x_{\text{L}} = 0$.
+    - e.g., for garage, set $x_{\text{B}} = 0$, $x_{\text{G}} = 1$, $x_{\text{K}} = 0$, and $x_{\text{L}} = 0$.
+    - e.g., for kitchen, set $x_{\text{B}} = 0$, $x_{\text{G}} = 0$, $x_{\text{K}} = 1$, and $x_{\text{L}} = 0$.
+    - e.g., for living room, set set $x_{\text{B}} = 0$, $x_{\text{G}} = 0$, $x_{\text{K}} = 0$, and $x_{\text{L}} = 1$.
+
+## Example 3: Mixing Continuous and Categorical Predictors
+
+- Back to the current model,
+
+$$
+\begin{align*}
+\hat{\text{cost}} = 62.16 &+ 54.77 \text{ garage} + 92.65 \text{ kitchen} + 58.37 \text{ living} \\
+& - 0.90 \text{ Huey} + 198.79 \text{ Louie} \\
+& + 1.84 \text{ sugar}
+\end{align*}
+$$
+
+- Let's first create what I would call the "draft" for my collaborator, then we will create the full graph.
+
+- We will create the graphs for the nephews and let the lines define the location.
+
+## Example 3: Mixing Continuous and Categorical Predictors
+
+- Defining our predicted values, we will need one for <u>each location</u> (because they are defining our lines) and for <u>each nephew</u> (because they are defining our graphs).
+
+```{r}
+duck_incidents <- duck_incidents %>%
+```

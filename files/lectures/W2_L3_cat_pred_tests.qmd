@@ -1,0 +1,474 @@
+---
+title: "Categorical Predictors: Statistical Testing"
+execute:
+  echo: true
+  warning: false
+  message: false
+format: 
+  revealjs:
+    theme: default
+    self-contained: true
+    slide-number: true
+    width: 1600
+    height: 900
+    df-print: paged
+    html-math-method: katex
+    code-fold: false
+    code-tools: false
+    incremental: false
+editor: source
+---
+
+## Introduction  
+
+- Recall the general linear model, $$ y = \beta_0 + \beta_1 x_1 + ... + \beta_k x_k + \varepsilon $$
+
+- In the last lecture, we introduced the inclusion of categorical predictors in our model.
+
+    - Remember, if a categorical predictor has $c$ classes, we include $c-1$ in the model.
+
+- We also discussed how to deal with categorical variables either as a factor variable or as a set of indicator variables.
+    
+## Lecture Example Set Up
+
+<!-- 
+if you are looking at the raw .qmd, note that
+the following code chunk has the option "echo: false" so that
+the code will execute but does not appear on the slide
+i.e., using echo: false here is just to make the slides cleaner
+      you should not use it :)
+-->
+
+```{r}
+#| echo: false
+library(tidyverse)
+library(broom)
+library(ssstats)
+library(kableExtra)
+library(fastDummies)
+```
+
+- Recall our example dataset of duck-related incidents,
+
+```{r}
+duck_incidents <- read_csv("~/Desktop/GitHub/samanthaseals/STA4231_STA6262/files/data/lectures/W2_duck_incidents.csv") %>%
+  mutate(loc_yard = if_else(location == "Backyard", 1, 0),
+         loc_garage = if_else(location == "Garage", 1, 0),
+         loc_kitchen = if_else(location == "Kitchen", 1, 0),
+         loc_living = if_else(location == "Living Room", 1, 0))
+duck_incidents %>% head()
+```   
+
+## Categorical Variables in the Model
+
+- We now want to discuss statistical inference of categorical predictors.
+
+- Recall that in the case of $c \ge 3$ classes, we include $c-1$ indicator variables in the model.
+
+    - How do I determine if the predictor as a whole is statistically significant?
+    
+    - How do I determine if individual classes are statistically significant?
+    
+        - What does this mean?
+        
+## Inference for Categorical Variables ($c \ge 2$)
+
+- Consider the case of a categorical predictor with $c \ge 2$ classes.
+
+- To determine if the categorical predictor *as a whole* is statistically significant, we can use an ANOVA $F$-test (or $\chi^2$ likelihood ratio test for other GzLMs).
+
+    - This tests if <u>all coefficients</u> for the indicator variables are equal to zero.
+    
+    - If we reject this null hypothesis, we conclude that <u>at least one class</u> is different.
+    
+- Then, to determine if individual classes are statistically significant, we can look at the $t$-tests for each coefficient.
+
+    - Each $t$-test tests the null hypothesis that the coefficient for <u>that class</u> is equal to zero.
+    
+    - If we reject for a specific class, we conclude that the *difference* between <u>that class</u> and the <u>reference class</u> is non-zero.
+
+## Inference for Categorical Variables ($c \ge 2$)
+
+- **Hypotheses**
+  
+    - $H_0: \ \beta_1 = ... = \beta_{c-1} = 0$ 
+    - $H_1:$ at least one $\beta_i \ne 0$ 
+  
+- **Test Statistic and *p*-Value**
+  
+    - $F_0 = [\text{value from R}]$, $p = [\text{value from R}]$
+
+- **Rejection Region**
+  
+    - Reject $H_0$ if $p < \alpha$; $\alpha = [\text{assumed } \alpha]$.
+    
+- **Conclusion/Interpretation**
+
+    - [Reject (*if $p < \alpha$*) or fail to reject (*if $p \ge \alpha$*)] $H_0$. There [is (*if reject*) or is not (*if FTR*)] sufficient evidence to suggest that [categorical predictor] significantly predicts [outcome variable].
+    
+## Inference for Categorical Variables ($c \ge 2$) (R)
+
+- How do we perform this <u>omnibus</u> (or global) test?
+
+- If we are using a factor variable,
+
+```{r}
+#| eval: false
+m <- glm(y = x1 + x2 + ... + xk, data = dataset_name)
+car::Anova(m, type = 3, test = "F")
+```
+
+- If we are using indicator variables,
+
+```{r}
+#| eval: false
+full <- glm(y = x1 + x2 + ... + xk, data = dataset_name) # ALL predictors
+reduced <- glm(y = x1 + ... + x(k-c), data = dataset_name) # all predictors WITHOUT indicators
+anova(reduced, full)
+```
+
+## Example 1: One Categorical Predictor
+
+- Recall our example from the last lecture,
+
+```{r}
+m1 <- glm(damage_cost ~ location, 
+          data = duck_incidents)
+tidy(m1, conf.int = TRUE)
+```
+
+- Here, `location` is a factor variable with four classes.
+
+    - Because there are four classes *and* `location` is a factor, we will use the `car::Anova()` approach.
+
+## Example 1: One Categorical Predictor
+
+- To determine if `location` is statistically significant as a whole,
+
+```{r}
+car::Anova(m1, type = 3, test = "F")
+```
+
+- We see that location significantly predicts damage cost ($p = 0.017$).
+
+## Example 1: One Categorical Predictor
+
+- **Hypotheses**
+  
+    - $H_0: \ \beta_{\text{garage}} = \beta_{\text{kitchen}} = \beta_{\text{living room}} = 0$ 
+    - $H_1:$ at least one $\beta_i \ne 0$ 
+  
+- **Test Statistic and *p*-Value**
+  
+    - $F_0 = 3.450$, $p = 0.017$
+
+- **Rejection Region**
+  
+    - Reject $H_0$ if $p < \alpha$; $\alpha = 0.05$.
+    
+- **Conclusion/Interpretation**
+
+    - Reject $H_0$. There is sufficient evidence to suggest that location significantly predicts damage cost.    
+    
+## Inference for Categorical Variables ($c \ge 2$) 
+
+- When we have determined that a categorical predictor is statistically significant as a whole, we can look at the individual $t$-tests for each class.
+
+- Then, our hypotheses for each class are:
+
+    - $H_0: \ \beta_i = 0$ (class $i$ is not significantly different from the reference class)
+    - $H_1: \ \beta_i \ne 0$ (class $i$ is significantly different from the reference class)
+
+- Remember that these are testing that particular group against the reference group and are similar to *posthoc tests*.
+
+    - Note! Because this is similar to posthoc testing, we should adjust our $\alpha$.
+    
+    - A simple way to do this is to use the Bonferroni correction: $\alpha_{\text{B}} = \frac{\alpha}{c-1}$.
+
+## Inference for Categorical Variables ($c \ge 2$) 
+    
+- **Hypotheses**
+
+    - $H_0: \ \beta_i  = 0$ 
+    - $H_1: \ \beta_i \ne 0$ 
+
+- **Test Statistic and *p*-Value**
+
+    - $t_0 = [\text{value from R}]$, $p = [\text{value from R}]$
+
+- **Rejection Region**
+
+    - Reject $H_0$ if $p < \alpha$; ; $\alpha = [(\text{assumed } \alpha)/(c-1)]$.
+    
+- **Conclusion/Interpretation**
+
+    - [Reject (*if $p < \alpha$*) or fail to reject (*if $p \ge \alpha$*)] $H_0$. There [is (*if reject*) or is not (*if FTR*)] sufficient evidence to suggest that [*class name*] is significantly different from [reference class name] when predicting [outcome variable].
+    
+## Example 1: One Categorical Predictor 
+
+- In our example,
+
+```{r}
+tidy(m1, conf.int = TRUE)
+```    
+
+- The garage is not significantly different from the backyard ($p = 0.013$). This difference is estimated to be $64 (-$18, $147).
+
+- The kitchen is significantly different from the backyard ($p = 0.001$). We estimate this difference to be $131 ($51, $212).
+
+- The living room is not significantly different from the backyard ($p = 0.013$). This difference is estimated to be $59 (-$17, $135).
+
+## Example 2: Two Categorical Predictors
+
+- Recall our second example,
+
+```{r}
+m4 <- glm(damage_cost ~ location + nephew,
+          data = duck_incidents)
+tidy(m4, conf.int = TRUE)
+```
+
+- Here, we have two categorical predictors: `location` (4 classes) and `nephew` (2 classes).
+
+    - Because both `location` is a factor variable with 4 classes, we will use the `car::Anova()` approach again.
+    
+## Example 2: Two Categorical Predictors
+
+- To determine if `location` and `nephew` are statistically significant as a whole,
+
+```{r}
+car::Anova(m4, type = 3, test = "F")
+```
+
+- We see that both location ($p = 0.034$) and nephew ($p < 0.001$) significantly predict damage cost.
+
+## Example 2: Two Categorical Predictors
+
+- We mentioned earlier that if we are using indicator variables, we will take the reduced/full approach. 
+
+- We can still do that here -- let's try it out.
+
+```{r}
+full <- glm(damage_cost ~ location + nephew, data = duck_incidents) # full model
+reduced_loc <- glm(damage_cost ~ nephew, data = duck_incidents) # reduced without location
+reduced_neph <- glm(damage_cost ~ location, data = duck_incidents) # reduced without nephew
+anova(reduced_loc, full) # test location
+anova(reduced_neph, full) # test nephew
+```
+
+## Example 2: Two Categorical Predictors
+
+```{r}
+car::Anova(m4, type = 3, test = "F") # car::Anova() approach
+anova(reduced_loc, full) # full/reduced for location
+anova(reduced_neph, full) # full/reduced for nephew
+```
+
+## Example 2: Two Categorical Predictors
+
+- **Hypotheses**
+  
+    - $H_0: \ \beta_{\text{garage}} = \beta_{\text{kitchen}} = \beta_{\text{living room}} = 0$ 
+    - $H_1:$ at least one $\beta_i \ne 0$ 
+  
+- **Test Statistic and *p*-Value**
+  
+    - $F_0 = 2.91$, $p = 0.034$
+
+- **Rejection Region**
+  
+    - Reject $H_0$ if $p < \alpha$; $\alpha = 0.05$.
+    
+- **Conclusion/Interpretation**
+
+    - Reject $H_0$. There is sufficient evidence to suggest that location significantly predicts damage cost.  
+    
+## Example 2: Two Categorical Predictors
+
+- **Hypotheses**
+  
+    - $H_0: \ \beta_{\text{Huey}} = \beta_{\text{Louie}} = 0$ 
+    - $H_1:$ at least one $\beta_i \ne 0$ 
+  
+- **Test Statistic and *p*-Value**
+  
+    - $F_0 = 26.69$, $p < 0.001$
+
+- **Rejection Region**
+  
+    - Reject $H_0$ if $p < \alpha$; $\alpha = 0.05$.
+    
+- **Conclusion/Interpretation**
+
+    - Reject $H_0$. There is sufficient evidence to suggest that nephew significantly predicts damage cost.  
+
+## Example 2: Two Categorical Predictors
+
+- Let's re-examine this model with the location indicators,
+
+```{r}
+m4a <- glm(damage_cost ~ location + nephew, data = duck_incidents)
+coefficients(m4a)
+m4b <- glm(damage_cost ~ loc_garage + loc_kitchen + loc_living + nephew, data = duck_incidents)
+coefficients(m4b)
+```
+
+## Example 2: Two Categorical Predictors
+
+- What happens when I run these models through `car::Anova()`?
+
+```{r}
+car::Anova(m4a, type = 3, test = "F") # factor variable
+car::Anova(m4b, type = 3, test = "F") # indicator variables
+```
+
+## Example 2: Two Categorical Predictors
+
+- If you have (manually) included indicator variables, <u>you must take the full/reduced approach</u> when examining omnibus tests for categorical predictors.
+
+```{r}
+car::Anova(m4b, type = 3, test = "F") # indicator variables
+reduced_loc2 <- glm(damage_cost ~ nephew, data = duck_incidents) # reduced without location
+anova(reduced_loc2, m4b) # test location
+```
+
+## Example 2: Two Categorical Predictors
+
+- Now that we know that location and nephew are statistically significant predictors ($p = 0.034$ and $p < 0.001$, respectively), we can look at the individual $t$-tests for each class.
+
+```{r}
+tidy(m4, conf.int = TRUE)
+```
+
+## Example 2: Two Categorical Predictors
+
+- Location:
+
+    - The garage is not significantly different from the backyard ($p = 0.197$). This difference is estimated to be $51 (-$27, $130).
+    
+    - The kitchen is significantly different from the backyard ($p = 0.004$). We estimate this difference to be $121 ($37, $190).
+    
+    - The living room is not significantly different from the backyard ($p = 0.071$). This difference is estimated to be $54 (-$5, $139).
+
+- Nephew
+
+    - There is not a difference in cost between Huey and Dewey (p=0.813$). We estimate that Huey causes $8 less in damage (-$74, $58).
+    
+    - There is a difference between Louie and Dewey ($p < 0.001$). We estimate that Louie causes $207 more in damage ($141, $272).
+
+## Example 3: Mixing Continuous and Categorical Predictors
+
+- Let's now at location, newphew, and sugar intake as predictors.
+
+    - What changes when continuous predictors are in the mix?
+
+```{r}
+m5 <- glm(damage_cost ~ location + nephew + sugar_grams,
+          data = duck_incidents)
+tidy(m5, conf.int = TRUE)
+```
+
+## Example 3: Mixing Continuous and Categorical Predictors
+
+- Thankfully, nothing new is introduced -- we can take either approach! 
+    
+    - Note that when I have a factor as a predictor, I always use `car::Anova()`.
+
+```{r}
+car::Anova(m5, type = 3, test = "F")
+```
+
+- We can see that nephew is significant ($p < 0.001$) while location and sugar intake are not ($p = 0.140$ and $p = 0.073$, respectfully).
+
+    - If we were to do the pairwise testing, we would *only* consider the nephew comparisons.
+    
+    - We would not look at the location comparisons because location is not significant at the global level.
+    
+## Example 3: Mixing Continuous and Categorical Predictors
+
+- Wait... sugar intake can be examined using `car::Anova()` too?
+
+```{r}
+car::Anova(m5, type = 3, test = "F")
+```    
+
+- Yes! We do not need separate `tidy()` output to examine continuous predictors.
+
+```{r}
+tidy(m5, conf.int = TRUE) %>% tail(n=4)
+```
+
+## Example 3: Mixing Continuous and Categorical Predictors
+
+- Recall the relationship between a $t$ test and an $F$ test:
+
+$$
+F \approx t^2
+$$
+
+- and that their $p$-values will be the same. 
+
+- We see that in this example,
+
+| Method | Test Statistic | *p*-Value |
+|:------|--------------:|---------:| 
+| `car::Anova()` | $F = 3.22$ | $0.073$ |
+| `tidy()` | $t = 1.80$ | $0.073$ |
+
+- To confirm the relationship, $1.80^2 = 3.24 \approx 3.22$.
+
+## Example 4: Binary Predictors
+
+- Recall, we created a binary indicator for *punished* -- it is stored as 0/1 (numeric).
+
+```{r}
+duck_incidents <- duck_incidents %>%
+  mutate(donald_action = case_when(donald_reaction %in% c("Assigns Chores", "Grounds") ~ "Punished",
+                                   donald_reaction %in% c("Laughs", "Yells") ~ "No Punishment")) %>%
+  mutate(punished = if_else(donald_action == "Punished", 1, 0))
+duck_incidents %>% count(punished)
+```
+
+## Example 4: Binary Predictors
+
+- Let's now model damage cost using *sugar_grams* and *punished*.
+
+```{r}
+m6 <- glm(damage_cost ~ sugar_grams + punished,
+          data = duck_incidents)
+tidy(m6, conf.int = TRUE)
+```
+- Because *punished* is a binary indicator, we can look at the hypothesis testing like any other continuous predictor.
+
+- In this model, sugar intake is significant ($p < 0.001$) while punishment is not ($p = 0.773$).
+
+## Example 4: Binary Predictors
+
+- Comparing this to the `car::Anova()` approach,
+
+```{r}
+tidy(m6, conf.int = TRUE)
+car::Anova(m6, type = 3, test = "F")
+```
+
+- The $p$-values are the same.
+
+    - Sugar intake is significant ($p < 0.001$) while punishment is not ($p = 0.773$).
+
+## Summary
+
+- When dealing with categorical predictors with $c \ge 2$, we must remember to test the global significance.
+
+    - If using a factor variable, we can use `car::Anova()`.
+    
+    - If using indicator variables, we must use the full/reduced approach.
+    
+- When the omnibus test is significant, we then look at the individual $t$-tests for each class for pairwise significance.
+
+    - Remember that we are always comparing against the reference group.
+    
+    - If the omnibus test is not significant, we do not consider the individual $t$-tests.
+    
+- Like with most things in R, there is more than one way to complete the analysis. 
+
+    - Choose the method that (1) is appropriate and (2) makes the most sense to you/your brain.

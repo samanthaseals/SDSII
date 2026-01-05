@@ -1,0 +1,519 @@
+---
+title: "Review of Linear Regression"
+execute:
+  echo: true
+  warning: false
+  message: false
+format: 
+  revealjs:
+    theme: default
+    self-contained: true
+    slide-number: true
+    width: 1600
+    height: 900
+    df-print: paged
+    html-math-method: katex
+    code-fold: false
+    code-tools: false
+    incremental: false
+editor: source
+---
+
+## Introduction
+
+- Recall the general linear model, $$y = \beta_0 + \beta_1 x_1 + ... + \beta_k x_k$$
+
+- This is a multiple regression model because it has multiple predictors ($x_i$).
+
+    - A special case is simple linear regression, when there is a single predictor. $$y = \beta_0 + \beta_1 x_1 $$
+
+- $\beta_0$ is the $y$-intercept, or the average outcome ($y$) when all $x_i = 0$.
+
+- $\beta_i$ is the slope for predictor $i$ and describes the relationship between the predictor and the outcome, after adjusting (or accounting) for the other predictors in the model.
+
+## Lecture Example Set Up
+
+- On a busy day at the clubhouse, Mickey Mouse wants to understand what drives "happiness" at the end of the day. For each day, he records (in the <u>**clubhouse**</u> dataset):
+
+    - Time with friends (in hours; *time_with_friends*): how many hours Mickey spends hanging out with his friends.
+    - Goofy Laughs (a count; *goofy_laughs*) – how many big goofy laughs happen that day.
+    - Donald Grumbles (a count; *donald_grumbles*): how many times Donald gets frustrated and grumbles.
+    - Clubhouse Happiness (a score; *clubhouse_happiness*): an overall happiness score at the end of the day.
+
+- In this lecture, we will use a linear model to explore the relationships between happiness and laughs, grumbles, and time spent with friends.
+
+## Lecture Example Set Up 
+
+<!-- 
+If you are looking at the raw .qmd, note that
+the following code chunk has the option "echo: false" so that
+the output is displayed but the code itself is hidden. 
+This step is not necessary on your assignments, just for clarity on slides    
+-->
+
+```{r}
+#| echo: false
+library(tidyverse)
+library(broom)
+```
+
+- Let's pull in our data, 
+
+<!-- read_csv() is from library(tidyverse) -->
+<!-- head() is to display data on the slide -->
+
+```{r}
+clubhouse <- read_csv("~/Desktop/GitHub/samanthaseals/STA4231_STA6262/files/data/lectures/W1_mickey_clubhouse.csv")
+head(clubhouse)
+```
+
+## Constructing the Linear Model (R)
+
+- We will use the `glm()` function to construct our linear model.
+
+    - `glm()` stands for Generalized Linear Model.
+    - For linear regression, we will specify `family = gaussian`.
+
+<!--
+If you are looking at the raw .qmd, note that
+the following code chunk has the option "eval: false" so that
+the code is displayed but is not evaluated.
+This is entirely for slide purposes; you will not use
+#| eval: false in your assignments.
+-->
+
+```{r}
+#| eval: false
+m <- glm(y ~ x_1 + x_2 + ... + x_k,
+         family = "gaussian",
+         data = dataset_name)
+```
+
+## Constructing the Linear Model 
+
+- In our example,
+
+```{r}
+m <- glm(clubhouse_happiness ~ time_with_friends + goofy_laughs + donald_grumbles,
+         family = gaussian,
+         data = clubhouse)
+tidy(m)
+```
+
+$$
+\begin{align*}
+\hat{y} &= 47.58 + 3.58 \ x_1 + 0.65 \ x_2 - 1.06 \ x_3 \\
+\hat{\text{happiness}} &= 47.58 + 3.58 \text{ time} + 0.65 \text{ laughs} - 1.06 \text{ grumbles}
+\end{align*}
+$$
+
+## Interpretation of Slope
+
+- We want to put the slope into perspective for whoever we are collaborating with.
+
+- Basic interpretation: for every 1 [units of $x_i$] increase in [$x_i$], [$y$] [increases or decreases] by $\left[ \left| \hat{\beta}_i \right| \right]$ [units of $y$].
+
+    - We say that $y$ is decreasing if $\hat{\beta}_i < 0$ and $y$ is increasing if $\hat{\beta}_i > 0$.
+    
+- Note that in the case of multiple regression, there is an unspoken "after adjusting for everything else in the model" at the end of the sentence.
+
+    - Always remember that we are looking at the relationship between $y$ and $x_i$ after adjusting for all other predictors included in the predictor set.    
+
+## Interpretation of Slope
+
+- Let's interpret the slopes for the model we constructed.
+
+```{r}
+m %>% tidy()
+```
+
+## Interpretation of Slope
+
+- Let's interpret the slopes for the model we constructed.
+
+<!-- 
+If you are looking at the raw .qmd, note that
+the following code chunk has the option "echo: false" so that
+the output is displayed but the code itself is hidden. 
+This step is not necessary on your assignments, just for clarity on slides    
+-->
+
+<!-- 
+Please also note that I am using the coefficients()
+function so that I can display the slopes without the full table.
+This is not necessary on your assignments.
+-->
+
+```{r}
+#| echo: false
+coefficients(m)[-1]
+```
+
+- For every 1 hour increase in time spent with friends, clubhouse happiness increases by 3.58 points, after adjusting for goofy laughs and Donald grumbles.
+
+- For every 1 big goofy laugh increase, clubhouse happiness increases by 0.65 points, after adjusting for time spent with friends and Donald grumbles.
+
+- For every 1 Donald grumble increase, clubhouse happiness decreases by 1.06 points, after adjusting for time spent with friends and goofy laughs.
+
+## Interpretation of Slope
+
+- We can also scale our interpretations. e.g.,
+
+    - For every k [units of $x_i$] increase in [$x_i$], [$y$] [increases or decreases] by $\left[ k \times \left| \hat{\beta}_i \right| \right]$ [units of $y$].
+    
+- In our example,
+
+    - For every increase of 1 Donald grumble, clubhouse happiness decreases by 1.06 points, after adjusting for time spent with friends and goofy laughs.
+    - For every increase of 5 Donald grumbles, clubhouse happiness decreases by 5.3 points, after adjusting for time spent with friends and goofy laughs.
+
+## Interpretation of Intercept
+
+- The intercept is the average of the outcome when all predictors in the model are equal to 0. 
+
+    - We can think of this as the "baseline" level of the outcome before any predictors have an effect.
+
+- In our example,
+
+<!-- 
+If you are looking at the raw .qmd, note that
+the following code chunk has the option "echo: false" so that
+the output is displayed but the code itself is hidden. 
+This step is not necessary on your assignments, just for clarity on slides    
+-->
+
+<!-- 
+Please also note that I am using the coefficients()
+function so that I can display the slopes without the full table.
+This is not necessary on your assignments.
+-->
+
+```{r}
+#| echo: false
+coefficients(m)[1]
+```
+
+- The average clubhouse happiness when time with friends = 0 hours, goofy laughs = 0, and Donald grumbles = 0 is 47.58 points.
+
+## Confidence Intervals for $\beta_i$ (R)
+
+- Recall confidence intervals -- they allow us to determine how "good" our estimation is.
+
+- In general, CIs will take the form
+<center> point estimate $\pm$ margin of error </center>
+  
+- The margin of error is a critical value (e.g., $t_{1-\alpha/2}$) multiplied by the standard error of the point estimate.
+
+- Recall that the standard error accounts for the sample size.
+
+- In R, we will run the model results through the `tidy()` function, but ask for the confidence intervals. 
+
+<!--
+If you are looking at the raw .qmd, note that
+the following code chunk has the option "eval: false" so that
+the code is displayed but is not evaluated.
+This is entirely for slide purposes; you will not use
+#| eval: false in your assignments.
+-->
+
+```{r}
+#| eval: false
+m %>% tidy(conf.int = TRUE)
+```
+
+## Confidence Intervals for $\beta_i$
+
+- In our example, 
+
+```{r}
+m %>% tidy(conf.int = TRUE)
+```
+
+- We have the following CIs:
+  
+    - 95% CI for $\beta_{\text{time}}$ is (2.37, 4.78)
+    - 95% CI for $\beta_{\text{goofy}}$ is (0.52, 0.79)
+    - 95% CI for $\beta_{\text{Donald}}$ is (-1.34, -0.79)
+    
+## Confidence Intervals for $\beta_i$
+
+- What if we want something other than a 95% CI?
+
+<!--
+If you are looking at the raw .qmd, note that
+the following code chunk has the option "eval: false" so that
+the code is displayed but is not evaluated.
+This is entirely for slide purposes; you will not use
+#| eval: false in your assignments.
+-->
+
+```{r}
+#| eval: false
+m %>% tidy(conf.int = TRUE, conf.level = insert_level_here)
+```
+
+## Confidence Intervals for $\beta_i$
+
+- In our example,
+
+```{r}
+m %>% tidy(conf.int = TRUE, conf.level = 0.99)
+```
+- We have the following CIs:
+  
+    - 99% CI for $\beta_{\text{time}}$ is (1.99, 5.16)
+    - 99% CI for $\beta_{\text{goofy}}$ is (0.48, 0.84)
+    - 99% CI for $\beta_{\text{Donald}}$ is (-1.42, -0.71)    
+    
+## Confidence Intervals for $\beta_i$
+
+- Let's compare the two sets of CIs.
+
+- 95% CIs for $\beta_i$:
+  
+    - 95% CI for $\beta_{\text{time}}$ is (2.37, 4.78)
+    - 95% CI for $\beta_{\text{goofy}}$ is (0.52, 0.79)
+    - 95% CI for $\beta_{\text{Donald}}$ is (-1.34, -0.79)
+    
+- 99% CIs for $\beta_i$:
+  
+    - 99% CI for $\beta_{\text{time}}$ is (1.99, 5.16)
+    - 99% CI for $\beta_{\text{goofy}}$ is (0.48, 0.84)
+    - 99% CI for $\beta_{\text{Donald}}$ is (-1.42, -0.71)        
+
+## Significant Regression Line
+
+- We now will ask ourselves if any of our slopes are flat.
+
+$$
+H_0: \ \beta_1 = \beta_2 = ... = \beta_k = 0
+$$
+
+- What does it mean if the slopes are flat?
+
+    - If a slope is flat, it means that there is no relationship between that predictor and the outcome, after adjusting for the other predictors in the model.
+        
+- We will use hypothesis testing to determine if at least one slope is non-zero.
+
+    - This is often referred to as the omnibus $F$-test in linear regression.
+    
+    - We will instead use the likelihood ratio test.
+        
+        - This is because we will continue to use this test outside of the normal distribution.
+
+## Significant Regression Line
+
+- For any model constructed, we can compute deviance.
+
+    - Deviance measures the unexplained variability in the outcome under the fitted model.
+    - Lower deviance means the model fits the data better.
+        - The actual value is not meaningful.
+    
+- To determine the test statistic, we examine the difference between two models:
+
+    - Full model: includes all predictors.
+    - Reduced model: includes only the intercept (no predictors).    
+
+- Then, we look at the difference between the deviances of the full and reduced models.
+	
+    - This difference has an approximate $\chi^2$ distribution.
+
+## Significant Regression Line
+
+- **Hypotheses**
+  
+    - $H_0: \ \beta_1 = ... = \beta_k = 0$ 
+    - $H_1:$ at least one $\beta_i \ne 0$ 
+  
+- **Test Statistic and *p*-Value**
+  
+    - $\chi^2_0 = [\text{value from R}]$, $p = [\text{value from R}]$
+
+- **Rejection Region**
+  
+    - Reject $H_0$ if $p < \alpha$; $\alpha = [\text{assumed } \alpha]$.
+    
+- **Conclusion/Interpretation**
+
+    - [Reject (*if $p < \alpha$*) or fail to reject (*if $p \ge \alpha$*)] $H_0$. There [is (*if reject*) or is not (*if FTR*)] sufficient evidence to suggest that at least one slope is non-zero.
+
+<!-- i.e.,
+Reject the null. There is sufficient evdience to suggest...
+Fail to reject the null. There is not sufficient evdience to suggest...
+-->
+    
+## Significant Regression Line (R)
+
+- We will *compare models* to determine the significance of the line.
+
+    - Full model: includes all predictors.
+    - Reduced model: includes only the intercept (no predictors). 
+    
+- In R,    
+
+```{r}
+#| eval: false
+full <- glm(y ~ x_1 + x_2 + ... + x_k, data = dataset_name, family = "gaussian")
+reduced <- glm(y ~ 1, data = dataset_name, family = "gaussian")
+anova(reduced, full, test = "LRT")
+```        
+
+## Significant Regression Line 
+
+- In our example,    
+
+```{r}
+full <- glm(clubhouse_happiness ~ time_with_friends + goofy_laughs + donald_grumbles,
+            data = clubhouse,
+            family = "gaussian")
+reduced <- glm(clubhouse_happiness ~ 1, 
+               data = clubhouse, 
+               family = "gaussian")
+anova(reduced, full, test = "LRT")
+```  
+
+## Significant Regression Line
+
+- **Hypotheses**
+  
+    - $H_0: \ \beta_{\text{time}} = \beta_{\text{goofy}} = \beta_{\text{Donald}} = 0$ 
+    - $H_1:$ at least one $\beta_i \ne 0$ 
+  
+- **Test Statistic and *p*-Value**
+  
+    - $\chi^2_0 = 17305$, $p < 0.001$
+
+- **Rejection Region**
+  
+    - Reject $H_0$ if $p < \alpha$; $\alpha = 0.05$.
+    
+- **Conclusion/Interpretation**
+
+    - Reject $H_0$. There is sufficient evidence to suggest that at least one slope is non-zero.
+    
+## Significant Predictors of $y$
+
+- **Hypotheses**
+
+    - $H_0: \ \beta_i  = 0$ 
+    - $H_1: \ \beta_i \ne 0$ 
+
+- **Test Statistic and *p*-Value**
+
+    - $t_0 = [\text{value from R}]$, $p = [\text{value from R}]$
+
+- **Rejection Region**
+
+    - Reject $H_0$ if $p < \alpha$; ; $\alpha = [\text{assumed } \alpha]$.
+    
+- **Conclusion/Interpretation**
+
+    - [Reject (*if $p < \alpha$*) or fail to reject (*if $p \ge \alpha$*)] $H_0$. There [is (*if reject*) or is not (*if FTR*)] sufficient evidence to suggest that [*predictor name*] significantly predicts [*outcome*], after adjusting for the other predictors in the model.
+    
+## Significant Predictors of $y$ (R)
+
+- Because we currently are only dealing with continuous predictors, we will use the results from `tidy()`.
+
+<!--
+If you are looking at the raw .qmd, note that
+the following code chunk has the option "eval: false" so that
+the code is displayed but is not evaluated.
+This is entirely for slide purposes; you will not use
+#| eval: false in your assignments.
+-->
+
+```{r}
+#| eval: false
+m %>% tidy()
+```    
+
+## Significant Predictors of $y$
+
+- In our example,
+
+```{r}
+m %>% tidy()
+```   
+
+## Significant Predictors of $y$
+
+- **Hypotheses**
+
+    - $H_0: \ \beta_{\text{time}}  = 0$ 
+    - $H_1: \ \beta_{\text{time}} \ne 0$ 
+- **Test Statistic and *p*-Value**
+
+    - $t_0 = 5.80$, $p < 0.001$
+
+- **Rejection Region**
+
+    - Reject $H_0$ if $p < \alpha$; ; $\alpha = 0.05$.   
+    
+- **Conclusion/Interpretation**
+
+    - Reject $H_0$. There is sufficient evidence to suggest that time with friends significantly predicts the clubhouse happiness, after adjusting for the other predictors in the model.
+    
+## Significant Predictors of $y$
+
+- **Hypotheses**
+
+    - $H_0: \ \beta_{\text{goofy}}  = 0$ 
+    - $H_1: \ \beta_{\text{goofy}} \ne 0$ 
+
+- **Test Statistic and *p*-Value**
+
+    - $t_0 = 9.55$, $p < 0.001$
+
+- **Rejection Region**
+
+    - Reject $H_0$ if $p < \alpha$; ; $\alpha = 0.05$.  
+    
+- **Conclusion/Interpretation**
+
+    - Reject $H_0$. There is sufficient evidence to suggest that goofy laughs significantly predict the clubhouse happiness, after adjusting for the other predictors in the model.
+    
+    
+## Significant Predictors of $y$
+
+- **Hypotheses**
+
+    - $H_0: \ \beta_{\text{Donald}}  = 0$ 
+    - $H_1: \ \beta_{\text{Donald}} \ne 0$ 
+
+- **Test Statistic and *p*-Value**
+
+    - $t_0 = -7.66$, $p < 0.001$
+
+- **Rejection Region**
+
+    - Reject $H_0$ if $p < \alpha$; ; $\alpha = 0.05$.    
+    
+- **Conclusion/Interpretation**
+
+    - Reject $H_0$. There is sufficient evidence to suggest that Donald's grumbles significantly predict the clubhouse happiness, after adjusting for the other predictors in the model.
+
+## Reporting Results
+
+
+- I typically use a table to provide results to collaborators.
+
+| Predictor | $\hat{\beta}_i$ (95% CI for $\beta_i$) | *p*-value |
+|:--|:--:|--:|
+| time with friends | 3.58 (2.37, 4.78) | < 0.001 |
+| goofy laughs | 0.65 (0.52, 0.80) | < 0.001 |
+| Donald grumbles | -1.06 (-1.34, -0.79) | < 0.001 |
+
+- As time with friends increases by 1 minute, clubhouse happiness increases by 3.58 points.
+- As goofy laughs increase by 1, clubhouse happiness increases by 0.65 points.
+- As Donald grumbles increase by 1, clubhouse happiness decreases by 1.06 points
+
+## Wrap Up
+
+- This lecture reviewed the key components of linear regression:
+
+    - Constructing the model in R
+    - Interpreting slopes and intercepts
+    - Constructing confidence intervals for slopes
+    - Testing for a significant regression line
+    - Testing for significant predictors
+    
+- Next lecture: Model Visualization

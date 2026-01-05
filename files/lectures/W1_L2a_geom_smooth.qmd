@@ -1,0 +1,103 @@
+---
+title: "A note about `geom_smooth()`"
+execute:
+  echo: true
+  warning: false
+  message: false
+format: 
+  revealjs:
+    theme: default
+    self-contained: true
+    slide-number: true
+    width: 1600
+    height: 900
+    df-print: paged
+    html-math-method: katex
+    code-fold: false
+    code-tools: false
+    incremental: false
+editor: source
+---
+
+## Introduction
+
+- `geom_smooth(method = "lm")` is a convenient function in the `ggplot2` library that automatically fits and adds a line of best fit to a scatterplot.
+
+- However, this line is misleading for multiple linear regression models.
+
+- This sidebar lecture demonstrates why it is misleading.
+
+## What does `geom_smooth()` do?
+
+- `geom_smooth(method = "lm")` fits a simple linear regression model to the data in the scatterplot.
+
+- That is, it is graphing the line of best fit from a model with one predictor,
+
+<center>`y ~ x`</center>
+
+- However, that does not match the model from `glm()` when $k > 1$.
+
+<center>`y ~ x1 + x2 + ... + xk`</center>
+
+```{r}
+#| echo: false
+library(tidyverse)
+library(broom)
+clubhouse <- read_csv("~/Desktop/GitHub/samanthaseals/STA4231_STA6262/files/data/lectures/W1_mickey_clubhouse.csv") %>%
+  mutate(predicted_happiness_slr = 57.55 + 3.49*time_with_friends,
+         predicted_happiness_mlr = 47.58 + 3.58*time_with_friends + 0.66*median(goofy_laughs) - 1.06*median(donald_grumbles))
+```
+
+## Example
+
+- Let's examine this graphically using the example from lecture.
+
+- Recall our simple linear regression,
+
+$$
+\hat{\text{happiness}} = 57.55 + 3.49 \text{ time}
+$$
+
+- and our multiple linear regression,
+
+$$
+\hat{\text{happiness}} = 47.58 + 3.58 \text{ time} + 0.66 \text{ laughs} - 1.06 \text{ grumbles}
+$$
+
+## Example: `geom_smooth()` with simple linear regression
+
+- Using `geom_smooth()` in the case of simple linear regression works as expected.
+
+```{r}
+#| echo: false
+#| fig-align: 'center'
+ggplot(clubhouse, aes(x = time_with_friends, y = clubhouse_happiness)) +
+  geom_point() +
+  geom_smooth(method = "lm", se = FALSE, color = "black", size = 2) +
+  geom_line(aes(y = predicted_happiness_slr), color = "gray", linetype = "dashed") +
+  labs(y = "Happiness Score",
+       x = "Time with Friends (minutes)") +
+  theme_bw()
+```
+
+## Example: `geom_smooth()` with multiple linear regression
+
+- Using `geom_smooth()` in the case of multiple linear regression does not work as expected
+
+```{r}
+#| echo: false
+#| fig-align: 'center'
+ggplot(clubhouse, aes(x = time_with_friends, y = clubhouse_happiness)) +
+  geom_point() +
+  geom_smooth(method = "lm", se = FALSE, color = "black", size = 2) +
+  geom_line(aes(y = predicted_happiness_mlr), color = "gray", linetype = "dashed") +
+  labs(y = "Happiness Score",
+       x = "Time with Friends (minutes)") +
+  theme_bw()
+```
+
+
+
+  
+
+
