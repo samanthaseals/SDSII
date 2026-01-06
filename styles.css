@@ -1,0 +1,46 @@
+/* styles.css */
+  
+/* Minty-compatible callout styles */
+
+/* Callout tip: soft mint green */
+.callout.callout-tip {
+  background-color: #f2fcf7;     /* very pale mint green */
+  border-left: 4px solid #5cb85c; /* Bootstrap mint green border */
+}
+
+/* Callout note: soft blue-green */
+.callout.callout-note {
+  background-color: #e8f6f9;     /* soft teal tint */
+  border-left: 4px solid #46b8da; /* Minty Bootstrap info blue */
+}
+
+/* Callout important: light coral accent */
+.callout.callout-important {
+  background-color: #fae7e8;     /* soft pink-red */
+  border-left: 4px solid #d9534f; /* Minty Bootstrap danger red */
+}
+
+/* Remove default callout icon */
+.callout .callout-icon {
+  display: none;
+}
+
+/* Optional: adjust spacing after removing icon */
+.callout .callout-title {
+  padding-left: 0.5em;
+  font-weight: 600;
+}
+
+
+
+/* Light mint green background for the entire site */
+body {
+  background-color: #f2fcf7; /* very light mint green */
+}
+
+main {
+  background-color: #f2fcf7; /* whisper-mint tint */
+  border-radius: 12px;
+  padding: 1.5rem;
+  box-shadow: 0 0 0px rgba(0, 0, 0, 0.02); /* soft, not stark */
+}
