@@ -9,212 +9,212 @@
   {
     "objectID": "files/lectures/W1_L3_assumptions.html#introduction",
     "href": "files/lectures/W1_L3_assumptions.html#introduction",
-    "title": "Model Assumptions and Diagnostics",
+    "title": "Model Assumptions",
     "section": "Introduction",
     "text": "Introduction\n\nRecall the glm,\n\n\ny = \\beta_0 + \\beta_1 x_1 + \\beta_2 x_2 + ... \\beta_k x_k + \\varepsilon\n\n\nIn this model, \\varepsilon is the residual error term.\nRecall that the residual error (how far away the observation is from the response surface) is defined as\n\n\\varepsilon = y - \\hat{y}\n\nNote that\n\ny is the observed value\n\\hat{y} is the predicted value"
   },
   {
     "objectID": "files/lectures/W1_L3_assumptions.html#model-assumptions-hileg",
     "href": "files/lectures/W1_L3_assumptions.html#model-assumptions-hileg",
-    "title": "Model Assumptions and Diagnostics",
+    "title": "Model Assumptions",
     "section": "Model Assumptions: HILE+G",
     "text": "Model Assumptions: HILE+G\n\nTo ensure the validity of the least squares estimation, we have several assumptions:\n\nHomogeneity of variance\nIndependence of observations\nLinearity\nExistence\nGaussian errors\n\nThink: HILE+G\n\nWe require HILE for the OLS to be valid.\nWe require +G for maximum likelihood estimation."
   },
   {
     "objectID": "files/lectures/W1_L3_assumptions.html#model-assumptions-homogeneity-of-variance",
     "href": "files/lectures/W1_L3_assumptions.html#model-assumptions-homogeneity-of-variance",
-    "title": "Model Assumptions and Diagnostics",
+    "title": "Model Assumptions",
     "section": "Model Assumptions: Homogeneity of Variance",
     "text": "Model Assumptions: Homogeneity of Variance\n\nHomogeneity of variance (also called homoscedasticity) means that the variance of the residuals is constant across all levels of the predictors.\nIf the variance of the residuals changes at different levels of the predictors, we have heteroscedasticity.\nWe will check this assumption graphically using a scatterplot of residual vs. fitted values.\n\nWe do not want to see a pattern.\nA “funnel” or “open fan” shape indicates heteroscedasticity.\nA general “cloud” shape indicates homoscedasticity."
   },
   {
     "objectID": "files/lectures/W1_L3_assumptions.html#model-assumptions-homogeneity-of-variance-r",
     "href": "files/lectures/W1_L3_assumptions.html#model-assumptions-homogeneity-of-variance-r",
-    "title": "Model Assumptions and Diagnostics",
+    "title": "Model Assumptions",
     "section": "Model Assumptions: Homogeneity of Variance (R)",
     "text": "Model Assumptions: Homogeneity of Variance (R)\n\nWe will use the ssstats package to check assumptions.\nFor variance, we can use the variance_check() function.\n\n\nmodel %&gt;% variance_check()"
   },
   {
     "objectID": "files/lectures/W1_L3_assumptions.html#model-assumptions-homogeneity-of-variance-1",
     "href": "files/lectures/W1_L3_assumptions.html#model-assumptions-homogeneity-of-variance-1",
-    "title": "Model Assumptions and Diagnostics",
+    "title": "Model Assumptions",
     "section": "Model Assumptions: Homogeneity of Variance",
     "text": "Model Assumptions: Homogeneity of Variance\n\nSuppose we have a model, m1,\n\n\n\\hat{y} = 3 + 1.5 x + \\hat{\\varepsilon}\n\n\nm1 %&gt;% variance_check()"
   },
   {
     "objectID": "files/lectures/W1_L3_assumptions.html#model-assumptions-homogeneity-of-variance-2",
     "href": "files/lectures/W1_L3_assumptions.html#model-assumptions-homogeneity-of-variance-2",
-    "title": "Model Assumptions and Diagnostics",
+    "title": "Model Assumptions",
     "section": "Model Assumptions: Homogeneity of Variance",
     "text": "Model Assumptions: Homogeneity of Variance\n\nSuppose we have a model, m2,\n\n\n\\hat{y} = 4 + 1.2 x_1 - 0.8 x_2 + \\hat{\\varepsilon}\n\n\nm2 %&gt;% variance_check()"
   },
   {
     "objectID": "files/lectures/W1_L3_assumptions.html#model-assumptions-homogeneity-of-variance-3",
     "href": "files/lectures/W1_L3_assumptions.html#model-assumptions-homogeneity-of-variance-3",
-    "title": "Model Assumptions and Diagnostics",
+    "title": "Model Assumptions",
     "section": "Model Assumptions: Homogeneity of Variance",
     "text": "Model Assumptions: Homogeneity of Variance\n\nSuppose we have a model, m3,\n\n\n\\hat{y} = 5 + 1.1 x_1 - 0.9 x_2 + \\hat{\\varepsilon}\n\n\nm3 %&gt;% variance_check()"
   },
   {
     "objectID": "files/lectures/W1_L3_assumptions.html#model-assumptions-homogeneity-of-variance-4",
     "href": "files/lectures/W1_L3_assumptions.html#model-assumptions-homogeneity-of-variance-4",
-    "title": "Model Assumptions and Diagnostics",
+    "title": "Model Assumptions",
     "section": "Model Assumptions: Homogeneity of Variance",
     "text": "Model Assumptions: Homogeneity of Variance\n\nSuppose we have a model, m4,\n\n\n\\hat{y} = 4 + 1.0 x_1 - 0.7 x_2 + \\hat{\\varepsilon}\n\n\nm4 %&gt;% variance_check()"
   },
   {
     "objectID": "files/lectures/W1_L3_assumptions.html#model-assumptions-homogeneity-of-variance-5",
     "href": "files/lectures/W1_L3_assumptions.html#model-assumptions-homogeneity-of-variance-5",
-    "title": "Model Assumptions and Diagnostics",
+    "title": "Model Assumptions",
     "section": "Model Assumptions: Homogeneity of Variance",
     "text": "Model Assumptions: Homogeneity of Variance\n\nSuppose we have a model, m5,\n\n\n\\hat{y} = 3 + 1.3 x_1 - 0.9 x_2 + \\hat{\\varepsilon}\n\n\nm5 %&gt;% variance_check()"
   },
   {
     "objectID": "files/lectures/W1_L3_assumptions.html#model-assumptions-homogeneity-of-variance-6",
     "href": "files/lectures/W1_L3_assumptions.html#model-assumptions-homogeneity-of-variance-6",
-    "title": "Model Assumptions and Diagnostics",
+    "title": "Model Assumptions",
     "section": "Model Assumptions: Homogeneity of Variance",
     "text": "Model Assumptions: Homogeneity of Variance\n\nSuppose we have a model, m6,\n\n\n\\hat{y} = 2 + 1.1 x_1 - 0.8 x_2 + \\hat{\\varepsilon}\n\n\nm6 %&gt;% variance_check()"
   },
   {
     "objectID": "files/lectures/W1_L3_assumptions.html#model-assumptions-independence-of-observations",
     "href": "files/lectures/W1_L3_assumptions.html#model-assumptions-independence-of-observations",
-    "title": "Model Assumptions and Diagnostics",
+    "title": "Model Assumptions",
     "section": "Model Assumptions: Independence of Observations",
     "text": "Model Assumptions: Independence of Observations\n\nWe also assume that our observations are independent.\n\nThis means that the value of one observation does not influence or provide information about another observation.\n\nExamples of independent data:\n\nRandomly sampled individuals from a large population.\nMeasurements taken from different individuals with no inherent relationship\n\nExamples of dependent data:\n\nMeasurements taken from the same individual over time (repeated measures)\nMeasurements taken from individuals within the same group or cluster (e.g., students within the same classroom; people in the same family)\nSpatial data where observations are collected from nearby locations."
   },
   {
     "objectID": "files/lectures/W1_L3_assumptions.html#model-assumptions-independence-of-observations-1",
     "href": "files/lectures/W1_L3_assumptions.html#model-assumptions-independence-of-observations-1",
-    "title": "Model Assumptions and Diagnostics",
+    "title": "Model Assumptions",
     "section": "Model Assumptions: Independence of Observations",
     "text": "Model Assumptions: Independence of Observations\n\nViolations of independence often occur in longitudinal, time series, and spatial data.\nWhen analyzing correlated data, the methodology learned in this course is not appropriate.\n\nHonestly, it’s really not a big deal: we include a covariance structure in the model to account for dependence.\nHowever, this methodology is beyond the scope of this course – we will focus only on independent data.\n\nWhat about squicky cases?\n\nWe know that perfect independence may not be achievable in practice.\nMild violations of independence may not severely impact results, but this is context-dependent.\nUltimately, we do the best with what we can and notate any potential limitations in our analysis."
   },
   {
     "objectID": "files/lectures/W1_L3_assumptions.html#model-assumptions-linearity",
     "href": "files/lectures/W1_L3_assumptions.html#model-assumptions-linearity",
-    "title": "Model Assumptions and Diagnostics",
+    "title": "Model Assumptions",
     "section": "Model Assumptions: Linearity",
     "text": "Model Assumptions: Linearity\n\nWe assume that the relationship between each predictor and the response is linear in the parameters (i.e., \\beta_i).\n\nThis means that the effect of a one-unit change in a predictor on the response is constant, regardless of the value of that predictor.\n\nIn this course, all of the models we will construct are linear models.\nThe language gets tricky because we can have non-linear relationships in a linear model.\n\nFor example, we can include polynomial terms (e.g., x^2, x^3) or interaction terms (e.g., x_1 \\times x_2) in a linear model.\nAs long as the model is linear in the parameters, it is considered a linear model."
   },
   {
     "objectID": "files/lectures/W1_L3_assumptions.html#model-assumptions-linearity-1",
     "href": "files/lectures/W1_L3_assumptions.html#model-assumptions-linearity-1",
-    "title": "Model Assumptions and Diagnostics",
+    "title": "Model Assumptions",
     "section": "Model Assumptions: Linearity",
     "text": "Model Assumptions: Linearity\n\nConsider the following models – which are linear in \\beta?\n\n\\hat{y} = \\beta_0 + \\beta_1 x_1 + \\beta_2 x_2 + \\hat{\\varepsilon}\n\\hat{y} = \\beta_0 + \\beta_1 x_1 + \\beta_2 x_1^2 + \\hat{\\varepsilon}\n\\hat{y} = \\beta_0 + \\beta_1 x_1 + \\beta_2 x_2 x_3 + \\hat{\\varepsilon}\n\\hat{y} = \\beta_0 + \\beta_1 x_1 + \\beta_2^2 x_2 + \\hat{\\varepsilon}\n\\hat{y} = \\beta_0 + \\beta_1 \\log(x_1) + \\beta_2 x_2 + \\hat{\\varepsilon}\n\\hat{y} = \\beta_0 + \\log(\\beta_1) x_1 + \\beta_2 x_2 + \\hat{\\varepsilon}"
   },
   {
     "objectID": "files/lectures/W1_L3_assumptions.html#model-assumptions-linearity-2",
     "href": "files/lectures/W1_L3_assumptions.html#model-assumptions-linearity-2",
-    "title": "Model Assumptions and Diagnostics",
+    "title": "Model Assumptions",
     "section": "Model Assumptions: Linearity",
     "text": "Model Assumptions: Linearity\n\nConsider the following models – which are linear in \\beta?\n\n\\hat{y} = \\beta_0 + \\beta_1 x_1 + \\beta_2 x_2 + \\hat{\\varepsilon} – linear\n\\hat{y} = \\beta_0 + \\beta_1 x_1 + \\beta_2 x_1^2 + \\hat{\\varepsilon} – linear\n\\hat{y} = \\beta_0 + \\beta_1 x_1 + \\beta_2 x_2 x_3 + \\hat{\\varepsilon} – linear\n\\hat{y} = \\beta_0 + \\beta_1 x_1 + \\beta_2^2 x_2 + \\hat{\\varepsilon} – broken by \\beta_2^2\n\\hat{y} = \\beta_0 + \\beta_1 \\log(x_1) + \\beta_2 x_2 + \\hat{\\varepsilon} – linear\n\\hat{y} = \\beta_0 + \\log(\\beta_1) x_1 + \\beta_2 x_2 + \\hat{\\varepsilon} – broken by \\log(\\beta_1)"
   },
   {
     "objectID": "files/lectures/W1_L3_assumptions.html#model-assumptions-existence",
     "href": "files/lectures/W1_L3_assumptions.html#model-assumptions-existence",
-    "title": "Model Assumptions and Diagnostics",
+    "title": "Model Assumptions",
     "section": "Model Assumptions: Existence",
     "text": "Model Assumptions: Existence\n\nThe residuals have a finite mean and variance.\n\nMean (first moment): E[X] = \\mu\nVariance (second central moment): E[(X - \\mu)^2] = \\sigma^2\n\nThis assumption is almost always satisfied in practical applications.\n\nWe can think of this as: the residuals are not so extreme that their average or variability is infinite.\n\nThis is not an assumption we check – we will see estimation errors when this assumption is violated."
   },
   {
     "objectID": "files/lectures/W1_L3_assumptions.html#model-assumptions-gaussian-distribution",
     "href": "files/lectures/W1_L3_assumptions.html#model-assumptions-gaussian-distribution",
-    "title": "Model Assumptions and Diagnostics",
+    "title": "Model Assumptions",
     "section": "Model Assumptions: Gaussian Distribution",
     "text": "Model Assumptions: Gaussian Distribution\n\nNote! The normal distribution is also known as the Gaussian distribution.\nFor our inference to be valid, we must assume that the residuals are normally distributed.\n\nOtherwise, our estimation may not be accurate (i.e., inference may lead us to the “wrong” decision).\n\nWe will check this assumption using a quantile-quantile (q-q) plot of the residuals.\n\nWe want to see points roughly along the line.\nLarge deviations from the line indicate non-normality.\n\nWe can also use a histogram to “back up” our decision from the q-q plot.\n\nWe want to see it roughly mound-shaped and symmetric.\nSkewed or multi-modal histograms indicate non-normality."
   },
   {
     "objectID": "files/lectures/W1_L3_assumptions.html#model-assumptions-gaussian-distribution-r",
     "href": "files/lectures/W1_L3_assumptions.html#model-assumptions-gaussian-distribution-r",
-    "title": "Model Assumptions and Diagnostics",
+    "title": "Model Assumptions",
     "section": "Model Assumptions: Gaussian Distribution (R)",
     "text": "Model Assumptions: Gaussian Distribution (R)\n\nWe will use the ssstats package to check assumptions.\nFor normality, we can use the normality_check() function.\n\n\nmodel %&gt;% normality_check()"
   },
   {
     "objectID": "files/lectures/W1_L3_assumptions.html#model-assumptions-gaussian-distribution-1",
     "href": "files/lectures/W1_L3_assumptions.html#model-assumptions-gaussian-distribution-1",
-    "title": "Model Assumptions and Diagnostics",
+    "title": "Model Assumptions",
     "section": "Model Assumptions: Gaussian Distribution",
     "text": "Model Assumptions: Gaussian Distribution\n\nRecall our example model, m1:\n\n\n\\hat{y} = 3 + 1.5 x + \\hat{\\varepsilon}\n\n\nm1 %&gt;% normality_check()"
   },
   {
     "objectID": "files/lectures/W1_L3_assumptions.html#model-assumptions-gaussian-distribution-2",
     "href": "files/lectures/W1_L3_assumptions.html#model-assumptions-gaussian-distribution-2",
-    "title": "Model Assumptions and Diagnostics",
+    "title": "Model Assumptions",
     "section": "Model Assumptions: Gaussian Distribution",
     "text": "Model Assumptions: Gaussian Distribution\n\nRecall our example model, m2:\n\n\n\\hat{y} = 4 + 1.2 x_1 - 0.8 x_2 + \\hat{\\varepsilon}\n\n\nm2 %&gt;% normality_check()"
   },
   {
     "objectID": "files/lectures/W1_L3_assumptions.html#model-assumptions-gaussian-distribution-3",
     "href": "files/lectures/W1_L3_assumptions.html#model-assumptions-gaussian-distribution-3",
-    "title": "Model Assumptions and Diagnostics",
+    "title": "Model Assumptions",
     "section": "Model Assumptions: Gaussian Distribution",
     "text": "Model Assumptions: Gaussian Distribution\n\nRecall our example model, m3:\n\n\n\\hat{y} = 5 + 1.1 x_1 - 0.9 x_2 + \\hat{\\varepsilon}\n\n\nm3 %&gt;% normality_check()"
   },
   {
     "objectID": "files/lectures/W1_L3_assumptions.html#model-assumptions-gaussian-distribution-4",
     "href": "files/lectures/W1_L3_assumptions.html#model-assumptions-gaussian-distribution-4",
-    "title": "Model Assumptions and Diagnostics",
+    "title": "Model Assumptions",
     "section": "Model Assumptions: Gaussian Distribution",
     "text": "Model Assumptions: Gaussian Distribution\n\nRecall our example model, m4:\n\n\n\\hat{y} = 4 + 1.0 x_1 - 0.7 x_2 + \\hat{\\varepsilon}\n\n\nm4 %&gt;% normality_check()"
   },
   {
     "objectID": "files/lectures/W1_L3_assumptions.html#model-assumptions-gaussian-distribution-5",
     "href": "files/lectures/W1_L3_assumptions.html#model-assumptions-gaussian-distribution-5",
-    "title": "Model Assumptions and Diagnostics",
+    "title": "Model Assumptions",
     "section": "Model Assumptions: Gaussian Distribution",
     "text": "Model Assumptions: Gaussian Distribution\n\nRecall our example model, m5:\n\n\n\\hat{y} = 3 + 1.3 x_1 - 0.9 x_2 + \\hat{\\varepsilon}\n\n\nm5 %&gt;% normality_check()"
   },
   {
     "objectID": "files/lectures/W1_L3_assumptions.html#model-assumptions-gaussian-distribution-6",
     "href": "files/lectures/W1_L3_assumptions.html#model-assumptions-gaussian-distribution-6",
-    "title": "Model Assumptions and Diagnostics",
+    "title": "Model Assumptions",
     "section": "Model Assumptions: Gaussian Distribution",
     "text": "Model Assumptions: Gaussian Distribution\n\nRecall our example model, m6:\n\n\n\\hat{y} = 2 + 1.1 x_1 - 0.8 x_2 + \\hat{\\varepsilon}\n\n\nm6 %&gt;% normality_check()"
   },
   {
     "objectID": "files/lectures/W1_L3_assumptions.html#model-assumptions-r",
     "href": "files/lectures/W1_L3_assumptions.html#model-assumptions-r",
-    "title": "Model Assumptions and Diagnostics",
+    "title": "Model Assumptions",
     "section": "Model Assumptions (R)",
     "text": "Model Assumptions (R)\n\nTo summarize, our model assumptions can be written as:\n\n\\varepsilon \\overset{\\text{iid}}{\\sim} N(0, \\sigma^2)\n\nThis notation combines our checkable assumptions:\n\nResiduals are independent and identically distributed (I)\nResiduals follow a normal distribution (G), centered at 0 and with some constant variance, \\sigma^2 (H).\n\nWe can look at a graph with all of these checks at once using the reg_check() function in the ssstats package.\n\n\nmodel %&gt;% reg_check()"
   },
   {
     "objectID": "files/lectures/W1_L3_assumptions.html#model-assumptions",
     "href": "files/lectures/W1_L3_assumptions.html#model-assumptions",
-    "title": "Model Assumptions and Diagnostics",
+    "title": "Model Assumptions",
     "section": "Model Assumptions",
     "text": "Model Assumptions\n\nConsider this for m1:\n\n\nm1 %&gt;% reg_check()"
   },
   {
     "objectID": "files/lectures/W1_L3_assumptions.html#model-assumptions-1",
     "href": "files/lectures/W1_L3_assumptions.html#model-assumptions-1",
-    "title": "Model Assumptions and Diagnostics",
+    "title": "Model Assumptions",
     "section": "Model Assumptions",
     "text": "Model Assumptions\n\nConsider this for m3:\n\n\nm3 %&gt;% reg_check()"
   },
   {
     "objectID": "files/lectures/W1_L3_assumptions.html#model-assumptions-2",
     "href": "files/lectures/W1_L3_assumptions.html#model-assumptions-2",
-    "title": "Model Assumptions and Diagnostics",
+    "title": "Model Assumptions",
     "section": "Model Assumptions",
     "text": "Model Assumptions\n\nConsider this for m5:\n\n\nm5 %&gt;% reg_check()"
   },
   {
     "objectID": "files/lectures/W1_L3_assumptions.html#testing-for-normality",
     "href": "files/lectures/W1_L3_assumptions.html#testing-for-normality",
-    "title": "Model Assumptions and Diagnostics",
+    "title": "Model Assumptions",
     "section": "Testing for Normality…?",
     "text": "Testing for Normality…?\n\nNo.\n\nFormal tests for normality (e.g., Shapiro-Wilk test, Kolmogorov-Smirnov test) are generally not recommended in practice.\nThese tests are sensitive to large sample sizes, leading to the rejection of normality, even for minor infractions that do not affect our inferential conclusions.\n\nAs sample size (n) increases, our standard error (\\text{s.d.} / \\sqrt{n}) decreases, increasing our test statistic (\\text{observed} / \\text{s.e.}_{\\hat{\\beta}_i}), decreasing the p-value…… making it easier to reject H_0: the data follows a normal distribution.\n\nInstead, graphical methods (q-q plots, histograms) and practical considerations are preferred for assessing normality."
   },
   {
     "objectID": "files/lectures/W1_L3_assumptions.html#wrap-up",
     "href": "files/lectures/W1_L3_assumptions.html#wrap-up",
-    "title": "Model Assumptions and Diagnostics",
+    "title": "Model Assumptions",
     "section": "Wrap Up",
-    "text": "Wrap Up\n\nThis lecture has covered the assumptions on the linear model for continuous outcomes assuming independent data and Gaussian errors.\nMy approach in “real life” is:\n\nFit the model.\nCheck assumptions using graphical diagnostics.\nIf assumptions are violated, consider an alternative approach.\nDocument any assumption violations and their potential impact on results.\nDiscuss findings (including relevant failed assumption checks) with collaborators/stakeholders.\n\nNote that this is a simplified overview; real-world data analysis may require more nuanced approaches with field/application-specific considerations and methodologies."
+    "text": "Wrap Up\n\nThis lecture has covered the assumptions on the linear model for continuous outcomes assuming independent data and Gaussian errors.\nMy approach in “real life” is:\n\nFit the model.\nCheck assumptions using graphical diagnostics.\nIf assumptions are violated, consider an alternative approach.\nDocument any assumption violations and their potential impact on results.\nDiscuss findings (including relevant failed assumption checks) with collaborators/stakeholders.\n\nNext lecture: Model Diagnostics"
   },
   {
     "objectID": "files/lectures/W2_L2_cat_pred_mod_interp.html#introduction",
@@ -415,462 +415,462 @@
   {
     "objectID": "files/lectures/W1_L4_diagnostics.html#introduction",
     "href": "files/lectures/W1_L4_diagnostics.html#introduction",
-    "title": "Model Assumptions and Diagnostics",
+    "title": "Model Diagnostics",
     "section": "Introduction",
     "text": "Introduction\n\nRecall the glm,\n\n\ny = \\beta_0 + \\beta_1 x_1 + \\beta_2 x_2 + ... \\beta_k x_k + \\varepsilon\n\n\nIn this model, \\varepsilon is the residual error term.\nRecall that the residual error (how far away the observation is from the response surface) is defined as \\varepsilon = y - \\hat{y}\nNote that\n\ny is the observed value\n\\hat{y} is the predicted value"
   },
   {
     "objectID": "files/lectures/W1_L4_diagnostics.html#model-diagnostics",
     "href": "files/lectures/W1_L4_diagnostics.html#model-diagnostics",
-    "title": "Model Assumptions and Diagnostics",
+    "title": "Model Diagnostics",
     "section": "Model Diagnostics",
     "text": "Model Diagnostics\n\nIn addition to checking assumptions, we should also perform model diagnostics to identify potential issues with our model.\nCommon diagnostics include:\n\nAssessing overall model fit (e.g., R^2, AIC, BIC).\nIdentifying outliers (points that are far from the predicted values).\nIdentifying influential observations (points that have a large impact on the model’s estimates).\nChecking for multicollinearity (high correlation between predictors)."
   },
   {
     "objectID": "files/lectures/W1_L4_diagnostics.html#model-diagnostics-1",
     "href": "files/lectures/W1_L4_diagnostics.html#model-diagnostics-1",
-    "title": "Model Assumptions and Diagnostics",
+    "title": "Model Diagnostics",
     "section": "Model Diagnostics",
     "text": "Model Diagnostics\n\nThe diagnostics needed depend on the context of our analysis and the specific model we are using.\n\nContext matters! Applied statistics: we do not want our model to be perfect, we want it to be generalizable. Does the interpretation make intuitive (scientific) sense? If not, why? Is there a weird data point (or points) affecting our analysis?\nContext matters! Machine learning/predictive modeling: we care about predictive accuracy, not interpretability. Does the model predict well on new data? If not, why? Is there overfitting or underfitting? Is that due to weird data points?"
   },
   {
     "objectID": "files/lectures/W1_L4_diagnostics.html#model-diagnostics-model-fit",
     "href": "files/lectures/W1_L4_diagnostics.html#model-diagnostics-model-fit",
-    "title": "Model Assumptions and Diagnostics",
+    "title": "Model Diagnostics",
     "section": "Model Diagnostics: Model Fit",
     "text": "Model Diagnostics: Model Fit\n\nWe can assess overall model fit using metrics such as:\n\nR^2: proportion of variance in the response variable explained by the model.\nAdjusted R^2: adjusts R^2 for the number of predictors in the model.\nAIC (Akaike Information Criterion): measures the relative quality of the specified model for the given data. This balances goodness-of-fit and model complexity.\nBIC (Bayesian Information Criterion): same conecpt of AIC, but has a stronger penalty as the number of parameters (p) estimated increases.\n\nIn our course, we are only estimating \\beta_i, which we typically say that i = 1, ..., k predictors + 1 intercept. Thus, p = k + 1.\nIf we are accounting for correlated data (not in this course), we are introducing additional parameters to estimate (e.g., correlation structure parameters)."
   },
   {
     "objectID": "files/lectures/W1_L4_diagnostics.html#model-diagnostics-model-fit-r2",
     "href": "files/lectures/W1_L4_diagnostics.html#model-diagnostics-model-fit-r2",
-    "title": "Model Assumptions and Diagnostics",
+    "title": "Model Diagnostics",
     "section": "Model Diagnostics: Model Fit – R^2",
     "text": "Model Diagnostics: Model Fit – R^2\n\nIf we want to know how well the model fits this particular dataset, we can look at the R^2.\n\nR^2 is the proportion of variance explained by the model.\n\n\nR^2 = \\frac{\\text{SSReg}}{\\text{SSTot}}\n\nBecause it is a proportion, R^2 \\in [0, 1] and is independent of the units of y.\nIf R^2 \\to 0, the model does not fit the data well.\nIf R^2 \\to 1, the model fits the data well.\n\nNote that if R^2=1, all observations fall on the response surface."
   },
   {
     "objectID": "files/lectures/W1_L4_diagnostics.html#model-diagnostics-model-fit-r2-1",
     "href": "files/lectures/W1_L4_diagnostics.html#model-diagnostics-model-fit-r2-1",
-    "title": "Model Assumptions and Diagnostics",
+    "title": "Model Diagnostics",
     "section": "Model Diagnostics: Model Fit – R^2",
     "text": "Model Diagnostics: Model Fit – R^2\n\nRemember that we are partitioning the variability in y (SSTot), which is constant, into two pieces:\n\nThe variability explained by the regression model (SSReg).\nThe variability explained by outside sources (SSE).\n\nAs predictors are added to the model, we necessarily increase SSReg / decrease SSE.\n\nRemember, SSTot = SSReg + SSE.\n\nWe want a measure of model fit that is resistant to this fluctuation,\n\nR^2_{\\text{adj}} = 1 - \\left( \\frac{n-1}{n-k-1} \\right) \\left( 1 - R^2 \\right),\n\nRemember, k is the number of predictor terms in the model."
   },
   {
     "objectID": "files/lectures/W1_L4_diagnostics.html#model-diagnostics-model-fit-r2-r",
     "href": "files/lectures/W1_L4_diagnostics.html#model-diagnostics-model-fit-r2-r",
-    "title": "Model Assumptions and Diagnostics",
+    "title": "Model Diagnostics",
     "section": "Model Diagnostics: Model Fit – R^2 (R)",
     "text": "Model Diagnostics: Model Fit – R^2 (R)\n\nWe will use the ssstats package to check diagnostics.\nFor normality, we can use the r_squared() function.\n\n\nmodel %&gt;% r_squared()"
   },
   {
     "objectID": "files/lectures/W1_L4_diagnostics.html#model-diagnostics-model-fit-r2-2",
     "href": "files/lectures/W1_L4_diagnostics.html#model-diagnostics-model-fit-r2-2",
-    "title": "Model Assumptions and Diagnostics",
+    "title": "Model Diagnostics",
     "section": "Model Diagnostics: Model Fit – R^2",
     "text": "Model Diagnostics: Model Fit – R^2\n\nRecall our example model, m1:\n\n\n\\hat{y} = 3 + 1.5 x + \\hat{\\varepsilon}\n\n\nm1 %&gt;% r_squared()\n\n[1] 0.851\n\n\n\nRecall our example model, m6:\n\n\n\\hat{y} = 2 + 1.1 x_1 - 0.8 x_2 + \\hat{\\varepsilon}\n\n\nm6 %&gt;% r_squared()\n\n[1] 0.0272"
   },
   {
     "objectID": "files/lectures/W1_L4_diagnostics.html#model-diagnostics-model-fit-r2-3",
     "href": "files/lectures/W1_L4_diagnostics.html#model-diagnostics-model-fit-r2-3",
-    "title": "Model Assumptions and Diagnostics",
+    "title": "Model Diagnostics",
     "section": "Model Diagnostics: Model Fit – R^2",
     "text": "Model Diagnostics: Model Fit – R^2\n\nWhat do I do when there is a very low R^2 value? The questions I ask:\n\nWhat did the assumption graphs look like?\n\nDo we actually meet the normality assumption?\n-If not, should we consider taking a different methodological approach?\n\nI should graph the data to see what it looks like.\n\nIs the relationship non-linear?\nIs there an outlier affecting the relationship?\nIs the data just super noisy?\n\nIs there a variable missing from the model that could help explain the response?"
   },
   {
     "objectID": "files/lectures/W1_L4_diagnostics.html#model-diagnostics-model-fit-r2-4",
     "href": "files/lectures/W1_L4_diagnostics.html#model-diagnostics-model-fit-r2-4",
-    "title": "Model Assumptions and Diagnostics",
+    "title": "Model Diagnostics",
     "section": "Model Diagnostics: Model Fit – R^2",
     "text": "Model Diagnostics: Model Fit – R^2\n\nRemember that the R^2 value is not the end-all, be-all.\nLike everything in statistics/data science, context matters.\n\nIn some applications, low R^2 values are common.\n\ne.g., human behavior, social sciences, biological systems.\n\nIn other applications, high R^2 values are expected.\n\ne.g., physical sciences, engineering.\n\n\nAlways interpret R^2 in the context of your specific field and research question."
   },
   {
     "objectID": "files/lectures/W1_L4_diagnostics.html#model-diagnostics-model-fit-aic-and-bic",
     "href": "files/lectures/W1_L4_diagnostics.html#model-diagnostics-model-fit-aic-and-bic",
-    "title": "Model Assumptions and Diagnostics",
+    "title": "Model Diagnostics",
     "section": "Model Diagnostics: Model Fit – AIC and BIC",
     "text": "Model Diagnostics: Model Fit – AIC and BIC\n\nBecause the calculation of the AIC and BIC depend on the likelihood, we will not dive into the formulas here.\nInstead, let’s discuss how the AIC and BIC penalize our models.\n\nBoth AIC and BIC balance model fit and model complexity.\nAIC imposes a penalty of 2p.\nBIC imposes a penalty of p \\times \\log(n).\n\nRemember, p is the number of parameters estimated in the model.\n\nIn this course, we will not see a great difference between the AIC and BIC values.\nHowever, in more complex models (e.g., analyzing dependent data, where p &gt; k), the difference can be more pronounced."
   },
   {
     "objectID": "files/lectures/W1_L4_diagnostics.html#model-diagnostics-model-fit-aic-and-bic-1",
     "href": "files/lectures/W1_L4_diagnostics.html#model-diagnostics-model-fit-aic-and-bic-1",
-    "title": "Model Assumptions and Diagnostics",
+    "title": "Model Diagnostics",
     "section": "Model Diagnostics: Model Fit – AIC and BIC",
     "text": "Model Diagnostics: Model Fit – AIC and BIC\n\nWhat do the values actually mean?\n\nInherently, we cannot “interpret” the values – they are arbitrary numbers based on the data itself and the model specified.\n\nHow do we use these?\n\nWe use these to compare models.\nThe model with the lowest AIC or BIC is fits the data “better”.\n\nConsider an example dataset with y, x_1, x_2, and x_3; we fit the following models:\n\nm1: y \\sim x_1 (AIC = 250, BIC = 255)\nm2: y \\sim x_1 + x_2 (AIC = 240, BIC = 248)\nm3: y \\sim x_1 + x_2 + x_3 (AIC = 245, BIC = 256)\n\nWe would then declare m2 the best fitting model as its AIC and BIC values are the lowest."
   },
   {
     "objectID": "files/lectures/W1_L4_diagnostics.html#model-diagnostics-model-fit-aic-and-bic-r",
     "href": "files/lectures/W1_L4_diagnostics.html#model-diagnostics-model-fit-aic-and-bic-r",
-    "title": "Model Assumptions and Diagnostics",
+    "title": "Model Diagnostics",
     "section": "Model Diagnostics: Model Fit – AIC and BIC (R)",
     "text": "Model Diagnostics: Model Fit – AIC and BIC (R)\n\nTo check AIC and BIC, we will use the standard functions in base R,\n\n\nmodel %&gt;% AIC()\nmodel %&gt;% BIC()"
   },
   {
     "objectID": "files/lectures/W1_L4_diagnostics.html#example-set-up",
     "href": "files/lectures/W1_L4_diagnostics.html#example-set-up",
-    "title": "Model Assumptions and Diagnostics",
+    "title": "Model Diagnostics",
     "section": "Example Set Up",
     "text": "Example Set Up\n\nLet’s return to our Mickey and friends example,\n\n\nclubhouse &lt;- read_csv(\"https://raw.githubusercontent.com/samanthaseals/SDSII/refs/heads/main/files/data/lectures/W1_mickey_clubhouse.csv\")\nhead(clubhouse)"
   },
   {
     "objectID": "files/lectures/W1_L4_diagnostics.html#model-diagnostics-model-fit-aic-and-bic-2",
     "href": "files/lectures/W1_L4_diagnostics.html#model-diagnostics-model-fit-aic-and-bic-2",
-    "title": "Model Assumptions and Diagnostics",
+    "title": "Model Diagnostics",
     "section": "Model Diagnostics: Model Fit – AIC and BIC",
     "text": "Model Diagnostics: Model Fit – AIC and BIC\n\nRecall one of the models we examined in the visualization lecture.\n\nWe looked at clubhouse happiness (clubhouse_happiness) as a function of time spent with friends (time_with_friends), big, goofy laughs (goofy_laughs), and how much Donald grumbles (donald_grumbles).\n\n\n\nh1 &lt;- glm(clubhouse_happiness ~ time_with_friends + goofy_laughs + donald_grumbles,\n          family = \"gaussian\",\n          data = clubhouse)\nh1 %&gt;% tidy()\n\n\n  \n\n\n\n\n\\hat{\\text{happiness}} = 47.58 + 3.58 \\text{ time} + 0.66 \\text{ laughs} - 1.06 \\text{ grumbles}"
   },
   {
     "objectID": "files/lectures/W1_L4_diagnostics.html#model-diagnostics-model-fit-aic-and-bic-3",
     "href": "files/lectures/W1_L4_diagnostics.html#model-diagnostics-model-fit-aic-and-bic-3",
-    "title": "Model Assumptions and Diagnostics",
+    "title": "Model Diagnostics",
     "section": "Model Diagnostics: Model Fit – AIC and BIC",
     "text": "Model Diagnostics: Model Fit – AIC and BIC\n\nLet’s now consider a set of models,\n\nh1: clubhouse_happiness ~ time_with_friends + goofy_laughs + donald_grumbles\nh2: clubhouse_happiness ~ time_with_friends + goofy_laughs\nh3: clubhouse_happiness ~ goofy_laughs + donald_grumbles\n\n\n\nh1 &lt;- glm(clubhouse_happiness ~ time_with_friends + goofy_laughs + donald_grumbles, family = \"gaussian\", data = clubhouse)\nh2 &lt;- glm(clubhouse_happiness ~ time_with_friends + goofy_laughs, family = \"gaussian\", data = clubhouse)\nh3 &lt;- glm(clubhouse_happiness ~ goofy_laughs + donald_grumbles, family = \"gaussian\", data = clubhouse)"
   },
   {
     "objectID": "files/lectures/W1_L4_diagnostics.html#model-diagnostics-model-fit-aic-and-bic-4",
     "href": "files/lectures/W1_L4_diagnostics.html#model-diagnostics-model-fit-aic-and-bic-4",
-    "title": "Model Assumptions and Diagnostics",
+    "title": "Model Diagnostics",
     "section": "Model Diagnostics: Model Fit – AIC and BIC",
     "text": "Model Diagnostics: Model Fit – AIC and BIC\n\nNow, let’s compare the AIC values for these models.\n\n\nAIC(h1) # time_with_friends + goofy_laughs + donald_grumbles\n\n[1] 2222.259\n\nAIC(h2) # time_with_friends + goofy_laughs\n\n[1] 2274.454\n\nAIC(h3) # goofy_laughs + donald_grumbles\n\n[1] 2252.592\n\n\n\nAccording to the AIC, the full model (time_with_friends + goofy_laughs + donald_grumbles) fits the data best."
   },
   {
     "objectID": "files/lectures/W1_L4_diagnostics.html#model-diagnostics-model-fit-aic-and-bic-5",
     "href": "files/lectures/W1_L4_diagnostics.html#model-diagnostics-model-fit-aic-and-bic-5",
-    "title": "Model Assumptions and Diagnostics",
+    "title": "Model Diagnostics",
     "section": "Model Diagnostics: Model Fit – AIC and BIC",
     "text": "Model Diagnostics: Model Fit – AIC and BIC\n\nNow, let’s compare the BIC values for these models.\n\n\nBIC(h1) # time_with_friends + goofy_laughs + donald_grumbles\n\n[1] 2240.778\n\nBIC(h2) # time_with_friends + goofy_laughs\n\n[1] 2289.269\n\nBIC(h3) # goofy_laughs + donald_grumbles\n\n[1] 2267.407\n\n\n\nAccording to the BIC, the full model (time_with_friends + goofy_laughs + donald_grumbles) fits the data best."
   },
   {
     "objectID": "files/lectures/W1_L4_diagnostics.html#model-diagnostics-model-fit-aic-and-bic-6",
     "href": "files/lectures/W1_L4_diagnostics.html#model-diagnostics-model-fit-aic-and-bic-6",
-    "title": "Model Assumptions and Diagnostics",
+    "title": "Model Diagnostics",
     "section": "Model Diagnostics: Model Fit – AIC and BIC",
     "text": "Model Diagnostics: Model Fit – AIC and BIC\n\nPutting the values in a table,\n\n\n\n\nModel\nAIC\nBIC\n\n\n\n\nh1\n2222.259\n2240.778\n\n\nh2\n2274.454\n2289.269\n\n\nh3\n2252.592\n2267.407\n\n\n\n\nBoth the AIC and BIC indicate that h1 is the best fitting model.\nWe can see that BIC &gt; AIC consistently, which is expected.\n\nRemember, the BIC has a stronger penalty for the number of terms in the model."
   },
   {
     "objectID": "files/lectures/W1_L4_diagnostics.html#model-diagnostics-outliers",
     "href": "files/lectures/W1_L4_diagnostics.html#model-diagnostics-outliers",
-    "title": "Model Assumptions and Diagnostics",
+    "title": "Model Diagnostics",
     "section": "Model Diagnostics: Outliers",
     "text": "Model Diagnostics: Outliers\n\nThe word “outlier” is part of our every day language.\nMathematically, an outlier is an observation that lies an abnormal distance from other values in a random sample from a population.\n\nWe can have outliers in y (response) or in x_i (predictors).\n\nOutliers in y are observations with large residuals and what we mean by “outliers” in the formal sense.\nOutliers can have a significant impact on the regression model.\n\nThey can skew the results, leading to biased estimates of the regression coefficients.\nThey can also affect the overall fit of the model, leading to misleading conclusions."
   },
   {
     "objectID": "files/lectures/W1_L4_diagnostics.html#model-diagnostics-outliers-1",
     "href": "files/lectures/W1_L4_diagnostics.html#model-diagnostics-outliers-1",
-    "title": "Model Assumptions and Diagnostics",
+    "title": "Model Diagnostics",
     "section": "Model Diagnostics: Outliers",
     "text": "Model Diagnostics: Outliers\n\nRecall the (mathematical) definition of the residual:\n\n\ne_i = y_i - \\hat{y}_i\n\n\nWe are instead interested in the standardized residual, which accounts for the leverage (h_i) of the observation.\n\n\ne_{i_{\\text{std}}} = \\frac{e_i}{\\sqrt{\\text{MSE}(1-h_i)}}\n\n\nUltimately, we want all of our residuals as close to 0 as possible. However,\n\nif |e_{i_{\\text{std}}}| &gt; 2.5 \\ \\to \\  outlier, and\nif |e_{i_{\\text{std}}}| &gt; 3 \\ \\to \\  extreme outlier."
   },
   {
     "objectID": "files/lectures/W1_L4_diagnostics.html#model-diagnostics-outliers-r",
     "href": "files/lectures/W1_L4_diagnostics.html#model-diagnostics-outliers-r",
-    "title": "Model Assumptions and Diagnostics",
+    "title": "Model Diagnostics",
     "section": "Model Diagnostics: Outliers (R)",
     "text": "Model Diagnostics: Outliers (R)\n\nWe will use the rstandard() function in base R to find the residuals.\nFor ease of examining in large datasets, we will use it to create a “flag.”\n\n\ndataset &lt;- dataset %&gt;%\n  mutate(outlier =  if_else(abs(rstandard(model))&gt;2.5, \"Suspected\", \"Not Suspected\"))\n\n\nThen, we can count the number of outliers,\n\n\ndataset %&gt;% count(outlier)\n\n\nor we could only look at outliers from the dataset,\n\n\nall_outliers &lt;- dataset %&gt;% filter(outlier == TRUE)\n\n\nor we also exclude outliers from the dataset,\n\n\nno_outliers &lt;- dataset %&gt;% filter(outlier == FALSE)"
   },
   {
     "objectID": "files/lectures/W1_L4_diagnostics.html#model-diagnostics-outliers-2",
     "href": "files/lectures/W1_L4_diagnostics.html#model-diagnostics-outliers-2",
-    "title": "Model Assumptions and Diagnostics",
+    "title": "Model Diagnostics",
     "section": "Model Diagnostics: Outliers",
     "text": "Model Diagnostics: Outliers\n\nLet’s return to our Mickey and friends example, recalling the models we created for the AIC and BIC example.\n\nh1: clubhouse_happiness ~ time_with_friends + goofy_laughs + donald_grumbles\nh2: clubhouse_happiness ~ time_with_friends + goofy_laughs\nh3: clubhouse_happiness ~ goofy_laughs + donald_grumbles\n\nLet’s examine the outliers. First, we create the flags.\n\n\nclubhouse &lt;- clubhouse %&gt;%\n  mutate(outlier_h1 =  if_else(abs(rstandard(h1))&gt;2.5, \"Suspected\", \"Not Suspected\"),\n         outlier_h2 =  if_else(abs(rstandard(h2))&gt;2.5, \"Suspected\", \"Not Suspected\"),\n         outlier_h3 =  if_else(abs(rstandard(h3))&gt;2.5, \"Suspected\", \"Not Suspected\"))\n\n\nNote!!! I am adding the flags for each model because the outliers can differ by model, and I want to demonstrate that here.\n\nIn my every day life, I only look at diagnostics for the final model we are using."
   },
   {
     "objectID": "files/lectures/W1_L4_diagnostics.html#model-diagnostics-outliers-3",
     "href": "files/lectures/W1_L4_diagnostics.html#model-diagnostics-outliers-3",
-    "title": "Model Assumptions and Diagnostics",
+    "title": "Model Diagnostics",
     "section": "Model Diagnostics: Outliers",
     "text": "Model Diagnostics: Outliers\n\nNow that we have the flags, let’s look at the number of outliers by model:\n\n\nclubhouse %&gt;% count(outlier_h1)\n\n\n  \n\n\nclubhouse %&gt;% count(outlier_h2)\n\n\n  \n\n\nclubhouse %&gt;% count(outlier_h3)"
   },
   {
     "objectID": "files/lectures/W1_L4_diagnostics.html#model-diagnostics-outliers-4",
     "href": "files/lectures/W1_L4_diagnostics.html#model-diagnostics-outliers-4",
-    "title": "Model Assumptions and Diagnostics",
+    "title": "Model Diagnostics",
     "section": "Model Diagnostics: Outliers",
     "text": "Model Diagnostics: Outliers\n\nLooking at the residual patterns across models:\n\n\nclubhouse %&gt;% count(outlier_h1, outlier_h2, outlier_h3)\n\n\n  \n\n\n\n\nThis demonstrates that just because it is a suspected outlier in one model, it may not be a suspected outlier in another model."
   },
   {
     "objectID": "files/lectures/W1_L4_diagnostics.html#model-diagnostics-outliers-5",
     "href": "files/lectures/W1_L4_diagnostics.html#model-diagnostics-outliers-5",
-    "title": "Model Assumptions and Diagnostics",
+    "title": "Model Diagnostics",
     "section": "Model Diagnostics: Outliers",
     "text": "Model Diagnostics: Outliers\n\nFinally, how do we handle outliers?\nMy approach:\n\nInvestigate the outlier: try to determine if it is a data entry error or a valid observation.\n\nThis requires discussion with those involved with data collection and is not possible in the classroom setting.\ne.g., BMI of 93 in the Jackson Heart Study\n\nSensitivity analysis: fit the model with and without the outlier(s) to see how much the results change.\n\nPlease note that we should always be cautious when removing outliers from the dataset.\n\nWe do not want to curate data to fit our preconceived notions.\nAlways document any decisions made regarding outliers and justify them based on nonstatistical reasoning (e.g., data entry error that cannot be remedied)."
   },
   {
     "objectID": "files/lectures/W1_L4_diagnostics.html#model-diagnostics-leverage-and-influence",
     "href": "files/lectures/W1_L4_diagnostics.html#model-diagnostics-leverage-and-influence",
-    "title": "Model Assumptions and Diagnostics",
+    "title": "Model Diagnostics",
     "section": "Model Diagnostics: Leverage and Influence",
     "text": "Model Diagnostics: Leverage and Influence\n\nNow, what about outliers in x_i (the predictors)?\nThese points can have high leverage and/or be influential.\n\nLeverage measures how far an observation’s predictor values are from the mean of the predictor values.\nInfluential points are observations that have a significant impact on the regression model’s estimates.\n\ni.e., they are observations that are “pulling” the regression line towards themselves.\n\n\nWe will use Cook’s distance to assess leverage and influence.\nLike outliers, an observation’s leverage and influence values depend on the model that was specified.\n\ni.e., we will need to check these diagnostics for each model we are considering."
   },
   {
     "objectID": "files/lectures/W1_L4_diagnostics.html#model-diagnostics-leverage-and-influence-1",
     "href": "files/lectures/W1_L4_diagnostics.html#model-diagnostics-leverage-and-influence-1",
-    "title": "Model Assumptions and Diagnostics",
+    "title": "Model Diagnostics",
     "section": "Model Diagnostics: Leverage and Influence",
     "text": "Model Diagnostics: Leverage and Influence\n\nBefore we talk about Cook’s distance, let’s consider the leverage, or h_i. Mathematically,\n\n\nh_i = \\frac{1}{n} + \\frac{(x_i - \\bar{x})^2}{\\sum_{j=1}^{n} (x_j - \\bar{x})^2}\n\n\nConceputally, leverage measures how far an observation’s predictor values are from the mean of the predictor values and compares it to the overall variability in the predictor values.\n\nObservations with high leverage have predictor values that are far from the mean of the predictor values.\n\nOn the previous slide, we said we will instead use Cook’s distance, which combines information about both the residual and leverage of each observation.\n\nThus, we will not find the h_i values directly."
   },
   {
     "objectID": "files/lectures/W1_L4_diagnostics.html#model-diagnostics-leverage-and-influence-2",
     "href": "files/lectures/W1_L4_diagnostics.html#model-diagnostics-leverage-and-influence-2",
-    "title": "Model Assumptions and Diagnostics",
+    "title": "Model Diagnostics",
     "section": "Model Diagnostics: Leverage and Influence",
     "text": "Model Diagnostics: Leverage and Influence\n\nCook’s distance combines information about the residual and leverage of each observation. Mathematically,\n\n\nD_i = \\frac{1}{(k+1)\\text{MSE}} \\left( \\frac{h_i}{(1-h_i)^2} \\right)e_i^2\n\n\nwhere\n\ne_i is the residual for observation i,\nh_i is the leverage for observation i,\nk is the number of predictor terms in the model, and\nMSE is the mean squared error of the model."
   },
   {
     "objectID": "files/lectures/W1_L4_diagnostics.html#model-diagnostics-leverage-and-influence-3",
     "href": "files/lectures/W1_L4_diagnostics.html#model-diagnostics-leverage-and-influence-3",
-    "title": "Model Assumptions and Diagnostics",
+    "title": "Model Diagnostics",
     "section": "Model Diagnostics: Leverage and Influence",
     "text": "Model Diagnostics: Leverage and Influence\n\nHow do we interpret Cook’s distance?\n\nThere are different cutoff rules suggested in the literature.\nCommon cutoff: if D_i &gt; 4/(n - k - 1), then observation i is considered influential.\n\nFor a more intuitive approach, we will graph the Cook’s distance values.\n\nI look for observations with substantially larger Cook’s distance values than the rest of the observations.\nThese are the influential points."
   },
   {
     "objectID": "files/lectures/W1_L4_diagnostics.html#model-diagnostics-influence-and-leverage-r",
     "href": "files/lectures/W1_L4_diagnostics.html#model-diagnostics-influence-and-leverage-r",
-    "title": "Model Assumptions and Diagnostics",
+    "title": "Model Diagnostics",
     "section": "Model Diagnostics: Influence and Leverage (R)",
     "text": "Model Diagnostics: Influence and Leverage (R)\n\nWe will return to the ssstats package and use the cooks() function to generate the graph we need.\n\n\nmodel %&gt;% cooks()"
   },
   {
     "objectID": "files/lectures/W1_L4_diagnostics.html#model-diagnostics-influence-and-leverage",
     "href": "files/lectures/W1_L4_diagnostics.html#model-diagnostics-influence-and-leverage",
-    "title": "Model Assumptions and Diagnostics",
+    "title": "Model Diagnostics",
     "section": "Model Diagnostics: Influence and Leverage",
     "text": "Model Diagnostics: Influence and Leverage\n\nApplying this to our example,\n\n\nh1 %&gt;% cooks()"
   },
   {
     "objectID": "files/lectures/W1_L4_diagnostics.html#model-diagnostics-influence-and-leverage-1",
     "href": "files/lectures/W1_L4_diagnostics.html#model-diagnostics-influence-and-leverage-1",
-    "title": "Model Assumptions and Diagnostics",
+    "title": "Model Diagnostics",
     "section": "Model Diagnostics: Influence and Leverage",
     "text": "Model Diagnostics: Influence and Leverage\n\nApplying this to our example,\n\n\nh2 %&gt;% cooks()"
   },
   {
     "objectID": "files/lectures/W1_L4_diagnostics.html#model-diagnostics-influence-and-leverage-2",
     "href": "files/lectures/W1_L4_diagnostics.html#model-diagnostics-influence-and-leverage-2",
-    "title": "Model Assumptions and Diagnostics",
+    "title": "Model Diagnostics",
     "section": "Model Diagnostics: Influence and Leverage",
     "text": "Model Diagnostics: Influence and Leverage\n\nApplying this to our example,\n\n\nh3 %&gt;% cooks()"
   },
   {
     "objectID": "files/lectures/W1_L4_diagnostics.html#model-diagnostics-influence-and-leverage-3",
     "href": "files/lectures/W1_L4_diagnostics.html#model-diagnostics-influence-and-leverage-3",
-    "title": "Model Assumptions and Diagnostics",
+    "title": "Model Diagnostics",
     "section": "Model Diagnostics: Influence and Leverage",
     "text": "Model Diagnostics: Influence and Leverage\n\nLet’s put these graph side-by-side for comparison."
   },
   {
     "objectID": "files/lectures/W1_L4_diagnostics.html#model-diagnostics-leverage-and-influence-4",
     "href": "files/lectures/W1_L4_diagnostics.html#model-diagnostics-leverage-and-influence-4",
-    "title": "Model Assumptions and Diagnostics",
+    "title": "Model Diagnostics",
     "section": "Model Diagnostics: Leverage and Influence",
     "text": "Model Diagnostics: Leverage and Influence\n\nFinally, how do we handle influential points? Recall: they are technically outliers….\nMy approach:\n\nInvestigate the outlier: try to determine if it is a data entry error or a valid observation.\n\nThis requires discussion with those involved with data collection and is not possible in the classroom setting.\n\nSensitivity analysis: fit the model with and without the outlier(s) to see how much the results change.\n\nAgain, we should not formally remove influential points without investigation.\n\nAlways document any decisions made regarding influential points and justify them based on nonstatistical reasoning (e.g., data entry error that cannot be remedied)."
   },
   {
     "objectID": "files/lectures/W1_L4_diagnostics.html#model-diagnostics-multicollinearity",
     "href": "files/lectures/W1_L4_diagnostics.html#model-diagnostics-multicollinearity",
-    "title": "Model Assumptions and Diagnostics",
+    "title": "Model Diagnostics",
     "section": "Model Diagnostics: Multicollinearity",
     "text": "Model Diagnostics: Multicollinearity\n\nMulticollinearity occurs when two or more predictor variables in a regression model are highly correlated.\nConsequences of multicollinearity:\n\nInflated standard errors of the regression coefficients.\nUnstable coefficient estimates that can change significantly with small changes in the data.\nDifficulty in determining the individual effect of each predictor on the response variable.\n\nMulitcollinearity \\to predictors contain overlapping information.\n\n\nNote that multicollinearity doesn’t necessarily “break” the model, but instead, makes the coefficients hard to trust."
   },
   {
     "objectID": "files/lectures/W1_L4_diagnostics.html#model-diagnostics-multicollinearity-1",
     "href": "files/lectures/W1_L4_diagnostics.html#model-diagnostics-multicollinearity-1",
-    "title": "Model Assumptions and Diagnostics",
+    "title": "Model Diagnostics",
     "section": "Model Diagnostics: Multicollinearity",
     "text": "Model Diagnostics: Multicollinearity\n\nTo assess multicollinearity, we can use the variance inflation factor (VIF).\n\nVIF measures how much the variance of a coefficient is inflated because predictors overlap.\n\nMathematically,\n\n\n\\text{VIF}_j = \\frac{1}{1 - R_j^2}\n\n\nhere,\n\nj indexes the predictor number; j = 1, 2, ..., k, and\nR_j^2 is the R^2 when regressing predictor j on all other predictors in the model.\n\ni.e., we find the R^2 value for j ~ x1 + … xj-1 + xj+1 + … + xk."
   },
   {
     "objectID": "files/lectures/W1_L4_diagnostics.html#model-diagnostics-multicollinearity-2",
     "href": "files/lectures/W1_L4_diagnostics.html#model-diagnostics-multicollinearity-2",
-    "title": "Model Assumptions and Diagnostics",
+    "title": "Model Diagnostics",
     "section": "Model Diagnostics: Multicollinearity",
     "text": "Model Diagnostics: Multicollinearity\n\nHow do we make the call that multicollinearity exists?\n\nLike Cook’s distance, there are different cutoff rules suggested in the literature.\nTypical cutoff: if VIF &gt; 5 (or 10), then multicollinearity is a concern.\n\n\n\n\\text{VIF}_j = \\frac{1}{1 - R_j^2}\n\n\nThe closer VIF is to 1, the less multicollinearity there is.\n\nIf R_j^2 \\to 0 (the other k-1 predictors do a terrible job of predicting x_j) then \\text{VIF}_j \\to 1 (no multicollinearity).\nIf R_j^2 \\to 1 (the other k-1 predictors do a fantastic job of predicting x_j), then \\text{VIF}_j \\to \\infty (severe multicollinearity)."
   },
   {
     "objectID": "files/lectures/W1_L4_diagnostics.html#model-diagnostics-multicollinearity-r",
     "href": "files/lectures/W1_L4_diagnostics.html#model-diagnostics-multicollinearity-r",
-    "title": "Model Assumptions and Diagnostics",
+    "title": "Model Diagnostics",
     "section": "Model Diagnostics: Multicollinearity (R)",
     "text": "Model Diagnostics: Multicollinearity (R)\n\nWe will use the vif() function from the car package.\n\n\nmodel %&gt;% car::vif()\n\n\nNote: recall that the car package overwrites some functions from tidyverse, so I typically do not load the full library."
   },
   {
     "objectID": "files/lectures/W1_L4_diagnostics.html#model-diagnostics-multicollinearity-3",
     "href": "files/lectures/W1_L4_diagnostics.html#model-diagnostics-multicollinearity-3",
-    "title": "Model Assumptions and Diagnostics",
+    "title": "Model Diagnostics",
     "section": "Model Diagnostics: Multicollinearity",
     "text": "Model Diagnostics: Multicollinearity\n\nLet’s check the multicollinearity in our Mickey and friends examples,\n\n\nh1 %&gt;% car::vif()\n\ntime_with_friends      goofy_laughs   donald_grumbles \n         1.017538          1.005408          1.012101 \n\nh2 %&gt;% car::vif()\n\ntime_with_friends      goofy_laughs \n         1.005401          1.005401 \n\nh3 %&gt;% car::vif()\n\n   goofy_laughs donald_grumbles \n       1.000029        1.000029"
   },
   {
     "objectID": "files/lectures/W1_L4_diagnostics.html#model-diagnostics-multicollinearity-4",
     "href": "files/lectures/W1_L4_diagnostics.html#model-diagnostics-multicollinearity-4",
-    "title": "Model Assumptions and Diagnostics",
+    "title": "Model Diagnostics",
     "section": "Model Diagnostics: Multicollinearity",
     "text": "Model Diagnostics: Multicollinearity\n\nChip and Dale are running “Snack Recovery Missions” around Mickey’s Clubhouse after Pluto keeps “misplacing” everyone’s treats.\nFor each mission, they record:\n\nminutes_to_recover (response): How long it took to recover the snack stash (minutes)\ndistance_m: Total distance traveled during the mission (meters)\nsteps: Total steps taken (wearable tracker)\ncalories: Calories burned during the mission\nwrong_turns: Number of wrong turns / false leads\nrainbow_map: Whether they used Minnie’s Rainbow Map (0/1), which helps reduce time."
   },
   {
     "objectID": "files/lectures/W1_L4_diagnostics.html#model-diagnostics-multicollinearity-5",
     "href": "files/lectures/W1_L4_diagnostics.html#model-diagnostics-multicollinearity-5",
-    "title": "Model Assumptions and Diagnostics",
+    "title": "Model Diagnostics",
     "section": "Model Diagnostics: Multicollinearity",
     "text": "Model Diagnostics: Multicollinearity\n\nFitting the full model,\n\n\nm_full &lt;- glm(minutes_to_recover ~ distance_m + steps + calories + wrong_turns + rainbow_map,\n              family = \"gaussian\",\n              data = chip_dale)\ntidy(m_full)"
   },
   {
     "objectID": "files/lectures/W1_L4_diagnostics.html#model-diagnostics-multicollinearity-6",
     "href": "files/lectures/W1_L4_diagnostics.html#model-diagnostics-multicollinearity-6",
-    "title": "Model Assumptions and Diagnostics",
+    "title": "Model Diagnostics",
     "section": "Model Diagnostics: Multicollinearity",
     "text": "Model Diagnostics: Multicollinearity\n\nFor completeness, let’s check the assumptions,\n\n\nm_full %&gt;% reg_check()"
   },
   {
     "objectID": "files/lectures/W1_L4_diagnostics.html#model-diagnostics-multicollinearity-7",
     "href": "files/lectures/W1_L4_diagnostics.html#model-diagnostics-multicollinearity-7",
-    "title": "Model Assumptions and Diagnostics",
+    "title": "Model Diagnostics",
     "section": "Model Diagnostics: Multicollinearity",
     "text": "Model Diagnostics: Multicollinearity\n\nLet’s also check for outliers,\n\n\nchip_dale &lt;- chip_dale %&gt;%\n  mutate(outlier =  if_else(abs(rstandard(m_full))&gt;2.5, \"Suspected\", \"Not Suspected\"))\nchip_dale %&gt;% count(outlier)"
   },
   {
     "objectID": "files/lectures/W1_L4_diagnostics.html#model-diagnostics-multicollinearity-8",
     "href": "files/lectures/W1_L4_diagnostics.html#model-diagnostics-multicollinearity-8",
-    "title": "Model Assumptions and Diagnostics",
+    "title": "Model Diagnostics",
     "section": "Model Diagnostics: Multicollinearity",
     "text": "Model Diagnostics: Multicollinearity\n\nLet’s check Cook’s distance,\n\n\nm_full %&gt;% cooks()"
   },
   {
     "objectID": "files/lectures/W1_L4_diagnostics.html#model-diagnostics-multicollinearity-9",
     "href": "files/lectures/W1_L4_diagnostics.html#model-diagnostics-multicollinearity-9",
-    "title": "Model Assumptions and Diagnostics",
+    "title": "Model Diagnostics",
     "section": "Model Diagnostics: Multicollinearity",
     "text": "Model Diagnostics: Multicollinearity\n\nFinally, let’s look at multicollinearity,\n\n\nm_full %&gt;% car::vif()\n\n distance_m       steps    calories wrong_turns rainbow_map \n  19.567651   16.198916   14.287939    1.005378    1.007974 \n\n\n\nYIKES! Distance, steps, and calories indicate multicollinearity.\n\nScientifically, this makes sense: they are all measuring “effort,” but in different ways."
   },
   {
     "objectID": "files/lectures/W1_L4_diagnostics.html#model-diagnostics-multicollinearity-10",
     "href": "files/lectures/W1_L4_diagnostics.html#model-diagnostics-multicollinearity-10",
-    "title": "Model Assumptions and Diagnostics",
+    "title": "Model Diagnostics",
     "section": "Model Diagnostics: Multicollinearity",
     "text": "Model Diagnostics: Multicollinearity\n\nHow do we handle multicollinearity?\n\nSimple: remove one or more of the correlated predictors from the model.\n\ne.g., in our example, we could remove distance and steps, keeping only calories.\n\nAdvanced: combine the correlated predictors into a single predictor using techniques such as principal component analysis (PCA) or factor analysis.\n\ne.g., in our example, we could create an “effort” score that combines distance, steps, and calories.\n\n\nWhen this happens, I will figure out specifically what variables do not play well with others.\n\nThen, I will have a conversation with the person I’m working with to determine which variable(s) make the most sense to keep in the model.\n\ne.g., in our example, maybe we are focused on calories burned, so we keep that variable rather than the distance walked or the steps taken."
   },
   {
     "objectID": "files/lectures/W1_L4_diagnostics.html#model-diagnostics-multicollinearity-11",
     "href": "files/lectures/W1_L4_diagnostics.html#model-diagnostics-multicollinearity-11",
-    "title": "Model Assumptions and Diagnostics",
+    "title": "Model Diagnostics",
     "section": "Model Diagnostics: Multicollinearity",
     "text": "Model Diagnostics: Multicollinearity\n\nLet’s fit a reduced model without distance and steps,\n\n\nm_reduced &lt;- glm(minutes_to_recover ~ calories + wrong_turns + rainbow_map,\n              family = \"gaussian\",\n              data = chip_dale)\ntidy(m_reduced)"
   },
   {
     "objectID": "files/lectures/W1_L4_diagnostics.html#model-diagnostics-multicollinearity-12",
     "href": "files/lectures/W1_L4_diagnostics.html#model-diagnostics-multicollinearity-12",
-    "title": "Model Assumptions and Diagnostics",
+    "title": "Model Diagnostics",
     "section": "Model Diagnostics: Multicollinearity",
     "text": "Model Diagnostics: Multicollinearity\n\nChecking multicollinearity,\n\n\nm_reduced %&gt;% car::vif()\n\n   calories wrong_turns rainbow_map \n   1.004000    1.002762    1.001916"
   },
   {
     "objectID": "files/lectures/W1_L4_diagnostics.html#model-diagnostics-multicollinearity-13",
     "href": "files/lectures/W1_L4_diagnostics.html#model-diagnostics-multicollinearity-13",
-    "title": "Model Assumptions and Diagnostics",
+    "title": "Model Diagnostics",
     "section": "Model Diagnostics: Multicollinearity",
     "text": "Model Diagnostics: Multicollinearity\n\nWhat about other diagnostics?"
   },
   {
     "objectID": "files/lectures/W1_L4_diagnostics.html#model-diagnostics-multicollinearity-14",
     "href": "files/lectures/W1_L4_diagnostics.html#model-diagnostics-multicollinearity-14",
-    "title": "Model Assumptions and Diagnostics",
+    "title": "Model Diagnostics",
     "section": "Model Diagnostics: Multicollinearity",
     "text": "Model Diagnostics: Multicollinearity\n\nWhat about other diagnostics?\n\n\nchip_dale %&gt;% \n  mutate(outlier =  if_else(abs(rstandard(m_full))&gt;2.5, \"Suspected\", \"Not Suspected\")) %&gt;% \n  count(outlier)\n\n\n  \n\n\nchip_dale %&gt;% \n  mutate(outlier =  if_else(abs(rstandard(m_reduced))&gt;2.5, \"Suspected\", \"Not Suspected\")) %&gt;% \n  count(outlier)"
   },
   {
     "objectID": "files/lectures/W1_L4_diagnostics.html#model-diagnostics-multicollinearity-15",
     "href": "files/lectures/W1_L4_diagnostics.html#model-diagnostics-multicollinearity-15",
-    "title": "Model Assumptions and Diagnostics",
+    "title": "Model Diagnostics",
     "section": "Model Diagnostics: Multicollinearity",
     "text": "Model Diagnostics: Multicollinearity\n\nWhat about other diagnostics?"
   },
   {
     "objectID": "files/lectures/W1_L4_diagnostics.html#model-diagnostics-sensitivity-analysis",
     "href": "files/lectures/W1_L4_diagnostics.html#model-diagnostics-sensitivity-analysis",
-    "title": "Model Assumptions and Diagnostics",
+    "title": "Model Diagnostics",
     "section": "Model Diagnostics: Sensitivity Analysis",
     "text": "Model Diagnostics: Sensitivity Analysis\n\nThe concept of sensitivity analysis has been mentioned on previous slides.\nThis is where we remove specific “problem points” (outliers or influential points) from the dataset and refit the model to see how much the results change.\nLet’s consider the final model from the Chip and Dale example,\n\n\nm_reduced %&gt;% tidy(conf.int = TRUE)\n\n\n  \n\n\n\n\n\\hat{\\text{recover}} = 16.95 + 0.18 \\text{ calories} + 1.92 \\text{ wrong turns} - 3.48 \\text{ rainbow map}"
   },
   {
     "objectID": "files/lectures/W1_L4_diagnostics.html#model-diagnostics-sensitivity-analysis-1",
     "href": "files/lectures/W1_L4_diagnostics.html#model-diagnostics-sensitivity-analysis-1",
-    "title": "Model Assumptions and Diagnostics",
+    "title": "Model Diagnostics",
     "section": "Model Diagnostics: Sensitivity Analysis",
     "text": "Model Diagnostics: Sensitivity Analysis\n\nWhen we checked the potential outliers, we saw\n\n\nchip_dale &lt;- chip_dale %&gt;% \n  mutate(outlier =  if_else(abs(rstandard(m_reduced))&gt;2.5, \"Suspected\", \"Not Suspected\")) \nchip_dale %&gt;% count(outlier) \n\n\n  \n\n\n\n\nThere are 2 potential outliers."
   },
   {
     "objectID": "files/lectures/W1_L4_diagnostics.html#model-diagnostics-sensitivity-analysis-2",
     "href": "files/lectures/W1_L4_diagnostics.html#model-diagnostics-sensitivity-analysis-2",
-    "title": "Model Assumptions and Diagnostics",
+    "title": "Model Diagnostics",
     "section": "Model Diagnostics: Sensitivity Analysis",
     "text": "Model Diagnostics: Sensitivity Analysis\n\nLet’s check these observations:\n\n\nchip_dale %&gt;% filter(outlier == \"Suspected\") %&gt;% head()\n\n\n  \n\n\n\n\nLooking at summary statistics,\n\n\nchip_dale %&gt;% mean_median(minutes_to_recover, distance_m, steps, calories, wrong_turns) \n\n# A tibble: 5 × 3\n  variable           mean_sd        median_iqr    \n  &lt;chr&gt;              &lt;chr&gt;          &lt;chr&gt;         \n1 calories           70.2 (17.7)    70.4 (23.3)   \n2 distance_m         1200.5 (338.6) 1196.0 (419.4)\n3 minutes_to_recover 22.0 (5.1)     21.9 (6.8)    \n4 steps              1606.7 (505.3) 1615.8 (691.5)\n5 wrong_turns        3.0 (1.6)      3.0 (2.0)"
   },
   {
     "objectID": "files/lectures/W1_L4_diagnostics.html#model-diagnostics-sensitivity-analysis-3",
     "href": "files/lectures/W1_L4_diagnostics.html#model-diagnostics-sensitivity-analysis-3",
-    "title": "Model Assumptions and Diagnostics",
+    "title": "Model Diagnostics",
     "section": "Model Diagnostics: Sensitivity Analysis",
     "text": "Model Diagnostics: Sensitivity Analysis\n\nLet’s also revisit Cook’s distance,"
   },
   {
     "objectID": "files/lectures/W1_L4_diagnostics.html#model-diagnostics-sensitivity-analysis-4",
     "href": "files/lectures/W1_L4_diagnostics.html#model-diagnostics-sensitivity-analysis-4",
-    "title": "Model Assumptions and Diagnostics",
+    "title": "Model Diagnostics",
     "section": "Model Diagnostics: Sensitivity Analysis",
     "text": "Model Diagnostics: Sensitivity Analysis\n\nIn our diagnostics for extreme values, we have found that observation 29 is both an issue as an outlier and as a leverage point, while observation 40 only shows up as an outlier.\nLet’s consider the following modeling situations:\n\nFull dataset – do not remove either observation.\nRemove observation 29 only.\nRemove observation 29 and 40.\n\nWe will then compare the results across these three situations."
   },
   {
     "objectID": "files/lectures/W1_L4_diagnostics.html#model-diagnostics-sensitivity-analysis-5",
     "href": "files/lectures/W1_L4_diagnostics.html#model-diagnostics-sensitivity-analysis-5",
-    "title": "Model Assumptions and Diagnostics",
+    "title": "Model Diagnostics",
     "section": "Model Diagnostics: Sensitivity Analysis",
     "text": "Model Diagnostics: Sensitivity Analysis\n\nThere are multiple ways to approach this in R.\n\nWe could create separate datasets removing values.\nWe could use tidyverse functions to filter within the modeling function.\n\nFor simplicity, we will use three datasets:\n\nchip_dale: original (full) dataset.\nchip_dale_29: dataset without observation 29.\nchip_dale_29_40: dataset without observations 29 and 40.\n\nThe data steps are as follows,\n\n\nchip_dale_29 &lt;- chip_dale %&gt;% filter(mission_id != 29)\nchip_dale_29_40 &lt;- chip_dale %&gt;% filter(!mission_id %in% c(29,40))"
   },
   {
     "objectID": "files/lectures/W1_L4_diagnostics.html#model-diagnostics-sensitivity-analysis-6",
     "href": "files/lectures/W1_L4_diagnostics.html#model-diagnostics-sensitivity-analysis-6",
-    "title": "Model Assumptions and Diagnostics",
+    "title": "Model Diagnostics",
     "section": "Model Diagnostics: Sensitivity Analysis",
     "text": "Model Diagnostics: Sensitivity Analysis\n\nNow, we fit the three models,\n\n\nm_full &lt;- glm(minutes_to_recover ~ calories + wrong_turns + rainbow_map,\n              family = \"gaussian\",\n              data = chip_dale)\nm_29 &lt;- glm(minutes_to_recover ~ calories + wrong_turns + rainbow_map,\n              family = \"gaussian\",\n              data = chip_dale_29)\nm_29_40 &lt;- glm(minutes_to_recover ~ calories + wrong_turns + rainbow_map,\n              family = \"gaussian\",\n              data = chip_dale_29_40)"
   },
   {
     "objectID": "files/lectures/W1_L4_diagnostics.html#model-diagnostics-sensitivity-analysis-7",
     "href": "files/lectures/W1_L4_diagnostics.html#model-diagnostics-sensitivity-analysis-7",
-    "title": "Model Assumptions and Diagnostics",
+    "title": "Model Diagnostics",
     "section": "Model Diagnostics: Sensitivity Analysis",
     "text": "Model Diagnostics: Sensitivity Analysis\n\nPutting the results together in a table,\n\n\n\n\nTerm\nFull\nNo 29\nNo 29 or 40\n\n\n\n\n(Intercept)\n7.10 (p &lt; 0.001)\n6.90 (p &lt; 0.001)\n7.15 (p &lt; 0.001)\n\n\ncalories\n0.16 (p &lt; 0.001)\n0.16 (p &lt; 0.001)\n0.16 (p &lt; 0.001)\n\n\nwrong turns\n1.75 (p &lt; 0.001)\n1.81 (p &lt; 0.001)\n1.79 (p &lt; 0.001)\n\n\nrainbow map\n-3.88 (p &lt; 0.001)\n-3.20 (p &lt; 0.001)\n-3.29 (p &lt; 0.001)\n\n\n\n\nQuestions to ask:\n\nDo the coefficient estimates change meaningfully? Is the scientific interpretation the “same”?\nDo the statistical significances change?"
   },
   {
     "objectID": "files/lectures/W1_L4_diagnostics.html#model-diagnostics-sensitivity-analysis-8",
     "href": "files/lectures/W1_L4_diagnostics.html#model-diagnostics-sensitivity-analysis-8",
-    "title": "Model Assumptions and Diagnostics",
+    "title": "Model Diagnostics",
     "section": "Model Diagnostics: Sensitivity Analysis",
     "text": "Model Diagnostics: Sensitivity Analysis\n\nRemoving these observations did not meaningfully change the coefficient estimates or their statistical significance.\n\nAcross models, the scientific interpretations remained approximately the same.\n\nDirection did not change.\nValue of coefficients is similar across models.\n\nAll predictors remained statistically significant at \\alpha = 0.05, specifically with p &lt; 0.001.\n\nSo what would I do?\n\nMy itention would be to keep all observations.\nI would bring the results of the sensitivity analysis up when discussing the results with collaborators, and ask if they see anything “weird” about those specific observations."
   },
   {
     "objectID": "files/lectures/W1_L4_diagnostics.html#wrap-up",
     "href": "files/lectures/W1_L4_diagnostics.html#wrap-up",
-    "title": "Model Assumptions and Diagnostics",
+    "title": "Model Diagnostics",
     "section": "Wrap Up",
-    "text": "Wrap Up\n\nThis lecture has covered the basics of model diagnostics related to model fit, outliers, leverage/influence, and multicollinearity.\nWe also discussed sensitivity analysis as a way to assess the impact of “problem points”.\nWe must have a nonstatistical justification for removing any data points from the final analysis.\n\nAlways document any decisions made regarding inclusion or exclusion of data points.\n\nWe are helping others explore their data on the quantitative side, but we need their domain expertise to make final decisions.\n\nI tend to tell my collaborators, “I am just the statistician.” I am a fact finder and a detective. I can answer questions using the data, but I need their scientific expertise to help make sense of it all."
+    "text": "Wrap Up\n\nThis lecture has covered the basics of model diagnostics related to model fit, outliers, leverage/influence, and multicollinearity.\nWe also discussed sensitivity analysis as a way to assess the impact of “problem points”.\nWe must have a nonstatistical justification for removing any data points from the final analysis.\n\nAlways document any decisions made regarding inclusion or exclusion of data points.\n\nWe are helping others explore their data on the quantitative side, but we need their domain expertise to make final decisions.\nNext module: incorporating categorical predictors"
   },
   {
     "objectID": "files/lectures/W1_L4_diagnostics.html#app-m-full",
     "href": "files/lectures/W1_L4_diagnostics.html#app-m-full",
-    "title": "Model Assumptions and Diagnostics",
+    "title": "Model Diagnostics",
     "section": "Appendix: m_full results",
     "text": "Appendix: m_full results\n\nFor the full model,\n\n\nm_full &lt;- glm(minutes_to_recover ~ calories + wrong_turns + rainbow_map,\n              family = \"gaussian\",\n              data = chip_dale)\nm_full %&gt;% tidy(conf.int = TRUE) %&gt;% select(term, estimate, conf.low, conf.high, p.value)"
   },
   {
     "objectID": "files/lectures/W1_L4_diagnostics.html#app-m-29",
     "href": "files/lectures/W1_L4_diagnostics.html#app-m-29",
-    "title": "Model Assumptions and Diagnostics",
+    "title": "Model Diagnostics",
     "section": "Appendix: m_29 results",
     "text": "Appendix: m_29 results\n\nFor the model without observation 29,\n\n\nm_29 &lt;- glm(minutes_to_recover ~ calories + wrong_turns + rainbow_map,\n              family = \"gaussian\",\n              data = chip_dale_29)\nm_29 %&gt;% tidy(conf.int = TRUE) %&gt;% select(term, estimate, conf.low, conf.high, p.value)"
   },
   {
     "objectID": "files/lectures/W1_L4_diagnostics.html#app-m-29-40",
     "href": "files/lectures/W1_L4_diagnostics.html#app-m-29-40",
-    "title": "Model Assumptions and Diagnostics",
+    "title": "Model Diagnostics",
     "section": "Appendix: m_29_40 results",
     "text": "Appendix: m_29_40 results\n\nFor the model without observations 29 and 40,\n\n\nm_29_40 &lt;- glm(minutes_to_recover ~ calories + wrong_turns + rainbow_map,\n              family = \"gaussian\",\n              data = chip_dale_29_40)\nm_29_40 %&gt;% tidy(conf.int = TRUE) %&gt;% select(term, estimate, conf.low, conf.high, p.value)"
   },
@@ -889,11 +889,25 @@
     "text": "Note: this is an abbreviated syllabus. The full syllabus is available through Classmate and Canvas.\n\nInstructor Information\n\nDr. Samantha Seals\nOffice: Dr. Seals is on sabbatical for Spring 2026 and will not be on campus regularly.\n\n\n\nOffice Hours\n\nBy appointment only. Please reach out to Dr. Seals directly to schedule a meeting.\n\n\n\nGrading and Evaluation\nThe course grade will be determined as follows:\n\nPractice and Participation (10%): Students earn credit by engaging with course material and their classmates through the class Discord. Half of these points come from Discord participation, which includes both asking and answering questions. As a formal deliverable, students will complete a weekly check-in quiz by Sunday night at 11:59 pm Central. No extensions will be granted nor will make up submissions be accepted.\nWeekly Projects (30%): All projects will be completed individually using R, formatted with Quarto. Projects are due on Tuesdays by 11:59 pm Central. Note: do not wait until Sunday before the check in to work on your projects. After the first round of grading, projects will be reopened for updates; students will have two weeks from that point to submit revisions for (full) credit back.\nQuizzes (20%): There will be a quiz at the end of each week; these quizzes open Tuesday at 12:00 am Central and are due Tuesdays at 11:59 pm Central. These quizzes will focus on concepts from that week’s lectures and applications. Quizzes are open book/note, but collaboration is not allowed. No extensions will be granted nor will make up quizzes be available.\nProject 7 (10%): This project will be a cumulative project that incorporates material from the entire course. It will be no different from other projects completed other than it combines all modeling approaches into one project. This project is exempt from the revision policy and is due on Tuesday, February 24, 2026 by 11:59 pm Central.\nFinal Exam (30%): The final exam will be a timed concepts-based exam. While there may be some calculations needed, you will not be processing raw data. There will be no programming expectations on the final exam. The timed final exam will be on Friday, February 27, 2026 The date of this exam will not change, so please make arrangements to be free for a continuous 3 hour block. Once the exam is open, the timer for 3 hours starts and continues, even if you close your browser window. No extensions will be granted nor will make up final exams be accepted."
   },
   {
+    "objectID": "files/assignments/A1.html",
+    "href": "files/assignments/A1.html",
+    "title": "Assignment 1",
+    "section": "",
+    "text": "library(tidyverse)\nlibrary(ssstats)\n\nCorporate is hosting a “Dunder Mifflin Sales Summit,” and Michael Scott insists Scranton should look elite. HQ collects a one-time snapshot of performance and workstyle metrics for a large group of sales employees across multiple branches (Scranton, Stamford, Utica, Albany, etc.). Each row is one employee, measured during the same month (i.e., this is independent data). In the week1.csv data file, you will find the following variables:\n\nannual_sales_usd: annual sales for the employee (USD), annualized from consistent internal accounting rules,\nclient_calls_week: average number of client calls per week,\nmeetings_week: average number of client meetings per week,\nemails_week: average number of client-facing emails per week,\navg_call_minutes: average call length (minutes),\nlead_quality: portfolio lead quality score (0–100),\ncrm_minutes_day: average minutes/day spent in CRM,\ncoffee_cups_day: average cups of coffee per day,\ndistractions_minutes_day: average minutes/day lost to distractions (pranks, “meetings,” etc.),\nmorale_score: morale score (0–10) from anonymous internal survey, and\nprinter_jams_week: average printer jams per week (yes, they tracked it).\n\nData Management\nDownload the data from Canvas and import it to R.\nModel 1 (m1)\nFit a multiple linear regression model predicting annual sales (annual_sales_usd) as a function of the number of client calls per week (client_calls_week), the number of client meetings per week (meetings_week), and the number of client-facing emails per week (emails_week). Call this model m1.\n\n1a. Based on your output, state the resulting model.\n\n\n\\hat{y} = \\beta_0 + \\beta_1 x_1 + ... \\beta_k x_k\n\n1b. Is this a significant regression line? You must provide statistical justification for your answer.\n\n1c. Fill in the following table:\n\n\n\n\n\n\n\n\nPredictor\n\\hat{\\beta}_i (95% CI for \\beta_i)\np-value\n\n\n\n\nclient calls\n\n\n\n\nclient meetings\n\n\n\n\nclient emails\n\n\n\n\n\n1d. Which, if any, are significant predictors of annual sales? You must provide statistical justification for your answers.\n\nModel 2 (m2)\nFit a multiple linear regression model predicting annual sales (annual_sales_usd) as a function of the number of client calls per week (client_calls_week), the number of client meetings per week (meetings_week), the number of client-facing emails per week (emails_week), the number of cups of coffee per day (coffee_cups_day), and the time lost to distractions per day (distractions_minutes_day). Call this model m2.\n\n2a. Based on your output, state the resulting model.\n\n\n\\hat{y} = \\beta_0 + \\beta_1 x_1 + ... \\beta_k x_k\n\n2b. Is this a significant regression line? You must provide statistical justification for your answer.\n\n2c. Fill in the following table:\n\n\n\n\n\n\n\n\nPredictor\n\\hat{\\beta}_i (95% CI for \\beta_i)\np-value\n\n\n\n\nclient calls\n\n\n\n\nclient meetings\n\n\n\n\nclient emails\n\n\n\n\ncoffee cups\n\n\n\n\ndistractions\n\n\n\n\n\n2d. Which, if any, are significant predictors of annual sales? You must provide statistical justification for your answers.\n\nComparing the Models\n3a. Let’s compare the two models side-by-side. Fill in the following table:\n\n\n\n\n\n\n\n\n\n\n\nPredictor\nm1 \\hat{\\beta}_i\nm1 p-value\nm2 \\hat{\\beta}_i\nm2 p-value\n\n\n\n\nclient calls\n\n\n\n\n\n\nclient meetings\n\n\n\n\n\n\nclient emails\n\n\n\n\n\n\ncoffee cups\nxxxxxxx\nxxxx\n\n\n\n\ndistractions\nxxxxxxx\nxxxx\n\n\n\n\n\n3b. How different are the model results? You should compare the coefficients and significance of each predictor across the two models.\n\nModel Selection\n4a. Find the R_{\\text{adj}}^2 for each model. What do these values mean?\n\nm1:\nm2:\n\n\n4b. Based on R_{\\text{adj}}^2, which model is preferred? Why?\n\n4c. Find the AIC and BIC values for each model.\n\n\n\nModel\nAIC\nBIC\n\n\n\n\nm1\n\n\n\n\nm2\n\n\n\n\n\n4d. Based on AIC and BIC, which model is preferred? Why?\n\n4e. Considering your answers to 4b and 4d, which model will you choose as your final model? Why?\n\nReporting the Final Model\n5a. Using the model chosen in 4e, paste in either the appropriate model summary table (from 1c or 2c).\n\n5b. Provide formal interpretations for each predictor in the final model. Note that all predictors are shown for completeness; please remove any predictors that do not appear in your final model.\n\nclient calls: \nclient meetings: \nclient emails: \ncoffee cups: \ndistractions: \n\n5c. Construct an appropriate data visualization to help explain the relationships in your final model. While there is no single “right” answer here, you should consider your audience (…potentially Michael Scott…) and what would be most helpful for them to understand what the math is suggesting. For uniformity (for grading purposes), let’s have annual sales (annual_sales_usd) on the y-axis and number of client meetings (meetings_week) on the x-axis. For predicted values, please plug in the median() value for all other predictors in the model.\n5d. Pretend that you are preparing to meet with Michael Scott to review the analysis results. Summarize the key takeaways from your model and visualization. Remember your audience here – Michael is not a statistician, so you should avoid jargon and technical language. What would be most helpful for him to know to improve sales performance at Dunder Mifflin?"
+  },
+  {
     "objectID": "index.html",
     "href": "index.html",
     "title": "Statistics for Data Science II",
     "section": "",
     "text": "Welcome to Statistics for Data Science II!\nThis is an 8 week asynchronous course that builds on the foundations of statistics and data analysis. We will focus on the application of statistical models. In particular we will focus on the following regression strategies:\n\nLinear regression (normal distribution)\nGamma regression\nBeta regression\nBinary logistic regression\nOrdinal logistic regression\nMultinomial logistic regression\nPoisson and negative binomial regressions\n\nEach week will consist of multiple lecture videos, a review of that week’s programming, a project to demonstrate understanding, and a formal quiz to assess comprehension.\nWhile there are no live sessions, students will engage with their peers and instructor through Discord. Students are expected to ask questions, answer questions (when able), and share resources."
+  },
+  {
+    "objectID": "files/assignments/keys/A1_KEY.html",
+    "href": "files/assignments/keys/A1_KEY.html",
+    "title": "Assignment 1",
+    "section": "",
+    "text": "library(tidyverse)\nlibrary(ssstats)\n\nCorporate is hosting a “Dunder Mifflin Sales Summit,” and Michael Scott insists Scranton should look elite. HQ collects a one-time snapshot of performance and workstyle metrics for a large group of sales employees across multiple branches (Scranton, Stamford, Utica, Albany, etc.). Each row is one employee, measured during the same month (i.e., this is independent data). In the week1.csv data file, you will find the following variables:\n\nannual_sales_usd: annual sales for the employee (USD), annualized from consistent internal accounting rules,\nclient_calls_week: average number of client calls per week,\nmeetings_week: average number of client meetings per week,\nemails_week: average number of client-facing emails per week,\navg_call_minutes: average call length (minutes),\nlead_quality: portfolio lead quality score (0–100),\ncrm_minutes_day: average minutes/day spent in CRM,\ncoffee_cups_day: average cups of coffee per day,\ndistractions_minutes_day: average minutes/day lost to distractions (pranks, “meetings,” etc.),\nmorale_score: morale score (0–10) from anonymous internal survey, and\nprinter_jams_week: average printer jams per week (yes, they tracked it).\n\nData Management\nDownload the data from Canvas and import it to R.\n\nsimulate_dunder_mifflin_snapshot &lt;- function(n = 420, seed = 2026) {\n  set.seed(seed)\n\n  # 10 continuous predictors (employee-level summaries)\n  client_calls_week        &lt;- pmax(0, rnorm(n, mean = 38, sd = 9))\n  meetings_week            &lt;- pmax(0, rnorm(n, mean = 2.4, sd = 1.0))\n  emails_week              &lt;- pmax(0, rnorm(n, mean = 22, sd = 7))\n  avg_call_minutes         &lt;- pmax(1, rnorm(n, mean = 6.2, sd = 1.6))\n  lead_quality             &lt;- pmin(100, pmax(0, rnorm(n, mean = 60, sd = 13)))\n  crm_minutes_day          &lt;- pmax(0, rnorm(n, mean = 46, sd = 16))\n  coffee_cups_day          &lt;- pmax(0, rnorm(n, mean = 2.7, sd = 1.0))\n  distractions_minutes_day &lt;- pmax(0, rnorm(n, mean = 35, sd = 18))\n  morale_score             &lt;- pmin(10, pmax(0, rnorm(n, mean = 6.9, sd = 1.4)))\n  printer_jams_week        &lt;- pmax(0, rnorm(n, mean = 1.6, sd = 1.1))\n\n  # Linear predictor (choose coefficients for reasonable scale)\n  mu &lt;- 52000 +\n    820  * client_calls_week +\n    6200 * meetings_week +\n    410  * emails_week +\n    1900 * avg_call_minutes +\n    520  * lead_quality +\n    95   * crm_minutes_day +\n    1400 * coffee_cups_day -\n    260  * distractions_minutes_day +\n    3400 * morale_score -\n    2100 * printer_jams_week\n\n  # Normally distributed outcome with noise\n  annual_sales_usd &lt;- rnorm(n, mean = mu, sd = 18000)\n\n  data.frame(\n    annual_sales_usd,\n    client_calls_week,\n    meetings_week,\n    emails_week,\n    avg_call_minutes,\n    lead_quality,\n    crm_minutes_day,\n    coffee_cups_day,\n    distractions_minutes_day,\n    morale_score,\n    printer_jams_week\n  )\n}\n\n# Create dataset\ndunder_sales &lt;- simulate_dunder_mifflin_snapshot(n = 420, seed = 2026)\n\nModel 1 (m1)\nFit a multiple linear regression model predicting annual sales (annual_sales_usd) as a function of the number of client calls per week (client_calls_week), the number of client meetings per week (meetings_week), and the number of client-facing emails per week (emails_week). Call this model m1.\n\nm1 &lt;- glm(annual_sales_usd ~ client_calls_week + meetings_week + emails_week, \n          family = \"gaussian\",\n          data = dunder_sales)\ncoefficients(m1)\n\n      (Intercept) client_calls_week     meetings_week       emails_week \n      107122.8257          971.0377         5967.7057          515.4828 \n\n\n\n1a. Based on your output, state the resulting model.\n\n\n\\hat{y} = \\beta_0 + \\beta_1 x_1 + ... \\beta_k x_k\n\n1b. Is this a significant regression line? You must provide statistical justification for your answer.\n\nfull &lt;- glm(annual_sales_usd ~ client_calls_week + meetings_week + emails_week, \n          family = \"gaussian\",\n          data = dunder_sales)\nreduced &lt;- glm(annual_sales_usd ~ 1, \n          family = \"gaussian\",\n          data = dunder_sales)\nanova(reduced, full)\n\n\n  \n\n\n\n\n1c. Fill in the following table:\n\n\n\n\n\n\n\n\nPredictor\n\\hat{\\beta}_i (95% CI for \\beta_i)\np-value\n\n\n\n\nclient calls\n\n\n\n\nclient meetings\n\n\n\n\nclient emails\n\n\n\n\n\n\ntidy(m1, conf.int = TRUE)\n\nError in `tidy()`:\n! could not find function \"tidy\"\n\n\n1d. Which, if any, are significant predictors of annual sales? You must provide statistical justification for your answers.\n\nModel 2 (m2)\nFit a multiple linear regression model predicting annual sales (annual_sales_usd) as a function of the number of client calls per week (client_calls_week), the number of client meetings per week (meetings_week), the number of client-facing emails per week (emails_week), the number of cups of coffee per day (coffee_cups_day), and the time lost to distractions per day (distractions_minutes_day). Call this model m2.\n\nm2 &lt;- glm(annual_sales_usd ~ client_calls_week + meetings_week + emails_week + coffee_cups_day + distractions_minutes_day, \n          family = \"gaussian\",\n          data = dunder_sales)\ncoefficients(m2)\n\n             (Intercept)        client_calls_week            meetings_week \n             114801.0406                 942.9700                5995.2575 \n             emails_week          coffee_cups_day distractions_minutes_day \n                523.5902                 834.9902                -272.8283 \n\n\n\n2a. Based on your output, state the resulting model.\n\n\n\\hat{y} = \\beta_0 + \\beta_1 x_1 + ... \\beta_k x_k\n\n2b. Is this a significant regression line? You must provide statistical justification for your answer.\n\nfull &lt;- glm(annual_sales_usd ~ client_calls_week + meetings_week + emails_week + coffee_cups_day + distractions_minutes_day, \n          family = \"gaussian\",\n          data = dunder_sales)\nreduced &lt;- glm(annual_sales_usd ~ 1, \n          family = \"gaussian\",\n          data = dunder_sales)\nanova(reduced, full)\n\n\n  \n\n\n\n\n2c. Fill in the following table:\n\n\n\n\n\n\n\n\nPredictor\n\\hat{\\beta}_i (95% CI for \\beta_i)\np-value\n\n\n\n\nclient calls\n\n\n\n\nclient meetings\n\n\n\n\nclient emails\n\n\n\n\ncoffee cups\n\n\n\n\ndistractions\n\n\n\n\n\n\ntidy(m1, conf.int = TRUE)\n\nError in `tidy()`:\n! could not find function \"tidy\"\n\n\n2d. Which, if any, are significant predictors of annual sales? You must provide statistical justification for your answers.\nComparing the Models\n3a. Let’s compare the two models side-by-side. Fill in the following table:\n\n\n\n\n\n\n\n\n\n\n\nPredictor\nm1 \\hat{\\beta}_i\nm1 p-value\nm2 \\hat{\\beta}_i\nm2 p-value\n\n\n\n\nclient calls\n\n\n\n\n\n\nclient meetings\n\n\n\n\n\n\nclient emails\n\n\n\n\n\n\ncoffee cups\nxxxxxxx\nxxxx\n\n\n\n\ndistractions\nxxxxxxx\nxxxx\n\n\n\n\n\n3b. How different are the model results? You should compare the coefficients and significance of each predictor across the two models.\nModel Selection\n4a. Find the R_{\\text{adj}}^2 for each model. What do these values mean?\n\nm1 %&gt;% r_squared()\n\n[1] 0.2104\n\nm2 %&gt;% r_squared()\n\n[1] 0.2508\n\n\n\nm1:\nm2:\n\n\n4b. Based on R_{\\text{adj}}^2, which model is preferred? Why?\n\n4c. Find the AIC and BIC values for each model.\n\nAIC(m1)\n\n[1] 9542.922\n\nBIC(m1)\n\n[1] 9563.123\n\nAIC(m2)\n\n[1] 9522.795\n\nBIC(m2)\n\n[1] 9551.077\n\n\n\n\n\nModel\nAIC\nBIC\n\n\n\n\nm1\n\n\n\n\nm2\n\n\n\n\n\n4d. Based on AIC and BIC, which model is preferred? Why?\n\n4e. Considering your answers to 3b and 3d, which model will you choose as your final model? Why?\n\nReporting the Final Model\n5a. Using the model chosen in 4e, paste in either the appropriate model summary table (from 1c or 2c).\n\n5b. Provide formal interpretations for each predictor in the final model. Note that all predictors are shown for completeness; please remove any predictors that do not appear in your final model.\n\nclient calls: \nclient meetings: \nclient emails: \ncoffee cups: \ndistractions: \n\n5c. Construct an appropriate data visualization to help explain the relationships in your final model. While there is no single “right” answer here, you should consider your audience (…potentially Michael Scott…) and what would be most helpful for them to understand what the math is suggesting. For uniformity (for grading purposes), let’s have annual sales (annual_sales_usd) on the y-axis and number of client meetings (meetings_week) on the x-axis. You may include additional aesthetics (color, size, shape, facets, etc.) as you see fit. For predicted values, please plug in the median value for all other predictors in the model.\n5d. Pretend that you are preparing to meet with Michael Scott to review the analysis results. Summarize the key takeaways from your model and visualization? Remember your audience here – Michael is not a statistician, so you should avoid jargon and technical language. What would be most helpful for him to know to improve sales performance at Dunder Mifflin?"
   },
   {
     "objectID": "files/lectures/W1_L1_review.html#introduction",
@@ -1929,7 +1943,7 @@
     "href": "files/lectures/W1_L2_visualization.html#wrap-up",
     "title": "Visualization of the Model: Multiple Linear Regression",
     "section": "Wrap Up",
-    "text": "Wrap Up\n\nIn this lecture, we explored how to visualize simple and multiple linear regression models using the ggplot2 library.\nFor simple linear regression, we visualized the relationship between the outcome and predictor using a scatterplot and regression line.\nFor multiple linear regression, we visualized the relationship between the outcome and one predictor while holding the other predictors constant.\nEvery week, we will review model visualization.\n\nThe general ideas won’t change, but things will get tricky when we add categorical predictors and leave the normal distribution.\n\nNext lecture: Model Assumptions and Diagnostics"
+    "text": "Wrap Up\n\nIn this lecture, we explored how to visualize simple and multiple linear regression models using the ggplot2 library.\nFor simple linear regression, we visualized the relationship between the outcome and predictor using a scatterplot and regression line.\nFor multiple linear regression, we visualized the relationship between the outcome and one predictor while holding the other predictors constant.\nEvery week, we will review model visualization.\n\nThe general ideas won’t change, but things will get tricky when we add categorical predictors and leave the normal distribution.\n\nNext lecture: Model Assumptions"
   },
   {
     "objectID": "files/schedule.html",
