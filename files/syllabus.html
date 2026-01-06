@@ -135,36 +135,25 @@ ul.task-list li input[type="checkbox"] {
 <h3 class="anchored" data-anchor-id="instructor-information">Instructor Information</h3>
 <ul>
 <li><a href="http://samanthaseals.github.io">Dr.&nbsp;Samantha Seals</a></li>
-<li>Office: 4/344</li>
+<li>Office: <em>Dr.&nbsp;Seals is on sabbatical for Spring 2026 and will not be on campus regularly.</em></li>
 </ul>
 </section>
 <section id="office-hours" class="level3">
 <h3 class="anchored" data-anchor-id="office-hours">Office Hours</h3>
-<p>Students are welcome to join office hours either in person or online. If online, please <a href="https://uwf.campus.eab.com/pal/7s0ohLWPhK">schedule an appointment with me through Navigate</a>. Otherwise, I will not be on Zoom.</p>
 <ul>
-<li>Monday: 2:00–4:00 pm (Central)</li>
-<li>Wednesday: 2:00–4:00 pm (Central)</li>
-<li>Other times by appointment</li>
+<li>By appointment only. Please reach out to Dr.&nbsp;Seals directly to schedule a meeting.</li>
 </ul>
 </section>
 <section id="grading-and-evaluation" class="level3">
 <h3 class="anchored" data-anchor-id="grading-and-evaluation">Grading and Evaluation</h3>
 <p>The course grade will be determined as follows:</p>
 <ol type="1">
-<li><p>Practice and Participation (10%): Students earn credit by engaging with course material their classmates through the class Discord. Half of these points come from Discord participation, which includes both asking and answering questions. As a formal deliverable, students will complete a weekly check-in quiz by Sunday night; feedback will be provided on Monday.</p></li>
-<li><p>Projects - 4 (15% each): All projects will be completed individually using R, formatted with Quarto. After the initial grading of a project, revisions can be made to take provided feedback into account. After feedback has been provided on the revised project, further revisions will not be accepted (i.e., projects will be regraded only once). Projects are due on Tuesday by 11:59 pm Central. Note: <em>do not wait</em> until Sunday to work on your projects.</p></li>
-<li><p>Final Exam (30%): The final exam will be a timed concepts-based exam. While there may be some calculations needed, you will not be processing raw data. There will be no programming expectations on the final exam. <strong>The timed final exam will be on Wednesday, April 30, 2025</strong> The date of this exam will not change, so please make arrangements to be free for a continuous 3 hour block. <u>Once the exam is open, the timer for 3 hours starts and <em>continues</em>, even if you close your browser window.</u></p></li>
-<li><p>Daily practice (25%): Each lecture day, students will complete an activity using Quarto and R. The resulting .html file should be submitted to the designated dropbox on Canvas by 11:59 pm on the specified date (see Canvas).</p></li>
-<li><p>Assignments (25%): Every module will finish with an assignment to demonstrate the knowledge gained. These will be like the daily practice, but putting together. The resulting .html file should be submitted to the designated dropbox on Canvas by 11:59 pm on the specified date (see Canvas).</p></li>
-<li><p>Projects (25%): There are two group projects in this course. The first project will result in a <em>recorded</em> presentation while the second project will result in a <em>live</em> presentation. Students are required to attend class during live presentations on July 31, 2025.</p></li>
-<li><p>Final Exam (25%): The final exam will be a timed, concepts-based exam. While there may be some calculations needed, you will not be processing raw data. The final exam will be <u><em>on Canvas</em></u> on August 7, 2025. All students will have 3 hours to complete the exam.</p></li>
+<li><p>Practice and Participation (10%): Students earn credit by engaging with course material and their classmates through the class Discord. Half of these points come from Discord participation, which includes both asking and answering questions. As a formal deliverable, students will complete a weekly check-in quiz by Sunday night at 11:59 pm Central. No extensions will be granted nor will make up submissions be accepted.</p></li>
+<li><p>Weekly Projects (30%): All projects will be completed individually using R, formatted with Quarto. Projects are due on Tuesdays by 11:59 pm Central. Note: <em>do not wait</em> until Sunday before the check in to work on your projects. After the first round of grading, projects will be reopened for updates; students will have two weeks from that point to submit revisions for (full) credit back.</p></li>
+<li><p>Quizzes (20%): There will be a quiz at the end of each week; these quizzes open Tuesday at 12:00 am Central and are due Tuesdays at 11:59 pm Central. These quizzes will focus on concepts from that week’s lectures and applications. Quizzes are open book/note, but collaboration is not allowed. No extensions will be granted nor will make up quizzes be available.</p></li>
+<li><p>Project 7 (10%): This project will be a cumulative project that incorporates material from the entire course. It will be no different from other projects completed <em>other than</em> it combines all modeling approaches into one project. <u>This project is exempt from the revision policy</u> and is due on Tuesday, February 24, 2026 by 11:59 pm Central.</p></li>
+<li><p>Final Exam (30%): The final exam will be a timed concepts-based exam. While there may be some calculations needed, you will not be processing raw data. <u>There will be no programming expectations</u> on the final exam. <strong>The timed final exam will be on Friday, February 27, 2026</strong> The date of this exam will not change, so please make arrangements to be free for a continuous 3 hour block. <u>Once the exam is open, the timer for 3 hours starts and <em>continues</em>, even if you close your browser window.</u> No extensions will be granted nor will make up final exams be accepted.</p></li>
 </ol>
-</section>
-<section id="late-policy" class="level3">
-<h3 class="anchored" data-anchor-id="late-policy">Late Policy</h3>
-<p>Assigments have due dates, however, the dropboxes will not close until the end of the semester. All students are automatically granted “extensions” without question.</p>
-<p>Note that if there is not a submission when I go to grade (after the initial deadline), I will assign a zero (0) and request that you submit the assignment when you are able to. This is only for record keeping purposes. There is no penalty for submitting late and a full grade will be given upon review of your submission.</p>
-<p><strong>Extensions are <em>not available</em> for daily practices, projects, or the final exam.</strong></p>
 
 
 </section>
@@ -260,7 +249,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   }
     var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
     var mailtoRegex = new RegExp(/^mailto:/);
-      var filterRegex = new RegExp('/' + window.location.host + '/');
+      var filterRegex = new RegExp("https:\/\/samanthaseals\.github\.io\/SDSII\/");
     var isInternal = (href) => {
         return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
     }

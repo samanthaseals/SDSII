@@ -67,6 +67,35 @@ ul.task-list li input[type="checkbox"] {
   }
 }</script>
 
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
 
 <link rel="stylesheet" href="../styles.css">
 </head>
@@ -182,7 +211,7 @@ Week 2: More on Linear Regression
 <li>Categorical Predictors: Statistical Inference <a href="../files/lectures/W2_L3_cat_pred_tests.html">slides</a> <a href="https://github.com/samanthaseals/SDSII/blob/main/files/lectures/W2_L3_cat_pred_tests.qmd">qmd</a>
 <ul>
 <li>Sidebar: Why Type III? <a href="../files/lectures/W2_L3a_why_type_3.html">slides</a> <a href="https://github.com/samanthaseals/SDSII/blob/main/files/lectures/W2_L3a_why_type_3.qmd">qmd</a></li>
-<li>Sidebar: Full vs.&nbsp;Reduced Models <a href="../files/lectures/W2_L3b_full_reduced.html">slides</a> <a href="https://github.com/samanthaseals/SDSII/blob/main/files/lectures/W1_L3b_full_reduced.qmd">qmd</a></li>
+<li>Sidebar: Full vs.&nbsp;Reduced Models <a href="../files/lectures/W2_L3b_full_reduced.html">slides</a> <a href="https://github.com/samanthaseals/SDSII/blob/main/files/lectures/W2_L3b_full_reduced.qmd">qmd</a></li>
 </ul></li>
 <li>Visualizing the Model with Categorical Predictors <a href="../files/lectures/W2_L4_visualization.html">slides</a> <a href="https://github.com/samanthaseals/SDSII/blob/main/files/lectures/W2_L4_visualization.qmd">qmd</a></li>
 </ol></li>
@@ -206,6 +235,13 @@ Week 3: More on Linear Regression
 <div id="callout-3" class="callout-3-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <ul>
+<li><p>Lecture Schedule:</p>
+<ol type="1">
+<li>Interactions: Continuous <span class="math inline">\(\times\)</span> Continuous</li>
+<li>Interactions: Including Categorical Terms</li>
+<li>Simplfying Models</li>
+<li>Visualizing the Model with Interactions</li>
+</ol></li>
 <li><p>Check in 3 (due Sunday evening)</p></li>
 <li><p>Quiz 3 (due Tuesday evening)</p></li>
 <li><p>Project 3 (due Tuesday evening)</p></li>
@@ -226,6 +262,13 @@ Week 4: Gamma and Beta Regressions
 <div id="callout-4" class="callout-4-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <ul>
+<li><p>Lecture Schedule:</p>
+<ol type="1">
+<li>Gamma Regression</li>
+<li>Visualizing the Model: Gamma</li>
+<li>Beta Regression</li>
+<li>Visualizing the Model: Beta</li>
+</ol></li>
 <li><p>Check in 4 (due Sunday evening)</p></li>
 <li><p>Quiz 4 (due Tuesday evening)</p></li>
 <li><p>Project 4 (due Tuesday evening)</p></li>
@@ -246,6 +289,13 @@ Week 5: Binary, Ordinal, and Nominal Logistic Regressions
 <div id="callout-5" class="callout-5-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <ul>
+<li><p>Lecture Schedule:</p>
+<ol type="1">
+<li>Binary Logistic Regression</li>
+<li>Ordinal Logistic Regression</li>
+<li>Nominal Logistic Regression</li>
+<li>Visualizing Logistic Regression Models</li>
+</ol></li>
 <li><p>Check in 5 (due Sunday evening)</p></li>
 <li><p>Quiz 5 (due Tuesday evening)</p></li>
 <li><p>Project 5 (due Tuesday evening)</p></li>
@@ -266,6 +316,13 @@ Week 6: Poisson and Negative Binomial Regressions
 <div id="callout-6" class="callout-6-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <ul>
+<li><p>Lecture Schedule:</p>
+<ol type="1">
+<li>Poisson Regression</li>
+<li>Negative Binomial Regression</li>
+<li>Zero-Inflated Models</li>
+<li>Visualizing the Model: Count Data</li>
+</ol></li>
 <li><p>Check in 6 (due Sunday evening)</p></li>
 <li><p>Quiz 6 (due Tuesday evening)</p></li>
 <li><p>Project 6 (due Tuesday evening)</p></li>
@@ -286,9 +343,13 @@ Week 7: Choosing a Distribution
 <div id="callout-7" class="callout-7-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <ul>
-<li><p>Check in 1 (due Sunday evening)</p></li>
-<li><p>Quiz 1 (due Tuesday evening)</p></li>
-<li><p>Project 1 (due Tuesday evening)</p></li>
+<li><p>Lecture Schedule:</p>
+<ol type="1">
+<li>Choosing the Right Modeling Approach</li>
+</ol></li>
+<li><p>Check in 7 (due Sunday evening)</p></li>
+<li><p>Quiz 7 (due Tuesday evening)</p></li>
+<li><p>Project 7 (due Tuesday evening)</p></li>
 </ul>
 </div>
 </div>
@@ -305,7 +366,15 @@ Week 8: Final Exam
 </div>
 <div id="callout-8" class="callout-8-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-
+<ul>
+<li><p>Final exam opens on Friday morning at 12 am and is due by Friday evening at 11:59 pm, Central.</p>
+<ul>
+<li>This is a <u>timed exam</u>; once you open the exam on Canvas, you will have 3 hours for completion.</li>
+<li>The exam is cumulative and will cover all material from the course.</li>
+<li>The exam is conceptual and applied; none of the questions will require/ask for coding.</li>
+<li>No make up exams will be given.</li>
+</ul></li>
+</ul>
 </div>
 </div>
 </div>
@@ -403,7 +472,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   }
     var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
     var mailtoRegex = new RegExp(/^mailto:/);
-      var filterRegex = new RegExp('/' + window.location.host + '/');
+      var filterRegex = new RegExp("https:\/\/samanthaseals\.github\.io\/SDSII\/");
     var isInternal = (href) => {
         return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
     }
