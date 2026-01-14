@@ -2937,6 +2937,9 @@ y = (\beta_0 + \beta_3) + (\beta_1 - \beta_3) x_{\text{H}} + (\beta_2 - \beta_3)
 </div>
 </div>
 </div>
+</section>
+<section id="example-4-binary-predictors-2" class="slide level2">
+<h2>Example 4: Binary Predictors</h2>
 <ul>
 <li>Comparing this to the model using the <code>donald_action</code> factor variable instead,</li>
 </ul>
@@ -2954,7 +2957,25 @@ y = (\beta_0 + \beta_3) + (\beta_1 - \beta_3) x_{\text{H}} + (\beta_2 - \beta_3)
 </div>
 </div>
 </section>
-<section id="example-4-binary-predictors-2" class="slide level2">
+<section id="example-4-binary-predictors-3" class="slide level2">
+<h2>Example 4: Binary Predictors</h2>
+<ul>
+<li>Looking at the coefficients side-by-side,</li>
+</ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a></a>m6 <span class="sc">%&gt;%</span> <span class="fu">coefficients</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>(Intercept) sugar_grams    punished 
+  86.614516    3.800135    8.276618 </code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a></a>m7 <span class="sc">%&gt;%</span> <span class="fu">coefficients</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>          (Intercept)           sugar_grams donald_actionPunished 
+            86.614516              3.800135              8.276618 </code></pre>
+</div>
+</div>
+</section>
+<section id="example-4-binary-predictors-4" class="slide level2">
 <h2>Example 4: Binary Predictors</h2>
 <ul>
 <li>Mathematically, our model is</li>
@@ -2976,7 +2997,7 @@ y = (\beta_0 + \beta_3) + (\beta_1 - \beta_3) x_{\text{H}} + (\beta_2 - \beta_3)
 <ul>
 <li><p>In this lecture, we have introduced modeling with categorical predictors.</p></li>
 <li><p>Always remember that if there are <span class="math inline">c</span> categories, there will be <span class="math inline">c-1</span> predictor terms in the model.</p></li>
-<li><p>Whether we use a true factor variable or we use a set of indicator variables, the model fit and predictions will be the same.</p></li>
+<li><p>Whether we use a true factor variable or we use a set of indicator variables, estimation, model fit, and omnibus test results will remain the same.</p></li>
 <li><p>The choice of reference group is arbitrary mathematically, but important for interpretation.</p></li>
 <li><p>In the next lecture, we will discuss statistical inference with categorical predictors.</p></li>
 </ul>
