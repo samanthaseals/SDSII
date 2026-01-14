@@ -2553,8 +2553,9 @@ y = (\beta_0 + \beta_3) + (\beta_1 - \beta_3) x_{\text{H}} + (\beta_2 - \beta_3)
 </ul>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a></a>m1 <span class="ot">&lt;-</span> <span class="fu">glm</span>(damage_cost <span class="sc">~</span> location, </span>
-<span id="cb5-2"><a></a>          <span class="at">data =</span> duck_incidents)</span>
-<span id="cb5-3"><a></a><span class="fu">tidy</span>(m1, <span class="at">conf.int =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb5-2"><a></a>          <span class="at">family =</span> <span class="st">&quot;gaussian&quot;</span>,</span>
+<span id="cb5-3"><a></a>          <span class="at">data =</span> duck_incidents)</span>
+<span id="cb5-4"><a></a><span class="fu">tidy</span>(m1, <span class="at">conf.int =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div data-pagedtable="false">
   <script data-pagedtable-source type="application/json">
@@ -2574,8 +2575,9 @@ y = (\beta_0 + \beta_3) + (\beta_1 - \beta_3) x_{\text{H}} + (\beta_2 - \beta_3)
 </ul>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a></a>m2 <span class="ot">&lt;-</span> <span class="fu">glm</span>(damage_cost <span class="sc">~</span> loc_garage <span class="sc">+</span> loc_kitchen <span class="sc">+</span> loc_living,</span>
-<span id="cb6-2"><a></a>          <span class="at">data =</span> duck_incidents)</span>
-<span id="cb6-3"><a></a><span class="fu">tidy</span>(m2, <span class="at">conf.int =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb6-2"><a></a>          <span class="at">family =</span> <span class="st">&quot;gaussian&quot;</span>,</span>
+<span id="cb6-3"><a></a>          <span class="at">data =</span> duck_incidents)</span>
+<span id="cb6-4"><a></a><span class="fu">tidy</span>(m2, <span class="at">conf.int =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div data-pagedtable="false">
   <script data-pagedtable-source type="application/json">
@@ -2687,8 +2689,9 @@ y = (\beta_0 + \beta_3) + (\beta_1 - \beta_3) x_{\text{H}} + (\beta_2 - \beta_3)
 </ul>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb13"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a></a>m3 <span class="ot">&lt;-</span> <span class="fu">glm</span>(damage_cost <span class="sc">~</span> loc_yard <span class="sc">+</span> loc_garage <span class="sc">+</span> loc_living,</span>
-<span id="cb13-2"><a></a>          <span class="at">data =</span> duck_incidents)</span>
-<span id="cb13-3"><a></a><span class="fu">tidy</span>(m3, <span class="at">conf.int =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb13-2"><a></a>          <span class="at">family =</span> <span class="st">&quot;gaussian&quot;</span>,</span>
+<span id="cb13-3"><a></a>          <span class="at">data =</span> duck_incidents)</span>
+<span id="cb13-4"><a></a><span class="fu">tidy</span>(m3, <span class="at">conf.int =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div data-pagedtable="false">
   <script data-pagedtable-source type="application/json">
@@ -2740,8 +2743,9 @@ y = (\beta_0 + \beta_3) + (\beta_1 - \beta_3) x_{\text{H}} + (\beta_2 - \beta_3)
 </ul>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb18"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a></a>m4 <span class="ot">&lt;-</span> <span class="fu">glm</span>(damage_cost <span class="sc">~</span> location <span class="sc">+</span> nephew,</span>
-<span id="cb18-2"><a></a>          <span class="at">data =</span> duck_incidents)</span>
-<span id="cb18-3"><a></a><span class="fu">tidy</span>(m4, <span class="at">conf.int =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb18-2"><a></a>          <span class="at">family =</span> <span class="st">&quot;gaussian&quot;</span>,</span>
+<span id="cb18-3"><a></a>          <span class="at">data =</span> duck_incidents)</span>
+<span id="cb18-4"><a></a><span class="fu">tidy</span>(m4, <span class="at">conf.int =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div data-pagedtable="false">
   <script data-pagedtable-source type="application/json">
@@ -2809,8 +2813,9 @@ y = (\beta_0 + \beta_3) + (\beta_1 - \beta_3) x_{\text{H}} + (\beta_2 - \beta_3)
 </ul>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb21"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a></a>m5 <span class="ot">&lt;-</span> <span class="fu">glm</span>(damage_cost <span class="sc">~</span> location <span class="sc">+</span> nephew <span class="sc">+</span> sugar_grams,</span>
-<span id="cb21-2"><a></a>          <span class="at">data =</span> duck_incidents)</span>
-<span id="cb21-3"><a></a><span class="fu">tidy</span>(m5, <span class="at">conf.int =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb21-2"><a></a>          <span class="at">family =</span> <span class="st">&quot;gaussian&quot;</span>,</span>
+<span id="cb21-3"><a></a>          <span class="at">data =</span> duck_incidents)</span>
+<span id="cb21-4"><a></a><span class="fu">tidy</span>(m5, <span class="at">conf.int =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div data-pagedtable="false">
   <script data-pagedtable-source type="application/json">
@@ -2921,8 +2926,9 @@ y = (\beta_0 + \beta_3) + (\beta_1 - \beta_3) x_{\text{H}} + (\beta_2 - \beta_3)
 </ul>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb26"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a></a>m6 <span class="ot">&lt;-</span> <span class="fu">glm</span>(damage_cost <span class="sc">~</span> sugar_grams <span class="sc">+</span> punished,</span>
-<span id="cb26-2"><a></a>          <span class="at">data =</span> duck_incidents)</span>
-<span id="cb26-3"><a></a><span class="fu">tidy</span>(m6, <span class="at">conf.int =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb26-2"><a></a>          <span class="at">family =</span> <span class="st">&quot;gaussian&quot;</span>,</span>
+<span id="cb26-3"><a></a>          <span class="at">data =</span> duck_incidents)</span>
+<span id="cb26-4"><a></a><span class="fu">tidy</span>(m6, <span class="at">conf.int =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div data-pagedtable="false">
   <script data-pagedtable-source type="application/json">
@@ -2936,8 +2942,9 @@ y = (\beta_0 + \beta_3) + (\beta_1 - \beta_3) x_{\text{H}} + (\beta_2 - \beta_3)
 </ul>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb27"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a></a>m7 <span class="ot">&lt;-</span> <span class="fu">glm</span>(damage_cost <span class="sc">~</span> sugar_grams <span class="sc">+</span> donald_action,</span>
-<span id="cb27-2"><a></a>          <span class="at">data =</span> duck_incidents)</span>
-<span id="cb27-3"><a></a><span class="fu">tidy</span>(m7, <span class="at">conf.int =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb27-2"><a></a>          <span class="at">family =</span> <span class="st">&quot;gaussian&quot;</span>,</span>
+<span id="cb27-3"><a></a>          <span class="at">data =</span> duck_incidents)</span>
+<span id="cb27-4"><a></a><span class="fu">tidy</span>(m7, <span class="at">conf.int =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div data-pagedtable="false">
   <script data-pagedtable-source type="application/json">

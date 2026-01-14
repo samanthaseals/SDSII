@@ -2457,15 +2457,15 @@ i.e., using echo: false here is just to make the slides cleaner
 <li><p>If we are using a factor variable,</p></li>
 </ul>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a></a>m <span class="ot">&lt;-</span> <span class="fu">glm</span>(<span class="at">y =</span> x1 <span class="sc">+</span> x2 <span class="sc">+</span> ... <span class="sc">+</span> xk, <span class="at">data =</span> dataset_name)</span>
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a></a>m <span class="ot">&lt;-</span> <span class="fu">glm</span>(<span class="at">y =</span> x1 <span class="sc">+</span> x2 <span class="sc">+</span> ... <span class="sc">+</span> xk, <span class="at">family =</span> <span class="st">&quot;gaussian&quot;</span>, <span class="at">data =</span> dataset_name)</span>
 <span id="cb2-2"><a></a>car<span class="sc">::</span><span class="fu">Anova</span>(m, <span class="at">type =</span> <span class="dv">3</span>, <span class="at">test =</span> <span class="st">&quot;F&quot;</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <ul>
 <li>If we are using indicator variables,</li>
 </ul>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a></a>full <span class="ot">&lt;-</span> <span class="fu">glm</span>(<span class="at">y =</span> x1 <span class="sc">+</span> x2 <span class="sc">+</span> ... <span class="sc">+</span> xk, <span class="at">data =</span> dataset_name) <span class="co"># ALL predictors</span></span>
-<span id="cb3-2"><a></a>reduced <span class="ot">&lt;-</span> <span class="fu">glm</span>(<span class="at">y =</span> x1 <span class="sc">+</span> ... <span class="sc">+</span> <span class="fu">x</span>(k<span class="sc">-</span>c), <span class="at">data =</span> dataset_name) <span class="co"># all predictors WITHOUT indicators</span></span>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a></a>full <span class="ot">&lt;-</span> <span class="fu">glm</span>(<span class="at">y =</span> x1 <span class="sc">+</span> x2 <span class="sc">+</span> ... <span class="sc">+</span> xk, <span class="at">family =</span> <span class="st">&quot;gaussian&quot;</span>, <span class="at">data =</span> dataset_name) <span class="co"># ALL predictors</span></span>
+<span id="cb3-2"><a></a>reduced <span class="ot">&lt;-</span> <span class="fu">glm</span>(<span class="at">y =</span> x1 <span class="sc">+</span> ... <span class="sc">+</span> <span class="fu">x</span>(k<span class="sc">-</span>c), <span class="at">family =</span> <span class="st">&quot;gaussian&quot;</span>, <span class="at">data =</span> dataset_name) <span class="co"># all predictors WITHOUT indicators</span></span>
 <span id="cb3-3"><a></a><span class="fu">anova</span>(reduced, full)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
@@ -2476,8 +2476,9 @@ i.e., using echo: false here is just to make the slides cleaner
 </ul>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a></a>m1 <span class="ot">&lt;-</span> <span class="fu">glm</span>(damage_cost <span class="sc">~</span> location, </span>
-<span id="cb4-2"><a></a>          <span class="at">data =</span> duck_incidents)</span>
-<span id="cb4-3"><a></a><span class="fu">tidy</span>(m1, <span class="at">conf.int =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb4-2"><a></a>          <span class="at">family =</span> <span class="st">&quot;gaussian&quot;</span>,</span>
+<span id="cb4-3"><a></a>          <span class="at">data =</span> duck_incidents)</span>
+<span id="cb4-4"><a></a><span class="fu">tidy</span>(m1, <span class="at">conf.int =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div data-pagedtable="false">
   <script data-pagedtable-source type="application/json">
@@ -2600,8 +2601,9 @@ i.e., using echo: false here is just to make the slides cleaner
 </ul>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a></a>m4 <span class="ot">&lt;-</span> <span class="fu">glm</span>(damage_cost <span class="sc">~</span> location <span class="sc">+</span> nephew,</span>
-<span id="cb7-2"><a></a>          <span class="at">data =</span> duck_incidents)</span>
-<span id="cb7-3"><a></a><span class="fu">tidy</span>(m4, <span class="at">conf.int =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb7-2"><a></a>          <span class="at">family =</span> <span class="st">&quot;gaussian&quot;</span>,</span>
+<span id="cb7-3"><a></a>          <span class="at">data =</span> duck_incidents)</span>
+<span id="cb7-4"><a></a><span class="fu">tidy</span>(m4, <span class="at">conf.int =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div data-pagedtable="false">
   <script data-pagedtable-source type="application/json">
@@ -2643,9 +2645,9 @@ i.e., using echo: false here is just to make the slides cleaner
 <li><p>We can still do that here – let’s try it out.</p></li>
 </ul>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a></a>full <span class="ot">&lt;-</span> <span class="fu">glm</span>(damage_cost <span class="sc">~</span> location <span class="sc">+</span> nephew, <span class="at">data =</span> duck_incidents) <span class="co"># full model</span></span>
-<span id="cb9-2"><a></a>reduced_loc <span class="ot">&lt;-</span> <span class="fu">glm</span>(damage_cost <span class="sc">~</span> nephew, <span class="at">data =</span> duck_incidents) <span class="co"># reduced without location</span></span>
-<span id="cb9-3"><a></a>reduced_neph <span class="ot">&lt;-</span> <span class="fu">glm</span>(damage_cost <span class="sc">~</span> location, <span class="at">data =</span> duck_incidents) <span class="co"># reduced without nephew</span></span>
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a></a>full <span class="ot">&lt;-</span> <span class="fu">glm</span>(damage_cost <span class="sc">~</span> location <span class="sc">+</span> nephew, <span class="at">family =</span> <span class="st">&quot;gaussian&quot;</span>,<span class="at">data =</span> duck_incidents) <span class="co"># full model</span></span>
+<span id="cb9-2"><a></a>reduced_loc <span class="ot">&lt;-</span> <span class="fu">glm</span>(damage_cost <span class="sc">~</span> nephew, <span class="at">family =</span> <span class="st">&quot;gaussian&quot;</span>, <span class="at">data =</span> duck_incidents) <span class="co"># reduced without location</span></span>
+<span id="cb9-3"><a></a>reduced_neph <span class="ot">&lt;-</span> <span class="fu">glm</span>(damage_cost <span class="sc">~</span> location, <span class="at">family =</span> <span class="st">&quot;gaussian&quot;</span>, <span class="at">data =</span> duck_incidents) <span class="co"># reduced without nephew</span></span>
 <span id="cb9-4"><a></a><span class="fu">anova</span>(reduced_loc, full) <span class="co"># test location</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div data-pagedtable="false">
@@ -2743,7 +2745,7 @@ i.e., using echo: false here is just to make the slides cleaner
 <li>Let’s re-examine this model with the location indicators,</li>
 </ul>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a></a>m4a <span class="ot">&lt;-</span> <span class="fu">glm</span>(damage_cost <span class="sc">~</span> location <span class="sc">+</span> nephew, <span class="at">data =</span> duck_incidents)</span>
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a></a>m4a <span class="ot">&lt;-</span> <span class="fu">glm</span>(damage_cost <span class="sc">~</span> location <span class="sc">+</span> nephew, <span class="at">family =</span> <span class="st">&quot;gaussian&quot;</span>, <span class="at">data =</span> duck_incidents)</span>
 <span id="cb14-2"><a></a><span class="fu">coefficients</span>(m4a)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>        (Intercept)      locationGarage     locationKitchen locationLiving Room 
@@ -2751,7 +2753,7 @@ i.e., using echo: false here is just to make the slides cleaner
          nephewHuey         nephewLouie 
           -7.974478          206.606636 </code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a></a>m4b <span class="ot">&lt;-</span> <span class="fu">glm</span>(damage_cost <span class="sc">~</span> loc_garage <span class="sc">+</span> loc_kitchen <span class="sc">+</span> loc_living <span class="sc">+</span> nephew, <span class="at">data =</span> duck_incidents)</span>
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a></a>m4b <span class="ot">&lt;-</span> <span class="fu">glm</span>(damage_cost <span class="sc">~</span> loc_garage <span class="sc">+</span> loc_kitchen <span class="sc">+</span> loc_living <span class="sc">+</span> nephew, <span class="at">family =</span> <span class="st">&quot;gaussian&quot;</span>, <span class="at">data =</span> duck_incidents)</span>
 <span id="cb16-2"><a></a><span class="fu">coefficients</span>(m4b)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>(Intercept)  loc_garage loc_kitchen  loc_living  nephewHuey nephewLouie 
@@ -2850,8 +2852,9 @@ i.e., using echo: false here is just to make the slides cleaner
 </ul>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb23"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a></a>m5 <span class="ot">&lt;-</span> <span class="fu">glm</span>(damage_cost <span class="sc">~</span> location <span class="sc">+</span> nephew <span class="sc">+</span> sugar_grams,</span>
-<span id="cb23-2"><a></a>          <span class="at">data =</span> duck_incidents)</span>
-<span id="cb23-3"><a></a><span class="fu">tidy</span>(m5, <span class="at">conf.int =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb23-2"><a></a>          <span class="at">family =</span> <span class="st">&quot;gaussian&quot;</span>,</span>
+<span id="cb23-3"><a></a>          <span class="at">data =</span> duck_incidents)</span>
+<span id="cb23-4"><a></a><span class="fu">tidy</span>(m5, <span class="at">conf.int =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div data-pagedtable="false">
   <script data-pagedtable-source type="application/json">
@@ -2980,8 +2983,9 @@ F \approx t^2
 </ul>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb28"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a></a>m6 <span class="ot">&lt;-</span> <span class="fu">glm</span>(damage_cost <span class="sc">~</span> sugar_grams <span class="sc">+</span> punished,</span>
-<span id="cb28-2"><a></a>          <span class="at">data =</span> duck_incidents)</span>
-<span id="cb28-3"><a></a><span class="fu">tidy</span>(m6, <span class="at">conf.int =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb28-2"><a></a>          <span class="at">family =</span> <span class="st">&quot;gaussian&quot;</span>,</span>
+<span id="cb28-3"><a></a>          <span class="at">data =</span> duck_incidents)</span>
+<span id="cb28-4"><a></a><span class="fu">tidy</span>(m6, <span class="at">conf.int =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div data-pagedtable="false">
   <script data-pagedtable-source type="application/json">
