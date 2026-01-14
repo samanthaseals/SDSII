@@ -43,7 +43,7 @@ editor: source
 #| echo: false
 library(tidyverse)
 library(broom)
-clubhouse <- read_csv("~/Desktop/GitHub/samanthaseals/STA4231_STA6262/files/data/lectures/W1_mickey_clubhouse.csv") %>%
+clubhouse <- read_csv("https://raw.githubusercontent.com/samanthaseals/SDSII/refs/heads/main/files/data/lectures/W1_mickey_clubhouse.csv") %>%
   mutate(predicted_happiness_slr = 57.55 + 3.49*time_with_friends,
          predicted_happiness_mlr = 47.58 + 3.58*time_with_friends + 0.66*median(goofy_laughs) - 1.06*median(donald_grumbles))
 ```
@@ -71,6 +71,7 @@ $$
 ```{r}
 #| echo: false
 #| fig-align: 'center'
+#| fig-alt: 'A scatterplot of happiness score versus time with friends. A solid black line shows the line of best fit from geom_smooth(), and a dashed gray line shows the predicted happiness from the simple linear regression model.'
 ggplot(clubhouse, aes(x = time_with_friends, y = clubhouse_happiness)) +
   geom_point() +
   geom_smooth(method = "lm", se = FALSE, color = "black", size = 2) +
@@ -87,6 +88,7 @@ ggplot(clubhouse, aes(x = time_with_friends, y = clubhouse_happiness)) +
 ```{r}
 #| echo: false
 #| fig-align: 'center'
+#| fig-alt: 'A scatterplot of happiness score versus time with friends. A solid black line shows the line of best fit from geom_smooth(), and a dashed gray line shows the predicted happiness from the multiple linear regression model.'
 ggplot(clubhouse, aes(x = time_with_friends, y = clubhouse_happiness)) +
   geom_point() +
   geom_smooth(method = "lm", se = FALSE, color = "black", size = 2) +

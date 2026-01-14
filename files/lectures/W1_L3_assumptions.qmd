@@ -1,5 +1,5 @@
 ---
-title: "Model Assumptions and Diagnostics"
+title: "Model Assumptions"
 execute:
   echo: true
   warning: false
@@ -113,6 +113,7 @@ m1 <- glm(y ~ x, data = reg_data)
 
 ```{r}
 #| fig-align: 'center'
+#| fig-alt: 'Residuals vs Fitted Values Plot for Model m1'
 m1 %>% variance_check()
 ```
 
@@ -142,6 +143,7 @@ m2 <- glm(y ~ x1 + x2, data = reg_data)
 
 ```{r}
 #| fig-align: 'center'
+#| fig-alt: 'Residuals vs Fitted Values Plot for Model m2'
 m2 %>% variance_check()
 ```
 
@@ -172,6 +174,7 @@ m3 <- glm(y ~ x1 + x2, data = reg_data)
 
 ```{r}
 #| fig-align: 'center'
+#| fig-alt: 'Residuals vs Fitted Values Plot for Model m3'
 m3 %>% variance_check()
 ```
 
@@ -204,6 +207,7 @@ m4 <- glm(y ~ x1 + x2, data = reg_data)
 
 ```{r}
 #| fig-align: 'center'
+#| fig-alt: 'Residuals vs Fitted Values Plot for Model m4'
 m4 %>% variance_check()
 ```
 
@@ -236,6 +240,7 @@ m5 <- glm(y ~ x1 + x2, data = reg_data)
     
 ```{r}
 #| fig-align: 'center'
+#| fig-alt: 'Residuals vs Fitted Values Plot for Model m5'
 m5 %>% variance_check()
 ```    
 
@@ -276,6 +281,7 @@ m6 <- glm(y ~ x1 + x2, data = wild_data)
 
 ```{r}
 #| fig-align: 'center'
+#| fig-alt: 'Residuals vs Fitted Values Plot for Model m6'
 m6 %>% variance_check()
 ```   
 
@@ -414,6 +420,7 @@ $$
 
 ```{r}
 #| fig-align: 'center'
+#| fig-alt: 'Q-Q Plot and Histogram of Residuals for Model m1'
 m1 %>% normality_check()
 ```
 
@@ -428,6 +435,7 @@ $$
 
 ```{r}
 #| fig-align: 'center'
+#| fig-alt: 'Q-Q Plot and Histogram of Residuals for Model m2'
 m2 %>% normality_check()
 ```
 
@@ -441,6 +449,7 @@ $$
 
 ```{r}
 #| fig-align: 'center'
+#| fig-alt: 'Q-Q Plot and Histogram of Residuals for Model m3'
 m3 %>% normality_check()
 ```
 
@@ -454,6 +463,7 @@ $$
 
 ```{r}
 #| fig-align: 'center'
+#| fig-alt: 'Q-Q Plot and Histogram of Residuals for Model m4'
 m4 %>% normality_check()
 ```
 
@@ -467,6 +477,7 @@ $$
 
 ```{r}
 #| fig-align: 'center'
+#| fig-alt: 'Q-Q Plot and Histogram of Residuals for Model m5'
 m5 %>% normality_check()
 ```
 
@@ -480,6 +491,7 @@ $$
 
 ```{r}
 #| fig-align: 'center'
+#| fig-alt: 'Q-Q Plot and Histogram of Residuals for Model m6'
 m6 %>% normality_check()
 ```
 
@@ -508,6 +520,7 @@ model %>% reg_check()
 
 ```{r}
 #| fig-align: 'center'
+#| fig-alt: 'Comprehensive Regression Diagnostic Plots for Model m1'
 m1 %>% reg_check()
 ```
 
@@ -517,6 +530,7 @@ m1 %>% reg_check()
 
 ```{r}
 #| fig-align: 'center'
+#| fig-alt: 'Comprehensive Regression Diagnostic Plots for Model m3'
 m3 %>% reg_check()
 ```
 
@@ -526,6 +540,7 @@ m3 %>% reg_check()
 
 ```{r}
 #| fig-align: 'center'
+#| fig-alt: 'Comprehensive Regression Diagnostic Plots for Model m5'
 m5 %>% reg_check()
 ```
 
@@ -558,4 +573,4 @@ m5 %>% reg_check()
     
     5. Discuss findings (including relevant failed assumption checks) with collaborators/stakeholders.
     
-- Note that this is a simplified overview; real-world data analysis may require more nuanced approaches with field/application-specific considerations and methodologies.
+- Next lecture: Model Diagnostics

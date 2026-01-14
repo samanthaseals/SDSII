@@ -1,5 +1,5 @@
 ---
-title: "Model Assumptions and Diagnostics"
+title: "Model Diagnostics"
 execute:
   echo: true
   warning: false
@@ -328,7 +328,7 @@ model %>% BIC()
 - Let's return to our Mickey and friends example,
 
 ```{r}
-clubhouse <- read_csv("~/Desktop/GitHub/samanthaseals/STA4231_STA6262/files/data/lectures/W1_mickey_clubhouse.csv")
+clubhouse <- read_csv("https://raw.githubusercontent.com/samanthaseals/SDSII/refs/heads/main/files/data/lectures/W1_mickey_clubhouse.csv")
 head(clubhouse)
 ```
 
@@ -619,6 +619,7 @@ model %>% cooks()
 
 ```{r}
 #| fig-align: 'center'
+#| fig-alt: "Cook's distance plot for model h1"
 h1 %>% cooks()
 ```
 
@@ -628,6 +629,7 @@ h1 %>% cooks()
 
 ```{r}
 #| fig-align: 'center'
+#| fig-alt: "Cook's distance plot for model h2"
 h2 %>% cooks()
 ```
 
@@ -637,6 +639,7 @@ h2 %>% cooks()
 
 ```{r}
 #| fig-align: 'center'
+#| fig-alt: "Cook's distance plot for model h3"
 h3 %>% cooks()
 ```
 
@@ -647,6 +650,7 @@ h3 %>% cooks()
 ```{r}
 #| echo: false
 #| fig-align: 'center'
+#| fig-alt: "Cook's distance plots for models h1, h2, and h3"
 max_cd <- max(
   cooks.distance(h1),
   cooks.distance(h2),
@@ -805,6 +809,7 @@ tidy(m_full)
 
 ```{r}
 #| fig-align: 'center'
+#| fig-alt: "Regression assumption plots for full model"
 m_full %>% reg_check()
 ```
 
@@ -824,6 +829,7 @@ chip_dale %>% count(outlier)
 
 ```{r}
 #| fig-align: 'center'
+#| fig-alt: "Cook's distance plot for full model"
 m_full %>% cooks()
 ```
 
@@ -883,6 +889,7 @@ m_reduced %>% car::vif()
 ```{r}
 #| echo: false
 #| fig-align: 'center'
+#| fig-alt: "Regression assumption plots for full and reduced models"
 ggpubr::ggarrange(
   m_full %>% reg_check() + ggtitle("full"),
   m_reduced %>% reg_check() + ggtitle("reduced"),
@@ -910,6 +917,7 @@ chip_dale %>%
 ```{r}
 #| echo: false
 #| fig-align: 'center'
+#| fig-alt: "Cook's distance plots for full and reduced models"
 ggpubr::ggarrange(
   m_full %>% cooks() + ggtitle("full"),
   m_reduced %>% cooks() + ggtitle("reduced"),
@@ -952,6 +960,7 @@ chip_dale %>% count(outlier)
 ```{r}
 chip_dale %>% filter(outlier == "Suspected") %>% head()
 ```
+
 - Looking at summary statistics,
 
 ```{r}
@@ -964,6 +973,7 @@ chip_dale %>% mean_median(minutes_to_recover, distance_m, steps, calories, wrong
 
 ```{r}
 #| fig-align: 'center'
+#| fig-alt: "Cook's distance plot for reduced model"
 #| echo: false
 m_reduced %>% cooks()
 ```
@@ -1064,7 +1074,7 @@ m_29_40 <- glm(minutes_to_recover ~ calories + wrong_turns + rainbow_map,
     
 - We are helping others explore their data on the quantitative side, but we need their domain expertise to make final decisions.
 
-    - I tend to tell my collaborators, "I am just the statistician." I am a fact finder and a detective. I can answer questions using the data, but I need their scientific expertise to help make sense of it all.
+- Next module: incorporating categorical predictors
 
 # Appendix
 

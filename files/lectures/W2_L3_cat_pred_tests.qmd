@@ -51,7 +51,7 @@ library(fastDummies)
 - Recall our example dataset of duck-related incidents,
 
 ```{r}
-duck_incidents <- read_csv("~/Desktop/GitHub/samanthaseals/STA4231_STA6262/files/data/lectures/W2_duck_incidents.csv") %>%
+duck_incidents <- read_csv("https://raw.githubusercontent.com/samanthaseals/SDSII/refs/heads/main/files/data/lectures/W2_duck_incidents.csv") %>%
   mutate(loc_yard = if_else(location == "Backyard", 1, 0),
          loc_garage = if_else(location == "Garage", 1, 0),
          loc_kitchen = if_else(location == "Kitchen", 1, 0),
@@ -114,7 +114,7 @@ duck_incidents %>% head()
 
 ```{r}
 #| eval: false
-m <- glm(y = x1 + x2 + ... + xk, data = dataset_name)
+m <- glm(y = x1 + x2 + ... + xk, family = "gaussian", data = dataset_name)
 car::Anova(m, type = 3, test = "F")
 ```
 
@@ -122,8 +122,8 @@ car::Anova(m, type = 3, test = "F")
 
 ```{r}
 #| eval: false
-full <- glm(y = x1 + x2 + ... + xk, data = dataset_name) # ALL predictors
-reduced <- glm(y = x1 + ... + x(k-c), data = dataset_name) # all predictors WITHOUT indicators
+full <- glm(y = x1 + x2 + ... + xk, family = "gaussian", data = dataset_name) # ALL predictors
+reduced <- glm(y = x1 + ... + x(k-c), family = "gaussian", data = dataset_name) # all predictors WITHOUT indicators
 anova(reduced, full)
 ```
 
@@ -133,6 +133,7 @@ anova(reduced, full)
 
 ```{r}
 m1 <- glm(damage_cost ~ location, 
+          family = "gaussian",
           data = duck_incidents)
 tidy(m1, conf.int = TRUE)
 ```
@@ -224,6 +225,7 @@ tidy(m1, conf.int = TRUE)
 
 ```{r}
 m4 <- glm(damage_cost ~ location + nephew,
+          family = "gaussian",
           data = duck_incidents)
 tidy(m4, conf.int = TRUE)
 ```
@@ -249,9 +251,9 @@ car::Anova(m4, type = 3, test = "F")
 - We can still do that here -- let's try it out.
 
 ```{r}
-full <- glm(damage_cost ~ location + nephew, data = duck_incidents) # full model
-reduced_loc <- glm(damage_cost ~ nephew, data = duck_incidents) # reduced without location
-reduced_neph <- glm(damage_cost ~ location, data = duck_incidents) # reduced without nephew
+full <- glm(damage_cost ~ location + nephew, family = "gaussian",data = duck_incidents) # full model
+reduced_loc <- glm(damage_cost ~ nephew, family = "gaussian", data = duck_incidents) # reduced without location
+reduced_neph <- glm(damage_cost ~ location, family = "gaussian", data = duck_incidents) # reduced without nephew
 anova(reduced_loc, full) # test location
 anova(reduced_neph, full) # test nephew
 ```
@@ -307,9 +309,9 @@ anova(reduced_neph, full) # full/reduced for nephew
 - Let's re-examine this model with the location indicators,
 
 ```{r}
-m4a <- glm(damage_cost ~ location + nephew, data = duck_incidents)
+m4a <- glm(damage_cost ~ location + nephew, family = "gaussian", data = duck_incidents)
 coefficients(m4a)
-m4b <- glm(damage_cost ~ loc_garage + loc_kitchen + loc_living + nephew, data = duck_incidents)
+m4b <- glm(damage_cost ~ loc_garage + loc_kitchen + loc_living + nephew, family = "gaussian", data = duck_incidents)
 coefficients(m4b)
 ```
 
@@ -364,6 +366,7 @@ tidy(m4, conf.int = TRUE)
 
 ```{r}
 m5 <- glm(damage_cost ~ location + nephew + sugar_grams,
+          family = "gaussian",
           data = duck_incidents)
 tidy(m5, conf.int = TRUE)
 ```
@@ -435,6 +438,7 @@ duck_incidents %>% count(punished)
 
 ```{r}
 m6 <- glm(damage_cost ~ sugar_grams + punished,
+          family = "gaussian",
           data = duck_incidents)
 tidy(m6, conf.int = TRUE)
 ```

@@ -63,7 +63,7 @@ library(broom)
 <!-- head() is to display data on the slide -->
 
 ```{r}
-clubhouse <- read_csv("~/Desktop/GitHub/samanthaseals/STA4231_STA6262/files/data/lectures/W1_mickey_clubhouse.csv")
+clubhouse <- read_csv("https://raw.githubusercontent.com/samanthaseals/SDSII/refs/heads/main/files/data/lectures/W1_mickey_clubhouse.csv")
 head(clubhouse)
 ```
 
@@ -516,4 +516,6 @@ m %>% tidy()
     - Testing for a significant regression line
     - Testing for significant predictors
     
-- Next lecture: Model Visualization
+- We will continue reminding ourselves of these concepts as we move into other types of regression models.
+
+- In the next lecture, we will review how to visualize our models.

@@ -53,7 +53,7 @@ library(fastDummies)
 - The Duckburg Department of Neighborhood Affairs (DDNA) has been collecting incident reports involving Donald Duck and his nephews (Huey, Dewey, and Louie) after a noticeable rise in household mishaps.
 
 ```{r}
-duck_incidents <- read_csv("~/Desktop/GitHub/samanthaseals/STA4231_STA6262/files/data/lectures/W2_duck_incidents.csv")
+duck_incidents <- read_csv("https://raw.githubusercontent.com/samanthaseals/SDSII/refs/heads/main/files/data/lectures/W2_duck_incidents.csv")
 ```   
 
 - In this dataset (<u>duck_incidents</u>), we have access to the following from the reports:

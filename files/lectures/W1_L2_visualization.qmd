@@ -52,7 +52,7 @@ library(broom)
     - Clubhouse Happiness (a score; *clubhouse_happiness*): an overall happiness score at the end of the day.
     
 ```{r}
-clubhouse <- read_csv("~/Desktop/GitHub/samanthaseals/STA4231_STA6262/files/data/lectures/W1_mickey_clubhouse.csv")
+clubhouse <- read_csv("https://raw.githubusercontent.com/samanthaseals/SDSII/refs/heads/main/files/data/lectures/W1_mickey_clubhouse.csv")
 ```    
 
 
@@ -127,6 +127,7 @@ clubhouse %>% ggplot()
 ```{r}
 #| echo: false
 #| fig-align: 'center'
+#| fig-alt: "Empty ggplot object."
 clubhouse %>% ggplot()
 ```
 
@@ -155,6 +156,7 @@ clubhouse %>% ggplot(aes(x = time_with_friends,
 ```{r}
 #| echo: false
 #| fig-align: 'center'
+#| fig-alt: "Empty ggplot object, labels and tickmarks present on x and y axes."
 clubhouse %>% ggplot(aes(x = time_with_friends,
                          y = clubhouse_happiness))
 ```
@@ -188,6 +190,7 @@ clubhouse %>% ggplot(aes(x = time_with_friends,
 ```{r}
 #| echo: false
 #| fig-align: 'center'
+#| fig-alt: "Scatterplot showing relationship between time spent with friends (x) and clubhouse happiness (y)."
 clubhouse %>% ggplot(aes(x = time_with_friends,
                          y = clubhouse_happiness)) +
   geom_point()
@@ -222,6 +225,7 @@ clubhouse %>% ggplot(aes(x = time_with_friends,
 ```{r}
 #| echo: false
 #| fig-align: 'center'
+#| fig-alt: "Scatterplot with connected points showing time spent with friends (x) and clubhouse happiness (y)."
 clubhouse %>% ggplot(aes(x = time_with_friends,
                          y = clubhouse_happiness)) +
   geom_point() + 
@@ -299,6 +303,7 @@ clubhouse %>% ggplot(aes(x = time_with_friends,
 ```{r}
 #| echo: false
 #| fig-align: 'center'
+#| fig-alt: "Scatterplot showing relationship between time spent with friends (x) and clubhouse happiness (y) with a regression line overlaid."
 clubhouse %>% ggplot(aes(x = time_with_friends,
                          y = clubhouse_happiness)) +
   geom_point() + 
@@ -343,6 +348,7 @@ clubhouse %>% ggplot(aes(x = time_with_friends,
 ```{r}
 #| echo: false
 #| fig-align: 'center'
+#| fig-alt: "Scatterplot showing relationship between time spent with friends (x) and clubhouse happiness (y) with a regression line overlaid."
 clubhouse %>% ggplot(aes(x = time_with_friends,
                          y = clubhouse_happiness)) +
   geom_point() + 
@@ -391,6 +397,7 @@ clubhouse %>% ggplot(aes(x = time_with_friends,
 ```{r}
 #| echo: false
 #| fig-align: 'center'
+#| fig-alt: "Scatterplot showing relationship between time spent with friends (x) and clubhouse happiness (y) with a regression line overlaid."
 clubhouse %>% ggplot(aes(x = time_with_friends,
                          y = clubhouse_happiness)) +
   geom_point() + 
@@ -439,6 +446,7 @@ clubhouse %>% ggplot(aes(x = time_with_friends,
 ```{r}
 #| echo: false
 #| fig-align: 'center'
+#| fig-alt: "Scatterplot showing relationship between time spent with friends (x) and clubhouse happiness (y) with a regression line overlaid."
 (k1 <- clubhouse %>% ggplot(aes(x = time_with_friends,
                          y = clubhouse_happiness)) +
   geom_point(color = "#009CDE", size = 3) + 
@@ -529,6 +537,7 @@ clubhouse %>% ggplot(aes(x = time_with_friends,
 ```{r}
 #| echo: false
 #| fig-align: 'center'
+#| fig-alt: "Scatterplot showing clubhouse happiness (y) increasing as time spent with friends (x) increases."
 (k2 <- clubhouse %>% ggplot(aes(x = time_with_friends,
                          y = clubhouse_happiness)) +
   geom_point(color = "#009CDE", size = 3) + 
@@ -624,6 +633,7 @@ clubhouse %>% ggplot(aes(x = time_with_friends,
 ```{r}
 #| echo: false
 #| fig-align: 'center'
+#| fig-alt: "Scatterplot showing clubhouse happiness (y) increasing as time spent with friends (x) increases."
 (k3 <- clubhouse %>% ggplot(aes(x = time_with_friends,
                          y = clubhouse_happiness)) +
   geom_point(color = "#009CDE", size = 3) + 
@@ -637,10 +647,11 @@ clubhouse %>% ggplot(aes(x = time_with_friends,
 
 - Hm... what if we put the three lines on top of one another? How different are the adjusted slopes?
 
-
 ```{r}
 #| echo: false
 #| fig-align: 'center'
+#| fig-alt: "Scatterplot showing clubhouse happiness (y) increasing as time spent with friends (x) increases with three regression lines overlaid."
+
 clubhouse %>% ggplot(aes(x = time_with_friends,
                          y = clubhouse_happiness)) +
   geom_point(color = "#009CDE", size = 3, alpha = .15) + 
@@ -731,6 +742,7 @@ clubhouse %>% ggplot(aes(x = donald_grumbles,
 ```{r}
 #| echo: false
 #| fig-align: 'center'
+#| fig-alt: "Scatterplot showing clubhouse happiness (y) decreasing as the number of Donald grumbles (x) increases."
 clubhouse %>% ggplot(aes(x = donald_grumbles,
                          y = clubhouse_happiness)) +
   geom_point(color = "#009CDE", size = 3) + 
@@ -752,4 +764,4 @@ clubhouse %>% ggplot(aes(x = donald_grumbles,
 
     - The general ideas won't change, but things will get tricky when we add categorical predictors and leave the normal distribution.
     
-- Next lecture: Model Assumptions and Diagnostics    
+- Next lecture: Model Assumptions

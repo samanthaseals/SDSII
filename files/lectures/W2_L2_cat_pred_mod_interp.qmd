@@ -1,5 +1,5 @@
 ---
-title: "Categorical Predictors: Modeling"
+title: "Categorical Predictors: Modeling & Interpretation"
 execute:
   echo: true
   warning: false
@@ -51,7 +51,7 @@ library(fastDummies)
 - Recall our example dataset of duck-related incidents,
 
 ```{r}
-duck_incidents <- read_csv("~/Desktop/GitHub/samanthaseals/STA4231_STA6262/files/data/lectures/W2_duck_incidents.csv") %>%
+duck_incidents <- read_csv("https://raw.githubusercontent.com/samanthaseals/SDSII/refs/heads/main/files/data/lectures/W2_duck_incidents.csv") %>%
   mutate(loc_yard = if_else(location == "Backyard", 1, 0),
          loc_garage = if_else(location == "Garage", 1, 0),
          loc_kitchen = if_else(location == "Kitchen", 1, 0),
@@ -66,10 +66,8 @@ duck_incidents %>% head()
     - If we specify a factor variable in our model, R takes care of the indicator variable creation for us.
 
 - The category that is *not* included in the model is called the *reference group*.
-
-    - We will not be discussing interpretations in this lecture, so this detail is just for context.
     
-    - Choice of reference group is important for interpretation, but is **arbitrary** for model fit and predictions.
+    - Choice of reference group is important for interpretation, but is **arbitrary** for omnibust tests, model fit, and predictions.
     
 ## Modeling with Categorical Predictors    
     
@@ -183,6 +181,7 @@ m <- glm(y ~ continuous_var + continuous_var + indicator_1 + ... + indicator_(c-
 
 ```{r}
 m1 <- glm(damage_cost ~ location, 
+          family = "gaussian",
           data = duck_incidents)
 tidy(m1, conf.int = TRUE)
 ```
@@ -195,6 +194,7 @@ tidy(m1, conf.int = TRUE)
 
 ```{r}
 m2 <- glm(damage_cost ~ loc_garage + loc_kitchen + loc_living,
+          family = "gaussian",
           data = duck_incidents)
 tidy(m2, conf.int = TRUE)
 ```
@@ -271,6 +271,7 @@ coefficients(m1)
 
 ```{r}
 m3 <- glm(damage_cost ~ loc_yard + loc_garage + loc_living,
+          family = "gaussian",
           data = duck_incidents)
 tidy(m3, conf.int = TRUE)
 ```
@@ -301,6 +302,7 @@ coefficients(m3)
 
 ```{r}
 m4 <- glm(damage_cost ~ location + nephew,
+          family = "gaussian",
           data = duck_incidents)
 tidy(m4, conf.int = TRUE)
 ```
@@ -353,6 +355,7 @@ $$
 
 ```{r}
 m5 <- glm(damage_cost ~ location + nephew + sugar_grams,
+          family = "gaussian",
           data = duck_incidents)
 tidy(m5, conf.int = TRUE)
 ```
@@ -415,16 +418,29 @@ kable(duck_incidents %>% n_pct(donald_reaction, punished))
 
 ```{r}
 m6 <- glm(damage_cost ~ sugar_grams + punished,
+          family = "gaussian",
           data = duck_incidents)
 tidy(m6, conf.int = TRUE)
 ```
+
+## Example 4: Binary Predictors
 
 - Comparing this to the model using the `donald_action` factor variable instead,
 
 ```{r}
 m7 <- glm(damage_cost ~ sugar_grams + donald_action,
+          family = "gaussian",
           data = duck_incidents)
 tidy(m7, conf.int = TRUE)
+```
+
+## Example 4: Binary Predictors
+
+- Looking at the coefficients side-by-side,
+
+```{r}
+m6 %>% coefficients()
+m7 %>% coefficients()
 ```
 
 ## Example 4: Binary Predictors
@@ -449,7 +465,7 @@ $$
 
 - Always remember that if there are $c$ categories, there will be $c-1$ predictor terms in the model.
 
-- Whether we use a true factor variable or we use a set of indicator variables, the model fit and predictions will be the same.
+- Whether we use a true factor variable or we use a set of indicator variables, estimation, model fit, and omnibus test results will remain the same.
 
 - The choice of reference group is arbitrary mathematically, but important for interpretation.
 
