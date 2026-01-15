@@ -585,7 +585,7 @@
     "href": "files/lectures/W2_L3_cat_pred_tests.html#example-1-one-categorical-predictor-3",
     "title": "Categorical Predictors: Statistical Testing",
     "section": "Example 1: One Categorical Predictor",
-    "text": "Example 1: One Categorical Predictor\n\nIn our example,\n\n\ntidy(m1, conf.int = TRUE)\n\n\n  \n\n\n\n\nThe garage is not significantly different from the backyard (p = 0.013). This difference is estimated to be $64 (-$18, $147).\nThe kitchen is significantly different from the backyard (p = 0.001). We estimate this difference to be $131 ($51, $212).\nThe living room is not significantly different from the backyard (p = 0.013). This difference is estimated to be $59 (-$17, $135)."
+    "text": "Example 1: One Categorical Predictor\n\nIn our example,\n\n\ntidy(m1, conf.int = TRUE)\n\n\n  \n\n\n\n\nThe garage is not significantly different from the backyard (p = 0.126). This difference is estimated to be \\$64 (-\\$18, \\$147).\nThe kitchen is significantly different from the backyard (p = 0.001). We estimate this difference to be \\$131 (\\$51, \\$212).\nThe living room is not significantly different from the backyard (p = 0.132). This difference is estimated to be \\$59 (-\\$17, \\$135)."
   },
   {
     "objectID": "files/lectures/W2_L3_cat_pred_tests.html#example-2-two-categorical-predictors",
