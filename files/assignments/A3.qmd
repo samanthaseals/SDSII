@@ -1,0 +1,206 @@
+---
+title: "Assignment 3"
+author: "Your Name Here"
+execute:
+  echo: true
+  warning: false
+  message: false
+  error: true
+format: 
+  html:
+    df-print: paged
+    self-contained: true
+    html-math-method: katex
+    code-fold: false
+    code-tools: false
+    incremental: false
+editor: source
+---
+
+After the success of Michael's "Sales Summit Scorecard," corporate decides to expand the analysis to understand structural differences across employees. This time, they collect a one-time snapshot of sales employees across multiple Dunder Mifflin branches, focusing on how role structure and branch culture relate to sales performance.
+
+Each row in the dataset represents one employee. All variables summarize employee behavior and performance over the same time period. In the <u><b>week2.csv</b></u> data file, you will find the following variables:
+
+- *annual_sales_usd*: annual sales for the employee (USD),
+- *sales_role*: sales role (Inside vs. Outside),
+- *branch*: branch location (Scranton, Stamford, Utica, Albany),
+- *client_calls_week*: average number of client calls per week,
+- *meetings_week*: average number of client meetings per week,
+- *emails_week*: average number of client-facing emails per week,
+- *avg_call_minutes*: average call length (minutes),
+- *lead_quality*: portfolio lead quality score (0–100),
+- *crm_minutes_day*: average minutes/day spent in CRM,
+- *coffee_cups_day*: average cups of coffee per day,
+- *distractions_minutes_day*: average minutes/day lost to distractions (pranks, "meetings," etc.), and
+- *morale_score*: morale score (0–10) from anonymous internal survey.
+
+
+**Data Management**
+
+0a. Download the data from Canvas and import it to R.
+
+```{r}
+
+```
+
+0b. Find summary statistics (mean and sd) for the continuous predictor variables in the dataset. Split this by *branch*.
+
+<!-- yes, please reuse your code from last week -->
+
+```{r}
+
+```
+
+**Constructing the Model**
+
+1a. Fit a multiple linear regression model predicting annual sales (*annual_sales_usd*) as a function of the number of client meetings per week (*meetings_week*), the branch (*branch*; use Scranton as the reference group), the person's sales role (*sales_role*), and the interaction between branch and sales role. Call this model `m1`.
+
+```{r}
+
+```
+
+1b. Based on your output, state the resulting model. 
+
+$$
+\hat{y} = \beta_0 + \beta_1 x_1 + ... \beta_k x_k
+$$
+
+1c. Is this a significant regression line? You must provide statistical justification for your answer. Assume $\alpha=0.05$.
+
+```{r}
+
+```
+     
+1d. Fill in the following table:
+
+| Predictor          | $\hat{\beta}_i$ (95% CI for $\beta_i$)  | *p*-value |
+|--------------------|:---------------------------------------:|----------:|
+| client meetings    |                                         |           |
+| sales role         |                                         |           |
+| branch (Stamford)  |                                         |           |
+| branch (Utica)     |                                         |           |
+| branch (Albany)    |                                         |           |
+| sales role:branch (Stamford) |                               |           |
+| sales role:branch (Utica)    |                               |           |
+| sales role:branch (Albany)    |                              |           |
+
+```{r}
+
+```
+
+1e. Use the appropriate hypothesis test to show that the interaction between sales role and branch is not significant. Assume $\alpha=0.05$.
+
+```{r}
+
+```
+
+1f. Stratify the model by sales role.
+
+$$
+\begin{align*}
+\hat{\text{annual sales}} | \text{ inside sales} &= \hat{\beta}_0 + ... \\
+\hat{\text{annual sales}} | \text{ outside sales} &= \hat{\beta}_0 + ... \\
+\end{align*}
+$$
+
+1g. Using the stratified models from 1f, construct predicted annual sales for each branch and sales role combination, but allowing meetings per week to vary.
+
+```{r}
+
+```
+
+1h. Construct a data visualization to help explain the relationships in your stratified models. For uniformity (for grading purposes), let's have annual sales (*annual_sales_usd*) on the *y*-axis, the number of client meetings (*meetings_week*) on the *x*-axis, and the lines defined by the branch (*branch*). Create one graph for inside sales and a second graph for outside sales.
+
+```{r}
+# predicted values - inside sales
+
+# predicted values - outside sales
+
+# graph - inside sales
+
+# graph - outside sales
+
+```
+
+1i. Based on your visualization in 1h and testing results from 1e, explain to David Wallace that the interaction between sales role and branch is not significant. Use non-technical language appropriate for your audience. David is very, very certain that the Scranton branch is performing the worst because of their sales role structure, so be sure to address this directly.
+
+
+
+**Updating the Model**
+
+2a. Fit a multiple linear regression model predicting annual sales (*annual_sales_usd*) as a function of the number of client meetings per week (*meetings_week*), the branch (*branch*; use Scranton as the reference group), and the person's sales role (*sales_role*). That is, update `m1` to remove the interaction term. Call this model `m2`.
+
+```{r}
+
+```
+
+2b. Based on your output, state the resulting model. 
+
+$$
+\hat{y} = \beta_0 + \beta_1 x_1 + ... \beta_k x_k
+$$
+
+2c. Which, if any, are significant predictors of annual sales? You must provide statistical justification for your answers. Assume $\alpha=0.05$.
+
+```{r}
+
+```
+
+
+2d. Stratify the model by sales role.
+
+$$
+\begin{align*}
+\hat{\text{annual sales}} | \text{ inside sales} &= \hat{\beta}_0 + ... \\
+\hat{\text{annual sales}} | \text{ outside sales} &= \hat{\beta}_0 + ... \\
+\end{align*}
+$$
+
+2e. Compare the stratified models from 2d to those from 1f. How have the interpretations changed now that the interaction term has been removed?
+
+
+
+2f. David Wallace is still very concerned about the Scranton branch's performance. Thinking about the comparisons you just made, explain to David why the Scranton branch is not performing the worst. Use non-technical language appropriate for your audience. BONUS! Include a visualization comparing predicted annual sales across branches and refer to it in your response to David. 
+
+```{r}
+
+```
+
+**Model Interpretation**
+
+3a. Provide formal interpretations for each predictor in the model. 
+
+* client meetings: <!-- your interpretation here -->
+* branch (Stamford): <!-- your interpretation here -->
+* branch (Utica): <!-- your interpretation here -->
+* branch (Albany): <!-- your interpretation here -->
+* sales role (Outside): <!-- your interpretation here -->
+
+3b. Identify how each of these interpretatiosn can be "seen" on the graphs, if at all. If not, explain why not.
+
+* client meetings: <!-- your response here -->
+* branch (Stamford): <!-- your response here -->
+* branch (Utica): <!-- your response here -->
+* branch (Albany): <!-- your response here -->
+* sales role (Outside): <!-- your response here -->
+
+**Model Assumptions**
+
+4. Can we trust the inference made in this assignment? Do a quick assessment of the assumptions of the linear model. Remember to make a statement about each assumption, then draw your overall conclusion.
+
+```{r}
+
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
