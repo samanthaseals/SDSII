@@ -1702,7 +1702,7 @@ async function fuseSearch(query, fuse, fuseOptions) {
   return results;
 }
 </script>
-<meta name="quarto:offset" content="../../">
+<meta name="quarto:offset" content="../../../">
 <script>const sectionChanged = new CustomEvent("quarto-sectionChanged", {
   detail: {},
   bubbles: true,
@@ -6119,7 +6119,7 @@ box-shadow: 0 0 0px rgba(0, 0, 0, 0.02);
     <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
       <div class="navbar-container container-fluid">
       <div class="navbar-brand-container mx-auto">
-    <a class="navbar-brand" href="../../index.html">
+    <a class="navbar-brand" href="../../../index.html">
     <span class="navbar-title">Statistics for Data Science II</span>
     </a>
   </div>
@@ -6130,11 +6130,11 @@ box-shadow: 0 0 0px rgba(0, 0, 0, 0.02);
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav navbar-nav-scroll me-auto">
   <li class="nav-item">
-    <a class="nav-link" href="../../files/syllabus.html"> 
+    <a class="nav-link" href="../../../files/syllabus.html"> 
 <span class="menu-text">Syllabus</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="../../files/schedule.html"> 
+    <a class="nav-link" href="../../../files/schedule.html"> 
 <span class="menu-text">Schedule</span></a>
   </li>  
 </ul>
@@ -6195,15 +6195,58 @@ box-shadow: 0 0 0px rgba(0, 0, 0, 0.02);
 </ul>
 <p><strong>Data Management</strong></p>
 <p>0a. Download the data from Canvas and import it to R.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(sstats)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-error">
+<pre><code>Error in `library()`:
+! there is no package called &#39;sstats&#39;</code></pre>
+</div>
+</div>
 <p>0b. Find summary statistics (mean and sd) for the continuous predictor variables in the dataset. Split this by <em>branch</em>.</p>
 <!-- yes, please reuse your code from last week -->
+<div class="cell">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>data <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">&quot;https://raw.githubusercontent.com/samanthaseals/SDSII/refs/heads/main/files/data/assignments/week2.csv&quot;</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
 <p><strong>Constructing the Model</strong></p>
 <p>1a. Fit a multiple linear regression model predicting annual sales (<em>annual_sales_usd</em>) as a function of the number of client meetings per week (<em>meetings_week</em>), the branch (<em>branch</em>; use Scranton as the reference group), the person’s sales role (<em>sales_role</em>), and the interaction between branch and sales role. Call this model <code>m1</code>.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>m1 <span class="ot">&lt;-</span> <span class="fu">lm</span>(annual_sales_usd <span class="sc">~</span> meetings_week <span class="sc">+</span> branch <span class="sc">+</span> sales_role <span class="sc">+</span> branch<span class="sc">:</span>sales_role, <span class="at">data =</span> data)</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>m1 <span class="sc">%&gt;%</span> <span class="fu">coefficients</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>                           (Intercept)                          meetings_week 
+                            143651.197                               7742.529 
+                        branchScranton                         branchStamford 
+                              6238.462                              -2389.418 
+                           branchUtica                sales_roleOutside Sales 
+                             -2904.367                              15788.888 
+branchScranton:sales_roleOutside Sales branchStamford:sales_roleOutside Sales 
+                             -3387.752                              -2880.844 
+   branchUtica:sales_roleOutside Sales 
+                             -3286.503 </code></pre>
+</div>
+</div>
 <p>1b. Based on your output, state the resulting model.</p>
 <p><span class="math display">
 \hat{y} = \beta_0 + \beta_1 x_1 + ... \beta_k x_k
 </span></p>
 <p>1c. Is this a significant regression line? You must provide statistical justification for your answer. Assume <span class="math inline">\alpha=0.05</span>.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>full <span class="ot">&lt;-</span> <span class="fu">glm</span>(annual_sales_usd <span class="sc">~</span> meetings_week <span class="sc">+</span> branch <span class="sc">+</span> sales_role <span class="sc">+</span> branch<span class="sc">:</span>sales_role, </span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>            <span class="at">family =</span> <span class="st">&quot;gaussian&quot;</span>,</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>            <span class="at">data =</span> data)</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>reduced <span class="ot">&lt;-</span> <span class="fu">glm</span>(annual_sales_usd <span class="sc">~</span> <span class="dv">1</span>, </span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>            <span class="at">family =</span> <span class="st">&quot;gaussian&quot;</span>,</span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>            <span class="at">data =</span> data)</span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a><span class="fu">anova</span>(reduced, full, <span class="at">test =</span> <span class="st">&quot;LRT&quot;</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div data-pagedtable="false">
+  <script data-pagedtable-source type="application/json">
+{"columns":[{"label":[""],"name":["_rn_"],"type":[""],"align":["left"]},{"label":["Resid. Df"],"name":[1],"type":["dbl"],"align":["right"]},{"label":["Resid. Dev"],"name":[2],"type":["dbl"],"align":["right"]},{"label":["Df"],"name":[3],"type":["dbl"],"align":["right"]},{"label":["Deviance"],"name":[4],"type":["dbl"],"align":["right"]},{"label":["Pr(>Chi)"],"name":[5],"type":["dbl"],"align":["right"]}],"data":[{"1":"449","2":"287373482148","3":"NA","4":"NA","5":"NA","_rn_":"1"},{"1":"441","2":"233548841930","3":"8","4":"53824640219","5":"1.977293e-18","_rn_":"2"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+</div>
+</div>
 <p>1d. Fill in the following table:</p>
 <table class="caption-top table">
 <colgroup>
@@ -6262,6 +6305,16 @@ box-shadow: 0 0 0px rgba(0, 0, 0, 0.02);
 </tbody>
 </table>
 <p>1e. Use the appropriate hypothesis test to show that the interaction between sales role and branch is not significant. Assume <span class="math inline">\alpha=0.05</span>.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>m1 <span class="sc">%&gt;%</span> car<span class="sc">::</span><span class="fu">Anova</span>(<span class="at">type =</span> <span class="dv">3</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div data-pagedtable="false">
+  <script data-pagedtable-source type="application/json">
+{"columns":[{"label":[""],"name":["_rn_"],"type":[""],"align":["left"]},{"label":["Sum Sq"],"name":[1],"type":["dbl"],"align":["right"]},{"label":["Df"],"name":[2],"type":["dbl"],"align":["right"]},{"label":["F value"],"name":[3],"type":["dbl"],"align":["right"]},{"label":["Pr(>F)"],"name":[4],"type":["dbl"],"align":["right"]}],"data":[{"1":"606722141420","2":"1","3":"1.145647e+03","4":"1.103137e-124","_rn_":"(Intercept)"},{"1":"26300466873","2":"1","3":"4.966201e+01","4":"7.074996e-12","_rn_":"meetings_week"},{"1":"4188175650","2":"3","3":"2.636116e+00","4":"4.927878e-02","_rn_":"branch"},{"1":"4185726837","2":"1","3":"7.903724e+00","4":"5.153219e-03","_rn_":"sales_role"},{"1":"151409261","2":"3","3":"9.529981e-02","4":"9.626155e-01","_rn_":"branch:sales_role"},{"1":"233548841930","2":"441","3":"NA","4":"NA","_rn_":"Residuals"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+</div>
+</div>
 <p>1f. Stratify the model by sales role.</p>
 <p><span class="math display">
 \begin{align*}
@@ -6272,22 +6325,42 @@ box-shadow: 0 0 0px rgba(0, 0, 0, 0.02);
 <p>1g. Using the stratified models from 1f, construct predicted annual sales for each branch and sales role combination, but allowing meetings per week to vary.</p>
 <p>1h. Construct a data visualization to help explain the relationships in your stratified models. For uniformity (for grading purposes), let’s have annual sales (<em>annual_sales_usd</em>) on the <em>y</em>-axis, the number of client meetings (<em>meetings_week</em>) on the <em>x</em>-axis, and the lines defined by the branch (<em>branch</em>). Create one graph for inside sales and a second graph for outside sales.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># predicted values - inside sales</span></span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="co"># predicted values - outside sales</span></span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="co"># graph - inside sales</span></span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="co"># graph - outside sales</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># predicted values - inside sales</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="co"># predicted values - outside sales</span></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a><span class="co"># graph - inside sales</span></span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a><span class="co"># graph - outside sales</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>1i. Based on your visualization in 1h and testing results from 1e, explain to David Wallace that the interaction between sales role and branch is not significant. Use non-technical language appropriate for your audience. David is very, very certain that the Scranton branch is performing the worst because of their sales role structure, so be sure to address this directly.</p>
 <p><strong>Updating the Model</strong></p>
 <p>2a. Fit a multiple linear regression model predicting annual sales (<em>annual_sales_usd</em>) as a function of the number of client meetings per week (<em>meetings_week</em>), the branch (<em>branch</em>; use Scranton as the reference group), and the person’s sales role (<em>sales_role</em>). That is, update <code>m1</code> to remove the interaction term. Call this model <code>m2</code>.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>m2 <span class="ot">&lt;-</span> <span class="fu">lm</span>(annual_sales_usd <span class="sc">~</span> meetings_week <span class="sc">+</span> branch <span class="sc">+</span> sales_role, <span class="at">data =</span> data)</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>m2 <span class="sc">%&gt;%</span> <span class="fu">coefficients</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>            (Intercept)           meetings_week          branchScranton 
+             144718.522                7752.791                4853.602 
+         branchStamford             branchUtica sales_roleOutside Sales 
+              -3543.475               -4269.855               13065.059 </code></pre>
+</div>
+</div>
 <p>2b. Based on your output, state the resulting model.</p>
 <p><span class="math display">
 \hat{y} = \beta_0 + \beta_1 x_1 + ... \beta_k x_k
 </span></p>
 <p>2c. Which, if any, are significant predictors of annual sales? You must provide statistical justification for your answers. Assume <span class="math inline">\alpha=0.05</span>.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>m2 <span class="sc">%&gt;%</span> car<span class="sc">::</span><span class="fu">Anova</span>(<span class="at">type =</span> <span class="dv">3</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div data-pagedtable="false">
+  <script data-pagedtable-source type="application/json">
+{"columns":[{"label":[""],"name":["_rn_"],"type":[""],"align":["left"]},{"label":["Sum Sq"],"name":[1],"type":["dbl"],"align":["right"]},{"label":["Df"],"name":[2],"type":["dbl"],"align":["right"]},{"label":["F value"],"name":[3],"type":["dbl"],"align":["right"]},{"label":["Pr(>F)"],"name":[4],"type":["dbl"],"align":["right"]}],"data":[{"1":"798941493176","2":"1","3":"1517.884646","4":"2.393021e-145","_rn_":"(Intercept)"},{"1":"26427894939","2":"1","3":"50.209554","4":"5.458721e-12","_rn_":"meetings_week"},{"1":"7190991609","2":"3","3":"4.553982","4":"3.721115e-03","_rn_":"branch"},{"1":"18770270644","2":"1","3":"35.661066","4":"4.814627e-09","_rn_":"sales_role"},{"1":"233700251191","2":"444","3":"NA","4":"NA","_rn_":"Residuals"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+</div>
+</div>
 <p>2d. Stratify the model by sales role.</p>
 <p><span class="math display">
 \begin{align*}
@@ -6297,6 +6370,15 @@ box-shadow: 0 0 0px rgba(0, 0, 0, 0.02);
 </span></p>
 <p>2e. Compare the stratified models from 2d to those from 1f. How have the interpretations changed now that the interaction term has been removed?</p>
 <p>2f. David Wallace is still very concerned about the Scranton branch’s performance. Thinking about the comparisons you just made, explain to David why the Scranton branch is not performing the worst. Use non-technical language appropriate for your audience. BONUS! Include a visualization comparing predicted annual sales across branches and refer to it in your response to David.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>data <span class="ot">&lt;-</span> data <span class="sc">%&gt;%</span> <span class="fu">mutate</span>(<span class="at">branch =</span> <span class="fu">factor</span>(branch, <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">&quot;Scranton&quot;</span>, <span class="st">&quot;Albany&quot;</span>, <span class="st">&quot;Stamford&quot;</span>, <span class="st">&quot;Utica&quot;</span>)))</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>m2 <span class="ot">&lt;-</span> <span class="fu">glm</span>(annual_sales_usd <span class="sc">~</span> meetings_week <span class="sc">+</span> branch <span class="sc">+</span> sales_role, <span class="at">data =</span> data)</span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>m2 <span class="sc">%&gt;%</span> <span class="fu">tidy</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-error">
+<pre><code>Error in `tidy()`:
+! could not find function &quot;tidy&quot;</code></pre>
+</div>
+</div>
 <p><strong>Model Interpretation</strong></p>
 <p>3a. Provide formal interpretations for each predictor in the model.</p>
 <ul>
@@ -6318,6 +6400,18 @@ box-shadow: 0 0 0px rgba(0, 0, 0, 0.02);
 <ol start="4" type="1">
 <li>Can we trust the inference made in this assignment? Do a quick assessment of the assumptions of the linear model. Remember to make a statement about each assumption, then draw your overall conclusion.</li>
 </ol>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>m1 <span class="sc">%&gt;%</span> <span class="fu">reg_check</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-error">
+<pre><code>Error in `reg_check()`:
+! could not find function &quot;reg_check&quot;</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>m2 <span class="sc">%&gt;%</span> <span class="fu">reg_check</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-error">
+<pre><code>Error in `reg_check()`:
+! could not find function &quot;reg_check&quot;</code></pre>
+</div>
+</div>
 
 
 
