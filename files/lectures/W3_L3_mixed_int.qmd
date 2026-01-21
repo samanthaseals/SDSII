@@ -1,0 +1,340 @@
+---
+title: "Interaction Terms: <br>Continuous x Categorical"
+execute:
+  echo: true
+  warning: false
+  message: false
+format: 
+  revealjs:
+    theme: default
+    self-contained: true
+    slide-number: true
+    width: 1600
+    height: 900
+    df-print: paged
+    html-math-method: katex
+    code-fold: false
+    code-tools: false
+    incremental: false
+editor: source
+---
+
+## Introduction 
+
+- Recall the general linear model, 
+
+$$ y = \beta_0 + \beta_1 x_1 + ... + \beta_k x_k + \varepsilon $$
+
+- In the last lectures, we learned about both continuous $\times$ continuous and categorical $\times$ categorical interactions.
+    
+- In this lecture, we will combine the two concepts to explore continuous $\times$ categorical interactions.
+
+## Lecture Example Set Up
+
+- Clarabelle runs a popular milkshake booth in Toontown. On busy days, customers can pile up quickly, and long wait times may affect satisfaction. Clarabelle wants to understand which factors most strongly influence average customer wait time and whether some factors work differently together.
+
+- We have a dataset with 300 days of operation for:
+
+    - Average wait time (*avg_wait_time*):  Average customer wait time (in minutes) on a given day.
+    - Orders per hour (*orders_per_hour*): Average number of milkshake orders per hour that day.
+    - Staff experience (*staff_experience*): Average years of experience among staff working that shift.
+    - Special flavor (*flavor_special*): Type of milkshake special offered that day (none, seasonal, or limited edition).
+    - Status of milkshake machine (*machine_status*): Whether the milkshake machine was fully operational or temperamental that day.
+
+```{r}
+#| echo: false
+library(tidyverse)
+library(broom)
+library(ssstats)
+```
+
+```{r}
+clarabelle <- read_csv("https://raw.githubusercontent.com/samanthaseals/SDSII/refs/heads/main/files/data/lectures/W3_clarabelle.csv")
+```   
+
+## Example 1: Describing the Data
+
+- We first want to consider average wait time as a function of avg orders per hour, status of milkshake machine, and their interaction.
+
+- Let's examine summary statistics,
+
+```{r}
+clarabelle %>% mean_median(avg_wait_time, orders_per_hour)
+clarabelle %>% filter(machine_status == "Fully Operational") %>% mean_median(avg_wait_time, orders_per_hour)
+clarabelle %>% filter(machine_status == "Temperamental") %>% mean_median(avg_wait_time, orders_per_hour)
+```
+
+## Example 1: Fitting the Model
+
+- Estimating the coefficients,
+
+```{r}
+m1 <- glm(avg_wait_time ~ orders_per_hour + machine_status + orders_per_hour:machine_status,
+         family = "gaussian",
+         data = clarabelle)
+m1 %>% coefficients()
+```
+
+- Gives us the model,
+
+$$ 
+\hat{\text{wait time}} = 4.88 + 0.08 \text{ orders} + 2.88 \text{ temp.} + 0.06 \text{ orders $\times$ temp.}
+$$
+
+## Example 1: Statistical Inference
+
+- Running our model results through `tidy()`,
+
+```{r}
+m1 %>% tidy()
+```
+
+- Because our interaction is represented with only one term in the model (continuous $\times$ binary), we can use the results from `tidy()` to determine that yes, the  interaction is significant $(p = 0.011)$.
+
+## Example 1: Simplifying the Model
+
+- Because the interaction is significant, we are now justified in splitting our model into two.
+
+$$ 
+\hat{\text{wait time}} = 4.88 + 0.08 \text{ orders} + 2.88 \text{ temp.} + 0.06 \text{ orders $\times$ temp.}
+$$
+
+- The model for when the machine is fully operational,
+
+$$ 
+\begin{align*}
+\hat{\text{wait time}} &= 4.88 + 0.08 \text{ orders} + 2.88(0) + 0.06(0) \text{ orders } \\
+&= 4.88 + 0.08 \text{ orders} 
+\end{align*}
+$$
+
+- The model for when the machine is temperamental,
+
+$$ 
+\begin{align*}
+\hat{\text{wait time}} &= 4.88 + 0.08 \text{ orders} + 2.88(1) + 0.06(1) \text{ orders } \\
+&= 7.76 + 0.14 \text{ orders}
+\end{align*}
+$$
+
+
+## Example 1: Interpreting the Model
+
+- Let's consider the two model results,
+
+$$ 
+\begin{align*}
+\hat{\text{wait time}|\text{operational}} &= 4.88 + 0.08 \text{ orders} \\
+\hat{\text{wait time}|\text{temperamental}} &= 7.76 + 0.14 \text{ orders}
+\end{align*}
+$$
+
+- When the machine is fully operational, for every additional order per hour, average wait time increases by 0.08 minutes.
+
+- When the machine is temperamental, for every additional order per hour, average wait time increases by 0.14 minutes.
+
+## Example 2: Describing the Data
+
+- Clarabelle now wants to consider average wait time as a function of average orders per hour, if there are special flavors, and their interaction.
+
+- Let's examine summary statistics,
+
+```{r}
+clarabelle %>% filter(flavor_special == "None") %>% mean_median(avg_wait_time, orders_per_hour)
+clarabelle %>% filter(flavor_special == "Limited Edition") %>% mean_median(avg_wait_time, orders_per_hour)
+clarabelle %>% filter(flavor_special == "Seasonal") %>% mean_median(avg_wait_time, orders_per_hour)
+```
+
+## Example 2: Fitting the Model
+
+- Estimating the coefficients,
+
+```{r}
+m2a <- glm(avg_wait_time ~ orders_per_hour + flavor_special + orders_per_hour:flavor_special,
+         family = "gaussian",
+         data = clarabelle)
+m2a %>% coefficients()
+```
+
+- Whoops! R used "Limited Edition" as the reference group. I think it makes more sense to use "None" -- let's pause to do some data management.
+
+## Example 2: Data Management
+
+- Checking original ordering (alphabetical),
+
+```{r}
+levels(as.factor(clarabelle$flavor_special))
+```
+
+- Setting "None" as our reference group,
+
+```{r}
+clarabelle <- clarabelle %>% mutate(flavor_special = factor(flavor_special,
+                                                            levels = c("None", "Seasonal", "Limited Edition")))
+levels(clarabelle$flavor_special)
+```
+
+## Example 2: Re-fitting the Model
+
+- Re-estimating the coefficients,
+
+```{r}
+m2b <- glm(avg_wait_time ~ orders_per_hour + flavor_special + orders_per_hour:flavor_special,
+         family = "gaussian",
+         data = clarabelle)
+m2b %>% coefficients()
+```
+
+- Gives us the model,
+
+$$ 
+\hat{\text{wait time}} = 4.88 + 0.08 \text{ orders} + 2.88 \text{ temp.} + 0.06 \text{ orders $\times$ temp.}
+$$
+
+## Example 2: Statistical Inference
+
+- Running our model results through `tidy()`,
+
+```{r}
+m2b %>% tidy()
+```
+
+- Because our interaction is represented with two terms in the model, we *must* use `car::Anova()` here.
+
+## Example 2: Statistical Inference
+
+- Checking the omnibus test,
+
+```{r}
+m2b %>% car::Anova(type = 3)
+```
+
+- The interaction is not significant $(p = 0.721)$. We <u>do not</u> have justification in stratifying the model by special flavor.
+
+    - Note: I would use a visualization to help illustrate the non-significance.
+    
+## Example 2: Statistical Inference
+
+- Driving home that the reference group does not affect the omnibus test,
+
+```{r}
+m2a %>% car::Anova(type = 3)
+```
+
+```{r}
+m2b %>% car::Anova(type = 3)
+```
+    
+## Example 2: Simplifying the Model
+
+- Let's simplify the model for <u>illustrative purposes</u>.
+
+- The overall model,
+
+$$
+\begin{align*}
+\hat{\text{wait time}} = 4.&90 \\
+& + 0.08 \text{ orders} \\
+& + 1.16 \text{ seasonal} + 3.95 \text{ limited edition} \\
+& - 0.01 \text{ orders $\times$ seasonal} + 0.02 \text{ orders $\times$ limited edition}
+\end{align*}
+$$
+
+- No specials: seasonal = 0, limited edition = 0.
+- Seasonal flavors: seasonal = 1, limited edition = 0.
+- Limited edition flavors: seasonal = 0, limited edition = 1.
+
+## Example 2: Simplifying the Model
+
+- Let's simplify the model for <u>illustrative purposes</u>.
+
+- No special flavor,
+
+$$
+\begin{align*}
+\hat{\text{wait time}} = 4.&90 \\
+& + 0.08 \text{ orders} \\
+& + 1.16 (0) + 3.95 (0) \\
+& - 0.01 (0) \text{ orders} + 0.02 (0) \text{ orders} \\
+= 4.&90 + 0.08 \text{ orders}
+\end{align*}
+$$
+
+## Example 2: Simplifying the Model
+
+- Let's simplify the model for <u>illustrative purposes</u>.
+
+- Seasonal,
+
+$$
+\begin{align*}
+\hat{\text{wait time}} = 4.&90 \\
+& + 0.08 \text{ orders} \\
+& + 1.16 (1) + 3.95 (0) \\
+& - 0.01 (1) \text{ orders} + 0.02 (0) \text{ orders} \\
+= 6.&06 + 0.07 \text{ orders}
+\end{align*}
+$$
+
+## Example 2: Simplifying the Model
+
+- Let's simplify the model for <u>illustrative purposes</u>.
+
+- Limited edition,
+
+$$
+\begin{align*}
+\hat{\text{wait time}} = 4.&90 \\
+& + 0.08 \text{ orders} \\
+& + 1.16 (0) + 3.95 (1) \\
+& - 0.01 (0) \text{ orders} + 0.02 (1) \text{ orders} \\
+= 8.&85 + 0.10 \text{ orders}
+\end{align*}
+$$
+
+## Example 2: Intepreting the Model
+
+- Considering the three model results,
+
+$$
+\begin{align*}
+\hat{\text{wait time}|\text{no special}} &= 4.90 + 0.08 \text{ orders} \\
+\hat{\text{wait time}|\text{seasonal}} &= 6.06 + 0.07 \text{ orders} \\
+\hat{\text{wait time}|\text{limited edition}} &= 8.85 + 0.10 \text{ orders}
+\end{align*}
+$$
+
+- When there are no special flavors, for every additional order per hour, average wait time increases by 0.08 minutes.
+
+- When there are seasonal flavors, for every additional order per hour, average wait time increases by 0.07 minutes.
+
+- When there are limited edition flavors, for every additional order per hour, average wait time increases by 0.10 minutes.
+
+## Example 2: Intepreting the Model
+
+- Thinking about the practical implications,
+
+    - When there are no special flavors, for every additional order per hour, average wait time increases by **0.08 minutes** (4.8 sec).
+    - When there are seasonal flavors, for every additional order per hour, average wait time increases by **0.07 minutes** (4.2 sec).  
+    - When there are limited edition flavors, for every additional order per hour, average wait time increases by **0.10 minutes** (6 seconds)
+
+- These interpretations help us drive home the message that the flavor situation really doesn't affect the relationship with wait time and number of orders.
+
+    - For every 10 additional orders per hour, average wait time only changes by about 1 minute regardless of flavor special.
+    - Given what we see here, we would need a substantial change in average number of orders per hour in order to see a meaningful change in average wait time.
+
+## Wrap Up
+
+- This lecture is brief because continuous $\times$ categorical interactions are conceptually similar to both continuous $\times$ continuous and categorical $\times$ categorical interactions.
+
+- Remember that everything in this course, especially to this point, are different building blocks. 
+
+    - This lecture in particular begins to combine several concepts.
+    
+    - As we move forward, we will continue to combine concepts to build more complex models.
+    
+- It is impossible to prepare you for all of the "what if" situations you will encounter in your career. 
+
+    - That's why we focus on building a strong foundation of understanding the core concepts.
+    
+- In the next lecture, we will review how to visualize interactions.    

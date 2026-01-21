@@ -213,11 +213,11 @@ car::Anova(m1, type = 3, test = "F")
 tidy(m1, conf.int = TRUE)
 ```    
 
-- The garage is not significantly different from the backyard ($p = 0.013$). This difference is estimated to be $64 (-$18, $147).
+- The garage is not significantly different from the backyard ($p = 0.126$). This difference is estimated to be $\$64 (-\$18, \$147)$.
 
-- The kitchen is significantly different from the backyard ($p = 0.001$). We estimate this difference to be $131 ($51, $212).
+- The kitchen is significantly different from the backyard ($p = 0.001$). We estimate this difference to be $\$131 (\$51, \$212)$.
 
-- The living room is not significantly different from the backyard ($p = 0.013$). This difference is estimated to be $59 (-$17, $135).
+- The living room is not significantly different from the backyard ($p = 0.132$). This difference is estimated to be $\$59 (-\$17, \$135)$.
 
 ## Example 2: Two Categorical Predictors
 

@@ -1,5 +1,518 @@
 ---
-title: "W3_L1_interactions_mod"
-format: html
+title: "Interaction Terms: <br> Continuous x Continuous"
+execute:
+  echo: true
+  warning: false
+  message: false
+format: 
+  revealjs:
+    theme: default
+    self-contained: true
+    slide-number: true
+    width: 1600
+    height: 900
+    df-print: paged
+    html-math-method: katex
+    code-fold: false
+    code-tools: false
+    incremental: false
+editor: source
 ---
+
+## Introduction 
+
+- Recall the general linear model, 
+
+$$ y = \beta_0 + \beta_1 x_1 + ... + \beta_k x_k + \varepsilon $$
+
+- Until now, we have talked about models with only main effects.
+
+    - e.g., $x_1$, $x_2$
+
+- Today, we will begin talking about interactions.
+
+    - e.g., $x_1 \times x_2$
+
+## Interactions
+
+- Recall interactions from two-way ANOVA:
+
+    - The relationship between the outcome and one predictor depends on the level of another predictor.
+
+- Interactions work (and are specified) the same way in regression. 
+- The usual caveats apply:
+
+    - We do not want to load models with too many interactions.
+    
+    - We favor simplicity over interactions that do not add much to the predictive power of the model.
+
+    - We do not want higher than two-way interactions unless necessary.
+    
+- In this lecture, we will focus on continuous $\times$ continuous interactions.
+
+## Interactions 
+
+- We will construct what is called a hierarchical well-formulated (HWF) model. 
+
+- This means that when a higher-order interaction term is included in the model, all lower-order terms are also included.
+
+    - e.g., when a two-way interaction is included, we also include the corresponding main effects. $$y = \beta_0 + \beta_1 x_1 + \beta_2 x_2 + \beta_3 x_1 x_2$$
+
+    - e.g., when a three-way interaction is included, we also include the corresponding main effects and two-way interactions. $$y = \beta_0 + \beta_1 x_1 + \beta_2 x_2 + \beta_3 x_3 + \beta_4 x_1 x_2 + \beta_5 x_1 x_3 + \beta_6 x_2 x_3 + \beta_7 x_1 x_2 x_3$$
+
+## Lecture Example Set Up
+
+```{r}
+#| echo: false
+library(tidyverse)
+library(ssstats)
+library(broom)
+library(kableExtra)
+```
+
+- On a busy day at the clubhouse, Mickey Mouse wants to understand what drives "happiness" at the end of the day. For each day, he records (in the <u>**clubhouse**</u> dataset):
+
+    - Time with friends (in hours; *time_with_friends*): how many hours Mickey spends hanging out with his friends.
+    - Goofy Laughs (a count; *goofy_laughs*) – how many big goofy laughs happen that day.
+    - Donald Grumbles (a count; *donald_grumbles*): how many times Donald gets frustrated and grumbles.
+    - Clubhouse Happiness (a score; *clubhouse_happiness*): an overall happiness score at the end of the day.
+    
+```{r}
+clubhouse <- read_csv("https://raw.githubusercontent.com/samanthaseals/SDSII/refs/heads/main/files/data/lectures/W1_mickey_clubhouse.csv")
+```
+
+## Example 1
+
+- Let's consider a basic example,
+
+```{r}
+m1 <- glm(clubhouse_happiness ~ time_with_friends + goofy_laughs + time_with_friends:goofy_laughs,
+         family = "gaussian",
+         data = clubhouse)
+m1 %>% tidy()
+```
+
+$$
+\hat{\text{happiness}} = 20.13 + 7.78 \text{ time} + 1.30 \text{ laughs} - 0.16 \ (\text{time$\times$laughs})
+$$
+
+## Interpretations
+
+- How do we interpret the interaction term?
+
+- This is the change in the effect of one predictor for a one-unit increase in the other predictor.
+
+    - You may also see this referred to as a "modifier" -- it is *modifying* the slope for $x_1$ based on the value of $x_2$ (and vice versa).
+    
+- In an example without context, suppose we have the model,
+
+$$
+\hat{y} = 5.2 + 2.3 x_1 + 4.5 x_2 - 1.2 (x_1 \times x_2)
+$$
+
+- The coefficient for the interaction term (-1.2) indicates that for every one unit increase in $x_2$, the effect of $x_1$ on $y$ decreases by 1.2 units.
+
+    - Similarly, for every one-unit increase in $x_1$, the effect of $x_2$ on $y$ decreases by 1.2 units.
+
+## Example 1
+
+- Consider our clubhouse example again,
+
+$$
+\hat{\text{happiness}} = 20.13 + 7.78 \text{ time} + 1.30 \text{ laughs} - 0.16 \ (\text{time$\times$laughs})
+$$
+
+- The interaction term tells us that:
+
+    - For every additional goofy laugh, the effect of time with friends on clubhouse happiness decreases by 0.16 units.
+    - For every additional hour spent with friends, the effect of goofy laughs on clubhouse happiness decreases by 0.16 units.
+    
+## Testing the Interaction Term
+
+- In the case of a continuous $\times$ continuous interaction, we can use the individual *p*-value (from `tidy()`) to determine statistical significance.
+
+    - This is the *same test* we would use for any other individual coefficient in the model.
+
+- **Hypotheses**
+
+    - $H_0$: $\beta_{x_i \times x_j} = 0$
+    - $H_1$: $\beta_{x_i \times x_j} \ne 0$
+
+- **Test Statistic & *p*-Value**
+
+    - $t_0 =$ (from `tidy()`)
+    - $p$ = (from `tidy()`)
+
+## Example 1
+
+- Looking at this in our example,
+
+```{r}
+m1 %>% tidy()
+```
+
+- The *p*-value for the interaction term is 0.070.
+
+- The interaction is *not significant* and should not be included in our model. 
+
+## Example 1
+
+- **Hypotheses**
+
+    - $H_0$: $\beta_{3} = 0$
+    - $H_1$: $\beta_{3} \ne 0$
+
+- **Test Statistic & *p*-Value**
+
+    - $t_0 = - 1.819$
+    - $p = 0.070$  
+    
+- **Rejection Region**
+
+    - Reject $H_0$ if $p < \alpha$; $\alpha = 0.05$
+    
+- **Conclusion & Interpretation**
+
+    - FTR $H_0$. The slope of time with friends on clubhouse happiness does not significantly depend on the number of goofy laughs (and vice versa).
+
+## Syntax when Specifying Interactions
+
+- There are two ways we can specify interactions in our model:
+
+    - Using the `:` operator to specify each interaction term individually.
+    - Using the `*` operator to specify all main effects and interactions at once.
+    
+- Consider a model with time with friends ($x_1$), goofy laughs ($x_2$), Donald grumbles ($x_3$), and all possible interactions ($x_1 x_2$, $x_1 x_3$, $x_2 x_3$, $x_1 x_2 x_3$).    
+    
+    - When we use the `:` operator, <center>$y \sim x_1 + x_2 + x_3 + x_1:x_2 + x_1:x_3 + x_2:x_3 + x_1:x_2:x_3$</center>
+
+    - When we use the `*` operator, <center>$y \sim x_1 * x_2 * x_3$</center>
+
+- Obviously this is faster, but remember that it gives us less control. 
+
+    - e.g., if we decide we do not want the three-way interaction, we will have to completely respecify our model in the code vs. just deleting the term we want to remove.
+    
+## Example 2
+
+- Applying this to our data,
+
+- Using the `:` operator,
+
+```{r}
+m2a <- glm(clubhouse_happiness ~ time_with_friends + goofy_laughs + donald_grumbles +
+             time_with_friends:goofy_laughs + time_with_friends:donald_grumbles + goofy_laughs:donald_grumbles +
+             time_with_friends:goofy_laughs:donald_grumbles,
+         family = "gaussian",
+         data = clubhouse)
+```
+
+- Using the `*` operator,
+```{r}
+m2b <- glm(clubhouse_happiness ~ time_with_friends * goofy_laughs * donald_grumbles,
+         family = "gaussian",
+         data = clubhouse)
+```
+
+- If indeed the model specifications are equivalent, we should see the same results from `tidy()`.
+
+## Example 2
+
+- Looking at the results,
+
+```{r}
+m2a %>% tidy()
+```
+
+## Example 2
+
+- Looking at the results,
+
+```{r}
+m2b %>% tidy()
+```
+
+## Example 2
+
+- Some fancy code is in the .qmd file to show you how this table was constructed, but here are the results side-by-side:
+
+```{r}
+#| echo: false
+
+m2a_results <- tidy(m2a, conf.int = TRUE)
+m2b_results <- tidy(m2b, conf.int = TRUE)
+library(dplyr)
+library(tidyr)
+m2a_results <- m2a_results %>%
+  select(term, estimate, conf.low, conf.high, p.value) %>%
+  rename(m2a_estimate = estimate,
+         m2a_conf_low = conf.low,
+         m2a_conf_high = conf.high)
+m2b_results <- m2b_results %>%
+  select(term, estimate, conf.low, conf.high, p.value) %>%
+  rename(m2b_estimate = estimate,
+         m2b_conf_low = conf.low,
+         m2b_conf_high = conf.high)
+combined <- m2a_results %>%
+  full_join(m2b_results, by = "term") %>%
+  mutate(`: operator` = paste0(round(m2a_estimate, 2), " (",
+                              round(m2a_conf_low, 2), ", ",
+                              round(m2a_conf_high, 2), ")"),
+         `* operator` = paste0(round(m2b_estimate, 2), " (",
+                              round(m2b_conf_low, 2), ", ",
+                              round(m2b_conf_high, 2), ")")) %>%
+  select(term, `: operator`, `* operator`)
+kable(combined)
+```
+
+## When to Remove Interaction Terms
+
+- When do I remove interaction terms from my models?
+
+    - If the interaction term is not statistically significant, you can consider removing it from the model. Removing any non-significant interactions will make the model easier to interpret.
+    
+- *However*, be cautious when removing interaction terms. This may require discussion with the team.
+
+    - If there is a theoretical reason to keep the interaction term, the team may choose to keep it in the model even if it is not statistically significant.
+    
+- Because I always want the option of removing terms easily, that is why I prefer to use the `:` operator when specifying interactions.
+
+## Example 2
+
+- Returning to our example with a three-way interaction,
+
+```{r}
+m2a %>% tidy()
+```
+
+## Example 2
+
+- **Hypotheses**
+
+    - $H_0$: $\beta_{7} = 0$
+    - $H_1$: $\beta_{7} \ne 0$
+
+- **Test Statistic & *p*-Value**
+
+    - $t_0 = - 0.983$
+    - $p = 0.326$  
+    
+- **Rejection Region**
+
+    - Reject $H_0$ if $p < \alpha$; $\alpha = 0.05$
+    
+- **Conclusion & Interpretation**
+
+    - FTR $H_0$. The three-way interaction term is not statistically significant, meaning that the two-way interactions *do not depend* on the level of the third predictor.
+    
+## Example 2
+
+- Removing the three-way interaction term,
+
+```{r}
+m2c <- glm(clubhouse_happiness ~ time_with_friends + goofy_laughs + donald_grumbles + 
+             time_with_friends:goofy_laughs + time_with_friends:donald_grumbles + goofy_laughs:donald_grumbles,
+         family = "gaussian",
+         data = clubhouse)
+m2c %>% tidy()
+```
+
+## Testing Multiple Interactions at Once 
+
+- When I have multiple (two-way) interactions in my model, I will sometimes perform a partial $F$ test to assess the significance of all interaction terms at once.
+
+    - This is the full vs. reduced model approach we learned in multiple regression for the purpose of testing the overall significance of the model.
+    
+- The corresponding hypotheses are:
+    
+    - $H_0$: $\beta_{\text{int}_1} = \beta_{\text{int}_2} = ... = \beta_{\text{int}_m} = 0$ (all interaction terms are zero)
+    - $H_1$: At least one $\beta_{\text{int}_k} \ne 0$ (at least one interaction term is non-zero)
+    
+- Then, in R, we take a similar approach to what we saw before,    
+    
+```{r}
+#| eval: false
+full <- glm(y ~ x_1 + x_2 + x_3 + x_1:x_2 + x_1:x_3 + x_2:x_3,
+         family = "gaussian",
+         data = data)
+reduced <- glm(y ~ x_1 + x_2 + x_3,
+           family = "gaussian",
+           data = data)
+anova(reduced, full, test = "F")
+```
+
+## Example 2
+
+- Returning to our example, let's test all three two-way interactions at once.
+
+```{r}
+full <- glm(clubhouse_happiness ~ time_with_friends + goofy_laughs + donald_grumbles + 
+             time_with_friends:goofy_laughs + time_with_friends:donald_grumbles + goofy_laughs:donald_grumbles,
+         family = "gaussian",
+         data = clubhouse)
+reduced <- glm(clubhouse_happiness ~ time_with_friends + goofy_laughs + donald_grumbles,
+         family = "gaussian",
+         data = clubhouse)
+anova(reduced, full, test = "F")
+```
+
+## Example 2
+
+- We fail to reject, meaning we can assume all of the interaction-related slopes are 0.
+
+```{r}
+anova(reduced, full, test = "F")
+```
+
+- This gives me *justification* in removing all of the two-way interactions *at the same time*.
+
+## "Backward Selection"
+
+- True backward selection would involve:
+
+    - Starting with a full model with all possible interaction terms.
+    - Testing the highest-order interaction term first.
+    - If non-significant, remove it and refit the model.
+    - Repeat until all remaining interaction terms are significant.
+    - If no significant interactions, continue to test and remove main effects as needed.
+    
+## "Backward Selection"
+    
+- My version of backward selection:
+
+    - Start with a full model with interaction terms *of interest*.
+    - Test all interaction terms at once (partial $F$ test).
+    - If non-significant, remove all interaction terms and refit the model.
+    - If significant, test each interaction term individually and remove non-significant ones.
+    - Repeat until all remaining interaction terms are significant OR all interaction terms have been removed.
+    
+## "Backward Selection"
+
+- This is not a perfect method, but it is a practical way to simplify models with interaction terms.
+
+    - I am in favor of *parsimony*. I will always recommend a simpler model over a more complex one when there is "not a difference". 
+
+- Note that because we are working with hierarchical well-formulated models, if main effects are involved in interactions, they must remain in the model as main effects.
+
+    - y ~ x1 + x2 + x3 + x1:x2 + x1:x3 $\to$ no main effects can be removed.
+    
+    - y ~ x1 + x2 + x1:x2 + x1:x3 $\to$ not a valid model!
+    
+- If a main effect is *not* involved in an interaction, it can be removed *if desired*.
+
+    - y ~ x1 + x2 + x3 + x1:x2 + $\to$ $x_3$ can be removed if desired.
+    
+## Digging Deeper into Interactions
+
+- Let's solidify our understanding of interaction terms.
+
+- Let's return to Example 1, 
+
+$$
+\hat{\text{happiness}} = 20.13 + 7.78 \text{ time} + 1.30 \text{ laughs} - 0.16 \ (\text{time$\times$laughs})
+$$
+
+- To better understand the interaction, we can compute *simple slopes*.
+
+    - These are the slopes of one predictor at specific values of the other predictor.
+    
+- What is the slope for time with friends when goofy laughs = 0? 25? 50?
+
+
+## Example 1
+
+- Starting model,
+
+$$
+\hat{\text{happiness}} = 20.13 + 7.78 \text{ time} + 1.30 \text{ laughs} - 0.16 \ (\text{time$\times$laughs})
+$$
+
+- Plugging in goofy laughs = 0,
+
+$$
+\begin{align*}
+\hat{\text{happiness}} &= 20.13 + 7.78 \text{ time} + 1.30(0) - 0.16 \ (\text{time$\times$0}) \\
+&= 20.13 + 7.78 \text{ time} 
+\end{align*}
+$$
+
+- When there are no goofy laughs, the slope for time with friends is 7.78. This means that as time increases by one hour, happiness increases by 7.78 points.
+
+## Example 1
+
+- Starting model,
+
+$$
+\hat{\text{happiness}} = 20.13 + 7.78 \text{ time} + 1.30 \text{ laughs} - 0.16 \ (\text{time$\times$laughs})
+$$
+
+- Plugging in goofy laughs = 25,
+
+$$
+\begin{align*}
+\hat{\text{happiness}} &= 20.13 + 7.78 \text{ time} + 1.30(25) - 0.16 \ (\text{time$\times$25}) \\
+&= 52.63 + 3.78 \text{ time} 
+\end{align*}
+$$
+
+- When there are 25 goofy laughs, the slope for time with friends is 3.78. This means that as time increases by one hour, happiness increases by 3.78 points.
+
+## Digging Deeper into Interactions
+
+- Let's look at these together,
+
+    - When there are no goofy laughs, the slope for time with friends is 7.78. This means that as time increases by one hour, happiness increases by 7.78 points.
+    
+    - When there are 25 goofy laughs, the slope for time with friends is 3.78. This means that as time increases by one hour, happiness increases by 3.78 points.
+    
+- Can we make an overall statement?
+
+    - As the number of goofy laughs increases, the effect of time with friends on happiness decreases. This is consistent with the negative interaction term (-0.16). 
+    
+    - How would I explain it to Mickey? When the number of laughs increases, it <u>takes longer</u> to increase the clubhouse happiness level. 
+    
+## Digging Deeper into Interactions
+
+- Let's return to the initial slide for this section.
+
+$$
+\hat{\text{happiness}} = 20.13 + 7.78 \text{ time} + 1.30 \text{ laughs} - 0.16 \ (\text{time$\times$laughs})
+$$
+
+- To better understand the interaction, we can compute *simple slopes*.
+
+    - These are the slopes of one predictor at specific values of the other predictor.
+    
+- What is the slope for time with friends when goofy laughs = 0? 25? 50?
+
+- Note!
+
+    - We could easily have asked, what is the slope for goofy laughs when time with friends = 0? 2? 4? 
+    
+## Digging Deeper into Interactions
+
+- How do I choose what to plug in for?
+
+    - I look at the research question / narrative that we have to this point. Sometimes it is obvious which one the "story" is about. 
+    
+    - The "interesting variable" is the one that we will allow to be modified by the interaction.
+    
+- What if I can't tell or both are of interest?
+
+    - I do not decide. I will ask the research team for clarification.
+    
+    - Sometimes I will compute one simple slope each way to give a concrete example.
+    
+- Always remember to underscore that this is for *interpreting* the model -- it does not change the model itself!    
+
+## Wrap Up
+
+- This lecture introduced the concepts of interaction terms in our models.
+
+- We started with the continuous $\times$ continuous interaction type to get comfortable with the idea of interactions in regression.
+
+- As we can see, relaying the meaning of interaction terms can be tricky and, depending on number and type of interaction term, can very steeply increase the complexity of the model.
+
+- In the next lecture, we will discuss categorical $\times$ categorical interactions.
+
+    - We will see where things are both easier and trickier than continuous $\times$ continuous interactions, unfortunately.
 

@@ -1,0 +1,362 @@
+---
+title: "Interaction Terms: <br> Categorical x Categorical"
+execute:
+  echo: true
+  warning: false
+  message: false
+format: 
+  revealjs:
+    theme: default
+    self-contained: true
+    slide-number: true
+    width: 1600
+    height: 900
+    df-print: paged
+    html-math-method: katex
+    code-fold: false
+    code-tools: false
+    incremental: false
+editor: source
+---
+
+## Introduction 
+
+- Recall the general linear model, 
+
+$$ y = \beta_0 + \beta_1 x_1 + ... + \beta_k x_k + \varepsilon $$
+
+- In the last lecture, we began learning about interactions and focused on continuous $\times$ continuous interactions.
+
+    - e.g., $x_1 \times x_2$
+    
+- In this lecture, we continue learning about interactions and expand to categorical $\times$ categorical interactions.
+
+## Interactions with Categorical Variables 
+
+- Recall that if a categorical predictor with $c$ classes is included in the model, we will include $c-1$ terms to represent it.
+
+- This holds true for interactions!
+
+    - Categorical $\times$ categorical: $(c_1-1)(c_2-1)$
+
+- Note that a special (and easy!) case is when our categorical variable is binary: $c-1 = 1$.
+
+- Consider factor $A$, with $a=3$ levels, and factor $B$, with $b=4$ levels.
+
+    - There are an additional $2 \times 3 = 6$ terms in the model when we include $A \times B$ :')
+    
+
+    
+## Including Interactions in the Model 
+
+- Like before, we have the option of using either the `:` operator or the `*` operator.
+
+- However, it depends on if you are using indicator variables or a factor variable!
+
+    - If using indicator variables, can *only* use `:`.
+    - If using factor variables, can use *either* `*` or `:`.
+    
+- If we try to use the `*` operator with indicators, we will end up with invalid terms ($x_{\text{cat}_i} \times x_{\text{cat}_j}$) in our model.
+
+- Keep in mind that we are only talking about the very simple case here -- two categorical variables interacting with each other. 
+
+    - When we have additional terms in the model that are not involved with interactions, it makes using the `*` operator harder.
+    
+
+## Including Interactions in the Model
+    
+- Suppose we have a categorical variable $A$ with $a=3$ levels and a categorical variable $B$ with $b=4$ levels and would like to look at the model with $A$, $B$, and $A \times B$.
+
+- Regardless of the method (indicator variables vs. factor variables), we will have 11 terms in the model:
+    
+    - $a-1=2$ associated with $A$
+    - $b-1=3$ associated with $B$
+    - $(a-1)(b-1)=6$ associated with the interaction $A$:$B$.
+        
+## Including Interactions in the Model  
+
+- Continuing our hypothetical example,
+
+    - Suppose we have a categorical variable $A$ with $a=3$ levels and a categorical variable $B$ with $b=4$ levels and would like to look at the model with $A$, $B$, and $A \times B$.
+
+- If we have indicators, 
+    
+    - y ~ A1 + A2 + B1 + B2 + B3 + A1:B1 + A1:B2 + A1:B3 + A2:B1 + A2:B2 + A2:B3
+    - Remember that y ~ A1 * A2 * B1 * B2 * B3 is not valid! 
+
+- If we have factors, 
+
+    - y ~ A + B + A:B  
+    - y ~ A * B   
+    
+## Lecture Example Set Up
+
+- Recall the duck incident data,
+
+```{r}
+#| echo: false
+library(tidyverse)
+library(broom)
+library(ssstats)
+```
+
+```{r}
+duck_incidents <- read_csv("https://raw.githubusercontent.com/samanthaseals/SDSII/refs/heads/main/files/data/lectures/W2_duck_incidents.csv")
+```   
+
+- We have access to the following from the reports:
+
+    - Which nephew was involved (*nephew*)
+    - What kind of mischief occurred (*mischief_type*)
+    - Where it happened (*location*)
+    - Whether Donald was present (*donald_present*)
+    - Donald's reaction (*donald_reaction*)
+    - The amount of sugar ingested prior to the incident (*sugar_grams*)
+    - The estimated dollar cost of damage resulting from the incident (*damage_cost*)
+    
+## Example 1
+
+- Let's consider modeling the damage cost as a function of nephew and location.
+
+    - $a=3$ nephews, so $a-1=2$ terms for nephew
+    - $b=4$ locations, so $b-1=3$ terms for location
+    - the interactions will have $(a-1)(b-1) = 6$ terms
+
+```{r}
+m4 <- glm(damage_cost ~ nephew + location + nephew:location,
+         family = "gaussian",
+         data = duck_incidents)
+m4 %>% coefficients()
+```
+
+## Interpreting Categorical Interactions
+
+- As with continuous interactions, the interpretation of the main effects changes when an interaction is included in the model.
+
+    - We must consider the levels of the interacting variable when interpreting main effects.
+    
+- For example, in our model with nephew and location, the coefficient represents the <u>difference in damage cost</u> between that nephew and the reference nephew for that location as compared to the reference location.  
+
+    - The <u>difference in damage cost</u> between Louie and Dewey is $186.99 greater in the Garage than it is in the Backyard.
+    
+    - The <u>difference in damage cost</u> between Huey and Dewey is $0.15 greater in the Garage than it is in the Backyard.
+    
+- We are not going to harp on this too much -- I generally do not provide specific interaction interpretations, but instead, provide stratified interpretations when justified.
+
+## Hypothesis Testing with Categorical Interactions
+
+- When categorical variables are involved in interaction terms, the hypothesis testing requires a partial $F$ test.
+
+- **Hypotheses**
+
+    - $H_0$: $\beta_{\text{int}_{A_2,B_2}} = ... = \beta_{\text{int}_{A_a,B_b}} = 0$ ($A$ does not interact with $B$)
+    - $H_1$: at least one $\beta_{\text{int}_{A_i,B_j}} \ne 0$ ($A$ interacts with $B$)
+    
+- **Test Statistic & *p*-Value**
+
+    - $F_0=$ (from `car::Anova(m, test="LRT")` or `anova(m_reduced, m_full, type = 3)`)
+    - $p =$ (from `car::Anova(m, test="LRT")` or `anova(m_reduced, m_full, type = 3)`)
+
+
+## Example 1
+
+- Returning to our example, let's determine if nephew and location interact.
+
+```{r}
+m4 %>% car::Anova(type = 3)
+```
+
+- Yes, there is an interaction ($p = 0.023$).
+
+    - The difference in damage cost between nephews depends on the location of the incident.
+    - The difference in damage cost between locations depends on the nephew involved in the incident.
+    
+## Example 1
+
+- We just used the `car::Anova()` approach,
+
+```{r}
+m4 %>% car::Anova(type = 3)
+```
+
+- However, we can replicate this using the full/reduced approach with `anova()`,
+
+```{r}
+m4_reduced <- glm(damage_cost ~ nephew + location,
+                 family = "gaussian",
+                 data = duck_incidents)
+anova(m4_reduced, m4, test = "LRT")
+```    
+
+## Example 2
+
+- Let's now consider modeling damage cost as a function of location, Donald's presence, and their interaction.
+
+    - $a=4$ locations, so $a-1=3$ terms for location
+    - $b=2$ levels of Donald's presence, so $b-1=1$ term for Donald's presence
+    - the interactions will have $(a-1)(b-1) = 3$ terms
+    
+```{r}
+m5 <- glm(damage_cost ~ location + donald_present + location:donald_present,
+         family = "gaussian",
+         data = duck_incidents)
+m5 %>% coefficients()
+```
+
+## Example 2
+
+- Is the interaction significant?
+
+```{r}
+m5 %>% car::Anova(type = 3)
+```
+
+- Yes, the interaction is significant $(p = 0.009)$.
+
+    - The difference in damage cost between locations depends on whether Donald was present during the incident.
+    - The difference in damage cost between Donald being present or absent depends on the location of the incident.
+    
+## Example 2
+
+- Because the interaction is significant, let's *stratify* our model by Donald's presence.
+
+- Overall model,
+
+$$
+\begin{align*}
+\hat{\text{cost}} = 205.66 & \\
+& + 33.9 \text{ G} + 218.71 \text{ K} + 74.13 \text{ LR} \\
+&-5.53 \text{ Donald} \\
+&+ 64.92 \text{ G:Donald} - 210.69 \text{ K:Donald} - 45.92 \text{ LR:Donald}
+\end{align*}
+$$
+
+- To create the model for when Donald is present, we plug in Donald = 1.
+
+- To create the model for when Donald is not present, we plug in Donald = 0.
+
+## Example 2
+
+- When Donald is present
+
+$$
+\begin{align*}
+\hat{\text{cost}} = 205.66 & \\
+& + 33.9 \text{ G} + 218.71 \text{ K} + 74.13 \text{ LR} \\
+&-5.53(1) \\
+&+ 64.92(1) \text{ G} - 210.69(1) \text{ K} - 45.92(1) \text{ LR} \\
+= 200.13 &+ 98.82 \text{ G} + 8.02 \text{ K} + 28.21 \text{ LR} \\
+\end{align*}
+$$
+
+## Example 2
+
+- When Donald is not present,
+
+$$
+\begin{align*}
+\hat{\text{cost}} = 205.66 & \\
+& + 33.9 \text{ G} + 218.71 \text{ K} + 74.13 \text{ LR} \\
+&-5.53(0) \\
+&+ 64.92(0) \text{ G} - 210.69(0) \text{ K} - 45.92(0) \text{ LR} \\
+= 205.66 &+ 33.90 \text{ G} + 218.71 \text{ K} + 74.13 \text{ LR} \\
+\end{align*}
+$$
+
+## Example 2
+
+- Looking at the models together,
+
+$$
+\begin{align*}
+\hat{\text{cost|Donald present}} &= 200.13 + 98.82 \text{ G} + \ \ \ \ 8.02 \text{ K} + 28.21 \text{ LR} \\
+\hat{\text{cost|Donald not present}} &= 205.66 + 33.90 \text{ G} + 218.71 \text{ K} + 74.13 \text{ LR} \\
+\end{align*}
+$$
+
+- When donald is present, the damage costs are lower in the Kitchen, Living Room, and Backyard, but higher in the Garage.
+
+## Example 3
+
+- Let's combine the Backyard and Garage locations into a variable called *outside*.
+
+```{r}
+duck_incidents <- duck_incidents %>%
+  mutate(outside = if_else(location %in% c("Backyard", "Garage"), 1, 0))
+```
+
+- Checking,
+
+```{r}
+duck_incidents %>% count(location, outside)
+```
+
+## Example 3
+
+- Let's also recode Donald's presence as 0/1.
+
+```{r}
+duck_incidents <- duck_incidents %>%
+  mutate(present = if_else(donald_present == "Yes", 1, 0))
+```
+
+- Checking,
+
+```{r}
+duck_incidents %>% count(donald_present, present)
+```
+
+## Example
+
+- Now, let's model damage cost as a function of outside, Donald's presence, and their interaction.
+
+```{r}
+m6 <- glm(damage_cost ~ outside + present + present:outside,
+         family = "gaussian",
+         data = duck_incidents)
+m6 %>% tidy()
+```
+
+- Wait! The interaction term only has one term in the model!
+
+## Example 3
+
+- Let's compare results from `tidy()` and `car::Anova()`,
+
+```{r}
+m6 %>% tidy()
+m6 %>% car::Anova(type = 3)
+```
+
+## Example 3
+
+- Finally, a quick comparison with the original presence variable,
+
+```{r}
+m7 <- glm(damage_cost ~ outside + donald_present + donald_present:outside,
+         family = "gaussian",
+         data = duck_incidents)
+m7 %>% tidy()
+```
+
+- Unsurprisingly, the results are the same.
+
+## Example 3
+
+- Further proving to ourselves,
+
+```{r}
+m6 %>% car::Anova(type = 3)
+m7 %>% car::Anova(type = 3)
+```
+
+## Wrap Up
+
+- When including categorical $\times$ categorical interactions in the model, we must use partial $F$ tests to determine if the interaction is significant.
+
+    - If we are using indicator variables, we must take the full/reduced approach with `glm()` and `anova()`.
+    
+    - If we are using factor variables, we can use either the full/reduced approach with `glm()` and `anova()` or in one swoop with `car::Anova()`.
+
+    - In the case of binary $\times$ binary, we can use the results directly from `tidy()`.
+

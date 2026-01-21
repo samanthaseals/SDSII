@@ -1,5 +1,249 @@
 ---
-title: "W3_L4_visualization"
-format: html
+title: "Visualizing the Model: Interactions"
+execute:
+  echo: true
+  warning: false
+  message: false
+format: 
+  revealjs:
+    theme: default
+    self-contained: true
+    slide-number: true
+    width: 1600
+    height: 900
+    df-print: paged
+    html-math-method: katex
+    code-fold: false
+    code-tools: false
+    incremental: false
+editor: source
 ---
 
+
+## Introduction
+
+- In the previous weeks, we have built up what we understand about data visualization.
+
+    - Week 1: Visualizing models with only continuous predictors
+    - Week 2: Visualizing models with only categorical predictors; visualizing models with both continuous and categorical predictors
+    - Week 3: Visualizing models with interaction terms.
+
+- We have seen this week that there are three types of interactions:
+
+    - Continuous $\times$ continuous
+    - Categorical $\times$ categorical
+    - Continuous $\times$ categorical
+
+- Graphing a model with only categorical variables and interactions will follow what we learned for models with only categorical variables in Week 2.
+
+- In this lecture we will focus on models with at least one continuous predictor in them.
+
+## Lecture Example Set Up
+
+- Recall the Clarabelle data,
+
+- We have a dataset with 300 days of operation for:
+
+    - Average wait time (*avg_wait_time*):  Average customer wait time (in minutes) on a given day.
+    - Orders per hour (*orders_per_hour*): Average number of milkshake orders per hour that day.
+    - Staff experience (*staff_experience*): Average years of experience among staff working that shift.
+    - Special flavor (*flavor_special*): Type of milkshake special offered that day (none, seasonal, or limited edition).
+    - Status of milkshake machine (*machine_status*): Whether the milkshake machine was fully operational or temperamental that day.
+
+```{r}
+#| echo: false
+library(tidyverse)
+library(broom)
+library(ssstats)
+library(kableExtra)
+```
+
+```{r}
+clarabelle <- read_csv("https://raw.githubusercontent.com/samanthaseals/SDSII/refs/heads/main/files/data/lectures/W3_clarabelle.csv")
+```   
+
+## Example 1
+
+- In the last lecture, we constructed the following model:
+
+$$ 
+\hat{\text{wait time}} = 4.88 + 0.08 \text{ orders} + 2.88 \text{ temp.} + 0.06 \text{ orders $\times$ temp.}
+$$
+
+- We saw that the interaction was significant (), so we were justified in stratifying our models:
+
+$$ 
+\begin{align*}
+\hat{\text{wait time}|\text{op.}} &= 4.88 + 0.08 \text{ orders} \\
+\hat{\text{wait time}|\text{temp.}} &= 7.76 + 0.14 \text{ orders}
+\end{align*}
+$$
+
+- We will use the statified models for visualization.
+
+    - We will have one regression line for when the machine is fully operational and another for when it is temperamental.
+    
+## Example 1
+
+- First, we will find predicted values,
+
+```{r}
+clarabelle <- clarabelle %>% 
+  mutate(y_op = 4.88 + 0.08 * orders_per_hour,
+         y_temp = 7.76 + 0.14 * orders_per_hour)
+```
+
+```{r}
+#| echo: false
+kable(clarabelle %>% select(orders_per_hour, machine_status, y_op, y_temp) %>% head())
+```
+
+## Example 1
+
+- Then, our code to graph,
+
+```{r}
+#| eval: false
+clarabelle %>% ggplot(aes(x = orders_per_hour)) +
+  geom_point(aes(y = avg_wait_time, color = machine_status), alpha = 0.5) +
+  geom_line(aes(y = y_op), color = "#F8766D", size = 1) +
+  geom_line(aes(y = y_temp), color = "#00BFC4", size = 1) +
+  labs(x = "Orders per Hour",
+       y = "Average Wait Time (minutes)",
+       color = "Machine Status") +
+  theme_bw()
+```
+
+## Example 1
+
+- Looking at our graph,
+
+```{r}
+#| echo: false
+#| fig-align: 'center'
+#| fig-alt: 'Scatterplot of average wait time versus orders per hour with two regression lines, one for each machine status.'
+clarabelle %>% ggplot(aes(x = orders_per_hour)) +
+  geom_point(aes(y = avg_wait_time, color = machine_status), alpha = 0.5) +
+  geom_line(aes(y = y_op), color = "#F8766D", size = 1) +
+  geom_line(aes(y = y_temp), color = "#00BFC4", size = 1) +
+  labs(x = "Orders per Hour",
+       y = "Average Wait Time (minutes)",
+       color = "Machine Status") +
+  theme_bw()
+```
+
+## Example 2
+
+- We also constructed this model:
+
+$$
+\begin{align*}
+\hat{\text{wait time}} = 4.&90 \\
+& + 0.08 \text{ orders} \\
+& + 1.16 \text{ seasonal} + 3.95 \text{ limited edition} \\
+& - 0.01 \text{ orders $\times$ seasonal} + 0.02 \text{ orders $\times$ limited edition}
+\end{align*}
+$$
+
+- Although the interaction was not significant $(p = 0.7206)$, we can still provide a data visualization of that specific model.
+
+    - I will do this to demonstrate to others what I mean by "there is not an interaction".
+
+## Example 2
+    
+- Thus, our stratified models (see last lecture for derivation):,
+
+$$
+\begin{align*}
+\hat{\text{wait time}|\text{no special}} &= 4.90 + 0.08 \text{ orders} \\
+\hat{\text{wait time}|\text{seasonal}} &= 6.06 + 0.07 \text{ orders} \\
+\hat{\text{wait time}|\text{limited edition}} &= 8.85 + 0.10 \text{ orders}
+\end{align*}
+$$
+
+- We will have three lines on our graph: one for each type of special flavor offering.
+
+## Example 2
+
+- Finding predicted values,
+
+```{r}
+clarabelle <- clarabelle %>% 
+  mutate(y_none = 4.90 + 0.08 * orders_per_hour,
+         y_seasonal = 6.06 + 0.07 * orders_per_hour,
+         y_limited = 8.85 + 0.10 * orders_per_hour)
+```
+
+```{r}
+#| echo: false
+kable(clarabelle %>% select(orders_per_hour, flavor_special, y_none, y_seasonal, y_limited) %>% head())
+```
+
+## Example 2
+
+- Then, our code to graph,
+
+```{r}
+#| eval: false
+clarabelle %>% ggplot(aes(x = orders_per_hour)) +
+  geom_point(aes(y = avg_wait_time, color = flavor_special), alpha = 0.5) +
+  geom_line(aes(y = y_none), color = "#00BA38", size = 1) +
+  geom_line(aes(y = y_seasonal), color = "#619CFF", size = 1) +
+  geom_line(aes(y = y_limited), color = "#F8766D", size = 1) +
+  labs(x = "Orders per Hour",
+       y = "Average Wait Time (minutes)",
+       color = "Flavor") +
+  theme_bw()
+```
+
+## Example 2
+
+- Looking at our graph,
+
+```{r}
+#| echo: false
+#| fig-align: 'center'
+#| fig-alt: 'Scatterplot of average wait time versus orders per hour with three regression lines, one for each type of flavor.'
+clarabelle %>% ggplot(aes(x = orders_per_hour)) +
+  geom_point(aes(y = avg_wait_time, color = flavor_special), alpha = 0.5) +
+  geom_line(aes(y = y_none), color = "#00BA38", size = 1) +
+  geom_line(aes(y = y_seasonal), color = "#619CFF", size = 1) +
+  geom_line(aes(y = y_limited), color = "#F8766D", size = 1) +
+  labs(x = "Orders per Hour",
+       y = "Average Wait Time (minutes)",
+       color = "Flavor") +
+  theme_bw()
+```
+
+## Example 2
+
+- Wait!!!
+
+- The test for interaction was not significant, so why do the slopes look different?
+
+    - Eh...
+    
+    - Remember that we see parallel lines when we include categorical predictors -- the interaction should cause different rates of change. We are not seeing that here.
+    
+- Thus -- we can visualize models with non-significant interactions, but we should be careful about how we interpret them. 
+
+    - Always be careful with the word "significant" -- it has a very specific meaning in statistics.
+
+## Wrap Up
+
+- This lecture has demonstrated how to visualize models with interaction terms.
+
+- To keep it simple, we focused on models with at least one continuous predictor.
+
+    - To deal with models with only categorical predictors (and interactions), please refer back to Week 2's material.
+    
+- We now have the general building blocks for regression analysis.
+
+    - After this week, we will leave the normal distribution, meant for continuous outcomes that are mound-shaped and symmetric, and begin exploring distributions for other types of outcomes.
+
+
+
+
+
+
+    
