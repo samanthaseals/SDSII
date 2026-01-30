@@ -1,0 +1,361 @@
+---
+title: "Assignment 4"
+author: "Your Name Here"
+execute:
+  echo: true
+  warning: false
+  message: false
+  error: true
+format: 
+  html:
+    df-print: paged
+    self-contained: true
+    html-math-method: katex
+    code-fold: false
+    code-tools: false
+    incremental: false
+editor: source
+---
+
+```{r setup}
+library(tidyverse)
+library(ssstats)
+```
+
+Jim and Pam are finally planning their wedding! Dwight is trying to convince them to have the wedding and reception at Schrute Farms, but both Jim and Pam are skeptical: they are concerned both about the amount of time guests will wait for food and the amount of time guests will actually want to spend on the dance floor. Their wedding planner manages to find data on previous events held at Schrute Farms. The data that was collected is as follows,
+
+- *food_wait_min*: average time (minutes) the group waited before reaching the buffet line
+- *dance_floor_prop*: the proportion of the reception time that guests spent on the dance floor
+- *guests*: number of guests at the event
+- *temp_f*: the outdoor temperature when the group entered the buffet line
+- *dwight_logistics*: indicates if Dwight was (1) or was not (0) responsible for logistics during that time
+
+Because Dwight has a special talent for either making things significantly better or much, much worse, the wedding planner believes that the effect of group size and temperature might depend on whether Dwight was running logistics.
+
+**Data Management and Exploration**
+
+0a. Download the data from Canvas and import it to R.
+
+```{r}
+
+```
+
+<!-- no actual response is needed here, just your R output -->
+
+0b. Construct the histogram for the first outcome, the time waited before reaching the buffet line (*food_wait_min*).
+
+```{r}
+
+```
+
+<!-- no actual response is needed here, just your R output -->
+
+0c. Based on the histogram results from 0b, what distribution do you feel is most appropriate for modeling the outcome variable?
+
+<!-- your answer below here -->
+
+<!-- your answer above here -->
+
+0d. Find the minimum and maximum values of the outcome variable. 
+
+```{r}
+
+```
+
+<!-- no actual response is needed here, just your R output -->
+
+0e. Based on the results from 0d and distribution choice in 0c, perform any additional data management that needs to be done prior to modeling. Explain why this data management was or was not necessary.
+
+<!-- if you do not need data management, you do not need this code chunk -->
+```{r}
+
+```
+
+<!-- your answer below here -->
+
+<!-- your answer above here -->
+
+0f. Construct the histogram for the second outcome, the proportion of the time guests spent dancing (*dance_floor_prop*).
+
+```{r}
+
+```
+
+<!-- no actual response is needed here, just your R output -->
+
+0g. Based on the histogram results from 0f, what distribution do you feel is most appropriate for modeling the outcome variable?
+
+<!-- your answer below here -->
+
+<!-- your answer above here -->
+
+0h. Find the minimum and maximum values of the outcome variable. 
+
+```{r}
+
+```
+
+<!-- no actual response is needed here, just your R output -->
+
+0i. Based on the results from 0h and distribution choice in 0g, perform any additional data management that needs to be done prior to modeling. Explain why this data management was or was not necessary.
+
+<!-- if you do not need data management, you do not need this code chunk -->
+```{r}
+
+```
+
+<!-- your answer below here -->
+
+<!-- your answer above here -->
+
+0j. Find appropriate summary statistics (mean and sd or median and IQR) for the continuous variables in the dataset. Split this by *dwight_logistics*.
+
+```{r}
+
+```
+
+<!-- no actual response is needed for the modeling portion here, just your R output -->
+
+**Model 1**
+
+Because Dwight has a special talent for either making things significantly better or much, much worse, the wedding planner believes that the effect of group size and temperature might depend on whether Dwight was running logistics. Let's fit a multiple regression model predicting the time the group waited for food (*food_wait_min*) as a function of the number of guests (*guests*), the outdoor temperature (*temp_f*), if Dwight was involved with logistics (*dwight_logistics*), the interaction between number of guests and Dwight's involvement, and the interaction between temperature and Dwight's involvement. Call this model `m1`.
+
+```{r}
+
+```
+
+<!-- no actual response is needed for the modeling portion here, just your R output -->
+
+1a. Based on your output, state the resulting model. 
+
+<!-- below is the basic LaTeX for formatting a regression line; please update it with numbers from your model based on the results above -->
+
+$$
+\hat{y} \text{ OR } \hat{\ln(y)} \text{ OR } \hat{\text{logit}(y)} = \beta_0 + \beta_1 x_1 + ... + \beta_k x_k
+$$
+
+<!-- imperative for full credit: remove the pieces of the left hand side that you do not need -->
+
+1b. Is this a significant regression line? You must provide statistical justification for your answer.
+
+```{r}
+
+```
+
+<!-- your answer below here -->
+
+<!-- your answer above here -->
+
+1c. Perform the appropriate hypothesis tests to determine if either the interaction between Dwight's involvement and the outdoor temperature or the interaction between Dwight's involvement and the number of guests is significant. You must provide statistical justification for your answers.
+
+```{r}
+
+```
+
+<!-- your answer below here -->
+
+<!-- your answer above here -->
+
+1d. Construct a "final model" based on your results from 1c. That is, remove interaction(s) that are deemed insignificant.
+
+```{r}
+
+```
+
+1e. State the resulting model. 
+
+<!-- your answer below here -->
+
+<!-- your answer above here -->
+
+1f. Regardless of significance, stratify the models by Dwight's involvement in logistics.
+
+- When Dwight is involved (*dwight_logistics* = 1):
+
+<!-- your answer below here -->
+
+<!-- your answer above here -->
+
+- When Dwight is not involved (*dwight_logistics* = 0):
+
+<!-- your answer below here -->
+
+<!-- your answer above here -->
+
+1g. Using the stratified models from 1f, provide formal interpretations for the following slopes:
+
+* Slope for number of guests
+
+    - when Dwight is involved: <!-- your answer sandwiched to the right --> <!-- your answer sandwiched to the left -->
+    - when Dwight is not involved: <!-- your answer sandwiched to the right --> <!-- your answer sandwiched to the left -->
+    
+* Slope for temperature
+
+    - when Dwight is involved: <!-- your answer sandwiched to the right --> <!-- your answer sandwiched to the left -->
+    - when Dwight is not involved: <!-- your answer sandwiched to the right --> <!-- your answer sandwiched to the left -->
+    
+1h. Construct a data visualization to help explain the relationships in your stratified models. For uniformity, let's have time waited for food (*food_wait_min*) on the *y*-axis, the outdoor temperature (*temp_f*) on the *x*-axis, and lines defined by when Dwight is involved in logistics. We will plug in the overall median value of guests (*guests*).
+
+```{r}
+
+```
+
+<!-- no actual response is needed for the modeling portion here, just your R output -->
+
+
+**Model 2**
+
+Because Dwight has a special talent for either making things significantly better or much, much worse, the wedding planner believes that the effect of group size and temperature might depend on whether Dwight was running logistics. Let's now fit a multiple regression model predicting proportion of time guests spent dancing (*dance_floor_prop*) as a function of the number of guests (*guests*), the outdoor temperature (*temp_f*), if Dwight was involved with logistics (*dwight_logistics*), the interaction between number of guests and Dwight's involvement, and the interaction between temperature and Dwight's involvement. Call this model `m2`.
+
+```{r}
+
+```
+
+<!-- no actual response is needed for the modeling portion here, just your R output -->
+
+2a. Based on your output, state the resulting model. 
+
+<!-- below is the basic LaTeX for formatting a regression line; please update it with numbers from your model based on the results above -->
+
+$$
+\hat{y} \text{ OR } \hat{\ln(y)} \text{ OR } \hat{\text{logit}(y)} = \beta_0 + \beta_1 x_1 + ... + \beta_k x_k
+$$
+
+<!-- imperative for full credit: remove the pieces of the left hand side that you do not need -->
+
+2b. Is this a significant regression line? You must provide statistical justification for your answer.
+
+```{r}
+
+```
+
+<!-- your answer below here -->
+
+<!-- your answer above here -->
+
+2c. Perform the appropriate hypothesis tests to determine if either the interaction between Dwight's involvement and the outdoor temperature or the interaction between Dwight's involvement and the number of guests is significant. You must provide statistical justification for your answers.
+
+```{r}
+
+```
+
+<!-- your answer below here -->
+
+<!-- your answer above here -->
+
+2d. Construct a "final model" based on your results from 2c. That is, remove interaction(s) that are deemed insignificant.
+
+```{r}
+
+```
+
+<!-- no actual response is needed for the modeling portion here, just your R output -->
+
+2e. State the resulting model. 
+
+<!-- your answer below here -->
+
+<!-- your answer above here -->
+
+2f. Regardless of significance, stratify the models by Dwight's involvement in logistics.
+
+- When Dwight is involved (*dwight_logistics* = 1):
+
+<!-- your answer below here -->
+
+<!-- your answer above here -->
+
+- When Dwight is not involved (*dwight_logistics* = 0):
+
+<!-- your answer below here -->
+
+<!-- your answer above here -->
+
+2g. Using the stratified models from 2f, provide formal interpretations for the following slopes:
+
+* Slope for number of guests
+
+    - when Dwight is involved: <!-- your answer sandwiched to the right --> <!-- your answer sandwiched to the left -->
+    - when Dwight is not involved: <!-- your answer sandwiched to the right --> <!-- your answer sandwiched to the left -->
+    
+* Slope for temperature
+
+    - when Dwight is involved: <!-- your answer sandwiched to the right --> <!-- your answer sandwiched to the left -->
+    - when Dwight is not involved: <!-- your answer sandwiched to the right --> <!-- your answer sandwiched to the left -->
+    
+2h. Construct a data visualization to help explain the relationships in your stratified models. For uniformity, let's have the proportion of time guests spent dancing (*dance_floor_prop*) on the *y*-axis, the outdoor temperature (*temp_f*) on the *x*-axis, and lines defined by when Dwight is involved in logistics. We will plug in the overall median value of guests (*guests*).
+
+```{r}
+
+```
+
+<!-- no actual response is needed for the modeling portion here, just your R output -->
+    
+**Summary for Wedding Planner**
+
+3. Write a brief summary of what you found. Imagine you are explaining this to the wedding planner, who has limited statistical knowledge. Be sure to explain what the results mean in practical terms and make a recommendation regarding whether or not Jim and Pam should have their wedding at Schrute Farms.
+
+<!-- your answer below here -->
+
+<!-- your answer above here -->
+
+**Exploration Time!**
+
+This section is a **bonus** section for undergraduate students, but a **required** section for graduate students.
+
+4a. Re-fit `m1` using the normal distribution and examine relevant statistical inference. How different are the results?
+
+```{r}
+
+```
+
+<!-- your answer below here -->
+
+<!-- your answer above here -->
+
+4b. Check the assumptions on the normal distribution. Remember to draw a conclusion.
+
+```{r}
+
+```
+
+<!-- your answer below here -->
+
+<!-- your answer above here -->
+
+4c. Re-fit `m2` using the normal distribution and examine relevant statistical inference. How different are the results?
+
+```{r}
+
+```
+
+<!-- your answer below here -->
+
+<!-- your answer above here -->
+
+4d. Check the assumptions on the normal distribution. Remember to draw a conclusion.
+
+```{r}
+
+```
+
+<!-- your answer below here -->
+
+<!-- your answer above here -->
+
+4e. Reflect on your results from 4a-4d. Use what you learned in this week's lectures to explain differences in the models (4a, 4c) and the assumption checks (4b, 4d)? 
+
+<!-- your answer below here -->
+
+<!-- your answer above here -->
+
+4f. Are there times where it is okay to use the normal distribution even when the outcome is not normally distributed? Explain your answer and cite your sources.  <!-- unless you have extensive experience in statistical modeling, this question cannot be answered without any research :) zero credit will be awarded for answers without proper citations -->
+
+<!-- your answer below here -->
+
+<!-- your answer above here -->
+
+
+
+
+
