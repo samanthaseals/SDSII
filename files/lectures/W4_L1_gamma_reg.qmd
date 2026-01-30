@@ -1,5 +1,0 @@
----
-title: "W4_L1_gamma_reg"
-format: html
----
-

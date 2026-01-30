@@ -206,9 +206,9 @@ clarabelle %>% ggplot(aes(x = orders_per_hour)) +
 #| fig-alt: 'Scatterplot of average wait time versus orders per hour with three regression lines, one for each type of flavor.'
 clarabelle %>% ggplot(aes(x = orders_per_hour)) +
   geom_point(aes(y = avg_wait_time, color = flavor_special), alpha = 0.5) +
-  geom_line(aes(y = y_none), color = "#00BA38", size = 1) +
-  geom_line(aes(y = y_seasonal), color = "#619CFF", size = 1) +
-  geom_line(aes(y = y_limited), color = "#F8766D", size = 1) +
+  geom_line(aes(y = y_none), color = "#00BA38", linewidth = 1) +
+  geom_line(aes(y = y_seasonal), color = "#619CFF", linewidth = 1) +
+  geom_line(aes(y = y_limited), color = "#F8766D", linewidth = 1) +
   labs(x = "Orders per Hour",
        y = "Average Wait Time (minutes)",
        color = "Flavor") +

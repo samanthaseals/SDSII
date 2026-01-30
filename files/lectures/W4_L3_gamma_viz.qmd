@@ -1,0 +1,258 @@
+---
+title: "Visualizing the Model:<br>Gamma Regression"
+execute:
+  echo: true
+  warning: false
+  message: false
+format: 
+  revealjs:
+    theme: default
+    self-contained: true
+    slide-number: true
+    width: 1600
+    height: 900
+    df-print: paged
+    html-math-method: katex
+    code-fold: false
+    code-tools: false
+    incremental: false
+editor: source
+---
+
+## Introduction
+
+```{r}
+#| echo: false
+library(tidyverse)
+```
+
+- In the previous weeks, we have built up what we understand about data visualization.
+
+    - Week 1: Visualizing models with only continuous predictors
+    - Week 2: Visualizing models with only categorical predictors; visualizing models with both continuous and categorical predictors
+    - Week 3: Visualizing models with interaction terms.
+
+- All three weeks, we were dealing with a continuous outcome that we assumed had a normal distribution.
+
+- In this lecture, we will focus on visualizing gamma regression models.
+
+## Lecture Example Set Up
+
+- Recall our data for wait times at Magic Kingdom,
+
+    - wait_time: posted standby wait time (minutes) 
+    - temp_f: outdoor temperature (°F)
+    - crowd_index: a 1–10 index summarizing park busyness
+    - ride_type: "family", "dark", or "thrill"
+
+- We constructed the model,
+
+$$
+\ln(y) = 1.28 + 0.015 \text{ temp} + 0.11 \text{ crowd} - 0.19 \text{ family} + 0.55 \text{ thrill}
+$$
+
+## Lecture Example Set Up
+
+- Pulling in the data,
+
+```{r}
+mk_wait <- read_csv("https://raw.githubusercontent.com/samanthaseals/SDSII/refs/heads/main/files/data/lectures/W4_wait_times.csv")
+mk_wait %>% head()
+```
+
+- From here, we can create our predicted values.
+
+
+## Creating Predicted Values
+
+- Recall the general gamma regression model, 
+
+$$
+\ln(\hat{y}) = \hat{\beta}_0 + \hat{\beta}_1 x_1 + \hat{\beta}_2 x_2 + ... \hat{\beta}_k x_k
+$$
+
+- Now that the $\ln()$ is present in the model, we need to be careful when creating predicted values.
+  
+    - We want to graph the predicted $y$, not $\ln(y)$.
+
+$$
+\hat{y} = e^{\hat{\beta}_0 + \hat{\beta}_1x_1 + \beta_2 x_2 + \cdot \cdot \cdot + \hat{\beta}_k x_k}
+$$
+
+## Creating Predicted Values: Example
+
+- Let's apply this to our example.
+
+$$
+\ln(y) = 1.28 + 0.015 \text{ temp} + 0.11 \text{ crowd} - 0.19 \text{ family} + 0.55 \text{ thrill}
+$$
+
+- Let's have crowd index on the $x$-axis, wait time on the $y$-axis, and lines defined by ride type.
+    
+    -  We will plug in the median temperature.
+
+```{r}
+mk_wait <- mk_wait %>%
+  mutate(ln_wait_dark = 1.28 + 0.015*median(temp_f) + 0.11*crowd_index - 0.19*0 + 0.55*0,
+         ln_wait_family = 1.28 + 0.015*median(temp_f) + 0.11*crowd_index - 0.19*1 + 0.55*0,
+         ln_wait_thrill = 1.28 + 0.015*median(temp_f) + 0.11*crowd_index - 0.19*0 + 0.55*1)
+```
+    
+## Creating Predicted Values: Example
+
+- For demonstration purposes, let's compare our current predicted values to the observed values,
+
+```{r}
+mk_wait %>% select(wait_time, ln_wait_dark, ln_wait_family, ln_wait_thrill) %>% head()
+```
+
+- We can see that the scaling is *not correct*.
+
+## Creating Predicted Values: Example
+
+- Trying again, but now exponentiating using `exp()`,
+
+```{r}
+mk_wait <- mk_wait %>%
+  mutate(wait_dark = exp(1.28 + 0.015*median(temp_f) + 0.11*crowd_index - 0.19*0 + 0.55*0),
+         wait_family = exp(1.28 + 0.015*median(temp_f) + 0.11*crowd_index - 0.19*1 + 0.55*0),
+         wait_thrill = exp(1.28 + 0.015*median(temp_f) + 0.11*crowd_index - 0.19*0 + 0.55*1))
+```
+
+```{r}
+#| echo: false
+mk_wait %>% select(wait_time, wait_dark, wait_family, wait_thrill) %>% head()
+```
+
+## Visualization of the Model: Example
+
+- Now, we can build our visualization as normal,
+
+```{r}
+#| eval: false
+#| fig-align: 'center'
+#| fig-alt: 'Scatterplot of wait time versus crowd level with three regression lines, one for each ride type'
+mk_wait %>% ggplot(aes(x = crowd_index)) +
+  geom_point(aes(y = wait_time, color = ride_type), alpha = 0.5) +
+  geom_line(aes(y = wait_dark), color = "#F8766D", linewidth = 1) + #  
+  geom_line(aes(y = wait_family), color = "#00BA38", linewidth = 1) + # color = "#00BFC4",
+  geom_line(aes(y = wait_thrill), color = "#00BFC4", linewidth = 1) + # ,
+  labs(x = "Crowd Index",
+       y = "Wait Time (minutes)",
+       color = "Ride Type") +
+  theme_bw()
+```
+
+## Visualization of the Model: Example
+
+- The resulting graph,
+
+```{r}
+#| echo: false
+#| fig-align: 'center'
+#| fig-alt: 'Scatterplot of wait time versus crowd level with three regression lines, one for each ride type'
+mk_wait %>% ggplot(aes(x = crowd_index)) +
+  geom_point(aes(y = wait_time, color = ride_type), alpha = 0.5) +
+  geom_line(aes(y = wait_dark), color = "#F8766D", linewidth = 1) + #  
+  geom_line(aes(y = wait_family), color = "#00BA38", linewidth = 1) + # color = "#00BFC4",
+  geom_line(aes(y = wait_thrill), color = "#00BFC4", linewidth = 1) + # ,
+  labs(x = "Crowd Index",
+       y = "Wait Time (minutes)",
+       color = "Ride Type") +
+  theme_bw()
+```
+
+## Linking to Interpretations
+
+- Now that we have the visualization, we can link it back to interpretations and inference. Recall,
+
+- Temperature is a significant predictor ($p < 0.001$).
+
+    - For a 1 degree F increase in temperature, we expect $e^{0.015} = 1.015$ times the wait time, or a 1.5% increase in expected wait time.
+    - **Note!** We held this constant at the median temperature, so this does not need to be commented on.
+
+- Crowd index is a significant predictor ($p < 0.001$).
+
+    - For a 1 unit increase in crowd index, we expect $e^{0.11} = 1.116$ times the wait time, or an 11.6% increase in expected wait time.
+    
+## Linking to Interpretations
+
+- Now that we have the visualization, we can link it back to interpretations and inference. Recall,    
+
+- Ride type is a significant predictor ($p < 0.001$).
+
+    - As compared to dark rides, we expect family rides to have $e^{-0.19} = 0.827$ times the wait time, or a 17.3% decrease in expected wait time.
+    
+    - As compared to dark rides, we expect thrill rides to have $e^{0.55} = 1.733$ times the wait time, or a 73.3% increase in expected wait time.
+    
+## Linking to Interpretations
+
+- As crowd index increases (i.e., Magic Kingdom is more crowded), wait times increase for all ride types ($p < 0.001$).
+
+```{r}
+#| echo: false
+#| fig-align: 'center'
+#| fig-alt: 'Scatterplot of wait time versus crowd level with three regression lines, one for each ride type'
+mk_wait %>% ggplot(aes(x = crowd_index)) +
+  geom_point(aes(y = wait_time, color = ride_type), alpha = 0.5) +
+  geom_line(aes(y = wait_dark), color = "#F8766D", linewidth = 1) + #  
+  geom_line(aes(y = wait_family), color = "#00BA38", linewidth = 1) + # color = "#00BFC4",
+  geom_line(aes(y = wait_thrill), color = "#00BFC4", linewidth = 1) + # ,
+  labs(x = "Crowd Index",
+       y = "Wait Time (minutes)",
+       color = "Ride Type") +
+  theme_bw()
+```
+
+    
+## Linking to Interpretations
+
+- There is a difference in wait time between the three ride types ($p < 0.001$). Family rides have lower times than dark rides ($p < 0.001$) and thrill rides have higher times than dark rides ($p < 0.001$).
+
+```{r}
+#| echo: false
+#| fig-align: 'center'
+#| fig-alt: 'Scatterplot of wait time versus crowd level with three regression lines, one for each ride type'
+mk_wait %>% ggplot(aes(x = crowd_index)) +
+  geom_point(aes(y = wait_time, color = ride_type), alpha = 0.5) +
+  geom_line(aes(y = wait_dark), color = "#F8766D", linewidth = 1) + #  
+  geom_line(aes(y = wait_family), color = "#00BA38", linewidth = 1) + # color = "#00BFC4",
+  geom_line(aes(y = wait_thrill), color = "#00BFC4", linewidth = 1) + # ,
+  labs(x = "Crowd Index",
+       y = "Wait Time (minutes)",
+       color = "Ride Type") +
+  theme_bw()
+```
+
+## Wrap Up
+
+- In this lecture, we learned how to visualize gamma regression models.
+
+- Again, we are building upon what we have already learned in this course.
+
+- Now that we are venturing outside of the normal distribution, we need to think carefully about how to create predicted values.
+
+    - Remember that we have to exponentiate results to get the correct predicted values in gamma regression.
+    
+- Next lecture: Beta regression    
+
+# Appendix
+
+## Graphing the Wrong Predicted Values
+
+- What would the graph look like if we did not exponentiate?
+
+```{r}
+#| echo: false
+#| fig-align: 'center'
+#| fig-alt: 'Scatterplot of wait time versus crowd level with three incorrect regression lines, one for each ride type'
+mk_wait %>% ggplot(aes(x = crowd_index)) +
+  geom_point(aes(y = wait_time, color = ride_type), alpha = 0.5) +
+  geom_line(aes(y = ln_wait_dark), color = "#F8766D", linewidth = 1) + #  
+  geom_line(aes(y = ln_wait_family), color = "#00BA38", linewidth = 1) + # color = "#00BFC4",
+  geom_line(aes(y = ln_wait_thrill), color = "#00BFC4", linewidth = 1) + # ,
+  labs(x = "Crowd Index",
+       y = "Wait Time (minutes)",
+       color = "Ride Type") +
+  theme_bw()
+```

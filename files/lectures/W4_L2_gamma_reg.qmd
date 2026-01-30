@@ -1,0 +1,337 @@
+---
+title: "Gamma Regression"
+execute:
+  echo: true
+  warning: false
+  message: false
+format: 
+  revealjs:
+    theme: default
+    self-contained: true
+    slide-number: true
+    width: 1600
+    height: 900
+    df-print: paged
+    html-math-method: katex
+    code-fold: false
+    code-tools: false
+    incremental: false
+editor: source
+---
+
+## Introduction
+
+```{r}
+#| echo: false
+library(tidyverse)
+library(broom)
+library(bayesrules)
+```
+
+- Recall the general linear model, 
+
+$$y = \beta_0 + \beta_1 x_1 + ... + \beta_k x_k + \varepsilon$$
+
+- Until this week, we focused on applying the normal distribution to our model.
+
+- What happens when we have a response variable that is continuous but skewed right?
+
+    - In this lecture, we will introduce gamma regression.
+
+## Gamma Regression 
+
+- Consider the gamma distribution,
+
+$$
+f(y|\mu, \gamma) = \frac{1}{\Gamma(\gamma) \left( \frac{\mu}{\gamma} \right)^\gamma} y^{\gamma-1} \exp\left\{ \frac{-y \gamma}{\mu} \right\}
+$$
+
+- where: $y > 0$, $\mu > 0$, $\gamma > 0$, and $\Gamma(\cdot)$ is the [Gamma function](https://en.wikipedia.org/wiki/Gamma_function)
+
+- Note that the distribution is defined by the shape parameters, $\gamma$, and the scale parameter, $\mu/\gamma$.
+
+
+## Gamma Regression           
+        
+- Why shouldn't we use the normal distribution here?
+
+    - When we apply the normal distribution, we assume that the outcome (response) can take <u>any value</u>. i.e., $$y \in (-\infty, \infty)$$
+    
+    - In this case, our continuous response variable is bounded between 0 and $\infty$. i.e.,$$y \in (0, \infty)$$
+    
+- The gamma distribution is appropriate for modeling continuous, positive, right-skewed data.
+
+    - I have most often used it in time-to-event analysis.
+
+## Gamma Distribution
+
+- The beta distribution is a continuous probability distribution defined on the interval (0, \infty).
+
+```{r}
+#| echo: false
+#| fig-align: 'center'
+#| fig-alt: "Plot of Gamma distribution with shape = 1, rate = 1"
+plot_gamma(shape = 1, rate = 1) + theme_bw() + labs(x = "", y = "") + ggtitle("shape = 1, rate = 1")
+```
+
+
+## Gamma Distribution
+
+- The beta distribution is a continuous probability distribution defined on the interval (0, \infty).
+
+```{r}
+#| echo: false
+#| fig-align: 'center'
+#| fig-alt: "Plot of Gamma distribution with shape = 3, rate = 2"
+plot_gamma(shape = 3, rate = 2) + theme_bw() + labs(x = "", y = "") + ggtitle("shape = 3, rate = 2")
+```
+
+## Gamma Distribution
+
+- The beta distribution is a continuous probability distribution defined on the interval (0, \infty).
+
+```{r}
+#| echo: false
+#| fig-align: 'center'
+#| fig-alt: "Plot of Gamma distribution with shape = 2, rate = 3"
+plot_gamma(shape = 2, rate = 3) + theme_bw() + labs(x = "", y = "") + ggtitle("shape = 2, rate = 3")
+```
+
+## Gamma Distribution
+
+- The beta distribution is a continuous probability distribution defined on the interval (0, \infty).
+
+```{r}
+#| echo: false
+#| fig-align: 'center'
+#| fig-alt: "Plot of Gamma distribution with shape = 20, rate = 30"
+plot_gamma(shape = 20, rate = 30) + theme_bw() + labs(x = "", y = "") + ggtitle("shape = 20, rate = 30")
+```
+
+## Data Management
+
+- Note that the support for the gamma distribution is $(0, \infty)$. 
+
+    - Exactly 0 is <u>not included in the support</u>.
+
+- What does that mean for us?
+
+    - If we have exact 0s in our response variable, we **will transform** it slightly to fall within $(0, \infty)$.
+
+$$y_{\text{new}} = y + 0.01$$
+
+- Note! There are models to accommodate exact 0s (e.g., hurdle models), but we will not cover them in this course.
+    
+## Gamma Regression (R)      
+        
+- We will use the `glm()` function to perform Gamma regression,
+
+```{r}
+#| eval: false
+m <- glm(y ~ x_1 + ... + x_k, 
+         data = dataset_name, 
+         family = Gamma(link = "log"))
+```
+
+- Note the new-to-us piece of syntax: `link = "log"` attached to `family`.
+
+    - This specifies that we are using the log link function.
+    
+    - Technically we used the identity link with normal regression. It is the default, but we could have specified `family = gaussian(link = "identity")`.
+
+## Lecture Example Set Up
+
+- We are working with the Magic Kingdom operations team. For a sample of ride observations taken throughout several days, WDW has recorded:
+
+    - wait_time: posted standby wait time (minutes) 
+    - temp_f: outdoor temperature (°F)
+    - crowd_index: a 1–10 index summarizing park busyness
+    - ride_type: "family", "dark", or "thrill"
+
+## Lecture Example Set Up
+
+- Pulling in the data,
+
+```{r}
+mk_wait <- read_csv("https://raw.githubusercontent.com/samanthaseals/SDSII/refs/heads/main/files/data/lectures/W4_wait_times.csv")
+mk_wait %>% head()
+```
+
+## Gamma Regression: Example
+
+- Let's check the outcome of our data,
+
+```{r}
+#| fig-align: 'center'
+#| fig-alt: "Histogram of wait time"
+mk_wait %>% ggplot(aes(x = wait_time)) +
+  geom_histogram(binwidth = 5, color = "black", fill = "lightblue") +
+  labs(x = "Wait Time", y = "Count") +
+  theme_bw()
+```
+
+## Gamma Regression: Example
+
+- Let's further examine the outcome,
+
+```{r}
+mk_wait %>% summarize(min = min(wait_time),
+                      median = median(wait_time),
+                      max = max(wait_time))
+```
+
+- No data management is needed -- there are no 0 minute wait times in this dataset.
+
+## Gamma Regression: Example
+
+- Let's model how expected wait time changes with weather, crowds, and ride type.
+
+```{r}
+m1 <- glm(wait_time ~ temp_f + crowd_index + ride_type, 
+         data = mk_wait, 
+         family = Gamma(link = "log"))
+m1 %>% tidy()
+```
+
+## Gamma Regression: Example
+
+- Let's model how expected wait time changes with weather, crowds, and ride type.
+
+```{r}
+m1 %>% coefficients()
+```
+
+- The resulting model is as follows,
+
+$$
+\ln(y) = 1.28 + 0.015 \text{ temp} + 0.11 \text{ crowd} - 0.19 \text{ family} + 0.55 \text{ thrill}
+$$
+
+## Interpreting the Model
+
+- Uh oh. We are now modeling ln(*y*) and not *y* directly...
+
+    - We need to "undo" the ln() so that we can discuss the results in the original units of *y*
+
+- We will transform the coefficients: 
+
+$$
+\begin{align*}
+\ln(\hat{y}) &= \hat{\beta}_0 + \hat{\beta}_1 x_1 + \hat{\beta}_2 x_2 + ... \hat{\beta}_k x_k \\
+\hat{y} &= \exp\left\{\hat{\beta}_0 + \hat{\beta}_1 x_1 + \hat{\beta}_2 x_2 + ... \hat{\beta}_kx_k \right\} \\
+\hat{y} &= e^{\hat{\beta}_0} e^{\hat{\beta}_1x_1} e^{\hat{\beta}_2 x_2} \cdot \cdot \cdot e^{\hat{\beta}_k x_k}
+\end{align*}
+$$
+
+- These are *multiplicative* effects, as compared to the *additive* effects we saw under the normal distribution.
+
+- **Note**: Please do not write your model as a function of $\hat{y}$ -- the above is only to demonstrate the multiplicative effect.
+
+## Interpreting the Model
+
+- This multiplicative effect is called the incident rate ratio.
+
+    - For a 1 unit increase in $x_i$, we expect $\hat{y}$ to be *multiplied* by $e^{\hat{\beta}_i}$
+
+- Let's think about multiplicative effects: 
+
+    - When $e^{\hat{\beta}_i} > 1$,  (i.e., an increase in $\hat{y}$).
+    - When $0 < e^{\hat{\beta}_i} < 1$, (i.e., a decrease in $\hat{y}$).
+    - When $e^{\hat{\beta}_i} = 1$, (i.e., no change in $\hat{y}$).
+
+- Examples:
+
+    - if $e^{\hat{\beta}_1} = 1.2$, then for a 1 unit increase in $x_1$, we expect $\hat{y}$ to be *multiplied* by 1.2 (i.e., a 20% increase in $\hat{y}$)
+    - If $e^{\hat{\beta}_2} = 0.8$, then for a 1 unit increase in $x_2$, we expect $\hat{y}$ to be *multiplied* by 0.8 (i.e., a 20% decrease in $\hat{y}$)
+    
+## Interpreting the Model: Example
+
+- In our example, $$\ln(\hat{\text{wait}}) = 1.28 + 0.015 \text{ temp} + 0.11 \text{ crowd} - 0.19 \text{ family} + 0.55 \text{ thrill}$$
+
+    - For a 1 degree F increase in temperature, we expect $e^{0.015} = 1.015$ times the wait time, or a 1.5% increase in expected wait time.
+    - For a 1 unit increase in crowd index, we expect $e^{0.11} = 1.116$ times the wait time, or an 11.6% increase in expected wait time.
+    - As compared to dark rides, we expect family rides to have $e^{-0.19} = 0.827$ times the wait time, or a 17.3% decrease in expected wait time.
+    - As compared to dark rides, we expect thrill rides to have $e^{0.55} = 1.733$ times the wait time, or a 73.3% increase in expected wait time.
+
+## Statistical Inference (R)
+
+- Our approach to determining significance remains the same.
+
+    - For continuous and binary predictors, we can use the Wald test ($z$-test from `tidy()`).
+    - For omnibus tests, we can use the likelihood ratio test (LRT).
+    
+        - Significance of regression line (full/reduced LRT).
+        - Significance of categorical predictors with $c \ge 3$ levels (`car::Anova(type = 3)` or full/reduced LRT).
+        - Interaction terms with categorical predictors with $c \ge 3$ levels (`car::Anova(type = 3)` or full/reduced LRT).
+
+## Statistical Inference: Example
+
+- Let's first check for the significance of the regression line,
+
+```{r}
+m1_full <- glm(wait_time ~ temp_f + crowd_index + ride_type, data = mk_wait, family = Gamma(link = "log"))
+m1_reduced <- glm(wait_time ~ 1, data = mk_wait, family = Gamma(link = "log"))
+anova(m1_reduced, m1_full, test = "LRT")
+```
+
+- Yes, this is a significant regression line ($p < 0.001$).
+
+    - At least one of the slopes is non-zero.
+    
+## Statistical Inference: Example
+
+- Now, we can look at individual predictors of wait time,
+
+```{r}
+m1 %>% tidy() %>% select(term, estimate, p.value)
+```
+
+- Temperature is a significant predictor ($p < 0.001$).
+
+- Crowd index is a significant predictor ($p < 0.001$).
+
+- Ride type...?
+
+## Statistical Inference: Example
+
+- Now, we can look at individual predictors of wait time,
+
+```{r}
+m1 %>% car::Anova(type = 3)
+```
+
+- Temperature is a significant predictor ($p < 0.001$).
+
+- Crowd index is a significant predictor ($p < 0.001$).
+
+- Ride type is a significant predictor ($p < 0.001$).
+
+## Statistical Inference: Example
+
+- Returning to our `tidy()` results for ride type,
+
+```{r}
+m1 %>% tidy() %>% filter(term %in% c("ride_typefamily", "ride_typethrill")) %>% select(term, estimate, p.value)
+```
+
+- Family rides have significantly lower wait times than dark rides ($p < 0.001$).
+
+- Thrill rides have significantly higher wait times than dark rides ($p < 0.001$).
+
+## Wrap Up
+
+- In this lecture, we have introduced gamma regression.
+
+    - Gamma regression is appropriate for continuous, positive, right-skewed data.
+    
+- We introduced modeling with the log-link and how that affects interpretations.
+
+    - We interpret coefficients as multiplicative effects on the response variable.
+
+- In the next lecture, we will review visualizing gamma regression.
+
+
+
+
+
+

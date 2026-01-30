@@ -1,0 +1,631 @@
+---
+title: "Beta Regression"
+execute:
+  echo: true
+  warning: false
+  message: false
+format: 
+  revealjs:
+    theme: default
+    self-contained: true
+    slide-number: true
+    width: 1600
+    height: 900
+    df-print: paged
+    html-math-method: katex
+    code-fold: false
+    code-tools: false
+    incremental: false
+editor: source
+---
+
+## Introduction
+
+```{r}
+#| echo: false
+library(tidyverse)
+library(ssstats)
+library(bayesrules)
+library(broom)
+library(betareg)
+library(lmtest)
+```
+
+- Recall the general linear model, 
+
+$$y = \beta_0 + \beta_1 x_1 + ... + \beta_k x_k + \varepsilon$$
+
+- Until this week, we focused on applying the normal distribution to our model.
+
+- What happens when we have a response variable that is continuous but bounded between 0 and 1?
+
+    - In this lecture, we will introduce beta regression.
+    
+## Beta Regression    
+
+- Beta regression is used specifically for continuous response variables that fall between 0 and 1. 
+
+    - These are bounded proportions (or rates) that **do not** include the endpoints.
+    - Examples: 
+        - Market share
+        - Pass rate for courses
+        - Proportion of time a unit is operational
+        
+## Beta Regression           
+        
+- Why shouldn't we use the normal distribution here?
+
+    - When we apply the normal distribution, we assume that the outcome (response) can take <u>any value</u>. i.e., $$y \in (-\infty, \infty)$$
+    
+    - However, in this case, our response variable is bounded between 0 and 1. i.e.,$$y \in (0, 1)$$
+    
+## Beta Distribution
+
+- The beta distribution is a continuous probability distribution defined on the interval (0, 1).
+
+- It is characterized by two shape parameters, $\alpha$ and $\beta$, which determine the distribution's shape.
+
+```{r}
+#| echo: false
+#| fig-align: 'center'
+#| fig-alt: "Plot of Beta distribution with alpha = 1 and beta = 1"
+plot_beta(alpha = 1, beta = 1) + theme_bw() + labs(x = "", y = "") + ggtitle("alpha = 1, beta = 1")
+```
+
+## Beta Distribution
+
+- The beta distribution is a continuous probability distribution defined on the interval (0, 1).
+
+- It is characterized by two shape parameters, $\alpha$ and $\beta$, which determine the distribution's shape.
+
+```{r}
+#| echo: false
+#| fig-align: 'center'
+#| fig-alt: "Plot of Beta distribution with alpha = 5 and beta = 5"
+plot_beta(alpha = 5, beta = 5) + theme_bw() + labs(x = "", y = "") + ggtitle("alpha = 5, beta = 5")
+```
+
+## Beta Distribution
+
+- The beta distribution is a continuous probability distribution defined on the interval (0, 1).
+
+- It is characterized by two shape parameters, $\alpha$ and $\beta$, which determine the distribution's shape.
+
+```{r}
+#| echo: false
+#| fig-align: 'center'
+#| fig-alt: "Plot of Beta distribution with alpha = 10 and beta = 10"
+plot_beta(alpha = 10, beta = 10) + theme_bw() + labs(x = "", y = "") + ggtitle("alpha = 10, beta = 10")
+```
+
+## Beta Distribution
+
+- The beta distribution is a continuous probability distribution defined on the interval (0, 1).
+
+- It is characterized by two shape parameters, $\alpha$ and $\beta$, which determine the distribution's shape.
+
+```{r}
+#| echo: false
+#| fig-align: 'center'
+#| fig-alt: "Plot of Beta distribution with alpha = 10 and beta = 20"
+plot_beta(alpha = 10, beta = 20) + theme_bw() + labs(x = "", y = "") + ggtitle("alpha = 10, beta = 20")
+```
+
+## Beta Distribution
+
+- The beta distribution is a continuous probability distribution defined on the interval (0, 1).
+
+- It is characterized by two shape parameters, $\alpha$ and $\beta$, which determine the distribution's shape.
+
+```{r}
+#| echo: false
+#| fig-align: 'center'
+#| fig-alt: "Plot of Beta distribution with alpha = 0.5 and beta = 0.5"
+plot_beta(alpha = 0.5, beta = 0.5) + theme_bw() + labs(x = "", y = "") + ggtitle("alpha = 0.5, beta = 0.5")
+```
+
+## Beta Distribution
+
+- The beta distribution is a continuous probability distribution defined on the interval (0, 1).
+
+- It is characterized by two shape parameters, $\alpha$ and $\beta$, which determine the distribution's shape.
+
+```{r}
+#| echo: false
+#| fig-align: 'center'
+#| fig-alt: "Plot of Beta distribution with alpha = 2 and beta = 1"
+plot_beta(alpha = 2, beta = 1) + theme_bw() + labs(x = "", y = "") + ggtitle("alpha = 2, beta = 1")
+```
+
+
+## Beta Distribution
+
+- The beta distribution is a continuous probability distribution defined on the interval (0, 1).
+
+- It is characterized by two shape parameters, $\alpha$ and $\beta$, which determine the distribution's shape.
+
+```{r}
+#| echo: false
+#| fig-align: 'center'
+#| fig-alt: "Plot of Beta distribution with alpha = 1 and beta = 2"
+plot_beta(alpha = 1, beta = 2) + theme_bw() + labs(x = "", y = "") + ggtitle("alpha = 1, beta = 2")
+```
+
+## Data Management
+
+- Note that the support for the beta distribution is (0, 1). 
+
+    - Exactly 0 and exactly 1 and <u>not included in the support</u>.
+
+- What does that mean for us?
+
+    - If we have exact 0s or 1s in our response variable, we **need to transform** them slightly to fall within (0, 1).
+    
+- One common transformation is from [Smithson & Verkuilen (2006)](https://pubmed.ncbi.nlm.nih.gov/16594767), $$y_{\text{new}} = \frac{y(n-1)+0.5}{n}$$
+
+## Data Management
+    
+- One common transformation is from [Smithson & Verkuilen (2006)](https://pubmed.ncbi.nlm.nih.gov/16594767), 
+
+$$y_{\text{new}} = \frac{y(n-1)+0.5}{n}$$
+
+- Let's see how this works across various sample sizes,
+
+<table style="undefined;table-layout: fixed; width: 1150px"><colgroup>
+<col style="width: 150px">
+<col style="width: 200px">
+<col style="width: 200px">
+<col style="width: 200px">
+<col style="width: 200px">
+<col style="width: 200px">
+</colgroup>
+<tbody>
+  <tr>
+    <td>$n$</td>
+    <td>0</td>
+    <td>0.25</td>
+    <td>0.5</td>
+    <td>0.75</td>
+    <td>1</td>
+  </tr>
+  <tr>
+    <td>10</td>
+    <td>0.05</td>
+    <td>0.275</td>
+    <td>0.5</td>
+    <td>0.725</td>
+    <td>0.95</td>
+  </tr>
+  <tr>
+    <td>100</td>
+    <td>0.005</td>
+    <td>0.2525</td>
+    <td>0.5</td>
+    <td>0.7475</td>
+    <td>0.995</td>
+  </tr>
+  <tr>
+    <td>1000</td>
+    <td>0.0005</td>
+    <td>0.25025</td>
+    <td>0.5</td>
+    <td>0.74975</td>
+    <td>0.9995</td>
+  </tr>
+  <tr>
+    <td>10000</td>
+    <td>0.00005</td>
+    <td>0.250025</td>
+    <td>0.5</td>
+    <td>0.749975</td>
+    <td>0.99995</td>
+  </tr>
+</tbody>
+</table>
+
+## Beta Regression
+
+- When we assume that $y \sim \text{Beta}(\alpha, \beta)$, our model becomes
+
+$$\text{logit}(\mu) = \beta_0 + \beta_1 x_1 + ... + \beta_k x_k$$
+
+- In linear regression, we assume $y \sim N(\mu, \sigma^2)$,  
+
+$$\mu = \beta_0 + \beta_1 x_1 + ... + \beta_k x_k + \varepsilon$$
+
+## Beta Regression
+
+- When we assume that $y \sim \text{Beta}(\alpha, \beta)$, our model becomes
+
+$$\text{logit}(\mu) = \beta_0 + \beta_1 x_1 + ... + \beta_k x_k$$
+
+- Wait... $\text{logit()}$?
+    
+    - The $\text{logit()}$ function is a *link function*. It  maps $\mu$ from $(0, 1)$ $\to$ $(-\infty, \infty)$.
+    
+- The $\text{logit()}$ function is defined as 
+
+$$\text{logit}(\mu) = \log\left(\frac{\mu}{1 - \mu}\right)$$    
+
+## Beta Regression (R)
+
+- In R, we can fit a beta regression model using the `betareg` package, then run the resulting model through `tidy()` (from the `broom` package).
+
+    - We still specify models & examine results the same way!
+
+```{r}
+#| eval: false
+m <- betareg(y ~ x1 + ... + xk,
+             data = dataset_name,
+             link = "logit")
+m %>% tidy(conf.int = TRUE)
+```
+
+- From last slide: the $\text{logit()}$ function is a *link function*. It  maps $\mu$ from $(0, 1)$ $\to$ $(-\infty, \infty)$.
+
+## Lecture Example Set Up
+
+- Minnie and Daisy have been hired as "Efficiency Leads" for three different park operations teams, and they want to understand what affects how well a shift goes.
+
+- Minnie or Daisy records information about their work shift:
+
+    - Task completion rate (0 to 1): the proportion of assigned tasks that were completed by the end of the shift
+    - Character: who was leading the shift (Minnie or Daisy)
+    - Location: which operations team they worked with (Main Street Operations, Toontown Crew, or Epcot Showcase)
+    - Task load: the number of tasks assigned during the shift
+    - Shift hours: how long the shift lasted (in hours)
+    
+## Lecture Example Set Up
+
+
+- Pulling in the data,
+
+```{r}
+operations <- read_csv("https://raw.githubusercontent.com/samanthaseals/SDSII/refs/heads/main/files/data/lectures/W4_daisy.csv")
+operations %>% head()
+```
+
+## Beta Regression: Example
+
+- Let's check the outcome of our data,
+
+```{r}
+#| fig-align: 'center'
+#| fig-alt: "Histogram of completion rate"
+operations %>% ggplot(aes(x = completion_rate)) +
+  geom_histogram(binwidth = 0.05, color = "black", fill = "lightblue") +
+  labs(x = "Completion Rate", y = "Count") +
+  theme_bw()
+```
+
+## Beta Regression: Example
+
+- Let's further examine the outcome,
+
+```{r}
+operations %>% summarize(min = min(completion_rate),
+                         median = median(completion_rate),
+                         max = max(completion_rate))
+```
+
+- We need to transform our data,
+
+```{r}
+operations <- operations %>%
+  mutate(completion_adj = (completion_rate * (nrow(operations) - 1) + 0.5) / nrow(operations))
+```
+
+```{r}
+#| echo: false
+
+operations %>% select(completion_rate, completion_adj) %>% head(n=3)
+```
+
+## Beta Regression: Example
+
+- Let's now model completion rate as a function of character (*character*), location *(location*), task load (*task_load*), shift hours (*shift_hours*), and the interaction between character and task load.
+
+```{r}
+m1 <- betareg(completion_adj ~ character + task_load + shift_hours + location + character:task_load,
+             data = operations,
+             link = "logit")
+m1 %>% tidy()
+```
+
+## Beta Regression: Example
+
+- We can now state the resulting model,
+
+```{r}
+m1 %>% coefficients
+```
+
+$$
+\begin{align*}
+\text{logit}(\mu) = \ & 2.38 + 0.83 \text{ Minnie} - 0.04 \text{ task load} -0.08 \text{ shift hours } + \\
+& 0.02 \text{ Main Street} - 0.31 \text{ Toontown} - \\ 
+& 0.05  \text{ Minnie} \times \text{task}
+\end{align*}
+$$
+
+
+
+## Interpreting the Model
+
+- Recall the general linear model when $y \sim N(\mu, \sigma^2)$, $$\mu = \beta_0 + \beta_1 x_1 + ... + \beta_k x_k + \varepsilon,$$
+
+    - $\beta_i$ represents the change in the *mean outcome* for a one-unit increase in $x_i$, holding all other predictors constant.
+
+- But when $y \sim \text{Beta}(\alpha, \beta)$, our model becomes $$\text{logit}(\mu) = \beta_0 + \beta_1 x_1 + ... + \beta_k x_k,$$
+
+    - $\beta_i$ represents the change in the *log-odds of the mean outcome* for a one-unit increase in $x_i$, holding all other predictors constant.
+
+## Interpreting the Model
+
+- Recall the $\text{logit()}$ function, $$\text{logit}(\mu) = \ln\left(\frac{\mu}{1 - \mu}\right)$$ 
+
+    - This means that we are not modeling the outcome directly. Instead, we are modeling the log-odds of the mean outcome.
+
+- To interpret the coefficients on the *original scale* of the outcome, we can exponentiate them to get the odds ratio (OR) of the mean.
+
+$$
+\text{OR} = e^{\beta_i}
+$$
+
+## Interpreting the Model
+
+- To interpret the coefficients on the *original scale* of the outcome, we can exponentiate them to get the odds ratio (OR) of the mean. $$\text{OR} = e^{\beta_i}$$
+
+    - When OR > 1, there is an increase in the odds of the mean outcome for a one-unit increase in $x_i$.
+    - When OR < 1, there is a decrease in the odds of the mean outcome for a one-unit increase in $x_i$.
+    - When OR = 1, there is no change in the odds of the mean outcome for a one-unit increase in $x_i$.
+
+## Interpreting the Model
+
+- To interpret the coefficients on the *original scale* of the outcome, we can exponentiate them to get the odds ratio (OR) of the mean. $$\text{OR} = e^{\beta_i}$$
+
+- Example interpretations:
+
+    - For a one-unit increase in $x_2$, the odds of the mean rate are multiplied by 0.90. This is a 10% decrease.
+
+## Interpreting the Model: Example
+
+- Let's examine the model results again,
+
+$$
+\begin{align*}
+\text{logit}(\mu) = \ & 2.38 + 0.83 \text{ Minnie} - 0.04 \text{ task load} -0.08 \text{ shift hours } + \\
+& 0.02 \text{ Main Street} - 0.31 \text{ Toontown} - \\ & 0.05  \text{ Minnie} \times \text{task}
+\end{align*}
+$$
+
+- Let's first stratify by character to simplfy the model.
+
+## Interpreting the Model: Example
+
+- For Minnie,
+
+$$
+\begin{align*}
+\text{logit}(\mu) = \ & 3.21 - 0.09 \text{ task load} -0.08 \text{ shift hours } + \\
+& 0.02 \text{ Main Street} - 0.31 \text{ Toontown} 
+\end{align*}
+$$
+
+- For Daisy,
+
+$$
+\begin{align*}
+\text{logit}(\mu) = \ & 2.38 - 0.04 \text{ task load} -0.08 \text{ shift hours } + \\
+& 0.02 \text{ Main Street} - 0.31 \text{ Toontown} 
+\end{align*}
+$$
+
+## Intepreting the Model: Example
+
+- Now that we have stratified models, we can find the corresponding odds ratios.
+
+    - We can do this one-by-one, but this is a quick way to do it for all coefficients,
+
+```{r}
+# task load, shift hours, Main Street, Toontown
+exp(c(-0.09, -0.08, 0.02, -0.31)) # Minnie
+exp(c(-0.04, -0.08, 0.02, -0.31)) # Daisy
+```
+
+- Note that the OR for shift hours and location is the same between the two models. That is because we did not include an interaction between character and location.
+
+    - As the number of shift hours increases by 1 hour, the odds of the mean completion rate are multiplied by 0.92 -- this is a decrease of approximately 8%. 
+    
+    - As compared to Epcot Showcase, the odds of the mean completion rate for Main Street Operations are multiplied by 1.02 -- this is an increase of approximately 2%.
+    
+    - As compared to Epcot Showcase, the odds of the mean completion rate for Toontown Crew are multiplied by 0.73 -- this is a decrease of approximately 27%.
+
+## Intepreting the Model: Example
+
+- Now that we have stratified models, we can find the corresponding odds ratios.
+
+```{r}
+# task load, shift hours, Main Street, Toontown
+exp(c(-0.09, -0.08, 0.02, -0.31)) # Minnie
+exp(c(-0.04, -0.08, 0.02, -0.31)) # Daisy
+```
+
+- Now, the OR for task load differs between the two characters due to the interaction.
+
+    - For Minnie, as the task load increases by 1 unit, the odds of the mean completion rate are multiplied by 0.91 -- this is a decrease of approximately 9%.
+    
+    - For Daisy, as the task load increases by 1 unit, the odds of the mean completion rate are multiplied by 0.96 -- this is a decrease of approximately 4%.
+    
+- Another statement we can make is that as additional tasks are assigned during the shift, Minnie's odds of the mean completion rate decrease faster than Daisy's.    
+
+## Statistical Inference (R)
+
+- Our approach to determining significance remains the same.
+
+    - For continuous and binary predictors, we can use the Wald test ($z$-test from `tidy()`).
+    - For omnibus tests, we can use the likelihood ratio test (LRT).
+    
+        - Significance of regression line.
+        - Significance of categorical predictors with $c \ge 3$ levels.
+        - Interaction terms with categorical predictors with $c \ge 3$ levels.
+
+- With beta regression, we must use the `lrtest()` from the `lmtest` package. 
+
+```{r}
+#| eval: false
+full <- betareg(y ~ x_1 + ... + x_k,
+                data = dataset_name,
+                link = "logit")
+reduced <- betareg(y ~ subset of x_1 + ... + x_k,
+                   data = dataset_name,
+                   link = "logit")
+lrtest(reduced, full)
+```
+
+## Statistical Inference: Example
+
+- Let's first determine if this is a significant regression line,
+
+```{r}
+full <- betareg(completion_adj ~ character + task_load + shift_hours + location + character:task_load,
+                data = operations,
+                link = "logit")
+reduced <- betareg(completion_adj ~ 1,
+                   data = operations,
+                   link = "logit")
+lrtest(reduced, full)
+```
+
+- Yes, this is a significant regression line ($p < 0.001$). At least one of the slopes is non-zero.
+
+## Statistical Inference: Example
+
+- What can we see with the `tidy()` results?
+
+```{r}
+m1 %>% tidy() %>% select(term, estimate, p.value)
+```
+
+- The interaction between character and task load is significant ($p < 0.001$).
+
+    - We cannot discuss the main effects of character or task load.
+    
+- Shift length is significant ($p < 0.001$).
+
+## Statistical Inference: Example
+
+- What can we see with the `tidy()` results?
+
+```{r}
+m1 %>% tidy() %>% select(term, estimate, p.value)
+```
+
+- What about location?
+
+## Statistical Inference: Example
+
+- Let's look at the omnibus test for location.
+
+    - Note that location is not involved in an interaction, so we can "look" at it and discuss it while ignoring the interaction term.
+
+```{r}
+full <- betareg(completion_adj ~ character + task_load + shift_hours + location + character:task_load,
+                data = operations,
+                link = "logit")
+reduced <- betareg(completion_adj ~ character + task_load + shift_hours + character:task_load,
+                   data = operations,
+                   link = "logit")
+lrtest(reduced, full)
+```
+
+- Yes, location is a significant predictor of completion rate ($p = 0.008$).
+
+## Statistical Inference: Example
+
+- Going back to our `tidy()` results,
+
+```{r}
+m1 %>% tidy() %>% select(term, estimate, p.value) %>% filter(term %in% c("locationMain_Street_Operations", "locationToontown_Crew"))
+```
+
+- The reference group is Epcot's World Showcase.
+
+    - There is not a difference in the mean completion rate between Epcot's World Showcase and Main Street ($p = 0.867$).
+    
+    - There is a difference in the mean completion rate between Epcot's World Showcase and Toontown ($p = 0.010$).
+
+## Modeling the Precision?
+
+- Note that beta regression is unique in that it allows us to simultaneously model the mean and the precision (variance). 
+
+- Let's return to our example. 
+
+    - We modeled the mean as a function of character, task load, shift hours, location, and the interaction between character and task load.
+    
+    - Let's now additionally model the precision as a function of character, location, and the interaction between the two.
+
+```{r}
+m2 <- betareg(completion_adj ~ character + task_load + shift_hours + location + character:task_load | 
+                character + location + character:location,
+             data = operations,
+             link = "logit")
+```
+
+## Modeling the Precision?
+
+- Looking at the model results,
+
+```{r}
+m2 %>% tidy()
+```
+
+## Modeling the Precision?
+
+- What happens if we request the omnibus tests?
+
+```{r}
+#| warning: TRUE
+m1 %>% car::Anova(type = 3)
+```
+
+## Examining the Precision
+
+- When categorical predictors with $c \ge 3$, we must use the `lrtest()` from the `lmtest` package. 
+
+```{r}
+m2_full <- betareg(completion_adj ~ character + task_load + shift_hours + location + character:task_load | 
+                     character + location + character:location,
+                   data = operations,
+                   link = "logit")
+
+m2_reduced <- betareg(completion_adj ~ character + task_load + shift_hours + location + character:task_load | 
+                     character + location,
+                   data = operations,
+                   link = "logit")
+
+lrtest(m2_reduced, m2_full)
+```
+
+- We see that in the precision model, the interaction term between character and location is significant ($p < 0.001$).
+
+## Wrap Up
+
+- This week we are turning our attention to continuous responses that are not suitable for the normal distribution.
+
+- Beta regression is used for continuous response variables that fall between 0 and 1.
+
+- The interpretations are now updated to reflect the use of the logit link function.
+
+    - Remember that we are not reporting on the mean directly! We must intepret the odds ratio.
+    
+- Next lecture: visualizing beta regression.
+
+- Next week: logistic regression for categorical outcomes.
+
+
+
+
+
+
+

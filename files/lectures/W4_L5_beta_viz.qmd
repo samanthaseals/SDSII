@@ -1,0 +1,354 @@
+---
+title: "Visualizing the Model:<br>Beta Regression"
+execute:
+  echo: true
+  warning: false
+  message: false
+  error: true
+format: 
+  revealjs:
+    theme: default
+    self-contained: true
+    slide-number: true
+    width: 1600
+    height: 900
+    df-print: paged
+    html-math-method: katex
+    code-fold: false
+    code-tools: false
+    incremental: false
+editor: source
+---
+
+## Introduction
+
+```{r}
+#| echo: false
+library(tidyverse)
+```
+
+- In the previous weeks, we have built up what we understand about data visualization.
+
+    - Week 1: Visualizing models with only continuous predictors
+    - Week 2: Visualizing models with only categorical predictors; visualizing models with both continuous and categorical predictors
+    - Week 3: Visualizing models with interaction terms.
+
+- All three weeks, we were dealing with a continuous outcome that we assumed had a normal distribution.
+
+- In this lecture, we will focus on visualizing gamma regression models.
+
+## Lecture Example Set Up
+
+- Recall our data for task completion,
+
+    - Task completion rate (0 to 1): the proportion of assigned tasks that were completed by the end of the shift
+    - Character: who was leading the shift (Minnie or Daisy)
+    - Location: which operations team they worked with (Main Street Operations, Toontown Crew, or Epcot Showcase)
+    - Task load: the number of tasks assigned during the shift
+    - Shift hours: how long the shift lasted (in hours)
+
+- We constructed the model,
+
+$$
+\begin{align*}
+\text{logit}(\mu) = \ & 2.38 + 0.83 \text{ Minnie} - 0.04 \text{ task load} -0.08 \text{ shift hours } + \\
+& 0.02 \text{ Main Street} - 0.31 \text{ Toontown} - \\ 
+& 0.05  \text{ Minnie} \times \text{task}
+\end{align*}
+$$
+
+## Lecture Example Set Up
+
+- Pulling in the data,
+
+```{r}
+operations <- read_csv("https://raw.githubusercontent.com/samanthaseals/SDSII/refs/heads/main/files/data/lectures/W4_daisy.csv")
+operations %>% head()
+```
+
+- From here, we can create our predicted values.
+
+## Creating Predicted Values
+
+- In order to create predicted values, we must isolate $\mu$.
+
+$$
+\begin{align*}
+\text{logit}(\mu) &= \beta_0 + \beta_1 x_1 + ... + \beta_k x_k \\
+\ln\left(\frac{\mu}{1 - \mu}\right) &= \beta_0 + \beta_1 x_1 + ... + \beta_k x_k \\
+\frac{\mu}{1 - \mu} &= e^{\beta_0 +  \beta_1 x_1 + ... + \beta_k x_k} \\
+\mu &= (1-\mu) e^{\beta_0 +  \beta_1 x_1 + ... + \beta_k x_k} \\
+\mu &= e^{\beta_0 +  \beta_1 x_1 + ... + \beta_k x_k} - \mu(e^{\beta_0 +  \beta_1 x_1 + ... + \beta_k x_k}) \\
+\mu + \mu(e^{\beta_0 +  \beta_1 x_1 + ... + \beta_k x_k}) &= e^{\beta_0 +  \beta_1 x_1 + ... + \beta_k x_k} \\
+\mu(1+e^{\beta_0 +  \beta_1 x_1 + ... + \beta_k x_k}) &= e^{\beta_0 +  \beta_1 x_1 + ... + \beta_k x_k} 
+\end{align*}
+$$
+
+## Creating Predicted Values
+
+- In order to create predicted values, we must isolate $\mu$.
+
+$$
+\begin{align*}
+\text{logit}(\mu) &= \beta_0 + \beta_1 x_1 + ... + \beta_k x_k \\
+& \ \ \vdots  \\
+\mu(1+e^{\beta_0 +  \beta_1 x_1 + ... + \beta_k x_k}) &= e^{\beta_0 +  \beta_1 x_1 + ... + \beta_k x_k} \\
+\mu &= \frac{e^{\beta_0 +  \beta_1 x_1 + ... + \beta_k x_k}}{1 + e^{\beta_0 +  \beta_1 x_1 + ... + \beta_k x_k}}
+\end{align*}
+$$
+
+## Creating Predicted Values: Example
+
+- Recall our stratified models. 
+
+- For Minnie,
+
+$$
+\begin{align*}
+\text{logit}(\mu) = \ & 3.21 - 0.09 \text{ task load} -0.08 \text{ shift hours } + \\
+& 0.02 \text{ Main Street} - 0.31 \text{ Toontown} 
+\end{align*}
+$$
+
+- For Daisy,
+
+$$
+\begin{align*}
+\text{logit}(\mu) = \ & 2.38 - 0.04 \text{ task load} -0.08 \text{ shift hours } + \\
+& 0.02 \text{ Main Street} - 0.31 \text{ Toontown} 
+\end{align*}
+$$
+
+## Creating Predicted Values: Example
+
+- Let's have the shift hours on the $x$-axis, task completion on the $y$-axis, and lines defined by character and location.
+    
+    -  We will plug in the median task load.
+
+```{r}
+operations <- operations %>%
+  mutate(logit_minnie_ms = 3.21 - 0.09*median(task_load) - 0.08*shift_hours + 0.02*1 - 0.31*0,
+         logit_minnie_tt = 3.21 - 0.09*median(task_load) - 0.08*shift_hours + 0.02*0 - 0.31*1,
+         logit_minnie_ws = 3.21 - 0.09*median(task_load) - 0.08*shift_hours + 0.02*0 - 0.31*0,
+         logit_daisy_ms = 2.38 - 0.04*median(task_load) - 0.08*shift_hours + 0.02*1 - 0.31*0,
+         logit_daisy_tt = 2.38 - 0.04*median(task_load) - 0.08*shift_hours + 0.02*0 - 0.31*1,
+         logit_daisy_ws = 2.38 - 0.04*median(task_load) - 0.08*shift_hours + 0.02*0 - 0.31*0)
+```
+
+## Creating Predicted Values: Example
+
+- For demonstration purposes, let's compare our current predicted values to the observed values,
+
+```{r}
+operations %>% 
+  select(completion_rate, 
+         logit_minnie_ms, logit_minnie_tt, logit_minnie_ws, 
+         logit_daisy_ms, logit_daisy_tt, logit_daisy_ws) %>% 
+  head(n=4)
+```
+
+- Like in gamma regression, we can see that the scaling is *not correct*.
+
+    - There are predicted values greater than 1, which is impossible for a proportion.
+
+## Creating Predicted Values: Example 
+
+- Trying again, but now transforming back to $\mu$ using `exp()`,
+
+```{r}
+operations <- operations %>%
+  mutate(minnie_ms = exp(3.21 - 0.09*median(task_load) - 0.08*shift_hours + 0.02*1 - 0.31*0)/(1+exp(3.21 - 0.09*median(task_load) - 0.08*shift_hours + 0.02*1 - 0.31*0)),
+         minnie_tt = exp(3.21 - 0.09*median(task_load) - 0.08*shift_hours + 0.02*0 - 0.31*1)/(1+exp(3.21 - 0.09*median(task_load) - 0.08*shift_hours + 0.02*0 - 0.31*1)),
+         minnie_ws = exp(3.21 - 0.09*median(task_load) - 0.08*shift_hours + 0.02*0 - 0.31*0)/(1+exp(3.21 - 0.09*median(task_load) - 0.08*shift_hours + 0.02*0 - 0.31*0)),
+         daisy_ms = exp(2.38 - 0.04*median(task_load) - 0.08*shift_hours + 0.02*1 - 0.31*0)/(1+exp(2.38 - 0.04*median(task_load) - 0.08*shift_hours + 0.02*1 - 0.31*0)),
+         daisy_tt = exp(2.38 - 0.04*median(task_load) - 0.08*shift_hours + 0.02*0 - 0.31*1)/(1+exp(2.38 - 0.04*median(task_load) - 0.08*shift_hours + 0.02*0 - 0.31*1)),
+         daisy_ws = exp(2.38 - 0.04*median(task_load) - 0.08*shift_hours + 0.02*0 - 0.31*0)/(1+exp(2.38 - 0.04*median(task_load) - 0.08*shift_hours + 0.02*0 - 0.31*0)))
+```
+
+## Creating Predicted Values: Example
+
+- For demonstration purposes, let's compare our current predicted values to the observed values,
+
+```{r}
+operations %>% 
+  select(completion_rate, 
+         minnie_ms, minnie_tt, minnie_ws, 
+         daisy_ms, daisy_tt, daisy_ws) %>% 
+  head(n=4)
+```
+
+- All is right with our predicted values.
+
+## Visualization of the Model: Example
+
+- Now, we can build our visualizations as normal.
+
+- For Minnie,
+
+```{r}
+#| eval: false
+#| fig-align: 'center'
+#| fig-alt: "Minnie'scatterplot of task completion rate versus shift hours with three regression lines, one for each location"
+operations %>% ggplot(aes(x = shift_hours)) +
+  geom_point(aes(y = completion_rate, color = location), alpha = 0.5) +
+  geom_line(aes(y = minnie_ms), color = "#00BA38", linewidth = 1) + 
+  geom_line(aes(y = minnie_tt), color = "#00BFC4", linewidth = 1) + 
+  geom_line(aes(y = minnie_ws), color = "#F8766D", linewidth = 1) + 
+  labs(x = "Hours on Shift",
+       y = "Task Completion",
+       color = "Location") +
+  theme_bw())
+```
+
+## Visualization of the Model: Example
+
+- Now, we can build our visualizations as normal.
+
+- For Minnie,
+
+```{r}
+#| echo: false
+#| fig-align: 'center'
+#| fig-alt: "Minnie's scatterplot of task completion rate versus shift hours with three regression lines, one for each location"
+operations %>% ggplot(aes(x = shift_hours)) +
+  geom_point(aes(y = completion_rate, color = location), alpha = 0.5) +
+  geom_line(aes(y = minnie_ms), color = "#00BA38", linewidth = 1) + 
+  geom_line(aes(y = minnie_tt), color = "#00BFC4", linewidth = 1) + 
+  geom_line(aes(y = minnie_ws), color = "#F8766D", linewidth = 1) +
+  labs(x = "Hours on Shift",
+       y = "Task Completion",
+       color = "Location") +
+  theme_bw()
+```
+
+## Visualization of the Model: Example
+
+- Now, we can build our visualizations as normal.
+
+- For Daisy,
+
+```{r}
+#| eval: false
+#| fig-align: 'center'
+#| fig-alt: "Daisy's scatterplot of task completion rate versus shift hours with three regression lines, one for each location"
+operations %>% ggplot(aes(x = shift_hours)) +
+  geom_point(aes(y = completion_rate, color = location), alpha = 0.5) +
+  geom_line(aes(y = daisy_ms), color = "#00BA38", linewidth = 1) + 
+  geom_line(aes(y = daisy_tt), color = "#00BFC4", linewidth = 1) +
+  geom_line(aes(y = daisy_ws), color = "#F8766D", linewidth = 1) + 
+  labs(x = "Hours on Shift",
+       y = "Task Completion",
+       color = "Location") +
+  theme_bw()
+```
+
+## Visualization of the Model: Example
+
+- The resulting graph,
+
+```{r}
+#| echo: false
+#| fig-align: 'center'
+#| fig-alt: "Daisy's scatterplot of task completion rate versus shift hours with three regression lines, one for each location"
+operations %>% ggplot(aes(x = shift_hours)) +
+  geom_point(aes(y = completion_rate, color = location), alpha = 0.5) +
+  geom_line(aes(y = daisy_ms), color = "#00BA38", linewidth = 1) + 
+  geom_line(aes(y = daisy_tt), color = "#00BFC4", linewidth = 1) +
+  geom_line(aes(y = daisy_ws), color = "#F8766D", linewidth = 1) + 
+  labs(x = "Hours on Shift",
+       y = "Task Completion",
+       color = "Location") +
+  theme_bw()
+```
+
+## Visualization of the Model: Example
+
+- Putting these graphs side-by-side for comparison,
+
+
+```{r}
+#| echo: false
+#| fig-align: 'center'
+#| fig-alt: "Side-by-side scatterplots of task completion rate versus shift hours with three regression lines, one for each location and character"
+g_minnie <- operations %>% ggplot(aes(x = shift_hours)) +
+  geom_point(aes(y = completion_rate, color = location), alpha = 0.5, show.legend = FALSE) +
+  geom_line(aes(y = minnie_ms), color = "#00BA38", linewidth = 1) + 
+  geom_line(aes(y = minnie_tt), color = "#00BFC4", linewidth = 1) + 
+  geom_line(aes(y = minnie_ws), color = "#F8766D", linewidth = 1) +
+  labs(x = "Hours on Shift",
+       y = "Task Completion",
+       title = "Minnie") +
+  theme_bw() 
+g_daisy <- operations %>% ggplot(aes(x = shift_hours)) +
+  geom_point(aes(y = completion_rate, color = location), alpha = 0.5, show.legend = FALSE) +
+  geom_line(aes(y = daisy_ms), color = "#00BA38", linewidth = 1) + 
+  geom_line(aes(y = daisy_tt), color = "#00BFC4", linewidth = 1) +
+  geom_line(aes(y = daisy_ws), color = "#F8766D", linewidth = 1) + 
+  labs(x = "Hours on Shift",
+       y = "Task Completion",
+       title = "Daisy") +
+  theme_bw() 
+library(ggpubr)
+ggarrange(g_minnie, g_daisy, ncol=2, nrow=1, common.legend = FALSE)
+```
+
+## Linking to Interpretations: Example
+
+- Now that we have the visualization, we can link it back to interpretations and inference. Recall,
+
+- The interaction between character and task load is significant ($p < 0.001$).
+
+    - We cannot discuss the individual main effects of character or task load.
+
+- Shift length is a significant predictor of completion rate ($p < 0.001$).
+
+- Location is a significant predictor of completion rate ($p = 0.008$).    
+
+    - There is not a difference in the mean completion rate between Epcot's World Showcase and Main Street ($p = 0.867$).
+    
+    - There is a difference in the mean completion rate between Epcot's World Showcase and Toontown ($p = 0.010$).
+    
+## Linking to Interpretations: Example
+
+- As the number of shift hours increases by 1 hour, the odds of the mean completion rate are multiplied by 0.92 -- this is a decrease of approximately 8%. 
+    
+```{r}
+#| echo: false
+#| fig-align: 'center'
+#| fig-alt: "Side-by-side scatterplots of task completion rate versus shift hours with three regression lines, one for each location and character"
+ggarrange(g_minnie, g_daisy, ncol=2, nrow=1, common.legend = FALSE)
+```
+
+## Linking to Interpretations: Example
+
+- While there is a difference in locations ($p = 0.008$), when comparing against World Showcase, there is no detectable difference with completion rates on Main Street ($p = 0.867$), but an increased completion rate in Toontown ($p = 0.010$).
+    
+```{r}
+#| echo: false
+#| fig-align: 'center'
+#| fig-alt: "Side-by-side scatterplots of task completion rate versus shift hours with three regression lines, one for each location and character"
+ggarrange(g_minnie, g_daisy, ncol=2, nrow=1, common.legend = FALSE)
+```
+
+## Linking to Interpretations: Example
+
+- Finally, we can see that on average, Daisy has a higher task completion rate than Minnie.
+    
+```{r}
+#| echo: false
+#| fig-align: 'center'
+#| fig-alt: "Side-by-side scatterplots of task completion rate versus shift hours with three regression lines, one for each location and character"
+ggarrange(g_minnie, g_daisy, ncol=2, nrow=1, common.legend = FALSE)
+```
+    
+## Wrap Up
+
+- In this lecture, we learned how to visualize beta regression models.
+
+- Again, we are building upon what we have already learned in this course.
+
+- Now that we are venturing outside of the normal distribution, we need to think carefully about how to create predicted values.
+
+    - Remember that we have to "undo" the logit() function to get the correct predicted values in beta regression.
+    
+- Next week: Logistic regression
