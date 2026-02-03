@@ -208,14 +208,13 @@ m <- glm(y ~ x_1 + x_2 + ... + x_k,
 ## Lecture Example Set Up    
 
 - Each day, Max tracks a few behaviors he thinks might affect how well things go:
+
     - Hours of practice he gets in
     - Hours of sleep the night before
     - Caffeine intake (mg)
     - Confidence level (0–10)
   
-- Max is measuring the following:
-	1.	Audition check: Max finds out whether he nailed the audition practice for that day.
-	2.	Travel check: Goofy checks whether they made it to the concert venue on time for rehearsal, which is not guaranteed when Goofy is driving.
+- Max then records if he nailed the audition practice for that day.
 
 ## Lecture Example Set Up    
 
@@ -223,7 +222,7 @@ m <- glm(y ~ x_1 + x_2 + ... + x_k,
 
 ```{r}
 max <- read_csv("https://raw.githubusercontent.com/samanthaseals/SDSII/refs/heads/main/files/data/lectures/W5_max.csv")
-max %>% head(n=3)
+max %>% head()
 ```
 
 
