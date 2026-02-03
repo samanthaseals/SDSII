@@ -26,6 +26,7 @@ editor: source
 library(tidyverse)
 library(ssstats)
 library(broom)
+library(ggpubr)
 ```
 
 - We have previously discussed continuous outcomes:
@@ -85,9 +86,106 @@ ggplot() +
   theme(strip.text = element_text(size = 10, face = "bold"))
 ```
 
+## Binary Logistic Regression
+
+- Logistic regression is used specifically for *binary response variables* that take on two discrete values.
+
+    - These are categorical outcomes typically coded as 0 and 1
+    
+    - Examples:
+    
+        - Customer churn (stayed vs. left)
+        - Course outcome (pass vs. fail)
+        - System status (operational vs. down)
+
+- How is this different than beta regression?
+
+    - Beta regression is used for *continuous response variables* that represent proportions or probabilities bounded between 0 and 1 (but not including the endpoints).
+    
+    - Examples:
+    
+        - Proportion of time spent on different activities
+        - Percentage of correct answers on a test
+        - Proportion of land covered by vegetation
+
+## Binomial Distribution
+
+```{r}
+#| echo: false
+plot_binomial <- function(n = 1, p){
+  x <- 0:n
+  probs <- dbinom(x, size = n, prob = p)
+  
+  ggplot(data = data.frame(x = x, prob = probs),
+         aes(x = x, y = prob)) +
+    geom_col(width = 0.5, fill = "steelblue") +
+    scale_x_continuous(breaks = x) +
+    ylim(0,1) +
+    labs(x = "Outcome",
+         y = "Probability of Event")
+}
+```
+
+- The Binomial distribution is a discrete probability distribution defined on the set $\{0, 1\}$.
+
+- The Binomial distribution is characterized by $\pi$, the probability of success ($Y=1$), and $n$, the number of trials (sample size).
+
+    - When $n=1$, the Binomial distribution reduces to the Bernoulli distribution.
+
+```{r}
+#| echo: false
+#| fig-align: 'center'
+#| fig-alt: "Plots of binomial distribution with n=10 and varying pi"
+g1 <- plot_binomial(n = 10, p = 0.1) + theme_bw() + labs(x = "", y = "") + ggtitle("n = 10, pi = 0.1")
+g2 <- plot_binomial(n = 10, p = 0.9) + theme_bw() + labs(x = "", y = "") + ggtitle("n = 10, pi = 0.9")
+g3 <- plot_binomial(n = 10, p = 0.25) + theme_bw() + labs(x = "", y = "") + ggtitle("n = 10, pi = 0.25")
+g4 <- plot_binomial(n = 10, p = 0.75) + theme_bw() + labs(x = "", y = "") + ggtitle("n = 10, pi = 0.75")
+
+ggarrange(g1, g2, g3, g4, ncol = 2, nrow = 2)
+```
+
+## Binomial Distribution
+
+- The Binomial distribution is a discrete probability distribution defined on the set $\{0, 1\}$.
+
+- The Binomial distribution is characterized by $\pi$, the probability of success ($Y=1$), and $n$, the number of trials (sample size).
+
+    - When $n=1$, the Binomial distribution reduces to the Bernoulli distribution.
+
+```{r}
+#| echo: false
+#| fig-align: 'center'
+#| fig-alt: "Plots of binomial distribution with pi = 0.5 and varying n"
+g1 <- plot_binomial(n = 5, p = 0.5) + theme_bw() + labs(x = "", y = "") + ggtitle("n = 5, pi = 0.5")
+g2 <- plot_binomial(n = 10, p = 0.5) + theme_bw() + labs(x = "", y = "") + ggtitle("n = 10, pi = 0.5")
+g3 <- plot_binomial(n = 25, p = 0.5) + theme_bw() + labs(x = "", y = "") + ggtitle("n = 25, pi = 0.5")
+g4 <- plot_binomial(n = 50, p = 0.5) + theme_bw() + labs(x = "", y = "") + ggtitle("n = 50, pi = 0.5")
+
+ggarrange(g1, g2, g3, g4, ncol = 2, nrow = 2)
+```
+
+## Data Management
+
+- Binary outcomes are typically coded as 0/1.
+
+    - 0 = event did not occur
+    - 1 = event did occur
+    
+- Some softwares allow us to get away with factor variables rather than numeric 0/1, but it is best practice to code binary outcomes as 0/1.
+
+    - The code you will need will depend on how the original variable is coded.
+    
+    - Effectively, you will have something like
+    
+```{r}
+#| eval: false
+dataset_name <- dataset_name %>%
+  mutate(y = if_else(original_variable == "event occurred", 1, 0))
+```
+
 ## Binary Logistic Regression (R)
 
-- In the [`glm()`](https://www.rdocumentation.org/packages/stats/versions/3.6.2/topics/glm) function, we specify the binomial family and logit link,
+- We will use the `glm()` function to perform binary logistic regression,
 
 ```{r}
 #| eval: false
@@ -98,71 +196,62 @@ m <- glm(y ~ x_1 + x_2 + ... + x_k,
 
 ## Lecture Example Set Up
 
+- Goofy and Max are gearing up for a huge performance weekend. To make sure he's ready, Max decides to test out a few different preparation plans leading up to the performance. Each plan mixes a different approach to practicing, resting, and getting through the day.
 
+- Some days Goofy insists on structure and early bedtimes, other days Max does things his own way. This leads to four plans:
 
-## Ignore
-
-- Today we will be using the [Roy Kent](https://github.com/rfordatascience/tidytuesday/blob/master/data/2023/2023-09-26/readme.md) dataset from [Tidy Tuesday](https://github.com/rfordatascience/tidytuesday).
-
-::: {.panel-tabset}
-
-## Data
-
-```{r}
-#| echo: false
-library(tidyverse)
-richmondway <- read_csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2023/2023-09-26/richmondway.csv') %>%
-  mutate(dating = if_else(Dating_flag == "Yes", 1, 0),
-         IMDB = if_else(Imdb_rating >= 8.5, 1, 0)) %>%
-  select(Season, Episode, F_count_RK, F_perc, dating, IMDB) 
-head(richmondway)
-```
-
-## Code
-
-```{r}
-#| eval: false
-library(tidyverse)
-richmondway <- read_csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2023/2023-09-26/richmondway.csv') %>%
-  mutate(dating = if_else(Dating_flag == "Yes", 1, 0),
-         IMDB = if_else(Imdb_rating >= 8.5, 1, 0)) %>%
-  select(Season, Episode, F_count_RK, F_perc, dating, IMDB) 
-# quantile(richmondway$Imdb_rating, c(0, 0.25, 0.5, 0.75, 1))
-# richmondway %>% count(IMDB_9)  
-```
-
-:::
-
-## Example: Roy Kent's F-Bombs {background-image="/Users/sseals/Library/CloudStorage/GoogleDrive-sseals@uwf.edu/My Drive/00 - Personal/R/quarto themes/slide.png" background-size="contain"} 
-
-- Let's model the odds of Roy Kent and Keeley Jones dating in a particular episode (*dating*) as a function of the percentage of F-bombs that belong to Roy Kent (*F_perc*) and if the IMDB rating is an 8.5 or better (*IMDB*).
-
-```{r}
-m1 <- glm(dating ~ F_perc + IMDB, 
-          data = richmondway, 
-          family = "binomial"(link="logit"))
-summary(m1)
-```
-
-## Example: Roy Kent's F-Bombs {background-image="/Users/sseals/Library/CloudStorage/GoogleDrive-sseals@uwf.edu/My Drive/00 - Personal/R/quarto themes/slide.png" background-size="contain"} 
-
-```{r}
-coefficients(m1)
-```
-
-- The model is as follows,
-
-$$\ln \left( \frac{\hat{\pi}}{1-\hat{\pi}} \right) = -1.76 + 0.03 x_1 + 0.38 x_2,$$ 
-
-- where 
-
-    - $x_1$ is the episode's percentage of the F-bombs from Roy Kent
-    - $x_2$ is the IMDB rating categorization of the episode
+    - Goofy-led plan
+    - Max-led plan
+    - Balanced plan
+    - Chaotic plan
     
-        - 0 = IMDB rating < 8.5
-        - 1 = IMDB rating $\ge$ 8.5
+## Lecture Example Set Up    
+
+- Each day, Max tracks a few behaviors he thinks might affect how well things go:
+    - Hours of practice he gets in
+    - Hours of sleep the night before
+    - Caffeine intake (mg)
+    - Confidence level (0–10)
+  
+- Max is measuring the following:
+	1.	Audition check: Max finds out whether he nailed the audition practice for that day.
+	2.	Travel check: Goofy checks whether they made it to the concert venue on time for rehearsal, which is not guaranteed when Goofy is driving.
+
+## Lecture Example Set Up    
+
+- Pulling in the data,
+
+```{r}
+max <- read_csv("https://raw.githubusercontent.com/samanthaseals/SDSII/refs/heads/main/files/data/lectures/W5_max.csv")
+max %>% head(n=3)
+```
+
+
     
-## Odds Ratios {background-image="/Users/sseals/Library/CloudStorage/GoogleDrive-sseals@uwf.edu/My Drive/00 - Personal/R/quarto themes/slide.png" background-size="contain"} 
+## Example 1: Binary Logistic Regression
+
+- Let's model whether Max nailed the audition (`nailed_audition`) based on the plan followed, hours of practice, and hours of sleep.    
+    
+```{r}
+m1 <- glm(nailed_audition ~ plan + practice_hours + sleep_hours,
+         data = max,
+         family = binomial(link = "logit"))
+m1 %>% tidy(conf.int = TRUE, exponentiate = TRUE)
+```   
+    
+## Example 1: Binary Logistic Regression
+    
+- Our resulting model is as follows,
+
+```{r}
+m1 %>% coefficients()
+```
+
+$$ 
+\ln \left( \frac{\hat{\pi}}{1-\hat{\pi}} \right) = -4.17 - 1.41 \text{ chaos} -0.66 \text{ Goofy} - 0.31 \text{ Max} + 0.65 \text{ practice} + 0.40 \text{ sleep}
+$$
+
+## Interpreting the Model
 
 - Recall the binary logistic regression model,
 
@@ -170,15 +259,15 @@ $$ \ln \left( \frac{\pi}{1-\pi} \right) = \beta_0 + \beta_1 x_1 + ... + \beta_k 
 
 - We are modeling the log odds, which are not intuitive with interpretations.
 
+   - Interpreting $\hat{\beta}_i$, it is an *additive* effect on the *log odds*. 
+
 - To be able to discuss the odds, we will "undo" the natural log by exponentiation. 
 
-- i.e., if we want to interpret the slope for $x_i$, we will look at $e^{\hat{\beta}_i}$.
+    - When interpreting $e^{\hat{\beta}_i}$, it is a *multiplicative* effect on the *odds*.
 
-- When interpreting $\hat{\beta}_i$, it is an additive effect on the log odds. 
+- Thus, when interpreting the slope for $x_i$, we will look at the *odds ratio*, $e^{\hat{\beta}_i}$.
 
-- When interpreting $e^{\hat{\beta}_i}$, it is a multiplicative effect on the odds.
-
-## Odds Ratios {background-image="/Users/sseals/Library/CloudStorage/GoogleDrive-sseals@uwf.edu/My Drive/00 - Personal/R/quarto themes/slide.png" background-size="contain"} 
+## Interpreting the Model
 
 - Why is it a multiplicative effect?
 
@@ -190,7 +279,7 @@ $$
 \end{align*}
 $$
 
-## Odds Ratios {background-image="/Users/sseals/Library/CloudStorage/GoogleDrive-sseals@uwf.edu/My Drive/00 - Personal/R/quarto themes/slide.png" background-size="contain"} 
+## Interpreting the Model
 
 - For continuous predictors:
 
@@ -202,116 +291,247 @@ $$
     - As compared to [the reference group], the odds of [outcome] for [group that the slope belongs to] are multiplied by  [$e^{\hat{\beta}_i}$]. 
     - As compared to [the reference group], the odds of [outcome] for [group that the slope belongs to] are [increased or decreased] by [100(e$^{\hat{\beta}_i}$-1)\% or 100(1-e$^{\hat{\beta}_i}$)\%].
 
-## Example: Roy Kent's F-Bombs {background-image="/Users/sseals/Library/CloudStorage/GoogleDrive-sseals@uwf.edu/My Drive/00 - Personal/R/quarto themes/slide.png" background-size="contain"} 
+## Odds Ratios (R)
 
-```{r}
-round(exp(coefficients(m1)),2)
-```
-
-- Let's interpret the odds ratios:
-
-    - For a 1 percentage point increase in the percentage of f-bombs that came from Roy Kent, the odds of Roy and Keeley dating increase by 3%.
-    
-    - As compared to when episodes have less than an IMDB rating of 8.5, the odds of Roy and Keeley dating are 46% higher in episodes with an IMDB rating of at least 8.5.
-
-    
-## Tests for Significant Predictors {background-image="/Users/sseals/Library/CloudStorage/GoogleDrive-sseals@uwf.edu/My Drive/00 - Personal/R/quarto themes/slide.png" background-size="contain"} 
-
-- What we've learned so far re: significance of predictors holds true with logistic regression
-
-::: {.panel-tabset}
-
-## Wald's $Z$ with `summary()`
-
-- Looking at the results from `summary()`:
-
-```{r}
-summary(m1)
-```
-
-## Partial $F$ with `car::Anova()`
-
-- Using the full/reduced Partial $F$ approach:
-
-```{r}
-car::Anova(m1, type=3)
-```
-:::
-
-## Test for Significant Regression Line {background-image="/Users/sseals/Library/CloudStorage/GoogleDrive-sseals@uwf.edu/My Drive/00 - Personal/R/quarto themes/slide.png" background-size="contain"} 
-
-- What we've learned so far re: significance of predictors holds true with logistic regression
-
-    - Significance of regression line $\to$ ANOVA with full/reduced models
-
-```{r}
-full <- glm(dating ~ F_perc + IMDB, data = richmondway, family = "binomial"(link="logit"))
-reduced <- glm(dating ~ 1, data = richmondway, family = "binomial"(link="logit")) # intercept only model
-anova(reduced, full, test = "LRT")
-```
-
-## Predicted Values for Data Visualization {background-image="/Users/sseals/Library/CloudStorage/GoogleDrive-sseals@uwf.edu/My Drive/00 - Personal/R/quarto themes/slide.png" background-size="contain"} 
-
-- The guidelines we've set up for data visualization still hold true.
-
-- We will put our outcome on the $y$-axis and a continuous (or at least ordinal) predictor on the $x$-axis.
-
-    - We will hold all other predictors constant in order to create lines.
-
-- Recall the logistic regression model,
-$$ \ln \left( \frac{\pi_i}{1-\pi_i} \right) = \beta_0 + \beta_1 x_{1i} + ... + \beta_k x_{ki} $$
-
-- We can solve for the probability, which allows us to predict the probability that $y_i=1$ given the specified model:
-$$ \pi_i = \frac{\exp\left\{ \beta_0 + \beta_1 x_{1i} + ... + \beta_k x_{ki} \right\}}{1 + \exp\left\{ \beta_0 + \beta_1 x_{1i} + ... + \beta_k x_{ki} \right\}} $$
-
-## Example: Roy Kent's F-Bombs {background-image="/Users/sseals/Library/CloudStorage/GoogleDrive-sseals@uwf.edu/My Drive/00 - Personal/R/quarto themes/slide.png" background-size="contain"} 
-
-::: {.panel-tabset}
-
-## Data Management
-
-```{r}
-richmondway <- richmondway %>%
-  mutate(p_IMDB_0 = exp(-1.76166167 + 0.03323012*F_perc + 0.37986267*0)/(1+exp(-1.76166167 + 0.03323012*F_perc + 0.37986267*0)),
-         p_IMDB_1 = exp(-1.76166167 + 0.03323012*F_perc + 0.37986267*1)/(1+exp(-1.76166167 + 0.03323012*F_perc + 0.37986267*1)))
-```
-
-
-## Resulting Data
-
-```{r}
-#| echo: false
-
-head(richmondway)
-```
-
-## Graph Code
+- We can request the odds ratios directly out of `tidy()`,
 
 ```{r}
 #| eval: false
-richmondway %>% ggplot(aes(x = F_perc, y = dating)) +
-  geom_point() +
-  geom_line(aes(y = p_IMDB_0), color = "black") +
-  geom_line(aes(y = p_IMDB_1), color = "hotpink") +
-  labs(x = "Percent of Episode's F-Bombs from Roy Kent",
-       y = "Probability of Roy and Keeley Dating") +
-  theme_bw()
+model %>% tidy(conf.int = TRUE, exponentiate = TRUE)
 ```
 
+- Note: if you have an interaction term in the model, you must stratify your interpretations by the levels of the interacting variable(s) <u>before</u> exponentiating.
 
-## Graph 
+## Example 1: Interpreting the Model
 
-<center>
+- Revisiting our results,
+
 ```{r}
-#| echo: false
-richmondway %>% ggplot(aes(x = F_perc, y = dating)) +
-  geom_point() +
-  geom_line(aes(y = p_IMDB_0), color = "black") +
-  geom_line(aes(y = p_IMDB_1), color = "hotpink") +
-  labs(x = "Percent of Episode's F-Bombs from Roy Kent",
-       y = "Probability of Roy and Keeley Dating") +
-  theme_bw()
+m1 %>% tidy(conf.int = TRUE, exponentiate = TRUE)
 ```
-</center>
 
-:::
+## Example 1: Interpreting the Model
+
+- Interpreting our model,
+
+```{r}
+round(exp(coefficients(m1)), 2)
+```
+
+- When compared to the balanced plan,
+
+    - Chaotic days have odds of nailing the audition multiplied by 0.24. This is a decrease of 76%.
+    - Goofy-led days have odds of nailing the audition multiplied by 0.52. This is a decrease of 48%.
+    - Max-led days have odds of nailing the audition multiplied by 0.72. This is a decrease of 28%.
+
+- For a 1 hour increase in practice, the odds of nailing the audition are multiplied by 1.91. This is an increase of 91%.
+
+- For a 1 hour increase in sleep, the odds of nailing the audition are multiplied by 1.50. This is an increase of 50%.
+
+## Reporting Results
+
+- When reporting results from models that *do not* use the identity link (i.e., non-normal distributions), we go from reporting $\hat{\beta}_i$ to reporting $e^{\hat{\beta}_i}$.
+
+| Predictor | OR (95% CI for OR) | *p*-value |
+|:--|:--:|--:|
+| variable 1 | OR_1_ (LL_1_, UL_1_) | *p*_1_|
+| variable 2 | OR_2_ (LL_2_, UL_2_) | *p*_2_|
+| ... | ... | ... |
+| variable *k* | OR_*k*_ (LL_*k*_, UL_*k*_) | *p*_*k*_|
+
+## Example 1: Reporting Results
+
+- In our example,
+
+| Predictor | OR (95% CI for OR) | *p*-value |
+|:--|:--:|--:|
+| Plan: Chaotic | 0.24 (0.11, 0.53) | < 0.001  |
+| Plan: Goofy | 0.52 (0.26, 1.04) | 0.030 |
+| Plan: Max | 0.73 (0.36, 1.44) | 0.302 |
+| Practice Hours | 1.91 (1.54, 2.42) | < 0.001  |
+| Sleep Hours | 1.50 (1.23, 1.83) | < 0.001  |
+
+
+## Statistical Inference
+
+- Our approach to determining significance remains the same.
+
+    - For continuous and binary predictors, we can use the Wald test ($z$-test from `tidy()`).
+    - For omnibus tests, we can use the likelihood ratio test (LRT).
+    
+        - Significance of regression line (full/reduced LRT).
+        - Significance of categorical predictors with $c \ge 3$ levels (`car::Anova(type = 3)` or full/reduced LRT).
+        - Interaction terms with categorical predictors with $c \ge 3$ levels (`car::Anova(type = 3)` or full/reduced LRT).
+
+## Example 1: Significance of Regression Line
+
+- In our example, we can test for significance of a regression line:
+
+```{r}
+m1_full <- glm(nailed_audition ~ plan + practice_hours + sleep_hours, data = max, family = binomial(link = "logit"))
+m1_reduced <- glm(nailed_audition ~ 1, data = max, family = binomial(link = "logit"))
+anova(m1_reduced, m1_full, test = "LRT")
+```
+
+- Yes, this is a significant regression line ($p < 0.001$).
+
+## Example 1: Significance of Predictors
+
+- In our model, we have a categorical predictor with 4 levels -- `car::Anova(type =3)` (or the full/reduced + `anova()` approach) is necessary.
+
+```{r}
+m1 %>% car::Anova(type = 3)
+```
+
+- Plan is a significant predictor ($p = 0.002$).
+
+- Practice hours is a significant predictor ($p < 0.001$).
+
+- Sleep hours is a significant predictor ($p < 0.001$).
+
+## Example 2: Binary Logistic Regression
+
+- Let's now model whether Max nailed the audition (`nailed_audition`) based on the plan followed, hours of practice, hours of sleep, caffeine intake, and the interaction between hours of sleep and plan.
+
+```{r}
+m2 <- glm(nailed_audition ~ plan + practice_hours + sleep_hours + caffeine_mg + sleep_hours:plan,
+         data = max,
+         family = binomial(link = "logit"))
+m2 %>% tidy(conf.int = TRUE, exponentiate = TRUE)
+```
+
+## Example 2: Significance of Regression Line
+
+- Let's make sure this is a significant model,
+
+```{r}
+m2_full <- glm(nailed_audition ~ plan + practice_hours + sleep_hours + caffeine_mg + sleep_hours:plan, data = max, family = binomial(link = "logit"))
+m2_reduced <- glm(nailed_audition ~ 1, data = max, family = binomial(link = "logit"))
+anova(m2_reduced, m2_full, test = "LRT")
+```
+
+- Yes, this is a significant regression line ($p < 0.001$); at least one of the slopes are non-zero.
+
+## Example 2: Significance of Predictors
+
+- In our model, we have a categorical predictor with 4 levels -- `car::Anova(type =3)` (or the full/reduced + `anova()` approach) is necessary.
+
+```{r}
+m2 %>% car::Anova(type = 3)
+```
+
+- The interaction between plan and sleep hours is a significant predictor ($p = 0.007$).
+
+## Example 2: Significance of Predictors
+
+- In our model, we have a categorical predictor with 4 levels -- the full/reduced + `anova()` approach (or `car::Anova(type =3)`) is necessary.
+
+```{r}
+m2_full <- glm(nailed_audition ~ plan + practice_hours + sleep_hours + caffeine_mg + sleep_hours:plan, data = max, family = binomial(link = "logit"))
+m2_reduced <- glm(nailed_audition ~ plan + practice_hours + sleep_hours + caffeine_mg, data = max, family = binomial(link = "logit"))
+anova(m2_reduced, m2_full, test = "LRT")
+```
+
+- The interaction between plan and sleep hours is a significant predictor ($p = 0.007$).
+
+## Example 2: Significance of Predictors
+
+- The interaction between plan and sleep hours is a significant predictor ($p = 0.007$).
+
+```{r}
+m2 %>% car::Anova(type = 3)
+```
+
+- What does this actually mean?
+
+    - The effect of sleep hours on the odds of nailing the audition depends on which plan is being followed. 
+    
+        - i.e., $\hat{\beta}_{\text{sleep hours}}$ is not constant across all plans.
+    
+    - We will *stratify* by plan when interpreting the effect of sleep hours.
+
+## Example 2: Odds Ratios
+
+- Using the original coefficients, we can stratify by plan:
+
+```{r}
+coefficients(m2)
+```
+
+- Then, for each type of plan, the intercept and slope for *sleep hours* is as follows:
+
+| Plan | Intercept | Sleep Hours Slope | Sleep Hours OR |
+|:--|--:|--:|--:|
+| Balanced | -2.68 | 0.21 | exp(0.21) = 1.23 |
+| Chaotic | -2.68 - 2.56 = -5.24 | 0.21 + 0.17 = 0.38 | exp(0.38) = 1.46 |
+| Goofy | -2.68 -6.31 = -8.99 | 0.21 + 0.79 = 1.00 | exp(1.00) = 2.72 |
+| Max | -2.68 + 0.79 = -1.89 | 0.21 - 0.16 =  0.05 | exp(0.05) = 1.05 |
+
+## Example 2: Interpreting the Model
+
+- Now let's interpret the coefficients,
+
+| Plan | Intercept | Sleep Hours Slope | Sleep Hours OR |
+|:--|--:|--:|--:|
+| Balanced | -2.68 | 0.21 | exp(0.21) = 1.23 |
+| Chaotic | -2.68 - 2.56 = -5.24 | 0.21 + 0.17 = 0.38 | exp(0.38) = 1.46 |
+| Goofy | -2.68 -6.31 = -8.99 | 0.21 + 0.79 = 1.00 | exp(1.00) = 2.72 |
+| Max | -2.68 + 0.79 = -1.89 | 0.21 - 0.16 =  0.05 | exp(0.05) = 1.05 |
+
+- Interpreting the slopes for *sleep hours*:
+
+    - Balanced plan: For a 1 hour increase in sleep, the odds of nailing the audition are multiplied by 1.23 (a 23% increase).
+    
+    - Chaotic plan: For a 1 hour increase in sleep, the odds of nailing the audition are multiplied by 1.46 (a 46% increase).
+    
+    - Goofy-led plan: For a 1 hour increase in sleep, the odds of nailing the audition are multiplied by 2.72 (a 172% increase).
+    
+    - Max-led plan: For a 1 hour increase in sleep, the odds of nailing the audition are multiplied by 1.05 (a 5% increase).
+    
+## Example 2: Interpreting the Model
+
+- Reviewing what's in the model,
+
+```{r}
+round(exp(coefficients(m2)), 2)
+```
+    
+- Our interpretations have covered plan and sleep hours.
+
+    - We can still interpret caffeine (mg) and practice time (hr) -- they are not involved in an interaction term.
+
+- For a 1 mg increase in caffeine, the odds of nailing the audition are multiplied by 1.00 (a 0% increase).
+
+- For a 1 hour increase in practice time, the odds of nailing the audition are multiplied by 1.89 (a 89% increase).
+
+## Examples 1 and 2: Model Fit
+
+- We can still use AIC and BIC to examine/compare model fit.
+
+- Let's use the BIC to determine if `m1` or `m2` fit the model better.
+
+
+
+```{r}
+m1 %>% BIC()
+m2 %>% BIC()
+```
+
+- Interestingly, the `m1` fits the data better, despite the interaction being significant. 
+
+    - This suggests that the added complexity of `m2` is not worth the slight increase in model fit.
+
+## Wrap Up
+
+- In this lecture, we have introduced binary logistic regression.
+
+    - Binary logistic regression is appropriate for binary outcomes.
+    
+- We again saw the logit link function.
+
+    - We interpret coefficients as multiplicative effects on the *odds* of the event happening.
+
+- In the next lecture, we will review multinomial logistic regression.
+
+
+
