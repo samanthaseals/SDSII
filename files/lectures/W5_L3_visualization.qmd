@@ -1,0 +1,23 @@
+---
+title: "W5_L4_visualization"
+format: html
+---
+
+
+
+
+
+    
+## Predicted Values for Data Visualization 
+
+- The guidelines we've set up for data visualization still hold true.
+
+- We will put our outcome on the $y$-axis and a continuous (or at least ordinal) predictor on the $x$-axis.
+
+    - We will hold all other predictors constant in order to create lines.
+
+- Recall the logistic regression model,
+$$ \ln \left( \frac{\pi_i}{1-\pi_i} \right) = \beta_0 + \beta_1 x_{1i} + ... + \beta_k x_{ki} $$
+
+- We can solve for the probability, which allows us to predict the probability that $y_i=1$ given the specified model:
+$$ \pi_i = \frac{\exp\left\{ \beta_0 + \beta_1 x_{1i} + ... + \beta_k x_{ki} \right\}}{1 + \exp\left\{ \beta_0 + \beta_1 x_{1i} + ... + \beta_k x_{ki} \right\}} $$

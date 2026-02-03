@@ -1,101 +1,113 @@
 ---
-title: "Nominal Logistic Regression"
-subtitle: "Statistics for Data Science II"
+title: "Binary Logistic Regression"
 execute:
   echo: true
   warning: false
   message: false
-  error: true
 format: 
   revealjs:
-    theme: uwf2
-    embed-resources: true
-    slide-number: false
+    theme: default
+    self-contained: true
+    slide-number: true
     width: 1600
     height: 900
     df-print: paged
     html-math-method: katex
-title-slide-attributes:
-    data-background-image: /Users/sseals/Library/CloudStorage/GoogleDrive-sseals@uwf.edu/My Drive/00 - Personal/R/quarto themes/title.png
-    data-background-size: contain 
+    code-fold: false
+    code-tools: false
+    incremental: false
 editor: source
-pdf-separate-fragments: true
-fig-align: center
 ---
 
-## Introduction {background-image="/Users/sseals/Library/CloudStorage/GoogleDrive-sseals@uwf.edu/My Drive/00 - Personal/R/quarto themes/slide.png" background-size="contain"} 
-
-- We have discussed binary logistic regression for binomial outcomes,
-
-$$\ln \left( \frac{\pi}{1-\pi} \right) = \beta_0 + \beta_1 x_1 + ... + \beta_k x_k$$
-
-- We have also discussed ordinal logistic regression for ordinal outcomes,
-
-$$\ln \left( \frac{\pi_1 + ... + \pi_j }{\pi_{j+1} + ... + \pi_{c}} \right) = \hat{\beta}_{0j} + \hat{\beta}_{1} x_1 + ... + \hat{\beta}_{k} x_k$$
-
-- Today, we will discuss nominal logistic regression for multinomial outcomes,
-
-$$\ln \left( \frac{\pi_j}{\pi_{\text{ref}}} \right) = \hat{\beta}_{0j} + \hat{\beta}_{1j} x_1 + ... + \hat{\beta}_{kj} x_k$$
-
-## Nominal (or Multinomial) Logistic Regression {background-image="/Users/sseals/Library/CloudStorage/GoogleDrive-sseals@uwf.edu/My Drive/00 - Personal/R/quarto themes/slide.png" background-size="contain"} 
-
-- Like in ordinal logistic regression, we will create $c-1$ models.
-
-    - Unlike ordinal logistic regression, we no longer assume proportional odds.
-    
-    - This means that we now have different slopes for each model constructed.
-    
-$$\ln \left( \frac{\pi_j}{\pi_{\text{ref}}} \right) = \hat{\beta}_{0j} + \hat{\beta}_{1j} x_1 + ... + \hat{\beta}_{kj} x_k$$
-
-- We will now use the `multinom()` function from the `nnet` package.
-
-```{r}
-#| eval: false
-library(nnet)
-m <- multinom(outcome ~ var_1 + var_2 + ... + var_k, 
-              data = dataset)
-```
-
-## Example {background-image="/Users/sseals/Library/CloudStorage/GoogleDrive-sseals@uwf.edu/My Drive/00 - Personal/R/quarto themes/slide.png" background-size="contain"} 
-
-::: {.panel-tabset}
-
-## Setup
-
-Let's consider data from a General Social Survey, relating political ideology to political party affiliation. Political ideology has a five-point ordinal scale, ranging from very liberal ($Y=1$) to very conservative ($Y=5$). Let $x$ be an indicator variable for political party, with $x = 1$ for Democrats and $x = 0$ for Republicans. We will construct an ordinal logistic regression model that models political ideology as a function of political party and sex.
-
-## Data
+## Introduction 
 
 ```{r}
 #| echo: false
-library(gsheet)
 library(tidyverse)
-gss <- gsheet2tbl("https://docs.google.com/spreadsheets/d/1QgTiSaxVkZvLs9guX-pnAxln0hn4Xtsa1DiRGjcKXsM/edit?usp=sharing") %>%
-  mutate(Ideology = as.factor(Ideology))
-head(gss)
+library(ssstats)
+library(broom)
+library(ggpubr)
 ```
 
-## Code
+- We have previously discussed continuous outcomes:
+
+    - $y \sim N(\mu, \sigma^2)$
+    - $y \sim \text{gamma}(\mu, \gamma)$
+    - $y \sim \text{beta}(\alpha, \beta)$
+
+- This week, we will consider categorical outcomes:
+
+    - Binary
+    - Multinomial
+    
+## Logistic Regressions
+
+- In the last lecture, we discussed binary logistic regression for binary outcomes,
+
+$$\ln \left( \frac{\pi}{1-\pi} \right) = \beta_0 + \beta_1 x_1 + ... + \beta_k x_k$$
+
+- In this lecture, we will extend our understanding to multinomial logistic regression for multinomial outcomes,
+
+$$\ln \left( \frac{\pi_j}{\pi_{\text{ref}}} \right) = \hat{\beta}_{0j} + \hat{\beta}_{1j} x_1 + ... + \hat{\beta}_{kj} x_k$$
+
+## Multinomial (or Nominal) Logistic Regression
+
+- We now are creating $c-1$ models.
+
+    - Each model will compare outcome group $j$ to the reference group.
+    - We have unique estimates for every pairwise model.
+    
+- The general form of each model is:
+
+$$\ln \left( \frac{\pi_j}{\pi_{\text{ref}}} \right) = \hat{\beta}_{0j} + \hat{\beta}_{1j} x_1 + ... + \hat{\beta}_{kj} x_k$$
+
+- Yes, this means we are now reporting *multiple models* at the same time.
+
+## Multinomial Logistic Regression (R)
+    
+- We will now use the `multinom()` function from the `nnet` package for modeling,
 
 ```{r}
 #| eval: false
-library(gsheet)
-library(tidyverse)
-gss <- gsheet2tbl("https://docs.google.com/spreadsheets/d/1QgTiSaxVkZvLs9guX-pnAxln0hn4Xtsa1DiRGjcKXsM/edit?usp=sharing") %>%
-  mutate(Ideology = as.factor(Ideology))
-head(gss)
+m <- multinom(y ~ x_1 + x_2 + ... + x_k,
+                    data = dataset_name)
 ```
 
-:::
+## Data Management for `multinom()`
 
+## Lecture Example Set Up
 
-## Example {background-image="/Users/sseals/Library/CloudStorage/GoogleDrive-sseals@uwf.edu/My Drive/00 - Personal/R/quarto themes/slide.png" background-size="contain"} 
+## Lecture Example Set Up
 
-- Let's model ideology as a function of political party affiliation and sex.
+- Pulling in the data,
 
-::: {.panel-tabset}
+```{r}
+goofy <- read_csv("https://raw.githubusercontent.com/samanthaseals/SDSII/refs/heads/main/files/data/lectures/W5_goofy.csv")
+goofy %>% head()
+```
 
-## R output
+## Example: Multinomial Logistic Regression
+
+```{r}
+
+```
+
+## Statistical Inference
+
+## Example: Significance of the Regression Line
+
+## Example: Significance of Predictors (Omnibus)
+
+## Example: Significance of Predictors (Model-Level Omnibus)
+
+## Example: Significance of Predictors (Model-Level Individual)
+
+## Reporting Results
+
+## Example: Reporting Results
+
+## Ignore
+
 
 ```{r}
 #| echo: false
