@@ -6218,21 +6218,6 @@ box-shadow: 0 0 0px rgba(0, 0, 0, 0.02);
 <ol type="1">
 <li>Let’s fit a multiple regression model predicting the probability that an employee is considered for promotion (<em>promotion_considered</em>) as a function of number of sales calls (<em>sales_call_per_day</em>), number of hours at desk (<em>hours_at_desk</em>), and if Michael has recently hung a new motivational poster (<em>motivational_poster</em>; 1 = yes, 0 = no). Call this model <code>m1</code>.</li>
 </ol>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>m1 <span class="ot">&lt;-</span> <span class="fu">glm</span>(promotion_considered <span class="sc">~</span> sales_calls_per_day <span class="sc">+</span> hours_at_desk <span class="sc">+</span> motivational_poster,</span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">data    =</span> office,</span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">family  =</span> <span class="fu">binomial</span>(<span class="at">link =</span> <span class="st">&quot;logit&quot;</span>)</span>
-<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-error">
-<pre><code>Error:
-! object &#39;office&#39; not found</code></pre>
-</div>
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>m1 <span class="sc">%&gt;%</span> <span class="fu">coefficients</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-error">
-<pre><code>Error:
-! object &#39;m1&#39; not found</code></pre>
-</div>
-</div>
 <!-- no actual response is needed for the modeling portion here, just your R output -->
 <p>1a. Based on your output, state the resulting model.</p>
 <!-- below is the basic LaTeX for formatting a regression line; please update it with numbers from your model based on the results above -->
@@ -6272,13 +6257,6 @@ box-shadow: 0 0 0px rgba(0, 0, 0, 0.02);
 </tr>
 </tbody>
 </table>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>m1 <span class="sc">%&gt;%</span> <span class="fu">tidy</span>(<span class="at">exponentiate =</span> <span class="cn">TRUE</span>, <span class="at">conf.int =</span> <span class="cn">TRUE</span>) <span class="sc">%&gt;%</span> <span class="fu">mutate</span>(<span class="at">estimate =</span> <span class="fu">round</span>(estimate, <span class="dv">2</span>), <span class="at">conf.low =</span> <span class="fu">round</span>(conf.low,<span class="dv">2</span>), <span class="at">conf.high =</span> <span class="fu">round</span>(conf.high,<span class="dv">2</span>), <span class="at">p.value =</span> <span class="fu">round</span>(p.value, <span class="dv">4</span>)) <span class="sc">%&gt;%</span> <span class="fu">select</span>(term, estimate, conf.low, conf.high, p.value) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-error">
-<pre><code>Error in `tidy()`:
-! could not find function &quot;tidy&quot;</code></pre>
-</div>
-</div>
 <p>1c. Is this a significant regression line? You must provide statistical justification for your answer. Assume <span class="math inline">\alpha=0.05</span>.</p>
 <!-- your answer below here -->
 <!-- your answer above here -->
@@ -6294,34 +6272,8 @@ box-shadow: 0 0 0px rgba(0, 0, 0, 0.02);
 <ol start="3" type="1">
 <li>Let’s fit a multiple regression model predicting the result of an employee’s evaluation (<em>performance_review</em>) as a function of number of sales calls (<em>sales_call_per_day</em>), number of hours at desk (<em>hours_at_desk</em>), and if Michael has recently hung a new motivational poster (<em>motivational_poster</em>; 1 = yes, 0 = no). Call this model <code>m2</code>.</li>
 </ol>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>m2 <span class="ot">&lt;-</span> nnet<span class="sc">::</span><span class="fu">multinom</span>(performance_review <span class="sc">~</span> sales_calls_per_day <span class="sc">+</span> hours_at_desk <span class="sc">+</span> motivational_poster,</span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">data    =</span> office)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-error">
-<pre><code>Error:
-! object &#39;office&#39; not found</code></pre>
-</div>
-<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>m2 <span class="sc">%&gt;%</span> <span class="fu">coefficients</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-error">
-<pre><code>Error:
-! object &#39;m2&#39; not found</code></pre>
-</div>
-</div>
 <!-- no actual response is needed for the modeling portion here, just your R output -->
 <p>3a. Based on your output, state the resulting models.</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>m2 <span class="ot">&lt;-</span> nnet<span class="sc">::</span><span class="fu">multinom</span>(performance_review <span class="sc">~</span> sales_calls_per_day <span class="sc">+</span> hours_at_desk <span class="sc">+</span> motivational_poster,</span>
-<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">data    =</span> office)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-error">
-<pre><code>Error:
-! object &#39;office&#39; not found</code></pre>
-</div>
-<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>m2 <span class="sc">%&gt;%</span> <span class="fu">coefficients</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-error">
-<pre><code>Error:
-! object &#39;m2&#39; not found</code></pre>
-</div>
-</div>
 <!-- below is the basic LaTeX for formatting a regression line; please update it with numbers from your model based on the results above -->
 <p><span class="math display">
 \begin{align*}
@@ -6330,13 +6282,6 @@ box-shadow: 0 0 0px rgba(0, 0, 0, 0.02);
 \end{align*}
 </span></p>
 <!-- imperative for full credit: remove the pieces of the left hand side that you do not need -->
-<div class="cell">
-<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>m1 <span class="sc">%&gt;%</span> <span class="fu">tidy</span>(<span class="at">exponentiate =</span> <span class="cn">TRUE</span>, <span class="at">conf.int =</span> <span class="cn">TRUE</span>) <span class="sc">%&gt;%</span> <span class="fu">mutate</span>(<span class="at">estimate =</span> <span class="fu">round</span>(estimate, <span class="dv">2</span>), <span class="at">conf.low =</span> <span class="fu">round</span>(conf.low,<span class="dv">2</span>), <span class="at">conf.high =</span> <span class="fu">round</span>(conf.high,<span class="dv">2</span>), <span class="at">p.value =</span> <span class="fu">round</span>(p.value, <span class="dv">4</span>)) <span class="sc">%&gt;%</span> <span class="fu">select</span>(term, estimate, conf.low, conf.high, p.value) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-error">
-<pre><code>Error in `tidy()`:
-! could not find function &quot;tidy&quot;</code></pre>
-</div>
-</div>
 <p>3b. Is this a significant regression line? You must provide statistical justification for your answer. Assume <span class="math inline">\alpha=0.05</span>.</p>
 <!-- your answer below here -->
 <!-- your answer above here -->
@@ -6377,15 +6322,18 @@ box-shadow: 0 0 0px rgba(0, 0, 0, 0.02);
 <!-- your answer below here -->
 <!-- your answer above here -->
 <!-- unless you have extensive experience in statistical modeling, this question cannot be answered without any research :) zero credit will be awarded for answers without proper citations -->
-<p>6c. Re-fit <code>m2</code> using ordinal logistic regression and examine relevant statistical inference. Assume <span class="math inline">\alpha=0.05</span>. How different are the results?</p>
+<p>6c. Synthesis: What is the difference between ordinal and multinomial logistic regressions? When would you choose one over the other?</p>
 <!-- your answer below here -->
 <!-- your answer above here -->
-<p>6d. Check the assumptions on ordinal logistic regression. Remember to draw a conclusion.</p>
+<p>6d. Re-fit <code>m2</code> using ordinal logistic regression and examine relevant statistical inference. Assume <span class="math inline">\alpha=0.05</span>. How different are the results?</p>
+<!-- your answer below here -->
+<!-- your answer above here -->
+<p>6e. Check the assumptions on ordinal logistic regression. Remember to draw a conclusion.</p>
 <!-- your answer below here -->
 <!-- your answer above here -->
 <!-- unless you have extensive experience in statistical modeling, this question cannot be answered without any research :) zero credit will be awarded for answers without proper citations -->
 <!-- hint: there is a formal test; look up the "Brant test" -->
-<p>6e. If you were choosing between ordinal logistic regression and multinomial logistic regression – which one would you choose? For full credit, you must clearly justify your choice.</p>
+<p>6f. If you were choosing between ordinal logistic regression and multinomial logistic regression – which one would you choose? For full credit, you must clearly justify your choice.</p>
 <!-- your answer below here -->
 <!-- your answer above here -->
 <!-- note: you may or may not need the code chunk. 
