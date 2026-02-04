@@ -102,11 +102,7 @@ Management is interested in two different outcomes:
 1. Let's fit a multiple regression model predicting the probability that an employee is considered for promotion (*promotion_considered*) as a function of number of sales calls (*sales_call_per_day*), number of hours at desk (*hours_at_desk*), and if Michael has recently hung a new motivational poster (*motivational_poster*; 1 = yes, 0 = no). Call this model `m1`.
 
 ```{r}
-m1 <- glm(promotion_considered ~ sales_calls_per_day + hours_at_desk + motivational_poster,
-  data    = office,
-  family  = binomial(link = "logit")
-)
-m1 %>% coefficients()
+
 ```
 
 <!-- no actual response is needed for the modeling portion here, just your R output -->
@@ -131,7 +127,7 @@ $$
 
 
 ```{r}
-m1 %>% tidy(exponentiate = TRUE, conf.int = TRUE) %>% mutate(estimate = round(estimate, 2), conf.low = round(conf.low,2), conf.high = round(conf.high,2), p.value = round(p.value, 4)) %>% select(term, estimate, conf.low, conf.high, p.value) 
+
 ```
 
 1c. Is this a significant regression line? You must provide statistical justification for your answer. Assume $\alpha=0.05$.
@@ -169,9 +165,7 @@ m1 %>% tidy(exponentiate = TRUE, conf.int = TRUE) %>% mutate(estimate = round(es
 3. Let's fit a multiple regression model predicting the result of an employee's evaluation (*performance_review*) as a function of number of sales calls (*sales_call_per_day*), number of hours at desk (*hours_at_desk*), and if Michael has recently hung a new motivational poster (*motivational_poster*; 1 = yes, 0 = no). Call this model `m2`.
 
 ```{r}
-m2 <- nnet::multinom(performance_review ~ sales_calls_per_day + hours_at_desk + motivational_poster,
-  data    = office)
-m2 %>% coefficients()
+
 ```
 
 <!-- no actual response is needed for the modeling portion here, just your R output -->
@@ -179,9 +173,7 @@ m2 %>% coefficients()
 3a. Based on your output, state the resulting models. 
 
 ```{r}
-m2 <- nnet::multinom(performance_review ~ sales_calls_per_day + hours_at_desk + motivational_poster,
-  data    = office)
-m2 %>% coefficients()
+
 ```
 
 <!-- below is the basic LaTeX for formatting a regression line; please update it with numbers from your model based on the results above -->
@@ -198,7 +190,7 @@ $$
 
 
 ```{r}
-m1 %>% tidy(exponentiate = TRUE, conf.int = TRUE) %>% mutate(estimate = round(estimate, 2), conf.low = round(conf.low,2), conf.high = round(conf.high,2), p.value = round(p.value, 4)) %>% select(term, estimate, conf.low, conf.high, p.value) 
+
 ```
 
 3b. Is this a significant regression line? You must provide statistical justification for your answer. Assume $\alpha=0.05$.
@@ -281,7 +273,13 @@ This section is a **bonus** section for undergraduate students, but a **required
 
 <!-- unless you have extensive experience in statistical modeling, this question cannot be answered without any research :) zero credit will be awarded for answers without proper citations -->
 
-6c. Re-fit `m2` using ordinal logistic regression and examine relevant statistical inference. Assume $\alpha=0.05$. How different are the results?
+6c. Synthesis: What is the difference between ordinal and multinomial logistic regressions? When would you choose one over the other?
+
+<!-- your answer below here -->
+
+<!-- your answer above here -->
+
+6d. Re-fit `m2` using ordinal logistic regression and examine relevant statistical inference. Assume $\alpha=0.05$. How different are the results?
 
 ```{r}
 
@@ -291,7 +289,7 @@ This section is a **bonus** section for undergraduate students, but a **required
 
 <!-- your answer above here -->
 
-6d. Check the assumptions on ordinal logistic regression. Remember to draw a conclusion.
+6e. Check the assumptions on ordinal logistic regression. Remember to draw a conclusion.
 
 ```{r}
 
@@ -305,7 +303,7 @@ This section is a **bonus** section for undergraduate students, but a **required
 
 <!-- hint: there is a formal test; look up the "Brant test" -->
 
-6e. If you were choosing between ordinal logistic regression and multinomial logistic regression -- which one would you choose? For full credit, you must clearly justify your choice.
+6f. If you were choosing between ordinal logistic regression and multinomial logistic regression -- which one would you choose? For full credit, you must clearly justify your choice.
 
 ```{r}
 
