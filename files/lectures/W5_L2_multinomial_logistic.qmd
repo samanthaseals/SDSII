@@ -1,5 +1,5 @@
 ---
-title: "Binary Logistic Regression"
+title: "Multinomial Logistic Regression"
 execute:
   echo: true
   warning: false
@@ -27,6 +27,7 @@ library(tidyverse)
 library(ssstats)
 library(broom)
 library(ggpubr)
+library(nnet)
 ```
 
 - We have previously discussed continuous outcomes:
@@ -59,7 +60,7 @@ $$\ln \left( \frac{\pi_j}{\pi_{\text{ref}}} \right) = \hat{\beta}_{0j} + \hat{\b
     
 - The general form of each model is:
 
-$$\ln \left( \frac{\pi_j}{\pi_{\text{ref}}} \right) = \hat{\beta}_{0j} + \hat{\beta}_{1j} x_1 + ... + \hat{\beta}_{kj} x_k$$
+$$\ln \left( \frac{\hat{\pi}_j}{\hat{\pi}_{\text{ref}}} \right) = \hat{\beta}_{0j} + \hat{\beta}_{1j} x_1 + ... + \hat{\beta}_{kj} x_k$$
 
 - Yes, this means we are now reporting *multiple models* at the same time.
 
@@ -70,12 +71,52 @@ $$\ln \left( \frac{\pi_j}{\pi_{\text{ref}}} \right) = \hat{\beta}_{0j} + \hat{\b
 ```{r}
 #| eval: false
 m <- multinom(y ~ x_1 + x_2 + ... + x_k,
-                    data = dataset_name)
+              data = dataset_name,
+              trace = FALSE)
 ```
+
+- Note that `trace = FALSE` only affects printed output
+
+    - The trace is iteration information that is printed to the console while the model is fitting, to let the user know "where" the algorithm is.
 
 ## Data Management for `multinom()`
 
+- Fortunately for us, we know data management for this already, as our outcome will be a factor variable. Recall,
+
+    - When we include factor variables, R defaults to the "first" level as the reference group.
+
+        - "First" means alphabetically first for strings and numerically smallest for numbers.
+    
+    - There are (more than) two approaches we can take to "relevel" a variable.
+
+        - Use the `factor()` function with the `levels` argument to set the order of the levels.
+    
+        - "Brute force" by defining a new character variable using `if_else()` statements and defining the levels as "1 - first category name", "2 - second category name", etc.
+        
+- When dealing with factor variables, ask yourself what the reference group should be.
+
+    - Now that we are dealing with multinomial logistic, the reference group matters more than with categorical predictors.
+        
+## Data Management for `multinom()`
+
+- Previously, I have mentioned that you can use `as.factor()` within the formula of a model to treat a variable as a factor...
+
+    - ...it doesn't work with `multinom()`.
+    
+- Thus, we <u>must</u> make sure that any categorical variables are coded appropriately in the dataset <u>before</u> modeling.
+
+    - Watch out for categorical variables that are stored numerically! Remember that R treats them as continuous. 
+
 ## Lecture Example Set Up
+
+- During performance weekends, things don't just go "well" or "poorly" — they can unfold in several very different ways. Depending on how Max prepares and which plan he follows with Goofy, the final outcome of the performance falls into one of four categories: 
+
+    - a disaster
+    - a messy (but fun) performance, 
+    - a solid performance, or 
+    - an iconic performance. 
+
+- Each day, Max tracks his practice time, amount of sleep, caffeine intake, and the preparation plan he used. 
 
 ## Lecture Example Set Up
 
@@ -83,204 +124,370 @@ m <- multinom(y ~ x_1 + x_2 + ... + x_k,
 
 ```{r}
 goofy <- read_csv("https://raw.githubusercontent.com/samanthaseals/SDSII/refs/heads/main/files/data/lectures/W5_goofy.csv")
-goofy %>% head()
+goofy %>% head(n=4)
+```
+
+## Example: Data Management
+
+- Let's examine the characteristics of the two categorical variables:
+
+```{r}
+levels(goofy$plan)
+levels(goofy$performance_outcome)
+```
+
+- Oops! They aren't factor variables...
+
+```{r}
+goofy <- goofy %>% 
+  mutate(plan = factor(plan, levels = c("Balanced", "Goofy", "Max", "Chaotic")),
+         performance_outcome = factor(performance_outcome, levels = c("Solid", "Disaster", "Messy", "Iconic")))
+levels(goofy$plan)
+levels(goofy$performance_outcome)
 ```
 
 ## Example: Multinomial Logistic Regression
 
-```{r}
-
-```
-
-## Statistical Inference
-
-## Example: Significance of the Regression Line
-
-## Example: Significance of Predictors (Omnibus)
-
-## Example: Significance of Predictors (Model-Level Omnibus)
-
-## Example: Significance of Predictors (Model-Level Individual)
-
-## Reporting Results
-
-## Example: Reporting Results
-
-## Ignore
-
+- Let's now model Max's performance outcome based on his preparation plan, practice time, and amount of sleep.
 
 ```{r}
-#| echo: false
-library(nnet)
-m1 <- multinom(Ideology ~ Party + Sex,
-                 data = gss)
-summary(m1)
+m1 <- multinom(performance_outcome ~ plan + practice_hours + sleep_hours,
+               data = goofy, trace = FALSE)
+tidy(m1)
 ```
 
-## Resulting Models
+## Example: Multinomial Logistic Regression
 
-$$
+- ... that's a lot of output! o_o
+
+- Remember that we are fitting three separate models here:
+
+    - Messy vs. Solid
+    - Disaster vs. Solid
+    - Iconic vs. Solid
+    
+```{r}
+coefficients(m1)
+```
+
+## Example: Multinomial Logistic Regression
+
+- Our models are as follows,
+
 \begin{align*}
-  \ln \left( \frac{\pi_{\text{Lib}}}{\pi_{\text{V. Lib}}} \right) &= 0.07 + 0.42 \text{ republican} - 0.14 \text{ male} \\
-  \ln \left( \frac{\pi_{\text{Mod}}}{\pi_{\text{V. Lib}}} \right) &= 0.90 + 0.86 \text{ republican} - 0.37 \text{ male} \\
-  \ln \left( \frac{\pi_{\text{Cons}}}{\pi_{\text{V. Lib}}} \right) &= -0.74 + 1.68 \text{ republican} + 0.16 \text{ male} \\
-  \ln \left( \frac{\pi_{\text{V. Cons}}}{\pi_{\text{V. Lib}}} \right) &= -0.41 + 1.56 \text{ republican} + 0.08 \text{ male}
+\ln \left( \frac{\pi_{\text{Messy}}}{\pi_{\text{Solid}}} \right)
+&= 6.59 + 0.52\,\text{G} + 0.69\,\text{M} + 1.75\,\text{C}
+   - 0.55\,\text{prac} - 1.00\,\text{sleep} \\
+
+\ln \left( \frac{\pi_{\text{Disaster}}}{\pi_{\text{Solid}}} \right)
+&= 4.45 + 1.29\,\text{G} + 2.93\,\text{M} + 1.05\,\text{C}
+   - 0.30\,\text{prac} - 0.89\,\text{sleep} \\
+
+\ln \left( \frac{\pi_{\text{Iconic}}}{\pi_{\text{Solid}}} \right)
+&= 1.96 - 2.09\,\text{G} - 2.53\,\text{M} - 1.74\,\text{C}
+   + 0.22\,\text{prac} - 0.19\,\text{sleep}
 \end{align*}
-$$
 
-## Code
+## Interpreting the Model
 
-```{r}
-#| eval: false
-library(nnet)
-m1 <- multinom(Ideology ~ Party + Sex,
-                 data = gss)
-summary(m1)
-```
+- Recall the general form of our model,
 
-:::
+$$\ln \left( \frac{\hat{\pi}_j}{\hat{\pi}_{\text{ref}}} \right) = \hat{\beta}_{0j} + \hat{\beta}_{1j} x_1 + ... + \hat{\beta}_{kj} x_k$$
 
-## Interpretations {background-image="/Users/sseals/Library/CloudStorage/GoogleDrive-sseals@uwf.edu/My Drive/00 - Personal/R/quarto themes/slide.png" background-size="contain"} 
+- We are modeling the log odds, like in binary logistic regression, and will instead look to the odds ratio, $$e^{\hat{\beta}_i}$$
 
-::: {.panel-tabset}
+   - Interpreting $\hat{\beta}_i$ is an *additive* effect on the *log odds*. 
 
-## Continuous Predictors
+    - Interpreting $e^{\hat{\beta}_i}$ is a *multiplicative* effect on the *odds*.
 
-- For a one [predictor unit] increase in [predictor], the odds of [response category $j$], as compared to [the reference category], are multiplied by e$^{\hat{\beta}_i}$.
+## Interpreting the Model
+
+- We interpret odds ratios much like binary logistic regression.
+
+    - $\beta_i < 0 \to 0 < \text{OR}_i < 1 \to$ a decrease in odds
     
-- For a one [predictor unit] increase in [predictor], the odds of [response category $j$], as compared to [the reference category], are [increased or decreased] by [100(e$^{\hat{\beta}_i}$-1)\% or 100(1-e$^{\hat{\beta}_i}$)\%].
+    - $\beta_i = 0 \to \text{OR}_i = 1 \to$ no change in odds
     
-## Categorical Predictors
+    - $\beta_i > 0 \to \text{OR}_i > 1 \to$ an increase in odds
 
-- As compared to [reference category of predictor], the odds of [response category $j$], as compared to [reference category of outcome], for [predictor category of interest] are multiplied by e$^{\hat{\beta}_i}$.
+## Interpreting the Model
+
+- Continuous predictors:
+
+    - For a one [predictor unit] increase in [predictor], the odds of [response category $j$], as compared to [response reference category], are multiplied by $e^{\hat{\beta}_j}$.
+
+- Categorical predictors:
+
+    - As compared to [predictor reference category], the odds of [response category $j_{\text{resp}}$], as compared to [response reference category], for [predictor category $j_{\text{pred}}$] are multiplied by $e^{\hat{\beta}_{j{_{\text{pred}}}}}$.
     
-- As compared to [reference category of predictor], the odds of [response category $j$], as compared to [reference category of outcome], for [predictor category of interest] are [increased or decreased] by [100(e$^{\hat{\beta}_i}$-1)\% or 100(1-e$^{\hat{\beta}_i}$)\%].  
+        - AI enhanced: Individuals in [predictor category $j_{\text{pred}}$] are $e^{\hat{\beta}_{j{_{\text{pred}}}}}$ times as likely to be in [response category $j_{\text{resp}}$] rather than [response reference category], relative to those in [predictor reference category].
+        
+## Example: Interpreting the Model
 
-:::
+- Returning to our example,
 
-## Example {background-image="/Users/sseals/Library/CloudStorage/GoogleDrive-sseals@uwf.edu/My Drive/00 - Personal/R/quarto themes/slide.png" background-size="contain"} 
+\begin{align*}
 
-- Let's look at interpreting our models.
+\ln \left( \frac{\pi_{\text{Messy}}}{\pi_{\text{Solid}}} \right)
+&= 6.59 + 0.52\,\text{G} + 0.69\,\text{M} + 1.75\,\text{C}
+   - 0.55\,\text{prac} - 1.00\,\text{sleep} \\
+
+\ln \left( \frac{\pi_{\text{Disaster}}}{\pi_{\text{Solid}}} \right)
+&= 4.45 + 1.29\,\text{G} + 2.93\,\text{M} + 1.05\,\text{C}
+   - 0.30\,\text{prac} - 0.89\,\text{sleep} \\
+
+\ln \left( \frac{\pi_{\text{Iconic}}}{\pi_{\text{Solid}}} \right)
+&= 1.96 - 2.09\,\text{G} - 2.53\,\text{M} - 1.74\,\text{C}
+   + 0.22\,\text{prac} - 0.19\,\text{sleep} \\
+   
+\end{align*}
+
+## Example: Odds Ratios
+
+- Moving to odds ratios, but in table form:
+
+| Predictor | OR<sub>Diaster</sub> | OR<sub>Messy</sub> | OR<sub>Iconic</sub> |
+|:----------|:-----:|:-----:|:-----:|
+| Plan: Goofy vs. Balanced | 1.69 | 3.66 | 0.12 |
+| Plan: Max vs. Balanced | 1.99 | 18.80 | 0.08 |
+| Plan: Chaotic vs. Balanced | 5.75 | 2.85 | 0.18 |
+| Practice Time (hours) | 0.58 | 0.74 | 1.24 |
+| Hours Slept | 0.37 | 0.41 | 0.82 |
 
 ```{r}
 round(exp(coefficients(m1)), 2)
 ```
 
-- **Specific:** As compared to someone who identifies as a democrat, someone who identifies as republican has a 377% increase in the odds of saying their political ideology is very conservative as compared to very liberal.
+## Example: Interpreting the Model
 
-- **More general:** As compared to identifying as having a very liberal political ideology, those that identify as republican have increased odds of reporting more conservative political ideologies.
+- When looking at the odds ratios:
 
-## Inference - Hypothesis Testing {background-image="/Users/sseals/Library/CloudStorage/GoogleDrive-sseals@uwf.edu/My Drive/00 - Personal/R/quarto themes/slide.png" background-size="contain"} 
+    - As compared to following a balanced plan, following:
+        
+        - a chaotic plan multiplies the odds of a disaster performance by 5.75 (475% increase).
+        - Goofy's plan multiplies the odds of a disaster performance by 1.69 (69% increase).
+        - Max's plan multiplies the odds of a disaster performance by 1.99 (99% increase).
+    
+    - For each additional hour of practice, the odds of an disaster performance are multiplied by 0.58 (42% decrease).
+    
+    - For each additional hour of sleep, the odds of a disaster performance are multiplied by 0.37 (63% decrease).
+    
+## Example: Interpreting the Model
 
-- As we saw, the results from `summary()` do not include hypothesis test results.
+- We may also be interested in comparing odds ratios across models,
 
-::: {.panel-tabset}
+- Examining practice time:
 
-## Global Level
+    - For each additional hour of practice, the odds of:
+    
+        - a disaster performance are multiplied by 0.58 (42% decrease).
+        - a messy performance are multiplied by 0.74 (26% decrease).
+        - an iconic performance are multiplied by 1.24 (24% increase).
+        
+- This underscores the importance of practice time for Max's performance outcome!
 
-- To determine global significance, we will use full/reduced ANOVA.
+## Statistical Inference
+
+- As with other regression models, we will want to determine the significance of our model and predictors.
+
+- Significance of regression line: no change.
+
+    - Full (all predictors) / reduced (just 1) with `anova(reduced, full, test = "Chisq")`.
+    
+- Significance of predictors: ... which way?
+
+    - omnibus
+    - model-specific omnibus
+    - model-specific individual
+    
+## Statistical Inference    
+
+- Significance of predictors (omnibus): no change.
+
+    - Tells us if a predictor is significant across <u>all outcome levels</u>.
+    - `car::Anova(type = "III")`
+    - Full (all predictors) / reduced (predictor set minus predictor of interest) with `anova(reduced, full, test = "Chisq")`.
+    
+- Significance of predictors (model-specific omnibus): new.  
+
+    - Tells us if a predictor is significant across <u>within each model</u>.
+    - Approach: Fit separate models for each pairwise comparison of the categorical outcome levels. Then,
+        - `car::Anova(type = "III")` on each model, or
+        - Full (all predictors) / reduced (predictor set minus predictor of interest) with `anova(reduced, full, test = "Chisq")` on each model.
+        
+## Statistical Inference           
+
+- Significance of predictors (model-specific individual): no change.
+
+    - Tells us if a continuous or binary predictor significantly predicts the outcome <u>within each model</u>.
+    - Examines pairwise differences within a categorical variable <u>within each model</u>.
+    - `tidy()`
+
+
+## Example: Significance of the Regression Line
+
+- We know how to determine the significance of the regression line,
+
+```{r}
+m1_full <- multinom(performance_outcome ~ plan + practice_hours + sleep_hours, data = goofy, trace = FALSE)
+m1_reduced <- multinom(performance_outcome ~ 1, data = goofy, trace = FALSE)
+anova(m1_reduced, m1_full, test = "Chisq") 
+```
+
+- Yes, this predictor set significantly predicts Max's performance outcome ($p < 0.001$).
+
+## Example: Significance of Predictors (Omnibus)
+
+- We also know how to determine if individual predictors are significant overall $(\text{outcome} \sim x_i)$,
+
+```{r}
+m1 %>% car::Anova(m1, type = "III")  %>% tidy()
+```
+
+- Yes, plan, practice hours, and sleep hours are all significant predictors of Max's performance outcome (all $p < 0.001$).
+
+## Significance of Predictors (Model-Specific Omnibus)
+
+- But how do we determine if individual predictors are significant within each model $(\pi_{\text{group}}/\pi_{\text{ref}}\sim x_i)$?
+
+    - This is straight-forward for continuous and binary predictors and `tidy()`.
+    
+- If we want to get into the model-specific categorical predictor significance, we have a "rough" approach:
+
+    - Fit separate models for each pairwise comparison of the categorical outcome levels. 
+        
+```{r}
+#| eval: false
+dataset_name %>%
+  filter(y %in% c("Group j","Reference")) %>% 
+  multinom(y ~ x_1 + ... + x_k,
+           data = .,
+           trace = FALSE) %>%
+  car::Anova(type=3) %>%
+  tidy()
+```
+
+
+## Example: Significance of Predictors (Model-Level Omnibus)
+
+- Let's try this for the Iconic vs. Solid model,
+
+```{r}
+goofy %>%
+  filter(performance_outcome %in% c("Iconic","Solid")) %>% 
+  multinom(performance_outcome ~ plan + practice_hours + sleep_hours,
+           data = .,
+           trace = FALSE) %>%
+  car::Anova(type=3) %>%
+  tidy()
+```
+
+- Plan ($p<0.001$) is a significant predictor of Max achieving an iconic performance vs. a solid performance, but practice time ($p=0.0.094$) and hours of sleep ($p=0.197$) are not.
+
+## Example: Significance of Predictors (Model-Level Omnibus)
+
+- Let's try this for the Messy vs. Solid model,
+
+```{r}
+goofy %>%
+  filter(performance_outcome %in% c("Messy","Solid")) %>% 
+  multinom(performance_outcome ~ plan + practice_hours + sleep_hours,
+           data = .,
+           trace = FALSE) %>%
+  car::Anova(type=3) %>%
+  tidy()
+```
+
+- Plan ($p<0.001$) and hours of sleep ($p<0.001$) are significant predictors of Max achieving a messy performance vs. a solid performance, but practice time ($p=0.105$) is not.
+
+## Example: Significance of Predictors (Model-Level Omnibus)
+
+- Let's try this for the Disaster vs. Solid model,
+
+```{r}
+goofy %>%
+  filter(performance_outcome %in% c("Disaster","Solid")) %>% 
+  multinom(performance_outcome ~ plan + practice_hours + sleep_hours,
+           data = .,
+           trace = FALSE) %>%
+  car::Anova(type=3) %>%
+  tidy()
+```
+
+- Plan ($p=0.008$), practice hours ($p = 0.016$), and hours of sleep ($p<0.001$) are significant predictors of Max achieving an disasterous performance vs. a solid performance.
+
+## Significance of Predictors (Model-Specific Individual)
+
+- Finally, we can look at the model-specific individual predictor significance.
+
+    - What is this adding to our analysis? We can now examine pairwise comparisons of categorical predictors within each model.
+    
+- However, our `tidy()` output is totally overwhelming. We will filter,
 
 ```{r}
 #| eval: false
-car::Anova(model, type = 3)
+model %>% 
+  tidy(conf.int = TRUE, exponentiate = TRUE) %>% 
+  filter(y.level == "Group j") %>% 
+  select(term, estimate, conf.low, conf.high, p.value)
 ```
 
-## Model Level
+## Example: Significance of Predictors (Model-Specific Individual)
 
-- We will construct p-values "by hand" for the individual models.
+- In our example, for Disaster vs. Solid,
 
 ```{r}
-#| eval: false
-m <- multinom(outcome ~ var_1 + var_2 + ... + var_k, data = dataset)
-z <- summary(m1)$coefficients/summary(m1)$standard.errors # construct z
-p <- (1 - pnorm(abs(z)))*2 # construct p-values
-t(p) # transpose to columns
+m1 %>% tidy(conf.int = TRUE, exponentiate = TRUE) %>% filter(y.level == "Disaster") %>% select(term, estimate, conf.low, conf.high, p.value)
 ```
 
-:::
+## Example: Significance of Predictors (Model-Specific Individual)
 
-## Example {background-image="/Users/sseals/Library/CloudStorage/GoogleDrive-sseals@uwf.edu/My Drive/00 - Personal/R/quarto themes/slide.png" background-size="contain"} 
-
-- Let's explore significance for our models.
-
-::: {.panel-tabset}
-
-## Global Level - Party
-
-- To determine global significance, we will use `car::Anova()`.
+- In our example, for Messy vs. Solid,
 
 ```{r}
-car::Anova(m1, type = 3)
+m1 %>% tidy(conf.int = TRUE, exponentiate = TRUE) %>% filter(y.level == "Messy") %>% select(term, estimate, conf.low, conf.high, p.value)
 ```
 
-## Model Level
+## Example: Significance of Predictors (Model-Specific Individual)
 
-- We construct p-values "by hand" for the individual models.
+- In our example, for Iconic vs. Solid,
 
 ```{r}
-z <- summary(m1)$coefficients/summary(m1)$standard.errors # construct z
-p <- (1 - pnorm(abs(z)))*2 # construct p-values
-t(p) # transpose to columns
+m1 %>% tidy(conf.int = TRUE, exponentiate = TRUE) %>% filter(y.level == "Iconic") %>% select(term, estimate, conf.low, conf.high, p.value)
 ```
 
-## Results
+## Reporting Results
 
-- Globally, only political party is a significant predictor of political ideology ($p < 0.001$).
+- In the paper,
 
-- This holds true when comparing moderate ($p < 0.001$), conservative ($p < 0.001$), and very conservative ($p < 0.001$) to very liberal.
+<center>
+<img src="img/W5-L2-b.png"
+     alt="Example of multinomial logistic regression results"
+     width="35%">
+</center>
 
-:::
+## Reporting Results
 
-## Inference - Hypothesis Testing {background-image="/Users/sseals/Library/CloudStorage/GoogleDrive-sseals@uwf.edu/My Drive/00 - Personal/R/quarto themes/slide.png" background-size="contain"} 
+- In a supplement,
 
-- What if we are interested in comparing against, say, moderate ideology?
+<center>
+<img src="img/W5-L2-a.png"
+     alt="Example of multinomial logistic regression results"
+     width="60%">
+</center>
 
-    - We would restructure the data such that moderate would be the "first" category that R saw.
+
+## Wrap Up
+
+- In this lecture, we have introduced multinomial logistic regression.
+
+    - Multinomial logistic regression is appropriate for nominal outcomes.
     
-- Global significance will not change.
+- We again saw the logit link function.
 
-- Model level significance will change.
+    - We interpret coefficients as multiplicative effects on the *odds* of one outcome compared to the reference outcome
 
-    - This is because we are now comparing the outcomes to moderates, instead of very liberal.
-
-## Inference - Confidence Intervals {background-image="/Users/sseals/Library/CloudStorage/GoogleDrive-sseals@uwf.edu/My Drive/00 - Personal/R/quarto themes/slide.png" background-size="contain"} 
-
-- Like before, we can construct confidence intervals using the `confint()` function.
-
-- We, of course, want the confidence intervals of the odds ratios.
-
-```{r}
-round(exp(confint(m1)),2)
-```
-
-## Wrap Up {background-image="/Users/sseals/Library/CloudStorage/GoogleDrive-sseals@uwf.edu/My Drive/00 - Personal/R/quarto themes/slide.png" background-size="contain"} 
-
-- We have now covered logistic regression for all types of categorical outcomes.
-
-    - Two responses $\to$ binary logistic regression.
-    
-    - More than two ordered* responses $\to$ ordinal logistic regression.
-    
-        - *: if we do not meet the proportional odds assumption, ignore ordering.
-    
-    - More than two responses $\to$ nominal logistic regression.
-    
-- Note that we have learned the models with a *logit* link function.
-
-    - We can also use *probit* and *complementary log log* (cloglog) link functions.
-    
-    - You can read a discussion about the differences [on stack overflow](https://stats.stackexchange.com/questions/20523/difference-between-logit-and-probit-models)
-
-
-
-
-
-
-
-
-
-
-
+- In the next lecture, we will review data visualization for logistic regressions.
 
 
 

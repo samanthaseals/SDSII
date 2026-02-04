@@ -48,11 +48,14 @@ $$\text{logit}(\pi) = \beta_0 + \beta_1 x_1 + ... + \beta_k x_k,$$
 
 - where $\pi = \text{P}[Y = 1]$ = the probability of the outcome/event.
 
-    - Recall, $\text{logit}()$ is the log-odds transformation. Here, $$\text{logit}(\pi) = \frac{\pi}{1-\pi}$$
+    - Recall, $\text{logit}()$ is the log-odds transformation. Here, $$\text{logit}(\pi) = \ln\left(\frac{\pi}{1-\pi}\right)$$
     
 ## Binary Logistic Regression
 
 ```{r}
+#| echo: false
+#| fig-align: 'center'
+#| fig-alt: "Logistic curves with varying slopes"
 set.seed(676196)
 generate_logistic_data <- function(n = 200, beta0, beta1) {
   tibble(x = runif(n, -5, 5),
@@ -98,6 +101,8 @@ ggplot() +
         - Course outcome (pass vs. fail)
         - System status (operational vs. down)
 
+## Binary Logistic Regression
+
 - How is this different than beta regression?
 
     - Beta regression is used for *continuous response variables* that represent proportions or probabilities bounded between 0 and 1 (but not including the endpoints).
@@ -126,11 +131,23 @@ plot_binomial <- function(n = 1, p){
 }
 ```
 
-- The Binomial distribution is a discrete probability distribution defined on the set $\{0, 1\}$.
+- The Binomial distribution is a discrete probability distribution defined for the set $\{0, ..., n\}$.
 
-- The Binomial distribution is characterized by $\pi$, the probability of success ($Y=1$), and $n$, the number of trials (sample size).
+    - The distribution gives the probability of observing a certain number of successes in $n$ independent Bernoulli trials.
 
-    - When $n=1$, the Binomial distribution reduces to the Bernoulli distribution.
+- The Binomial distribution is characterized by $\pi = P[Y = 1]$, the probability of success, and $n$, the number of trials (sample size).
+
+    - As $n$ increases, the distribution becomes more spread out.
+    
+    - Varying $\pi$ changes the shape of the distribution.
+    
+        - When $\pi$ is close to 0 or 1, the distribution is skewed.
+        
+        - When $\pi$ is around 0.5, the distribution is more symmetric.
+        
+## Binomial Distribution
+
+- Same $n$, varying $\pi$:
 
 ```{r}
 #| echo: false
@@ -146,11 +163,7 @@ ggarrange(g1, g2, g3, g4, ncol = 2, nrow = 2)
 
 ## Binomial Distribution
 
-- The Binomial distribution is a discrete probability distribution defined on the set $\{0, 1\}$.
-
-- The Binomial distribution is characterized by $\pi$, the probability of success ($Y=1$), and $n$, the number of trials (sample size).
-
-    - When $n=1$, the Binomial distribution reduces to the Bernoulli distribution.
+- Same $\pi$, varying $n$:
 
 ```{r}
 #| echo: false
@@ -196,7 +209,7 @@ m <- glm(y ~ x_1 + x_2 + ... + x_k,
 
 ## Lecture Example Set Up
 
-- Goofy and Max are gearing up for a huge performance weekend. To make sure he's ready, Max decides to test out a few different preparation plans leading up to the performance. Each plan mixes a different approach to practicing, resting, and getting through the day.
+- Goofy and Max are gearing up for a huge audition. To make sure he's ready, Max decides to test out a few different preparation plans leading up to the audition Each plan mixes a different approach to practicing, resting, and getting through the day.
 
 - Some days Goofy insists on structure and early bedtimes, other days Max does things his own way. This leads to four plans:
 
@@ -214,7 +227,7 @@ m <- glm(y ~ x_1 + x_2 + ... + x_k,
     - Caffeine intake (mg)
     - Confidence level (0–10)
   
-- Max then records if he nailed the audition practice for that day.
+- Max then records if he nailed the (practice) audition for that day.
 
 ## Lecture Example Set Up    
 
@@ -229,13 +242,13 @@ max %>% head()
     
 ## Example 1: Binary Logistic Regression
 
-- Let's model whether Max nailed the audition (`nailed_audition`) based on the plan followed, hours of practice, and hours of sleep.    
+- Let's model whether Max nailed the (practice) audition (`nailed_audition`) based on the plan followed, hours of practice, and hours of sleep.    
     
 ```{r}
 m1 <- glm(nailed_audition ~ plan + practice_hours + sleep_hours,
          data = max,
          family = binomial(link = "logit"))
-m1 %>% tidy(conf.int = TRUE, exponentiate = TRUE)
+m1 %>% tidy()
 ```   
     
 ## Example 1: Binary Logistic Regression
@@ -247,7 +260,7 @@ m1 %>% coefficients()
 ```
 
 $$ 
-\ln \left( \frac{\hat{\pi}}{1-\hat{\pi}} \right) = -4.17 - 1.41 \text{ chaos} -0.66 \text{ Goofy} - 0.31 \text{ Max} + 0.65 \text{ practice} + 0.40 \text{ sleep}
+\ln \left( \frac{\hat{\pi}}{1-\hat{\pi}} \right) = -4.17 - 1.41 \text{ C} -0.66 \text{ G} - 0.31 \text{ M} + 0.65 \text{ prac} + 0.40 \text{ sleep}
 $$
 
 ## Interpreting the Model
@@ -323,6 +336,14 @@ round(exp(coefficients(m1)), 2)
     - Goofy-led days have odds of nailing the audition multiplied by 0.52. This is a decrease of 48%.
     - Max-led days have odds of nailing the audition multiplied by 0.72. This is a decrease of 28%.
 
+## Example 1: Interpreting the Model
+
+- Interpreting our model,
+
+```{r}
+round(exp(coefficients(m1)), 2)
+```
+
 - For a 1 hour increase in practice, the odds of nailing the audition are multiplied by 1.91. This is an increase of 91%.
 
 - For a 1 hour increase in sleep, the odds of nailing the audition are multiplied by 1.50. This is an increase of 50%.
@@ -333,10 +354,10 @@ round(exp(coefficients(m1)), 2)
 
 | Predictor | OR (95% CI for OR) | *p*-value |
 |:--|:--:|--:|
-| variable 1 | OR_1_ (LL_1_, UL_1_) | *p*_1_|
-| variable 2 | OR_2_ (LL_2_, UL_2_) | *p*_2_|
+| variable 1 | OR<sub>1</sub> (LL<sub>1</sub>, UL<sub>1</sub>) | *p*<sub>1</sub>|
+| variable 2 | OR<sub>2</sub> (LL<sub>2</sub>, UL<sub>2</sub>) | *p*<sub>2</sub>|
 | ... | ... | ... |
-| variable *k* | OR_*k*_ (LL_*k*_, UL_*k*_) | *p*_*k*_|
+| variable *k* | OR<sub>*k*</sub> (LL<sub>*k*</sub>, UL<sub>*k*</sub>) | *p*<sub>*k*</sub>|
 
 ## Example 1: Reporting Results
 
@@ -477,11 +498,24 @@ coefficients(m2)
 | Goofy | -2.68 -6.31 = -8.99 | 0.21 + 0.79 = 1.00 | exp(1.00) = 2.72 |
 | Max | -2.68 + 0.79 = -1.89 | 0.21 - 0.16 =  0.05 | exp(0.05) = 1.05 |
 
-- Interpreting the slopes for *sleep hours*:
+- Interpreting the odds ratios for *sleep hours*:
 
     - Balanced plan: For a 1 hour increase in sleep, the odds of nailing the audition are multiplied by 1.23 (a 23% increase).
     
     - Chaotic plan: For a 1 hour increase in sleep, the odds of nailing the audition are multiplied by 1.46 (a 46% increase).
+    
+## Example 2: Interpreting the Model
+
+- Now let's interpret the coefficients,
+
+| Plan | Intercept | Sleep Hours Slope | Sleep Hours OR |
+|:--|--:|--:|--:|
+| Balanced | -2.68 | 0.21 | exp(0.21) = 1.23 |
+| Chaotic | -2.68 - 2.56 = -5.24 | 0.21 + 0.17 = 0.38 | exp(0.38) = 1.46 |
+| Goofy | -2.68 -6.31 = -8.99 | 0.21 + 0.79 = 1.00 | exp(1.00) = 2.72 |
+| Max | -2.68 + 0.79 = -1.89 | 0.21 - 0.16 =  0.05 | exp(0.05) = 1.05 |
+
+- Interpreting the odds ratios for *sleep hours*:
     
     - Goofy-led plan: For a 1 hour increase in sleep, the odds of nailing the audition are multiplied by 2.72 (a 172% increase).
     
@@ -508,8 +542,6 @@ round(exp(coefficients(m2)), 2)
 - We can still use AIC and BIC to examine/compare model fit.
 
 - Let's use the BIC to determine if `m1` or `m2` fit the model better.
-
-
 
 ```{r}
 m1 %>% BIC()

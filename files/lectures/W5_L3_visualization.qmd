@@ -1,23 +1,593 @@
 ---
-title: "W5_L4_visualization"
-format: html
+title: "Visualizing the Model:<br>Logistic Regression"
+execute:
+  echo: true
+  warning: false
+  message: false
+  error: true
+format: 
+  revealjs:
+    theme: default
+    self-contained: true
+    slide-number: true
+    width: 1600
+    height: 900
+    df-print: paged
+    html-math-method: katex
+    code-fold: false
+    code-tools: false
+    incremental: false
+editor: source
 ---
 
+## Introduction
 
+```{r}
+#| echo: false
+library(tidyverse)
+library(ggpubr)
+```
 
+- In the previous weeks, we have built up what we understand about data visualization.
 
+    - Week 1: Visualizing models with only continuous predictors
+    - Week 2: Visualizing models with only categorical predictors; visualizing models with both continuous and categorical predictors
+    - Week 3: Visualizing models with interaction terms.
+    - Week 4: Gamma and beta regressions.
 
+- In this lecture, we will focus on visualizing logistic regression models.
+
+## Logistic Regressions: Binomial & Multinomial
+
+- Recall the binary logistic regression model,
+
+$$
+\begin{align*}
+\text{logit}(\hat{\pi}) &= \hat{\beta}_0 + \hat{\beta}_1 x_1 + ... + \hat{\beta}_k x_k \\
+\ln \left( \frac{\hat{\pi}}{1-\hat{\pi}} \right) &= \hat{\beta}_{0} + \hat{\beta}_{1} x_1 + ... + \hat{\beta}_{k} x_k
+\end{align*}
+$$
+
+- Recall the multinomial logistic regression model,
+
+$$
+\begin{align*}
+\text{logit}(\hat{\pi}_j) &= \hat{\beta}_0 + \hat{\beta}_1 x_1 + ... + \hat{\beta}_k x_k \\
+\ln \left( \frac{\hat{\pi}_j}{1-\hat{\pi}_j} \right) &= \hat{\beta}_{0} + \hat{\beta}_{1} x_1 + ... + \hat{\beta}_{k} x_k
+\end{align*}
+$$
+
+## Creating Predicted Values
+
+- In order to create predicted values, we must isolate $\pi$.
+
+$$
+\begin{align*}
+\text{logit}(\pi) &= \beta_0 + \beta_1 x_1 + ... + \beta_k x_k \\
+\ln\left(\frac{\pi}{1 - \pi}\right) &= \beta_0 + \beta_1 x_1 + ... + \beta_k x_k \\
+\frac{\pi}{1 - \pi} &= e^{\beta_0 +  \beta_1 x_1 + ... + \beta_k x_k} \\
+\pi &= (1-\pi) e^{\beta_0 +  \beta_1 x_1 + ... + \beta_k x_k} \\
+\pi &= e^{\beta_0 +  \beta_1 x_1 + ... + \beta_k x_k} - \pi(e^{\beta_0 +  \beta_1 x_1 + ... + \beta_k x_k}) \\
+\pi + \pi(e^{\beta_0 +  \beta_1 x_1 + ... + \beta_k x_k}) &= e^{\beta_0 +  \beta_1 x_1 + ... + \beta_k x_k} \\
+\pi(1+e^{\beta_0 +  \beta_1 x_1 + ... + \beta_k x_k}) &= e^{\beta_0 +  \beta_1 x_1 + ... + \beta_k x_k} 
+\end{align*}
+$$
+
+## Creating Predicted Values
+
+- In order to create predicted values, we must isolate $\pi$.
+
+$$
+\begin{align*}
+\text{logit}(\pi) &= \beta_0 + \beta_1 x_1 + ... + \beta_k x_k \\
+& \ \ \vdots  \\
+\pi(1+e^{\beta_0 +  \beta_1 x_1 + ... + \beta_k x_k}) &= e^{\beta_0 +  \beta_1 x_1 + ... + \beta_k x_k} \\
+\pi &= \frac{e^{\beta_0 +  \beta_1 x_1 + ... + \beta_k x_k}}{1 + e^{\beta_0 +  \beta_1 x_1 + ... + \beta_k x_k}}
+\end{align*}
+$$
+
+## Creating Predicted Values
+
+- The good news is we've done this before! Recall, from beta regression:
+
+```{r}
+#| eval: false
+dataset_name <- dataset_name %>%
+  mutate(predicted_1 = exp(model_1)/(1+exp(model_1)),
+         predicted_2 = exp(model_2)/(1+exp(model_2)),
+         etc.)
+```
+
+- Otherwise, we take the same approaches as we have in previous weeks.
+
+## Lecture Example 1: Binary Logistic Regression
+
+- Goofy and Max are gearing up for a huge audition. To make sure he's ready, Max decides to test out a few different preparation plans leading up to the audition Each plan mixes a different approach to practicing, resting, and getting through the day.
+
+- Each day, Max tracks a few behaviors he thinks might affect how well things go, then records if he nailed the (practice) audition for that day.
+
+    - 1: nailed it!
+    - 0: did not :(
+
+- Pulling in the data,
+
+```{r}
+max <- read_csv("https://raw.githubusercontent.com/samanthaseals/SDSII/refs/heads/main/files/data/lectures/W5_max.csv")
+max %>% head(n=1)
+```
+
+## Example 1: Binary Logistic Regression
+
+- Recall the resulting model,
+
+$$ 
+\ln \left( \frac{\hat{\pi}}{1-\hat{\pi}} \right) = -4.17 - 1.41 \text{ C} -0.66 \text{ G} - 0.31 \text{ M} + 0.65 \text{ prac} + 0.40 \text{ sleep}
+$$
+
+- Let's create predicted values for this model.
+
+    - Let's put practice hours on the x-axis, holding sleep hours constant at its median value.
     
-## Predicted Values for Data Visualization 
+    - We can create lines for each plan.
+    
+```{r}
+#| eval: false
+-4.17 - 1.41*chaos - 0.66*goofy - 0.31*max + 0.65*practice_hours + 0.40*median(sleep_hours)
+```
 
-- The guidelines we've set up for data visualization still hold true.
 
-- We will put our outcome on the $y$-axis and a continuous (or at least ordinal) predictor on the $x$-axis.
+## Example 1: Binary Logistic Regression
 
-    - We will hold all other predictors constant in order to create lines.
+- Creating the predicted values,
 
-- Recall the logistic regression model,
-$$ \ln \left( \frac{\pi_i}{1-\pi_i} \right) = \beta_0 + \beta_1 x_{1i} + ... + \beta_k x_{ki} $$
+```{r}
+max <- max %>%
+  mutate(predicted_chaos = exp(-4.17 - 1.41*1 - 0.66*0 - 0.31*0 + 0.65*practice_hours + 0.40*7)/ (1 + exp(-4.17 - 1.41*1 - 0.66*0 - 0.31*0 + 0.65*practice_hours + 0.40*7)),
+         predicted_goofy = exp(-4.17 - 1.41*0 - 0.66*1 - 0.31*0 + 0.65*practice_hours + 0.40*7)/ (1 + exp(-4.17 - 1.41*0 - 0.66*1 - 0.31*0 + 0.65*practice_hours + 0.40*7)),
+         predicted_max    = exp(-4.17 - 1.41*0 - 0.66*0 - 0.31*1 + 0.65*practice_hours + 0.40*7)/ (1 + exp(-4.17 - 1.41*0 - 0.66*0 - 0.31*1 + 0.65*practice_hours + 0.40*7)),
+         predicted_balanced = exp(-4.17 - 1.41*0 - 0.66*0 - 0.31*0 + 0.65*practice_hours + 0.40*7)/ (1 + exp(-4.17 - 1.41*0 - 0.66*0 - 0.31*0 + 0.65*practice_hours + 0.40*7)))
+```
 
-- We can solve for the probability, which allows us to predict the probability that $y_i=1$ given the specified model:
-$$ \pi_i = \frac{\exp\left\{ \beta_0 + \beta_1 x_{1i} + ... + \beta_k x_{ki} \right\}}{1 + \exp\left\{ \beta_0 + \beta_1 x_{1i} + ... + \beta_k x_{ki} \right\}} $$
+```{r}
+#| echo: false
+max %>% select(nailed_audition, plan, practice_hours,
+               predicted_chaos, predicted_goofy,
+               predicted_max, predicted_balanced) %>%
+  head()
+```
+
+## Example 1: Binary Logistic Regression
+
+- Then, we can visualize the results,
+
+```{r}
+#| eval: false
+max %>% ggplot(aes(x = practice_hours)) +
+  geom_point(aes(y = nailed_audition, color = plan), alpha = 0.2) +
+  geom_line(aes(y = predicted_chaos, color = "Chaotic")) +
+  geom_line(aes(y = predicted_goofy, color = "Goofy")) +
+  geom_line(aes(y = predicted_max, color = "Max")) +
+  geom_line(aes(y = predicted_balanced, color = "Balanced")) +
+  labs(x = "Practice Hours",
+       y = "Predicted Probability of Nailed Performance",
+       color = "Plan") +
+  theme_bw()
+```
+
+## Example 1: Binary Logistic Regression
+
+- Then, we can visualize the results,
+
+```{r}
+#| echo: false
+#| fig-align: 'center'
+#| fig-alt: "Scatter plot with four logistic regression lines"
+max %>% ggplot(aes(x = practice_hours)) +
+  geom_point(aes(y = nailed_audition, color = plan), alpha = 0.2) +
+  geom_line(aes(y = predicted_chaos, color = "Chaotic")) +
+  geom_line(aes(y = predicted_goofy, color = "Goofy")) +
+  geom_line(aes(y = predicted_max, color = "Max")) +
+  geom_line(aes(y = predicted_balanced, color = "Balanced")) +
+  labs(x = "Practice Hours",
+       y = "Predicted Probability of Nailed Performance",
+       color = "Plan") +
+  theme_bw()
+```
+
+
+
+
+
+
+
+## Lecture Example 2: Multinomial Logistic Regression
+
+- During performance weekends, things don't just go "well" or "poorly" — they can unfold in several very different ways. Depending on how Max prepares and which plan he follows with Goofy, the final outcome of the performance falls into one of four categories: 
+
+    - a disaster
+    - a messy (but fun) performance, 
+    - a solid performance, or 
+    - an iconic performance. 
+
+- Pulling in the data,
+
+```{r}
+goofy <- read_csv("https://raw.githubusercontent.com/samanthaseals/SDSII/refs/heads/main/files/data/lectures/W5_goofy.csv")
+goofy %>% head(n=1)
+```
+
+## Example 2: Multinomial Logistic Regression
+
+- Recall the resulting models,
+
+\begin{align*}
+
+\ln \left( \frac{\pi_{\text{Messy}}}{\pi_{\text{Solid}}} \right)
+&= 6.59 + 0.52\,\text{G} + 0.69\,\text{M} + 1.75\,\text{C}
+   - 0.55\,\text{prac} - 1.00\,\text{sleep} \\
+
+\ln \left( \frac{\pi_{\text{Disaster}}}{\pi_{\text{Solid}}} \right)
+&= 4.45 + 1.29\,\text{G} + 2.93\,\text{M} + 1.05\,\text{C}
+   - 0.30\,\text{prac} - 0.89\,\text{sleep} \\
+
+\ln \left( \frac{\pi_{\text{Iconic}}}{\pi_{\text{Solid}}} \right)
+&= 1.96 - 2.09\,\text{G} - 2.53\,\text{M} - 1.74\,\text{C}
+   + 0.22\,\text{prac} - 0.19\,\text{sleep} \\
+   
+\end{align*}
+
+- There are different ways to think about this.
+
+    - One graph per plan, lines are the four outcomes. 
+    - One graph per outcome, lines are the four plans.
+
+## Example 2: Multinomial Logistic Regression
+
+- Recall the resulting models,
+
+\begin{align*}
+
+\ln \left( \frac{\pi_{\text{Messy}}}{\pi_{\text{Solid}}} \right)
+&= 6.59 + 0.52\,\text{G} + 0.69\,\text{M} + 1.75\,\text{C}
+   - 0.55\,\text{prac} - 1.00\,\text{sleep} \\
+
+\ln \left( \frac{\pi_{\text{Disaster}}}{\pi_{\text{Solid}}} \right)
+&= 4.45 + 1.29\,\text{G} + 2.93\,\text{M} + 1.05\,\text{C}
+   - 0.30\,\text{prac} - 0.89\,\text{sleep} \\
+
+\ln \left( \frac{\pi_{\text{Iconic}}}{\pi_{\text{Solid}}} \right)
+&= 1.96 - 2.09\,\text{G} - 2.53\,\text{M} - 1.74\,\text{C}
+   + 0.22\,\text{prac} - 0.19\,\text{sleep} \\
+   
+\end{align*}
+
+- There are different ways to think about this.
+
+    - Regardless, the outcome can be thought of as:
+        - 0 = solid, 1 = {disaster, messy, iconic}        
+
+## Example 2: Multinomial Logistic Regression
+
+- Using the equations on the previous page, we can first create the logit values for each outcome,
+
+```{r}
+#| eval: false
+# messy
+6.59 + 0.52*goofy + 0.69*max + 1.75*chaos - 0.55*practice_hours - 1.00*median(sleep_hours)
+
+# disaster
+4.45 + 1.29*goofy + 2.93*max + 1.05*chaos - 0.30*practice_hours - 0.89*median(sleep_hours)
+
+# iconic
+1.96 - 2.09*goofy - 2.53*max - 1.74*chaos + 0.22*practice_hours - 0.19*median(sleep_hours)
+```
+
+
+- Then, putting into probability form,
+    
+```{r}
+#| eval: false
+
+# messy
+exp(6.59 + 0.52*goofy + 0.69*max + 1.75*chaos - 0.55*practice_hours - 1.00*median(sleep_hours))/(1+exp(6.59 + 0.52*goofy + 0.69*max + 1.75*chaos - 0.55*practice_hours - 1.00*median(sleep_hours)))
+
+# disaster
+exp(4.45 + 1.29*goofy + 2.93*max + 1.05*chaos - 0.30*practice_hours - 0.89*median(sleep_hours))/(1+exp(4.45 + 1.29*goofy + 2.93*max + 1.05*chaos - 0.30*practice_hours - 0.89*median(sleep_hours)))
+
+# iconic
+exp(1.96 - 2.09*goofy - 2.53*max - 1.74*chaos + 0.22*practice_hours - 0.19*median(sleep_hours))/(1+exp(1.96 - 2.09*goofy - 2.53*max - 1.74*chaos + 0.22*practice_hours - 0.19*median(sleep_hours)))
+```
+
+## Example 2: Multinomial Logistic Regression
+
+- Then, expanding into the different plans,
+
+```{r}
+# messy
+# exp(6.59 + 0.52*goofy + 0.69*max + 1.75*chaos - 0.55*practice_hours - 1.00*median(sleep_hours))/(1+exp(6.59 + 0.52*goofy + 0.69*max + 1.75*chaos - 0.55*practice_hours - 1.00*median(sleep_hours)))
+
+goofy <- goofy %>% 
+  mutate(messy_g = exp(6.59 + 0.52*1 + 0.69*0 + 1.75*0 - 0.55*practice_hours - 1.00*median(sleep_hours))/(1+exp(6.59 + 0.52*1 + 0.69*0 + 1.75*0 - 0.55*practice_hours - 1.00*median(sleep_hours))),
+         messy_m = exp(6.59 + 0.52*0 + 0.69*1 + 1.75*0 - 0.55*practice_hours - 1.00*median(sleep_hours))/(1+exp(6.59 + 0.52*0 + 0.69*1 + 1.75*0 - 0.55*practice_hours - 1.00*median(sleep_hours))),
+         messy_c = exp(6.59 + 0.52*0 + 0.69*0 + 1.75*1 - 0.55*practice_hours - 1.00*median(sleep_hours))/(1+exp(6.59 + 0.52*0 + 0.69*0 + 1.75*1 - 0.55*practice_hours - 1.00*median(sleep_hours))),
+         messy_b = exp(6.59 + 0.52*0 + 0.69*0 + 1.75*0 - 0.55*practice_hours - 1.00*median(sleep_hours))/(1+exp(6.59 + 0.52*0 + 0.69*0 + 1.75*0 - 0.55*practice_hours - 1.00*median(sleep_hours))))
+
+# disaster
+# exp(4.45 + 1.29*goofy + 2.93*max + 1.05*chaos - 0.30*practice_hours - 0.89*median(sleep_hours))/(1+exp(4.45 + 1.29*goofy + 2.93*max + 1.05*chaos - 0.30*practice_hours - 0.89*median(sleep_hours)))
+goofy <- goofy %>%
+  mutate(disaster_g = exp(4.45 + 1.29*1 + 2.93*0 + 1.05*0 - 0.30*practice_hours - 0.89*median(sleep_hours))/(1+exp(4.45 + 1.29*1 + 2.93*0 + 1.05*0 - 0.30*practice_hours - 0.89*median(sleep_hours))),
+         disaster_m = exp(4.45 + 1.29*0 + 2.93*1 + 1.05*0 - 0.30*practice_hours - 0.89*median(sleep_hours))/(1+exp(4.45 + 1.29*0 + 2.93*1 + 1.05*0 - 0.30*practice_hours - 0.89*median(sleep_hours))),
+         disaster_c = exp(4.45 + 1.29*0 + 2.93*0 + 1.05*1 - 0.30*practice_hours - 0.89*median(sleep_hours))/(1+exp(4.45 + 1.29*0 + 2.93*0 + 1.05*1 - 0.30*practice_hours - 0.89*median(sleep_hours))),
+         disaster_b = exp(4.45 + 1.29*0 + 2.93*0 + 1.05*0 - 0.30*practice_hours - 0.89*median(sleep_hours))/(1+exp(4.45 + 1.29*0 + 2.93*0 + 1.05*0 - 0.30*practice_hours - 0.89*median(sleep_hours))))
+
+# iconic
+# exp(1.96 - 2.09*goofy - 2.53*max - 1.74*chaos + 0.22*practice_hours - 0.19*median(sleep_hours))/(1+exp(1.96 - 2.09*goofy - 2.53*max - 1.74*chaos + 0.22*practice_hours - 0.19*median(sleep_hours)))
+goofy <- goofy %>%
+  mutate(iconic_g = exp(1.96 - 2.09*1 - 2.53*0 - 1.74*0 + 0.22*practice_hours - 0.19*median(sleep_hours))/(1+exp(1.96 - 2.09*1 - 2.53*0 - 1.74*0 + 0.22*practice_hours - 0.19*median(sleep_hours))),
+         iconic_m = exp(1.96 - 2.09*0 - 2.53*1 - 1.74*0 + 0.22*practice_hours - 0.19*median(sleep_hours))/(1+exp(1.96 - 2.09*0 - 2.53*1 - 1.74*0 + 0.22*practice_hours - 0.19*median(sleep_hours))),
+         iconic_c = exp(1.96 - 2.09*0 - 2.53*0 - 1.74*1 + 0.22*practice_hours - 0.19*median(sleep_hours))/(1+exp(1.96 - 2.09*0 - 2.53*0 - 1.74*1 + 0.22*practice_hours - 0.19*median(sleep_hours))),
+         iconic_b = exp(1.96 - 2.09*0 - 2.53*0 - 1.74*0 + 0.22*practice_hours - 0.19*median(sleep_hours))/(1+exp(1.96 - 2.09*0 - 2.53*0 - 1.74*0 + 0.22*practice_hours - 0.19*median(sleep_hours))))
+```
+
+## Example 2: Multinomial Logistic Regression
+
+- The resulting dataset,
+
+```{r}
+goofy %>% select(performance_outcome, practice_hours, 
+                 messy_g, messy_m, messy_c, messy_b,
+                 disaster_g, disaster_m, disaster_c, disaster_b,
+                 iconic_g, iconic_m, iconic_c, iconic_b) %>%
+  head()
+```
+
+## Example 2: Multinomial Logistic Regression
+
+- For this to graph properly, we need to create a variable that "recodes" the outcomes to 0/1.
+    
+    - Use 0 for the reference group.
+    
+    - Use 1 for all other categories.
+    
+- In our example,    
+
+```{r}
+goofy <- goofy %>%
+  mutate(y_recode = case_when(performance_outcome == "Disaster" ~ 1,
+                              performance_outcome == "Messy"    ~ 1,
+                              performance_outcome == "Iconic"   ~ 1,
+                              performance_outcome == "Solid"    ~ 0))
+goofy %>% count(performance_outcome, y_recode)
+```
+
+## Example 2: Multinomial Logistic Regression
+
+- Splitting graphs by outcome, lines defined by plan:
+
+```{r}
+#| eval: false
+goofy %>%
+  filter(performance_outcome %in% c("Disaster", "Solid")) %>%
+  ggplot(aes(x = practice_hours)) +
+  geom_point(aes(y = y_recode), alpha = 0.2, size = 2) +
+  geom_line(aes(y = disaster_c, color = "Chaotic"), linewidth = 1) +
+  geom_line(aes(y = disaster_g, color = "Goofy"), linewidth = 1) +
+  geom_line(aes(y = disaster_m, color = "Max"), linewidth = 1) +
+  geom_line(aes(y = disaster_b, color = "Balanced"), linewidth = 1) +
+  labs(x = "Practice Hours",
+       y = "Predicted Probability of a Disaster Performance",
+       color = "Practice Plan") +
+  xlim(0, 8) +
+  theme_bw()
+```
+
+## Example 2: Multinomial Logistic Regression
+
+- Splitting graphs by outcome, lines defined by plan:
+
+```{r}
+#| echo: false
+#| fig-alt: "Scatter plot with four logistic regression lines"
+#| fig-align: 'center'
+
+goofy %>%
+  filter(performance_outcome %in% c("Disaster", "Solid")) %>%
+  ggplot(aes(x = practice_hours)) +
+  geom_point(aes(y = y_recode), alpha = 0.2, size = 2) +
+  geom_line(aes(y = disaster_c, color = "Chaotic"), linewidth = 1) +
+  geom_line(aes(y = disaster_g, color = "Goofy"), linewidth = 1) +
+  geom_line(aes(y = disaster_m, color = "Max"), linewidth = 1) +
+  geom_line(aes(y = disaster_b, color = "Balanced"), linewidth = 1) +
+  labs(x = "Practice Hours",
+       y = "Predicted Probability of a Disaster Performance",
+       color = "Practice Plan") +
+  xlim(0, 8) +
+  theme_bw()
+```
+
+
+
+## Example 2: Multinomial Logistic Regression
+
+- See the .qmd file for the under the hood code here,
+
+```{r}
+#| echo: false
+#| fig-alt: "Scatter plot with four logistic regression lines"
+#| fig-align: 'center'
+
+g_d <- goofy %>%
+  filter(performance_outcome %in% c("Disaster", "Solid")) %>%
+  ggplot(aes(x = practice_hours)) +
+  geom_point(aes(y = y_recode), alpha = 0.2, size = 2) +
+  geom_line(aes(y = disaster_c, color = "Chaotic"), linewidth = 1) +
+  geom_line(aes(y = disaster_g, color = "Goofy"), linewidth = 1) +
+  geom_line(aes(y = disaster_m, color = "Max"), linewidth = 1) +
+  geom_line(aes(y = disaster_b, color = "Balanced"), linewidth = 1) +
+  labs(x = "Practice Hours",
+       y = "Predicted Probability of a Disaster Performance",
+       color = "Practice Plan") +
+  xlim(0, 8) +
+  theme_bw()
+
+g_m <- goofy %>%
+  filter(performance_outcome %in% c("Messy", "Solid")) %>%
+  ggplot(aes(x = practice_hours)) +
+  geom_point(aes(y = y_recode), alpha = 0.2, size = 2) +
+  geom_line(aes(y = messy_c, color = "Chaotic"), linewidth = 1) +
+  geom_line(aes(y = messy_g, color = "Goofy"), linewidth = 1) +
+  geom_line(aes(y = messy_m, color = "Max"), linewidth = 1) +
+  geom_line(aes(y = messy_b, color = "Balanced"), linewidth = 1) +
+  labs(x = "Practice Hours",
+       y = "Predicted Probability of a Messy Performance",
+       color = "Practice Plan") +
+  xlim(0, 8) +
+  theme_bw()
+
+g_i <- goofy %>%
+  filter(performance_outcome %in% c("Iconic", "Solid")) %>%
+  ggplot(aes(x = practice_hours)) +
+  geom_point(aes(y = y_recode), alpha = 0.2, size = 2) +
+  geom_line(aes(y = iconic_c, color = "Chaotic"), linewidth = 1) +
+  geom_line(aes(y = iconic_g, color = "Goofy"), linewidth = 1) +
+  geom_line(aes(y = iconic_m, color = "Max"), linewidth = 1) +
+  geom_line(aes(y = iconic_b, color = "Balanced"), linewidth = 1) +
+  labs(x = "Practice Hours",
+       y = "Predicted Probability of an Iconic Performance",
+       color = "Practice Plan") +
+  xlim(0, 8) +
+  theme_bw()
+
+ggarrange(g_d, g_m, g_i,
+          ncol = 3, nrow = 1, 
+          common.legend = TRUE, legend = "bottom")
+```
+
+
+
+## Example 2: Multinomial Logistic Regression
+
+- Splitting graphs by plan, lines defined by outcome:
+
+```{r}
+#| eval: false
+
+goofy %>%
+  filter(plan == "Balanced") %>%
+  ggplot(aes(x = practice_hours)) +
+  geom_point(aes(y = y_recode, color = performance_outcome), size = 2, alpha = 0.2) +
+  geom_line(aes(y = disaster_b, color = "Disaster"), linewidth = 1) +
+  geom_line(aes(y = messy_b, color = "Messy"), linewidth = 1.2) +
+  geom_line(aes(y = iconic_b, color = "Iconic"), linewidth = 1.2) +
+  labs(x = "Practice Hours",
+       y = "Predicted Probability (vs. Solid Performance)",
+       color = "Type of Performance") +
+  xlim(0, 8) +
+  theme_bw()
+```
+
+
+## Example 2: Multinomial Logistic Regression
+
+- Splitting graphs by plan, lines defined by outcome:
+
+```{r}
+#| echo: false
+#| fig-alt: "Scatter plot with three logistic regression lines"
+#| fig-align: 'center'
+
+goofy %>%
+  filter(plan == "Balanced") %>%
+  ggplot(aes(x = practice_hours)) +
+  geom_point(aes(y = y_recode, color = performance_outcome), size = 2, alpha = 0.2) +
+  geom_line(aes(y = disaster_b, color = "Disaster"), linewidth = 1) +
+  geom_line(aes(y = messy_b, color = "Messy"), linewidth = 1.2) +
+  geom_line(aes(y = iconic_b, color = "Iconic"), linewidth = 1.2) +
+  labs(x = "Practice Hours",
+       y = "Predicted Probability (vs. Solid Performance)",
+       color = "Type of Performance") +
+  xlim(0, 8) +
+  theme_bw()
+```
+
+## Example 2: Multinomial Logistic Regression
+
+- See the .qmd file for the under the hood code here,
+
+```{r}
+#| echo: false
+#| fig-alt: "Scatter plot with three logistic regression lines"
+#| fig-align: 'center'
+
+g_b <- goofy %>%
+  filter(plan == "Balanced") %>%
+  ggplot(aes(x = practice_hours)) +
+  geom_point(aes(y = y_recode, color = performance_outcome), size = 2, alpha = 0.2) +
+  geom_line(aes(y = disaster_b, color = "Disaster"), linewidth = 1) +
+  geom_line(aes(y = messy_b, color = "Messy"), linewidth = 1.2) +
+  geom_line(aes(y = iconic_b, color = "Iconic"), linewidth = 1.2) +
+  labs(x = "Practice Hours",
+       y = "Balanced Days",
+       color = "Type of Performance") +
+  xlim(0, 8) +
+  theme_bw()
+
+g_c <- goofy %>%
+  filter(plan == "Chaotic") %>%
+  ggplot(aes(x = practice_hours)) +
+  geom_point(aes(y = y_recode, color = performance_outcome), size = 2, alpha = 0.2) +
+  geom_line(aes(y = disaster_c, color = "Disaster"), linewidth = 1) +
+  geom_line(aes(y = messy_c, color = "Messy"), linewidth = 1.2) +
+  geom_line(aes(y = iconic_c, color = "Iconic"), linewidth = 1.2) +
+  labs(x = "Practice Hours",
+       y = "Chaotic Days",
+       color = "Type of Performance") +
+  xlim(0, 8) +
+  theme_bw()
+
+g_m <- goofy %>%
+  filter(plan == "Max") %>%
+  ggplot(aes(x = practice_hours)) +
+  geom_point(aes(y = y_recode, color = performance_outcome), size = 2, alpha = 0.2) +
+  geom_line(aes(y = disaster_m, color = "Disaster"), linewidth = 1) +
+  geom_line(aes(y = messy_m, color = "Messy"), linewidth = 1.2) +
+  geom_line(aes(y = iconic_m, color = "Iconic"), linewidth = 1.2) +
+  labs(x = "Practice Hours",
+       y = "Max-Led Days",
+       color = "Type of Performance") +
+  xlim(0, 8) +
+  theme_bw()
+
+g_g <- goofy %>%
+  filter(plan == "Chaotic") %>%
+  ggplot(aes(x = practice_hours)) +
+  geom_point(aes(y = y_recode, color = performance_outcome), size = 2, alpha = 0.2) +
+  geom_line(aes(y = disaster_g, color = "Disaster"), linewidth = 1) +
+  geom_line(aes(y = messy_g, color = "Messy"), linewidth = 1.2) +
+  geom_line(aes(y = iconic_g, color = "Iconic"), linewidth = 1.2) +
+  labs(x = "Practice Hours",
+       y = "Goofy-Led Days",
+       color = "Type of Performance") +
+  xlim(0, 8) +
+  theme_bw()
+
+ggarrange(g_m, g_g, g_b, g_c,
+          ncol = 2, nrow = 2, 
+          common.legend = TRUE, legend = "bottom")
+```
+
+## Wrap Up
+
+- In this lecture, we learned how to visualize logistic regression models.
+
+    - Binary outcomes $\to$ binary logistic regression.
+    
+    - Nominal outcomes $\to$ multinomial logistic regression.
+    
+        - This complicates visualization further.
+
+- Again, we are building upon what we have already learned in this course.
+
+    - Remember that we have to "undo" the logit() function to get the correct predicted values for either form of logistic regression.
+    
+- Next week: Poisson and negative binomial regressions.

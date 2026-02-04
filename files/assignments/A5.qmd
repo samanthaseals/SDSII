@@ -1,5 +1,319 @@
 ---
-title: "A5"
-format: html
+title: "Assignment 5"
+author: "Your Name Here"
+execute:
+  echo: true
+  warning: false
+  message: false
+  error: true
+format: 
+  html:
+    df-print: paged
+    self-contained: true
+    html-math-method: katex
+    code-fold: false
+    code-tools: false
+    incremental: false
+editor: source
 ---
 
+```{r setup}
+library(tidyverse)
+library(ssstats)
+```
+
+Dunder Mifflin's Scranton branch is heading into its annual review cycle, and Michael Scott has decided that this quarter's employee performance will be evaluated using a highly sophisticated process.
+
+For each employee, the company has recorded several measures of daily work habits:
+
+- *sales_call_per_day*: the average number of sales calls an employee makes
+- *hours_at_desk*: the average number of hours spent at their desk each day
+- *motivational_poster*: whether Michael has recently hung a new motivational poster near the employee’s workspace (1 = yes, 0 = no)
+
+Management is interested in two different outcomes:
+
+- *promotion_considered*: whether the employee is being considered for a promotion (1 = yes, 0 = no)
+
+- *performance_review*: the employee's performance review rating, which can be "Outstanding", "Adequate", or "Disaster"
+
+**Data Management and Exploration**
+
+0a. Download the data from Canvas and import it to R.
+
+```{r}
+
+```
+
+<!-- no actual response is needed here, just your R output -->
+
+0b. Construct a frequency table for the first outcome, whether the employee is being considered for a promotion (*promotion_considered*).
+
+```{r}
+
+```
+
+<!-- no actual response is needed here, just your R output -->
+
+0c. Based on the frequency table in 0b, what modeling approach do you feel is most appropriate for modeling the outcome variable? Why?
+
+<!-- your answer below here -->
+
+<!-- your answer above here -->
+
+
+0d. Based on the results from 0d and distribution choice in 0c, perform any additional data management that needs to be done prior to modeling. Explain why this data management was or was not necessary.
+
+<!-- if you do not need data management, you do not need this code chunk -->
+```{r}
+
+```
+
+<!-- your answer below here -->
+
+<!-- your answer above here -->
+
+0e. Construct the frequency table for the second outcome, the employee's performance review rating (*performance_review*).
+
+```{r}
+
+```
+
+<!-- no actual response is needed here, just your R output -->
+
+0f. Based on the histogram results from 0e what modeling approach do you feel is most appropriate for modeling the outcome variable?
+
+<!-- your answer below here -->
+
+<!-- your answer above here -->
+
+0g. Based on the results from 0e and distribution choice in 0f, perform any additional data management that needs to be done prior to modeling. Explain why this data management was or was not necessary.
+
+<!-- if you do not need data management, you do not need this code chunk -->
+```{r}
+
+```
+
+<!-- your answer below here -->
+
+<!-- your answer above here -->
+
+**Model 1**
+
+1. Let's fit a multiple regression model predicting the probability that an employee is considered for promotion (*promotion_considered*) as a function of number of sales calls (*sales_call_per_day*), number of hours at desk (*hours_at_desk*), and if Michael has recently hung a new motivational poster (*motivational_poster*; 1 = yes, 0 = no). Call this model `m1`.
+
+```{r}
+m1 <- glm(promotion_considered ~ sales_calls_per_day + hours_at_desk + motivational_poster,
+  data    = office,
+  family  = binomial(link = "logit")
+)
+m1 %>% coefficients()
+```
+
+<!-- no actual response is needed for the modeling portion here, just your R output -->
+
+1a. Based on your output, state the resulting model. 
+
+<!-- below is the basic LaTeX for formatting a regression line; please update it with numbers from your model based on the results above -->
+
+$$
+\hat{y} \text{ OR } \hat{\ln(y)} \text{ OR } \hat{\text{logit}(y)} = \beta_0 + \beta_1 x_1 + ... + \beta_k x_k
+$$
+
+<!-- imperative for full credit: remove the pieces of the left hand side that you do not need -->
+
+1b. Fill out the following table,
+
+| Predictor          | $\hat{\text{OR}}_i$ (95% CI for $\text{OR}_i$)  | *p*-value |
+|--------------------|:---------------------------------------:|----------:|
+| Number of Sales Calls    |                                         |           |
+| Time at Desk (hours)  |                                         |           |
+| Motivational Poster (yes vs. no)  |                                         |           |
+
+
+```{r}
+m1 %>% tidy(exponentiate = TRUE, conf.int = TRUE) %>% mutate(estimate = round(estimate, 2), conf.low = round(conf.low,2), conf.high = round(conf.high,2), p.value = round(p.value, 4)) %>% select(term, estimate, conf.low, conf.high, p.value) 
+```
+
+1c. Is this a significant regression line? You must provide statistical justification for your answer. Assume $\alpha=0.05$.
+
+```{r}
+
+```
+
+
+<!-- your answer below here -->
+
+<!-- your answer above here -->
+
+1d. Which, if any, are significant predictors of being up for promotion? You must provide statistical justification for your answers. Assume $\alpha=0.05$.
+
+```{r}
+
+```
+
+2a. Provide formal interpretations for each predictor in the model. 
+
+* sales calls: <!-- your interpretation here -->
+* hours at desk: <!-- your interpretation here -->
+* motivational poster: <!-- your interpretation here -->
+
+2b. Construct an appropriate data visualization to help explain the relationships in your model. For uniformity (for grading purposes), let's have promotion consideration (*promotion_considered*) on the *y*-axis, the number of hours at their desk (*hours_at_desk*) on the *x*-axis, and the lines defined by the presence of a motivational poster (*motivational_poster*). For predicted values, please plug plausible values other predictors in the model.
+
+```{r}
+
+```
+
+
+**Model 2**
+
+3. Let's fit a multiple regression model predicting the result of an employee's evaluation (*performance_review*) as a function of number of sales calls (*sales_call_per_day*), number of hours at desk (*hours_at_desk*), and if Michael has recently hung a new motivational poster (*motivational_poster*; 1 = yes, 0 = no). Call this model `m2`.
+
+```{r}
+m2 <- nnet::multinom(performance_review ~ sales_calls_per_day + hours_at_desk + motivational_poster,
+  data    = office)
+m2 %>% coefficients()
+```
+
+<!-- no actual response is needed for the modeling portion here, just your R output -->
+
+3a. Based on your output, state the resulting models. 
+
+```{r}
+m2 <- nnet::multinom(performance_review ~ sales_calls_per_day + hours_at_desk + motivational_poster,
+  data    = office)
+m2 %>% coefficients()
+```
+
+<!-- below is the basic LaTeX for formatting a regression line; please update it with numbers from your model based on the results above -->
+
+$$
+\begin{align*}
+\hat{y} \text{ OR } \hat{\ln(y)} \text{ OR } \hat{\text{logit}(y)} &= \beta_0 + \beta_1 x_1 + ... + \beta_k x_k \\
+\hat{y} \text{ OR } \hat{\ln(y)} \text{ OR } \hat{\text{logit}(y)} &= \beta_0 + \beta_1 x_1 + ... + \beta_k x_k
+\end{align*}
+$$
+
+<!-- imperative for full credit: remove the pieces of the left hand side that you do not need -->
+
+
+
+```{r}
+m1 %>% tidy(exponentiate = TRUE, conf.int = TRUE) %>% mutate(estimate = round(estimate, 2), conf.low = round(conf.low,2), conf.high = round(conf.high,2), p.value = round(p.value, 4)) %>% select(term, estimate, conf.low, conf.high, p.value) 
+```
+
+3b. Is this a significant regression line? You must provide statistical justification for your answer. Assume $\alpha=0.05$.
+
+```{r}
+
+```
+
+<!-- your answer below here -->
+
+<!-- your answer above here -->
+
+3c. Which, if any, are significant predictors of evaluation result? You must provide statistical justification for your answers. Assume $\alpha=0.05$.
+
+```{r}
+
+```
+
+4a. Provide formal interpretations for each predictor in the model. 
+
+- For (group 1) vs. (reference group):
+
+    - sales calls: <!-- your interpretation here -->
+    - hours at desk: <!-- your interpretation here -->
+    - motivational poster: <!-- your interpretation here -->
+    
+- For (group 2) vs. (reference group):
+
+    - sales calls: <!-- your interpretation here -->
+    - hours at desk: <!-- your interpretation here -->
+    - motivational poster: <!-- your interpretation here -->
+
+4b. Construct an appropriate data visualization to help explain the relationships in your model. For uniformity (for grading purposes), let's have some version of evaluation result (*performance_review*) on the *y*-axis, the number of hours at their desk (*hours_at_desk*) on the *x*-axis, and the lines defined by the presence of a motivational poster (*motivational_poster*). For predicted values, please plug plausible values other predictors in the model.
+
+```{r}
+
+```
+
+**Summary**
+
+5. Pick either `m1` or `m2` and summarize your findings for Michael. Be sure to include interpretations of the predictors, significance of the model, and any visualizations you created.
+
+<!-- your answer below here -->
+
+<!-- your answer above here -->
+
+**Exploration Time!**
+
+This section is a **bonus** section for undergraduate students, but a **required** section for graduate students.
+
+5a. Re-fit `m1` using the normal distribution and examine relevant statistical inference. How different are the results?
+
+```{r}
+
+```
+
+<!-- your answer below here -->
+
+<!-- your answer above here -->
+
+5b. Check the assumptions on the normal distribution. Remember to draw a conclusion.
+
+```{r}
+
+```
+
+6a. Research: what is ordinal logistic regression? When is it used?
+
+<!-- your answer below here -->
+
+<!-- your answer above here -->
+
+<!-- unless you have extensive experience in statistical modeling, this question cannot be answered without any research :) zero credit will be awarded for answers without proper citations -->
+
+6b. Research: what is ordinal logistic regression? What is the generic form of the resulting models?
+
+<!-- your answer below here -->
+
+<!-- your answer above here -->
+
+<!-- unless you have extensive experience in statistical modeling, this question cannot be answered without any research :) zero credit will be awarded for answers without proper citations -->
+
+6c. Re-fit `m2` using ordinal logistic regression and examine relevant statistical inference. Assume $\alpha=0.05$. How different are the results?
+
+```{r}
+
+```
+
+<!-- your answer below here -->
+
+<!-- your answer above here -->
+
+6d. Check the assumptions on ordinal logistic regression. Remember to draw a conclusion.
+
+```{r}
+
+```
+
+<!-- your answer below here -->
+
+<!-- your answer above here -->
+
+<!-- unless you have extensive experience in statistical modeling, this question cannot be answered without any research :) zero credit will be awarded for answers without proper citations -->
+
+<!-- hint: there is a formal test; look up the "Brant test" -->
+
+6e. If you were choosing between ordinal logistic regression and multinomial logistic regression -- which one would you choose? For full credit, you must clearly justify your choice.
+
+```{r}
+
+```
+
+<!-- your answer below here -->
+
+<!-- your answer above here -->
+
+<!-- note: you may or may not need the code chunk. 
+if you do not need it, you can ignore it :) -->
