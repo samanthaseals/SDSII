@@ -1033,7 +1033,7 @@
     "href": "files/lectures/W5_L1_binary_logistic.html#binomial-distribution",
     "title": "Binary Logistic Regression",
     "section": "Binomial Distribution",
-    "text": "Binomial Distribution\n\nThe Binomial distribution is a discrete probability distribution defined on the set \\{0, 1\\}.\nThe Binomial distribution is characterized by \\pi, the probability of success (Y=1), and n, the number of trials (sample size).\n\nAs n increases, the distribution becomes more spread out.\n\nThe number of possible successes increases from just \\{0, 1\\} to \\{0, 1, 2, ..., n\\}.\nWhen n=1, the Binomial distribution reduces to the Bernoulli distribution.\n\nVarying \\pi changes the shape of the distribution.\n\nWhen \\pi is close to 0 or 1, the distribution is skewed.\nWhen \\pi is around 0.5, the distribution is more symmetric."
+    "text": "Binomial Distribution\n\nThe Binomial distribution is a discrete probability distribution defined for the set \\{0, ..., n\\}.\n\nThe distribution gives the probability of observing a certain number of successes in n independent Bernoulli trials.\n\nThe Binomial distribution is characterized by \\pi = P[Y = 1], the probability of success, and n, the number of trials (sample size).\n\nAs n increases, the distribution becomes more spread out.\nVarying \\pi changes the shape of the distribution.\n\nWhen \\pi is close to 0 or 1, the distribution is skewed.\nWhen \\pi is around 0.5, the distribution is more symmetric."
   },
   {
     "objectID": "files/lectures/W5_L1_binary_logistic.html#binomial-distribution-1",
