@@ -233,8 +233,6 @@ m2_no_mickey %>% tidy()
 
 ## Example 2: Predicted Values
 
-- To help us with coding,
-
 | Term | Mickey Present | Mickey Not Present |
 |:----------|---------------------:|--------------------:|
 | Intercept | 2.37 | 3.09 |
@@ -345,7 +343,7 @@ pluto %>% ggplot(aes(x = temperature)) +
 - The second graph (when Mickey is not present),
 
 ```{r}
-
+#| eval: false
 pluto %>% ggplot(aes(x = temperature)) +
   geom_point(aes(y = squirrels_chased), alpha = 0.5) +
   geom_line(aes(y = squirrels_morning_no_mickey, color = "Morning"), linewidth = 1.5) +
