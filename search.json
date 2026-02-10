@@ -2153,7 +2153,7 @@
     "href": "files/lectures/W6_L3_visualization.html#example-2-predicted-values",
     "title": "Visualizing the Model:Poisson and Negative Binomial Regressions",
     "section": "Example 2: Predicted Values",
-    "text": "Example 2: Predicted Values\n\nTo help us with coding,\n\n\n\n\nTerm\nMickey Present\nMickey Not Present\n\n\n\n\nIntercept\n2.37\n3.09\n\n\nTemperature\n0.02\n0.009\n\n\nTime of Day (Evening)\n-0.41\n-1.44\n\n\nTime of Day (Morning)\n0.41\n-1.69\n\n\nTemp x Evening\n-0.001\n0.01\n\n\nTemp x Morning\n- 0.01\n0.02\n\n\n\n\nThe base model for when Mickey is present,\n\n\n# 2.37 + 0.02*temperature - 0.41*evening + 0.41*morning - 0.001*temperature*evening - 0.01*temperature*morning\n\n\nThe base model for when Mickey is not present,\n\n\n# 3.09 + 0.009*temperature - 1.44*evening - 1.69*morning + 0.01*temperature*evening + 0.02*temperature*morning"
+    "text": "Example 2: Predicted Values\n\n\n\nTerm\nMickey Present\nMickey Not Present\n\n\n\n\nIntercept\n2.37\n3.09\n\n\nTemperature\n0.02\n0.009\n\n\nTime of Day (Evening)\n-0.41\n-1.44\n\n\nTime of Day (Morning)\n0.41\n-1.69\n\n\nTemp x Evening\n-0.001\n0.01\n\n\nTemp x Morning\n- 0.01\n0.02\n\n\n\n\nThe base model for when Mickey is present,\n\n\n# 2.37 + 0.02*temperature - 0.41*evening + 0.41*morning - 0.001*temperature*evening - 0.01*temperature*morning\n\n\nThe base model for when Mickey is not present,\n\n\n# 3.09 + 0.009*temperature - 1.44*evening - 1.69*morning + 0.01*temperature*evening + 0.02*temperature*morning"
   },
   {
     "objectID": "files/lectures/W6_L3_visualization.html#example-2-predicted-values-1",
