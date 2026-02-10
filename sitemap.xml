@@ -2,19 +2,19 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://samanthaseals.github.io/SDSII/files/schedule.html</loc>
-    <lastmod>2026-02-04T04:34:35.219Z</lastmod>
+    <lastmod>2026-02-10T21:14:53.420Z</lastmod>
   </url>
   <url>
     <loc>https://samanthaseals.github.io/SDSII/files/lectures/W3_L3_mixed_int.html</loc>
     <lastmod>2026-01-20T18:07:39.625Z</lastmod>
   </url>
   <url>
-    <loc>https://samanthaseals.github.io/SDSII/files/lectures/W2_L4_simplfying_model.html</loc>
-    <lastmod>2026-01-14T08:15:43.616Z</lastmod>
+    <loc>https://samanthaseals.github.io/SDSII/files/lectures/W6_L2_negbin.html</loc>
+    <lastmod>2026-02-10T21:25:18.314Z</lastmod>
   </url>
   <url>
-    <loc>https://samanthaseals.github.io/SDSII/files/lectures/W6_L3_zip_zinb.html</loc>
-    <lastmod>2026-01-06T03:23:55.516Z</lastmod>
+    <loc>https://samanthaseals.github.io/SDSII/files/lectures/W2_L3b_full_reduced.html</loc>
+    <lastmod>2026-01-06T03:23:55.512Z</lastmod>
   </url>
   <url>
     <loc>https://samanthaseals.github.io/SDSII/files/lectures/W1_L2_visualization.html</loc>
@@ -25,24 +25,20 @@
     <lastmod>2026-01-30T17:49:04.124Z</lastmod>
   </url>
   <url>
-    <loc>https://samanthaseals.github.io/SDSII/files/lectures/W6_L2_negbin_reg.html</loc>
-    <lastmod>2026-01-06T03:23:55.516Z</lastmod>
+    <loc>https://samanthaseals.github.io/SDSII/files/lectures/W5_L2_multinomial_logistic.html</loc>
+    <lastmod>2026-02-04T04:15:12.685Z</lastmod>
   </url>
   <url>
-    <loc>https://samanthaseals.github.io/SDSII/files/lectures/W4_L3_gamma_viz.html</loc>
-    <lastmod>2026-01-27T19:35:10.584Z</lastmod>
+    <loc>https://samanthaseals.github.io/SDSII/files/lectures/W4_L2_gamma_reg.html</loc>
+    <lastmod>2026-01-27T18:49:05.092Z</lastmod>
   </url>
   <url>
-    <loc>https://samanthaseals.github.io/SDSII/files/lectures/W5_L1_binary_logistic.html</loc>
-    <lastmod>2026-02-04T05:17:48.874Z</lastmod>
+    <loc>https://samanthaseals.github.io/SDSII/files/lectures/W3_L4_visualization.html</loc>
+    <lastmod>2026-01-27T19:22:53.960Z</lastmod>
   </url>
   <url>
-    <loc>https://samanthaseals.github.io/SDSII/files/lectures/W2_L1_cat_pred_vars.html</loc>
-    <lastmod>2026-01-06T16:20:42.431Z</lastmod>
-  </url>
-  <url>
-    <loc>https://samanthaseals.github.io/SDSII/files/lectures/W6_L4_visualization.html</loc>
-    <lastmod>2026-01-06T03:23:55.516Z</lastmod>
+    <loc>https://samanthaseals.github.io/SDSII/files/lectures/W4_L4_beta_reg.html</loc>
+    <lastmod>2026-01-27T22:27:19.424Z</lastmod>
   </url>
   <url>
     <loc>https://samanthaseals.github.io/SDSII/files/lectures/W1_L4_diagnostics.html</loc>
@@ -53,88 +49,92 @@
     <lastmod>2026-01-06T03:23:55.515Z</lastmod>
   </url>
   <url>
-    <loc>https://samanthaseals.github.io/SDSII/files/lectures/W2_L3a_why_type_3.html</loc>
-    <lastmod>2026-01-06T03:23:55.512Z</lastmod>
+    <loc>https://samanthaseals.github.io/SDSII/files/lectures/W6_L3_visualization.html</loc>
+    <lastmod>2026-02-10T21:24:10.415Z</lastmod>
   </url>
   <url>
-    <loc>https://samanthaseals.github.io/SDSII/files/lectures/W6_L1_poisson_reg.html</loc>
-    <lastmod>2026-01-06T03:23:55.516Z</lastmod>
-  </url>
-  <url>
-    <loc>https://samanthaseals.github.io/SDSII/files/lectures/W2_L5_visualization.html</loc>
-    <lastmod>2026-01-14T08:15:43.616Z</lastmod>
-  </url>
-  <url>
-    <loc>https://samanthaseals.github.io/SDSII/files/final/final_exam.html</loc>
-    <lastmod>2025-11-23T18:37:21.984Z</lastmod>
-  </url>
-  <url>
-    <loc>https://samanthaseals.github.io/SDSII/files/assignments/keys/A1_KEY.html</loc>
-    <lastmod>2026-01-06T21:44:53.076Z</lastmod>
-  </url>
-  <url>
-    <loc>https://samanthaseals.github.io/SDSII/files/assignments/keys/A3_KEY.html</loc>
-    <lastmod>2026-01-21T06:18:52.722Z</lastmod>
-  </url>
-  <url>
-    <loc>https://samanthaseals.github.io/SDSII/files/assignments/keys/A4_KEY.html</loc>
-    <lastmod>2026-01-28T07:14:19.188Z</lastmod>
-  </url>
-  <url>
-    <loc>https://samanthaseals.github.io/SDSII/files/assignments/A7.html</loc>
-    <lastmod>2025-11-23T18:36:48.433Z</lastmod>
-  </url>
-  <url>
-    <loc>https://samanthaseals.github.io/SDSII/files/assignments/A4.html</loc>
-    <lastmod>2026-02-04T08:28:57.640Z</lastmod>
-  </url>
-  <url>
-    <loc>https://samanthaseals.github.io/SDSII/files/assignments/A3.html</loc>
-    <lastmod>2026-01-21T06:20:52.516Z</lastmod>
-  </url>
-  <url>
-    <loc>https://samanthaseals.github.io/SDSII/index.html</loc>
-    <lastmod>2026-01-06T03:14:16.212Z</lastmod>
-  </url>
-  <url>
-    <loc>https://samanthaseals.github.io/SDSII/files/assignments/A2.html</loc>
-    <lastmod>2026-01-14T08:05:59.834Z</lastmod>
-  </url>
-  <url>
-    <loc>https://samanthaseals.github.io/SDSII/files/assignments/A1.html</loc>
-    <lastmod>2026-01-14T07:57:12.742Z</lastmod>
-  </url>
-  <url>
-    <loc>https://samanthaseals.github.io/SDSII/files/assignments/A5.html</loc>
-    <lastmod>2026-02-04T09:31:27.043Z</lastmod>
-  </url>
-  <url>
-    <loc>https://samanthaseals.github.io/SDSII/files/assignments/A6.html</loc>
-    <lastmod>2025-11-23T18:36:48.433Z</lastmod>
-  </url>
-  <url>
-    <loc>https://samanthaseals.github.io/SDSII/files/assignments/keys/A5_KEY.html</loc>
-    <lastmod>2026-02-04T09:27:23.580Z</lastmod>
-  </url>
-  <url>
-    <loc>https://samanthaseals.github.io/SDSII/files/assignments/keys/A2_KEY.html</loc>
-    <lastmod>2026-01-14T08:21:22.734Z</lastmod>
-  </url>
-  <url>
-    <loc>https://samanthaseals.github.io/SDSII/files/syllabus.html</loc>
-    <lastmod>2026-01-07T05:22:28.215Z</lastmod>
-  </url>
-  <url>
-    <loc>https://samanthaseals.github.io/SDSII/files/lectures/W7_choosing_approach.html</loc>
-    <lastmod>2026-01-06T03:23:55.517Z</lastmod>
+    <loc>https://samanthaseals.github.io/SDSII/files/lectures/W4_L1_intro_gzlm.html</loc>
+    <lastmod>2026-01-27T17:21:31.494Z</lastmod>
   </url>
   <url>
     <loc>https://samanthaseals.github.io/SDSII/files/lectures/W1_L1_review.html</loc>
     <lastmod>2026-01-06T16:20:45.619Z</lastmod>
   </url>
   <url>
-    <loc>https://samanthaseals.github.io/SDSII/files/lectures/W4_L1_intro_gzlm.html</loc>
-    <lastmod>2026-01-27T17:21:31.494Z</lastmod>
+    <loc>https://samanthaseals.github.io/SDSII/files/lectures/W7_choosing_approach.html</loc>
+    <lastmod>2026-01-06T03:23:55.517Z</lastmod>
+  </url>
+  <url>
+    <loc>https://samanthaseals.github.io/SDSII/files/syllabus.html</loc>
+    <lastmod>2026-01-07T05:22:28.215Z</lastmod>
+  </url>
+  <url>
+    <loc>https://samanthaseals.github.io/SDSII/files/assignments/keys/A2_KEY.html</loc>
+    <lastmod>2026-01-14T08:21:22.734Z</lastmod>
+  </url>
+  <url>
+    <loc>https://samanthaseals.github.io/SDSII/files/assignments/keys/A5_KEY.html</loc>
+    <lastmod>2026-02-04T09:27:23.580Z</lastmod>
+  </url>
+  <url>
+    <loc>https://samanthaseals.github.io/SDSII/files/assignments/A6.html</loc>
+    <lastmod>2025-11-23T18:36:48.433Z</lastmod>
+  </url>
+  <url>
+    <loc>https://samanthaseals.github.io/SDSII/files/assignments/A5.html</loc>
+    <lastmod>2026-02-04T09:31:27.043Z</lastmod>
+  </url>
+  <url>
+    <loc>https://samanthaseals.github.io/SDSII/files/assignments/A1.html</loc>
+    <lastmod>2026-01-14T07:57:12.742Z</lastmod>
+  </url>
+  <url>
+    <loc>https://samanthaseals.github.io/SDSII/files/assignments/A2.html</loc>
+    <lastmod>2026-01-14T08:05:59.834Z</lastmod>
+  </url>
+  <url>
+    <loc>https://samanthaseals.github.io/SDSII/index.html</loc>
+    <lastmod>2026-01-06T03:14:16.212Z</lastmod>
+  </url>
+  <url>
+    <loc>https://samanthaseals.github.io/SDSII/files/assignments/A3.html</loc>
+    <lastmod>2026-01-21T06:20:52.516Z</lastmod>
+  </url>
+  <url>
+    <loc>https://samanthaseals.github.io/SDSII/files/assignments/A4.html</loc>
+    <lastmod>2026-02-04T08:28:57.640Z</lastmod>
+  </url>
+  <url>
+    <loc>https://samanthaseals.github.io/SDSII/files/assignments/A7.html</loc>
+    <lastmod>2025-11-23T18:36:48.433Z</lastmod>
+  </url>
+  <url>
+    <loc>https://samanthaseals.github.io/SDSII/files/assignments/keys/A4_KEY.html</loc>
+    <lastmod>2026-01-28T07:14:19.188Z</lastmod>
+  </url>
+  <url>
+    <loc>https://samanthaseals.github.io/SDSII/files/assignments/keys/A3_KEY.html</loc>
+    <lastmod>2026-01-21T06:18:52.722Z</lastmod>
+  </url>
+  <url>
+    <loc>https://samanthaseals.github.io/SDSII/files/assignments/keys/A1_KEY.html</loc>
+    <lastmod>2026-01-06T21:44:53.076Z</lastmod>
+  </url>
+  <url>
+    <loc>https://samanthaseals.github.io/SDSII/files/final/final_exam.html</loc>
+    <lastmod>2025-11-23T18:37:21.984Z</lastmod>
+  </url>
+  <url>
+    <loc>https://samanthaseals.github.io/SDSII/files/lectures/W2_L5_visualization.html</loc>
+    <lastmod>2026-01-14T08:15:43.616Z</lastmod>
+  </url>
+  <url>
+    <loc>https://samanthaseals.github.io/SDSII/files/lectures/W6_L1_poisson.html</loc>
+    <lastmod>2026-02-10T20:50:03.196Z</lastmod>
+  </url>
+  <url>
+    <loc>https://samanthaseals.github.io/SDSII/files/lectures/W2_L3a_why_type_3.html</loc>
+    <lastmod>2026-01-06T03:23:55.512Z</lastmod>
   </url>
   <url>
     <loc>https://samanthaseals.github.io/SDSII/files/lectures/W2_L4_visualization.html</loc>
@@ -149,20 +149,16 @@
     <lastmod>2026-01-19T22:21:11.418Z</lastmod>
   </url>
   <url>
-    <loc>https://samanthaseals.github.io/SDSII/files/lectures/W4_L4_beta_reg.html</loc>
-    <lastmod>2026-01-27T22:27:19.424Z</lastmod>
+    <loc>https://samanthaseals.github.io/SDSII/files/lectures/W2_L1_cat_pred_vars.html</loc>
+    <lastmod>2026-01-06T16:20:42.431Z</lastmod>
   </url>
   <url>
-    <loc>https://samanthaseals.github.io/SDSII/files/lectures/W3_L4_visualization.html</loc>
-    <lastmod>2026-01-27T19:22:53.960Z</lastmod>
+    <loc>https://samanthaseals.github.io/SDSII/files/lectures/W5_L1_binary_logistic.html</loc>
+    <lastmod>2026-02-04T05:17:48.874Z</lastmod>
   </url>
   <url>
-    <loc>https://samanthaseals.github.io/SDSII/files/lectures/W4_L2_gamma_reg.html</loc>
-    <lastmod>2026-01-27T18:49:05.092Z</lastmod>
-  </url>
-  <url>
-    <loc>https://samanthaseals.github.io/SDSII/files/lectures/W5_L2_multinomial_logistic.html</loc>
-    <lastmod>2026-02-04T04:15:12.685Z</lastmod>
+    <loc>https://samanthaseals.github.io/SDSII/files/lectures/W4_L3_gamma_viz.html</loc>
+    <lastmod>2026-01-27T19:35:10.584Z</lastmod>
   </url>
   <url>
     <loc>https://samanthaseals.github.io/SDSII/files/lectures/W3_L2_int_only_cat.html</loc>
@@ -177,8 +173,8 @@
     <lastmod>2026-01-28T01:41:54.680Z</lastmod>
   </url>
   <url>
-    <loc>https://samanthaseals.github.io/SDSII/files/lectures/W2_L3b_full_reduced.html</loc>
-    <lastmod>2026-01-06T03:23:55.512Z</lastmod>
+    <loc>https://samanthaseals.github.io/SDSII/files/lectures/W2_L4_simplfying_model.html</loc>
+    <lastmod>2026-01-14T08:15:43.616Z</lastmod>
   </url>
   <url>
     <loc>https://samanthaseals.github.io/SDSII/files/lectures/W5_L3_visualization.html</loc>
