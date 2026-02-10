@@ -1,0 +1,506 @@
+---
+title: "Poisson Regression"
+execute:
+  echo: true
+  warning: false
+  message: false
+format: 
+  revealjs:
+    theme: default
+    self-contained: true
+    slide-number: true
+    width: 1600
+    height: 900
+    df-print: paged
+    html-math-method: katex
+    code-fold: false
+    code-tools: false
+    incremental: false
+editor: source
+---
+
+
+## Introduction 
+
+```{r}
+#| echo: false
+library(tidyverse)
+library(ssstats)
+library(broom)
+library(ggpubr)
+```
+
+- We have previously discussed continuous outcomes:
+
+    - $y \sim N(\mu, \sigma^2)$
+    - $y \sim \text{gamma}(\mu, \gamma)$
+    - $y \sim \text{beta}(\alpha, \beta)$
+    - $y \sim \text{binomial}(n, \pi)$
+    - $y \sim \text{multinomial}(n, [\pi_1, ... \pi_c])$
+
+- This week, we will consider count outcomes:
+
+    - Poisson
+    - Negative binomial
+    
+## Poisson Regression 
+
+- We can model count outcomes using Poisson regression,
+
+$$\ln\left( y \right) = \beta_0 + \beta_1 x_1 + ... + \beta_k x_k$$
+
+- This is similar to gamma regression with $\ln()$.
+
+    - For interpretations, we are not interested in the natural log of the count.
+    - We will interpret in terms of incident rate ratios (IRR) instead of multiplicative effects on the mean.
+
+## Poisson Regression
+
+- Poisson regression is used specifically for *count response variables*.
+
+    - Examples:
+
+        - Number of votes received
+        - Number of attempts before success
+
+- How is this different than gamma regression?
+
+    - Gamma regression is used for *continuous response variables* that are positive and right-skewed.
+    
+        - Support is $(0, \infty)$.
+    
+    - Poisson regression is used for *count response variables* that are non-negative integers.
+    
+        - Support is $\{0, 1, 2, ..., \infty\}$.
+        
+## Poisson Distribution
+
+```{r}
+#| echo: false
+plot_poisson <- function(lambda, max_x = NULL){
+  # If max_x not specified, choose a reasonable range
+  if(is.null(max_x)){
+    max_x <- qpois(0.999, lambda)
+  }
+  
+  x <- 0:max_x
+  probs <- dpois(x, lambda = lambda)
+  
+  ggplot(data = data.frame(x = x, prob = probs),
+         aes(x = x, y = prob)) +
+    geom_col(width = 0.5, fill = "steelblue") +
+    scale_x_continuous(breaks = x) +
+    labs(x = "Number of Events",
+         y = "Probability",
+         title = paste0("λ = ", lambda)) +
+    theme_bw()
+}
+```
+
+```{r}
+#| echo: false
+#| fig-align: 'center'
+#| fig-alt: "Poisson distribution with λ = 1, 2, 3, 4"
+a <- plot_poisson(lambda = 1) + ylim(0, 0.4)
+b <- plot_poisson(lambda = 2) + ylim(0, 0.4)
+c <- plot_poisson(lambda = 3) + ylim(0, 0.4)
+d <- plot_poisson(lambda = 4) + ylim(0, 0.4)
+ggarrange(a, b, c, d, 
+          ncol = 2, nrow = 2)
+```
+
+        
+## Poisson Distribution
+
+```{r}
+#| echo: false
+#| fig-align: 'center'
+#| fig-alt: "Poisson distribution with λ = 10, 20, 30, 40"
+a <- plot_poisson(lambda = 10) + ylim(0, 0.15)
+b <- plot_poisson(lambda = 20) + ylim(0, 0.15)
+c <- plot_poisson(lambda = 30) + ylim(0, 0.15)
+d <- plot_poisson(lambda = 40) + ylim(0, 0.15)
+ggarrange(a, b, c, d, 
+          ncol = 2, nrow = 2)
+```
+
+## Lecture Example Set Up
+
+- Pluto spends his days at Mickey's park chasing squirrels and interacting with guests. Disney researchers are interested in understanding what factors influence the number of squirrels Pluto chases per hour.
+
+- For 300 observation periods, researchers recorded:
+
+    - *squirrels_chased*: Number of squirrels chased during the observation period
+    - *temperature*: Temperature (°F)
+    - *crowd*: Park crowd level (guests per 100 people) 
+    - *mickey_present*: Whether Mickey is present (Yes/No) 
+    - *time_of_day*: Time of day (Morning, Afternoon, Evening) 
+    
+## Lecture Example Set Up
+
+- Pulling in the data,
+
+```{r}
+pluto <- read_csv("https://raw.githubusercontent.com/samanthaseals/SDSII/refs/heads/main/files/data/lectures/W6_pluto.csv")
+pluto %>% head()
+```
+
+## Lecture Example
+
+- Let's look at the outcome variable, *squirrels_chased*.
+
+```{r}
+#| echo: false
+#| fig-align: 'center'
+#| fig-alt: "Histogram of squirrels chased"
+
+ggplot(pluto, aes(x = squirrels_chased)) +
+  geom_histogram(binwidth = 5, fill = "steelblue", color = "white") +
+  labs(x = "Number of Squirrels Chased",
+       y = "Frequency") +
+  theme_bw()
+```
+
+## Poisson Regression (R)
+
+- We are able to again use the `glm()` function when specifying the Poisson distribution.
+
+```{r}
+#| eval: false
+m <- glm(y ~ x_1 + x_2 + ... + x_k,
+         data = dataset_name,
+         family = poisson(link = "log"))
+```
+
+- Everything we have learned about how to use model results applies here as well.
+
+## Example 1: Poisson Regression
+
+- Let's model the number of squirrels chased as a function of temperature, crowd, and their interaction.
+
+```{r}
+m1 <- glm(squirrels_chased ~ temperature + crowd + temperature:crowd,
+                 data = pluto,
+                 family = poisson(link = "log"))
+m1 %>% tidy()
+```
+
+## Example 1: Poisson Regression
+
+- The resulting regresion model is,
+
+```{r}
+m1 %>% coefficients()
+```
+
+$$
+\ln(\hat{y}) = 0.19 + 0.04 \text{ temp} + 0.04 \text{ crowd} - 0.0003 \text{ temp} \times \text{crowd}
+$$
+
+## Interpreting the Model
+
+- Recall the Poisson regression model,
+
+$$\ln\left( y \right) = \beta_0 + \beta_1 x_1 + ... + \beta_k x_k$$
+
+- We are modeling the log of the count.
+
+    - Interpreting $\hat{\beta}_i$ is an *additive* effect on the *count*. 
+
+    - Interpreting $e^{\hat{\beta}_i}$ is a *multiplicative* effect on the *count*.
+
+- Thus, when interpreting the slope for $x_i$, we will look at the *Incident Rate Ratio*, $e^{\hat{\beta}_i}$.
+
+## Incident Rate Ratios (R)
+
+- We can request the incident rate ratios directly out of `tidy()`,
+
+```{r}
+#| eval: false
+model %>% tidy(conf.int = TRUE, exponentiate = TRUE)
+```
+
+## Example 1: Interpreting the Model
+
+- The incident rate ratios for the model are,
+
+```{r}
+m1 %>% tidy(conf.int = TRUE, exponentiate = TRUE)
+```
+
+## Example 1: Interpreting the Model
+
+- Welp, we have an interaction in our model. 
+
+- This means that we have to:
+
+    - plug in values for crowd to interpret the slope for temperature,
+    - plug in values for tempreature to intepret the slope for crowd.
+    
+- Let's look at summary statistics for each:
+
+```{r}
+summary(pluto$temperature)
+summary(pluto$crowd)
+```
+
+- Let's interpret crowd when temperature = 65, 75, and 85.
+
+- Let's interpret temperature when crowd = 40, 50, and 60.
+
+## Example 1: Interpreting the Model
+
+- To interpret the slope for crowd, we will plug in values for temperature into the model,
+
+| Temperature | Crowd's Slope | Crowd's IRR |
+|:------------|--------------:|------------:|
+| 65          | 0.04 + (-0.0003 * 65) = 0.0205 | $e^{0.0205} = 1.021$ |
+| 75          | 0.04 + (-0.0003 * 75) = 0.0175 | $e^{0.0175} = 1.017$ |
+| 85          | 0.04 + (-0.0003 * 85) = 0.0145 | $e^{0.0145} = 1.015$ |
+
+- As temperature increases, crowd's effect on the number of squirrels chased decreases.
+
+    - When temperature is 65, for every 1 unit increase in crowd, the number of squirrels chased increases by a factor of 1.021; this is a 2.1% increase.
+    - When temperature is 75, for every 1 unit increase in crowd, the number of squirrels chased increases by a factor of 1.017; this is a 1.7% increase.
+    - When temperature is 85, for every 1 unit increase in crowd, the number of squirrels chased increases by a factor of 1.015; this is a 1.5% increase.
+    
+## Example 1: Interpreting the Model
+
+- To interpret the slope for temperature, we will plug in values for crowd into the model,
+
+| Crowd | Temperature's Slope | Temperature's IRR |
+|:------------|--------------:|------------:|
+| 40          | 0.04 - (0.003 * 40) = - 0.08 | $e^{-0.08} = 0.92$ |
+| 50          | 0.04 - (0.003 * 50) = - 0.11 | $e^{-0.11} = 0.90$ |
+| 60          | 0.04 - (0.003 * 60) = - 0.14 | $e^{-0.14} = 0.87$ |
+
+- As temperature increases, crowd's effect on the number of squirrels chased decreases.
+
+    - When the crowd level is 40, for every 1 degree increase in temperature, the number of squirrels chased decreases by a factor of 0.92; this is an 8% decrease.
+    - When the crowd level is 50, for every 1 degree increase in temperature, the number of squirrels chased decreases by a factor of 0.90; this is a 10% decrease.
+    - When the crowd level is 60, for every 1 degree increase in temperature, the number of squirrels chased decreases by a factor of 0.87; this is a 13% decrease.
+    
+## Statistical Inference
+
+- Our approach to determining significance remains the same.
+
+    - For continuous and binary predictors, we can use the Wald test ($z$-test from `tidy()`).
+    - For omnibus tests, we can use the likelihood ratio test (LRT).
+    
+        - Significance of regression line (full/reduced LRT).
+        - Significance of categorical predictors with $c \ge 3$ levels (`car::Anova(type = 3)` or full/reduced LRT).
+        - Interaction terms with categorical predictors with $c \ge 3$ levels (`car::Anova(type = 3)` or full/reduced LRT).    
+    
+## Example 1: Significant Regression Line  
+
+- Let's determine if this is a significant regression line.
+
+```{r}
+m1_full <- glm(squirrels_chased ~ temperature + crowd + temperature:crowd, data = pluto, family = poisson(link = "log"))
+m1_reduced <- glm(squirrels_chased ~ 1, data = pluto, family = poisson(link = "log"))
+anova(m1_reduced, m1_full, test = "LRT")
+```
+
+- Yes, this is a significant regression line ($p < 0.001$).
+
+## Example 1: Testing the Interaction
+
+- Let's now determine if the interaction is significant,
+
+```{r}
+m1 %>% car::Anova(type = 3)
+```
+
+- Yes, the interaction between temperature and crowd is significant ($p < 0.001$).
+
+- Note! The interaction is significant and there are no "plain" main effects in our model. Our formal inference stops here.
+
+## Example 2: Poisson Regression
+
+- Let's now model the number of squirrels chased as a function of temperature, if Mickey is present, and what time of day.
+
+```{r}
+m2 <- glm(squirrels_chased ~ temperature + mickey_present + time_of_day + temperature*mickey_present*time_of_day,
+                 data = pluto,
+                 family = poisson(link = "log"))
+m2 %>% tidy()
+```
+
+
+## Example 2: Poisson Regression
+
+- Oh no! A three-way interaction! Let's check significance:
+
+```{r}
+m2 %>% car::Anova(type = 3)
+```
+
+- Welp.
+
+## Example 2: Poisson Regression
+
+- Because the three-way interaction is significant, it means that:
+
+    - The interaction between *temperature* and *mickey_present* depends on *time_of_day*.
+    - The interaction between *temperature* and *time_of_day* depends on *mickey_present*.
+    - The interaction between *mickey_present* and *time_of_day* depends on *temperature*.
+    
+- Because the three-way interaction is significant, we will now *literally* perform stratified analysis. We could:
+
+    - Stratify by *temperature*
+    - Stratify by *time_of_day*
+    - Stratify by *mickey_present*
+    
+## Example 2: Poisson Regression  
+
+- When Mickey is present:
+    
+```{r}
+m2_mickey <- pluto %>% 
+  filter(mickey_present == "Yes") %>%
+  glm(squirrels_chased ~ temperature + time_of_day + temperature*time_of_day,
+                 data = .,
+                 family = poisson(link = "log"))
+m2_mickey %>% tidy()
+```
+
+## Example 2: Poisson Regression  
+
+- When Mickey is not present:
+    
+```{r}
+m2_no_mickey <- pluto %>% 
+  filter(mickey_present == "No") %>%
+  glm(squirrels_chased ~ temperature + time_of_day + temperature*time_of_day,
+                 data = .,
+                 family = poisson(link = "log"))
+m2_no_mickey %>% tidy()
+```
+
+## Example 2: Poisson Regression  
+
+- Putting the results side-by-side:
+
+| Term | Mickey Present | Mickey Not Present |
+|:----------|---------------------:|--------------------:|
+| Intercept | 2.37 | 3.09 |
+| Temperature | 0.02 (*p* < 0.001) | 0.009 (*p* < 0.001)  |
+| Time of Day (Evening) | -0.41 (*p* = 0.087) | -1.44 (*p* < 0.001) |
+| Time of Day (Morning) | 0.41 (*p* = 0.111) | -1.69 (*p* < 0.001) |
+| Temp x Evening | -0.001 (*p* = 0.661) | 0.01 (*p* = 0.005) |
+| Temp x Morning | - 0.01 (*p* = 0.003) |0.02 (*p* < 0.001) |
+
+- How different are the results? 
+
+## Example 2: Poisson Regression  
+
+- Converting to IRRs,
+
+| Term | Mickey Present | Mickey Not Present |
+|:----------|---------------------:|--------------------:|
+| Temperature | 1.02 | 1.01 |
+| Time of Day (Evening) | 0.67 |  0.24 |
+| Time of Day (Morning) | 1.51 | 0.18 |
+| Temp x Evening | 0.9986 | 1.01 | 
+| Temp x Morning | 0.9899 | 1.02 |
+
+- How different are the results?
+
+## Example 2: Poisson Regression
+
+- Remember that when the three-way interaction is significant, we know that the two-way interactions are also significant. 
+
+| Term | Mickey Present | Mickey Not Present |
+|:----------|---------------------:|--------------------:|
+| Temperature | 1.02 | 1.01 |
+| Time of Day (Evening) | 0.67 |  0.24 |
+| Time of Day (Morning) | 1.51 | 0.18 |
+| Temp x Evening | 0.9986 | 1.01 | 
+| Temp x Morning | 0.9899 | 1.02 |
+
+- The interactions involved with Mickey's presence have been *absorbed* into the analyses -- we "see" them in the differing slopes for the main effects of time of day and temperature.
+
+## Example 2: Significant Regression Line(s)
+
+- Let's now determine if these are significant regression lines.
+
+```{r}
+m2_mickey_full <- pluto %>% filter(mickey_present == "Yes") %>% glm(squirrels_chased ~ temperature + time_of_day + temperature*time_of_day, data = ., family = poisson(link = "log"))
+m2_mickey_reduced <- pluto %>% filter(mickey_present == "Yes") %>% glm(squirrels_chased ~ 1, data = ., family = poisson(link = "log"))
+anova(m2_mickey_reduced, m2_mickey_full, test = "LRT")
+```
+
+```{r}
+m2_no_mickey_full <- pluto %>% filter(mickey_present == "No") %>% glm(squirrels_chased ~ temperature + time_of_day + temperature*time_of_day, data = ., family = poisson(link = "log"))
+m2_no_mickey_reduced <- pluto %>% filter(mickey_present == "No") %>% glm(squirrels_chased ~ 1, data = ., family = poisson(link = "log"))
+anova(m2_no_mickey_reduced, m2_no_mickey_full, test = "LRT")
+```
+
+- They are both significant regression lines (both *p* < 0.001).
+
+## Example 2: Significant Predictors
+
+- Let's now determine significance of individual predictors,
+
+```{r}
+m2_mickey %>% car::Anova(type = 3)
+m2_no_mickey %>% car::Anova(type = 3)
+```
+
+- In both models the interaction between temperature and time of day is a significant predictor (*p* = 0.006 and *p* < 0.001).
+
+## Example 2: Interpreting the Model
+
+- Like before, we can further stratify in the interest of interpretation. Let's first break down the model with Mickey present,
+
+$$
+\ln(\hat{y}) = 2.37 + 0.04 \text{ temp} - 0.41 \text{ E} + 0.41 \text{ M} - 0.001 \text{ temp} \times \text{E} - 0.01 \text{ temp} \times \text{M}
+$$
+
+| Time of Day | Temperature's Slope | Temperature's IRR |
+|:------------|--------------:|------------:|
+| Morning     | 0.04 - 0.01 = 0.03 | $e^{0.03} = 1.030$ |
+| Afternoon   | 0.04 | $e^{0.04} = 1.041$ |
+| Evening     | 0.04 - 0.001 = 0.039 | $e^{0.039} = 1.039$ |
+
+## Example 2: Interpreting the Model
+
+- Like before, we can further stratify in the interest of interpretation. Let's first break down the model with Mickey not present,
+
+$$
+ln(\hat{y}) = 3.09 + 0.009 \text{ temp} - 1.44 \text{ E} - 1.69 \text{ M} + 0.01 \text{ temp} \times \text{E} + 0.02 \text{ temp} \times \text{M}
+$$
+
+| Time of Day | Temperature's Slope | Temperature's IRR |
+|:------------|--------------:|------------:|
+| Morning     | 0.009 - 1.69 = -1.681 | $e^{-1.681} = 0.186$ |
+| Afternoon   | 0.009 | $e^{0.009} = 2.832$ |
+| Evening     | 0.009 - 1.44 = -1.431 | $e^{-1.431} = 0.239$ |
+
+## Example 2: Interpreting the Model
+
+- Finally, putting these results together side-by-side,
+
+| Time of Day | IRR for Temp - Mickey | IRR for Temp - No Mickey |
+|:------------|--------------:|------------:|
+| Morning     | 1.030 | 0.186 |
+| Afternoon   | 1.041 | 2.832 |
+| Evening     | 1.039 | 0.239 |
+
+- Pluto is much more likely to chase squirrels when Mickey is not present in the afternoon.
+- If Mickey is not around, Pluto is much less likely to chase squirrels in the morning and evening as temperature increases.
+- If Mickey is around, Pluto is slightly more likely to chase squirrels as temperature increases -- but time of day does not affect this.
+
+## Wrap Up
+
+- In this lecture, we have introduced Poisson regression.
+
+    - Poisson regression is appropriate for count outcomes.
+    
+- We again saw the log link function.
+
+    - We interpret coefficients as multiplicative effects on the *count* of the outcome.
+    
+    - These are called the incident rate ratios (IRR).
+
+- In the next lecture, we will review negative binomial regression.

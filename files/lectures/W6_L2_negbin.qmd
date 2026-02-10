@@ -1,0 +1,390 @@
+---
+title: "Negative Binomial Regression"
+execute:
+  echo: true
+  warning: false
+  message: false
+format: 
+  revealjs:
+    theme: default
+    self-contained: true
+    slide-number: true
+    width: 1600
+    height: 900
+    df-print: paged
+    html-math-method: katex
+    code-fold: false
+    code-tools: false
+    incremental: false
+editor: source
+---
+
+## Introduction 
+
+```{r}
+#| echo: false
+library(tidyverse)
+library(ssstats)
+library(broom)
+library(ggpubr)
+```
+
+- We have previously discussed continuous outcomes:
+
+    - $y \sim N(\mu, \sigma^2)$
+    - $y \sim \text{gamma}(\mu, \gamma)$
+    - $y \sim \text{beta}(\alpha, \beta)$
+    - $y \sim \text{binomial}(n, \pi)$
+    - $y \sim \text{multinomial}(n, [\pi_1, ... \pi_c])$
+
+- This week, we will consider count outcomes:
+
+    - Poisson
+    - Negative binomial
+    
+## Negative Binomial Regression 
+
+- We can model count outcomes using negative binomial regression,
+
+$$\ln\left( y \right) = \beta_0 + \beta_1 x_1 + ... + \beta_k x_k$$
+
+- This is similar to Poisson regression.
+
+    - For interpretations, we are not interested in the natural log of the count.
+    - We will again interpret in terms of incident rate ratios (IRR).
+
+## Negative Binomial Regression
+
+- Negative binomial regression is used specifically for *count response variables*.
+
+    - Examples:
+
+        - Number of votes received
+        - Number of attempts before success
+
+- How is this different than Poisson regression?
+
+## Negative Binomial Regression
+
+- How is this different than Poisson regression?
+
+    - ... it is and isn't.
+    
+- Poisson regression assumes that the mean and variance of the count variable are equal (equidispersion).
+
+    - When we have overdispersion (mean > variance), the negative binomial regression can be a better fit.
+    
+- Negative binomial regression includes an additional parameter, $\theta$, to account for overdispersion.
+
+    - As $\theta \to \infty$, the negative binomial distribution approaches the Poisson distribution.
+    - As $\theta \to 0$, the variance increases, allowing for more overdispersion.
+        
+
+## Negative Binomial Distribution
+
+```{r}
+#| echo: false
+plot_negbin <- function(mu, theta, max_x = NULL){
+  # If max_x not specified, choose a reasonable range
+  if(is.null(max_x)){
+    max_x <- qnbinom(0.999, mu = mu, size = theta)
+  }
+  
+  x <- 0:max_x
+  probs <- dnbinom(x, mu = mu, size = theta)
+  
+  ggplot(data = data.frame(x = x, prob = probs),
+         aes(x = x, y = prob)) +
+    geom_col(width = 0.5, fill = "steelblue") +
+    scale_x_continuous(breaks = x) +
+    labs(x = "Number of Events",
+         y = "Probability",
+         title = paste0("μ = ", mu, ", θ = ", theta)) +
+    theme_bw()
+}
+```
+
+```{r}
+#| echo: false
+#| fig-align: 'center'
+#| fig-alt: "Negative binomial distribution with varying μ and θ"
+a <- plot_negbin(mu = 2, theta = 1) + ylim(0, 0.4)
+b <- plot_negbin(mu = 2, theta = 5) + ylim(0, 0.4)
+c <- plot_negbin(mu = 4, theta = 1) + ylim(0, 0.4)
+d <- plot_negbin(mu = 4, theta = 5) + ylim(0, 0.4)
+ggarrange(a, b, c, d, 
+          ncol = 2, nrow = 2)
+```
+
+## Poisson or Negative Binomial?
+
+- How do I determine which to use?
+
+- Easy check: mean and variance.
+
+    - Literally, `mean()` and `var()`.
+    
+```{r}
+#| eval: false
+mean(dataset_name$count_variable)
+var(dataset_name$count_variable)
+```
+    
+- Another way to eyeball: histogram.
+
+    - We will see very skewed data if the mean > variance.
+
+```{r}
+#| eval: false
+hist(dataset_name$count_variable)
+```    
+
+## Poisson or Negative Binomial?
+
+- Wait -- why do we care?
+
+- When data is overdispersed, we know that the standard error for $\beta_i$ is underestimated in Poisson regression.
+
+    - The SE is in the denominator of the test statistic. Smaller value $\to$ higher test statistic.
+    - Larger test statistic $\to$ smaller $p$-value.
+    - Smaller $p$-value $\to$ easier to reject the null hypothesis.
+    - Rejecting when we should not is a Type I error.
+    
+- When we apply the negative binomial instead, the overdispersion parameter remedies this issue.
+
+
+## Lecture Example Set Up
+
+- Pluto spends his days at Mickey's park chasing squirrels and interacting with guests. Disney researchers are interested in understanding what factors influence the number of squirrels Pluto chases per hour.
+
+- For 300 observation periods, researchers recorded:
+
+    - *squirrels_chased*: Number of squirrels chased during the observation period
+    - *temperature*: Temperature (°F)
+    - *crowd*: Park crowd level (guests per 100 people) 
+    - *mickey_present*: Whether Mickey is present (Yes/No) 
+    - *time_of_day*: Time of day (Morning, Afternoon, Evening) 
+    
+## Lecture Example Set Up
+
+- Pulling in the data,
+
+```{r}
+pluto <- read_csv("https://raw.githubusercontent.com/samanthaseals/SDSII/refs/heads/main/files/data/lectures/W6_pluto.csv")
+pluto %>% head()
+```
+
+## Example 1: Poisson Regression
+
+- Recall the first model from last lecture: the number of squirrels chased as a function of temperature, crowd, and their interaction.
+
+```{r}
+m1_poi <- glm(squirrels_chased ~ temperature + crowd + temperature:crowd,
+                 data = pluto,
+                 family = poisson(link = "log"))
+m1_poi %>% tidy()
+```
+
+## Example 1: Poisson Regression
+
+- Let's now examine the outcome,
+
+```{r}
+#| fig-align: 'center'
+#| fig-alt: "Histogram of squirrels chased"
+mean(pluto$squirrels_chased)
+var(pluto$squirrels_chased)
+hist(pluto$squirrels_chased)
+```
+
+- There is definitely overdispersion in this dataset.
+
+## Negative Binomial Regression (R)
+
+- To perform negative binomial regression, we need the `glm.nb()` function from the `MASS` package.
+
+    - `MASS` is another package I will not load in, personally. I call the function directly from the package,
+
+```{r}
+#| eval: false
+model <- MASS::glm.nb(y ~ x_1 + x_2 + ... + x_k,
+                      data = dataset_name)
+```
+
+- Again, we can request the incident rate ratios directly out of `tidy()`,
+
+```{r}
+#| eval: false
+model %>% tidy(conf.int = TRUE, exponentiate = TRUE)
+```
+
+- Then, everything else we have learned follows as normal.
+
+## Example 1: Negative Binomial Regression
+
+- Modeling using negative binomial instead,
+
+```{r}
+m1_nb <- MASS::glm.nb(squirrels_chased ~ temperature + crowd + temperature:crowd,
+                      data = pluto)
+m1_nb %>% tidy()
+```
+
+## Example 1: Comparison
+
+- Poisson:
+
+```{r}
+#| echo: false
+m1_poi %>% tidy()
+```
+
+- Negative Binomial:
+
+```{r}
+#| echo: false
+m1_nb %>% tidy()
+```
+
+## Example 1: Comparison
+
+- Note that the coefficients are not very different...
+
+```{r}
+summary(m1_poi)$coefficients[, 1]
+summary(m1_nb)$coefficients[, 1]
+```
+
+- while the standard errors are different...
+
+```{r}
+summary(m1_poi)$coefficients[, 2]
+summary(m1_nb)$coefficients[, 2]
+```
+
+## Example 1: Comparison
+
+- ... and the *p*-values are, too.
+
+```{r}
+summary(m1_poi)$coefficients[, 4]
+summary(m1_nb)$coefficients[, 4]
+```
+
+- Let's pay particularly close attention to the interaction term...
+
+## Statistical Inference
+
+- Our approach to determining significance remains the same.
+
+    - For continuous and binary predictors, we can use the Wald test ($z$-test from `tidy()`).
+    - For omnibus tests, we can use the likelihood ratio test (LRT).
+    
+        - Significance of regression line (full/reduced LRT).
+        - Significance of categorical predictors with $c \ge 3$ levels (`car::Anova(type = 3)` or full/reduced LRT).
+        - Interaction terms with categorical predictors with $c \ge 3$ levels (`car::Anova(type = 3)` or full/reduced LRT).    
+        
+## Example 1: Significant Regression Line  
+
+- Let's determine if this is a significant regression line.
+
+```{r}
+m1_full <- MASS::glm.nb(squirrels_chased ~ temperature + crowd + temperature:crowd, data = pluto)
+m1_reduced <- MASS::glm.nb(squirrels_chased ~ 1, data = pluto)
+anova(m1_reduced, m1_full, test = "Chisq")
+```
+
+- Yes, this is a significant regression line ($p < 0.001$).
+
+## Example 1: Testing the Interaction
+
+- Let's now determine if the interaction is significant,
+
+```{r}
+m1_nb %>% car::Anova(type = 3)
+```
+
+- No! The interaction between temperature and crowd is *not* significant ($p = 0.075$).
+
+## Example 1: Removing the Interaction
+
+- Rerunning our model without the interaction,
+
+```{r}
+m1_final <- MASS::glm.nb(squirrels_chased ~ temperature + crowd, data = pluto)
+m1_final %>% tidy()
+```
+
+$$ 
+\ln\left( y \right) = 1.32 + 0.02 \text{ temp} + 0.02 \text{ crowd}
+$$
+
+
+
+## Interpreting the Model
+
+- Recall the negative binomial regression model,
+
+$$\ln\left( y \right) = \beta_0 + \beta_1 x_1 + ... + \beta_k x_k$$
+
+- We are modeling the log of the count.
+
+    - Interpreting $\hat{\beta}_i$ is an *additive* effect on the *count*. 
+
+    - Interpreting $e^{\hat{\beta}_i}$ is a *multiplicative* effect on the *count*.
+
+- Thus, when interpreting the slope for $x_i$, we will look at the *Incident Rate Ratio*, $e^{\hat{\beta}_i}$.
+
+## Incident Rate Ratios (R)
+
+- Like in Poisson regression, we can request the incident rate ratios directly out of `tidy()`,
+
+```{r}
+#| eval: false
+model %>% tidy(conf.int = TRUE, exponentiate = TRUE)
+```
+
+## Example 1: Interpreting the Model
+
+- Finding our incident rate ratios,
+
+```{r}
+m1_final %>% tidy(conf.int = TRUE, exponentiate = TRUE)
+```
+
+- In table form,
+
+| Predictor | IRR (95% CI for IRR) | *p*-value |
+|-----------|----------------------|------------|
+| Temperature | 1.021 (1.017, 1.026) | < 0.001 |
+| Crowd | 1.017 (1.014, 1.019) | < 0.001 |
+
+
+## Example 1: Interpreting the Model
+
+- Let's interpret the incident rate ratios.
+
+| Predictor | IRR (95% CI for IRR) | *p*-value |
+|-----------|----------------------|------------|
+| Temperature | 1.021 (1.017, 1.026) | < 0.001 |
+| Crowd | 1.017 (1.014, 1.019) | < 0.001 |
+
+- For every 1°F increase in temperature, the expected number of squirrels chased increases by a factor of 1.021, holding crowd constant. This is a 2.1% increase.
+    
+- For every 100 additional guests in the park, the expected number of squirrels chased increases by a factor of 1.017, holding temperature constant. This is a 1.7% increase.
+
+## Wrap Up
+
+- In this lecture, we have introduced negative binomial regression.
+
+    - Negative binomial regression is appropriate for overdispersed count outcomes.
+    
+- We again saw the log link function.
+
+    - We interpret coefficients as multiplicative effects on the *count* of the outcome.
+    
+    - These are called the incident rate ratios (IRR).
+
+- In the next lecture, we will review visualization of Poisson and negative binomial models.
+
+- Next week, we will bring all topics together and review choosing the appropriate regression model for your data.

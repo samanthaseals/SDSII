@@ -1,5 +1,0 @@
----
-title: "W6_L2_negbin_reg"
-format: html
----
-

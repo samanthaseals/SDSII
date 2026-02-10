@@ -1,0 +1,449 @@
+---
+title: "Visualizing the Model:<br>Poisson and Negative Binomial Regressions"
+execute:
+  echo: true
+  warning: false
+  message: false
+  error: true
+format: 
+  revealjs:
+    theme: default
+    self-contained: true
+    slide-number: true
+    width: 1600
+    height: 900
+    df-print: paged
+    html-math-method: katex
+    code-fold: false
+    code-tools: false
+    incremental: false
+editor: source
+---
+
+## Introduction
+
+```{r}
+#| echo: false
+library(tidyverse)
+library(ggpubr)
+library(broom)
+```
+
+- In the previous weeks, we have built up what we understand about data visualization.
+
+    - Week 1: Visualizing models with only continuous predictors
+    - Week 2: Visualizing models with only categorical predictors; visualizing models with both continuous and categorical predictors
+    - Week 3: Visualizing models with interaction terms.
+    - Week 4: Gamma and beta regressions.
+    - Week 5: Binomial and multinomial logistic regressions.
+
+- In this lecture, we will focus on visualizing Poisson and negative binomial regression models.
+
+## Poisson & Negative Binomial Regressions
+
+- Recall the Poisson and negative binomial models,
+
+$$
+\ln(\hat{y}) = \hat{\beta}_0 + \hat{\beta}_1 x_1 + ... + \hat{\beta}_k x_k 
+$$
+
+- The approach we will take will match the approach taken for gamma:
+
+    1. Find the linear predictor.
+    2. Exponentiate (run through `exp()`).
+
+## Lecture Example Set Up
+
+- Pluto spends his days at Mickey's park chasing squirrels and interacting with guests. Disney researchers are interested in understanding what factors influence the number of squirrels Pluto chases per hour.
+
+- For 300 observation periods, researchers recorded:
+
+    - *squirrels_chased*: Number of squirrels chased during the observation period
+    - *temperature*: Temperature (°F)
+    - *crowd*: Park crowd level (guests per 100 people) 
+    - *mickey_present*: Whether Mickey is present (Yes/No) 
+    - *time_of_day*: Time of day (Morning, Afternoon, Evening) 
+    
+## Lecture Example Set Up
+
+- Pulling in the data,
+
+```{r}
+pluto <- read_csv("https://raw.githubusercontent.com/samanthaseals/SDSII/refs/heads/main/files/data/lectures/W6_pluto.csv")
+pluto %>% head()
+```
+
+## Example 1: Negative Binomial Regression
+
+- Recall the final model from the negative binomial lecture,
+
+$$ 
+\ln\left( y \right) = 1.32 + 0.02 \text{ temp} + 0.02 \text{ crowd}
+$$
+
+- We want to construct a graph for this model. We will have:
+
+    - number of squirrels chased on the *y*-axis
+    - crowd level on the *x*-axis
+    - temperature will show different lines (let's plug in 50, 75, and 100°F)
+    
+    
+```{r}
+summary(pluto$temperature)
+```
+
+## Creating Predicted Values
+
+- Now that the $\ln()$ is present in the model, we need to be careful when creating predicted values.
+  
+    - We want to graph the predicted $y$, not $\ln(y)$.
+
+$$
+\hat{y} = e^{\hat{\beta}_0 + \hat{\beta}_1x_1 + \beta_2 x_2 + \cdot \cdot \cdot + \hat{\beta}_k x_k}
+$$
+
+- We saw this with gamma regression -- remember that we exponentiate the linear predictor.
+
+## Example 1: Predicted Values
+
+- Recall the final model,
+
+$$ 
+\ln\left( y \right) = 1.32 + 0.02 \text{ temp} + 0.02 \text{ crowd}
+$$
+
+- Finding our predicted values,
+
+```{r}
+pluto <- pluto %>%
+  mutate(squirrels_50 = exp(1.32 + 0.02*50 + 0.02*crowd),
+         squirrels_75 = exp(1.32 + 0.02*75 + 0.02*crowd),
+         squirrels_100 = exp(1.32 + 0.02*100 + 0.02*crowd))
+```
+
+```{r}
+#| echo: false
+pluto %>% select(squirrels_chased, squirrels_50, squirrels_75, squirrels_100) %>% head(n=2)
+```
+
+## Example 1: Visualizing the Model
+
+- Coding our graph as we have before,
+
+    - Original values for the scatterplot (`geom_point()`)
+    - Predicted values for the lines (`geom_line()`)
+    
+```{r}
+#| eval: false
+pluto %>% ggplot(aes(x = crowd)) +
+  geom_point(aes(y = squirrels_chased), alpha = 0.5) +
+  geom_line(aes(y = squirrels_50, color = "50°F"), linewidth = 1.5) +
+  geom_line(aes(y = squirrels_75, color = "75°F"), linewidth = 1.5) +
+  geom_line(aes(y = squirrels_100, color = "100°F"), linewidth = 1.5) +
+  scale_color_manual(values = c("50°F" = "#00BA38", 
+                                 "75°F" = "#619CFF", 
+                                 "100°F" = "#F8766D"),
+                     breaks = c("50°F", "75°F", "100°F")) +
+  labs(x = "Guests per 100 people (Crowd Level)",
+       y = "Number of Squirrels Chased",
+       color = "Temperature") +
+  theme_bw()
+```
+
+## Example 1: Visualizing the Model
+
+```{r}
+#| fig-align: 'center'
+#| fig-alt: "Scatterplot of number of squirrels chased versus crowd level with three regression lines, one for each temperature"
+#| echo: false
+pluto %>% ggplot(aes(x = crowd)) +
+  geom_point(aes(y = squirrels_chased), alpha = 0.5) +
+  geom_line(aes(y = squirrels_50, color = "50°F"), linewidth = 1.5) +
+  geom_line(aes(y = squirrels_75, color = "75°F"), linewidth = 1.5) +
+  geom_line(aes(y = squirrels_100, color = "100°F"), linewidth = 1.5) +
+  scale_color_manual(values = c("50°F" = "#00BA38", 
+                                 "75°F" = "#619CFF", 
+                                 "100°F" = "#F8766D"),
+                     breaks = c("50°F", "75°F", "100°F")) +
+  labs(x = "Guests per 100 people (Crowd Level)",
+       y = "Number of Squirrels Chased",
+       color = "Temperature") +
+  theme_bw()
+```
+
+## Example 2: Poisson Regression
+
+- Let's now tackle the second example from the Poisson regression lecture.
+
+    - Remember, we saw a three-way interaction between temperature, Mickey's presence, and time of day. 
+
+```{r}
+m2 <- glm(squirrels_chased ~ temperature + mickey_present + time_of_day + temperature*mickey_present*time_of_day,
+                 data = pluto,
+                 family = poisson(link = "log"))
+m2 %>% car::Anova(type = 3)
+```
+
+## Example 2: Poisson Regression  
+
+- We then stratified the analysis to "get rid" of the three way interaction.
+
+- When Mickey is present:
+    
+```{r}
+m2_mickey <- pluto %>% 
+  filter(mickey_present == "Yes") %>%
+  glm(squirrels_chased ~ temperature + time_of_day + temperature*time_of_day,
+                 data = .,
+                 family = poisson(link = "log"))
+m2_mickey %>% tidy()
+```
+
+## Example 2: Poisson Regression  
+
+- We then stratified the analysis to "get rid" of the three way interaction.
+
+- When Mickey is not present:
+    
+```{r}
+m2_no_mickey <- pluto %>% 
+  filter(mickey_present == "No") %>%
+  glm(squirrels_chased ~ temperature + time_of_day + temperature*time_of_day,
+                 data = .,
+                 family = poisson(link = "log"))
+m2_no_mickey %>% tidy()
+```
+
+## Example 2: Poisson Regression  
+
+- Let's stop and think about our graph.
+
+    - We want to graph the predicted number of squirrels chased on the *y*-axis and temperature on the *x*-axis.
+    
+    - We should have time of day define the lines.
+    
+    - We should have two graphs, one for when Mickey is present and one for when Mickey is not present.
+    
+- So, this will create variables for
+
+    - Mickey present: morning, afternoon, and evening
+    
+    - Mickey not present: morning, afternoon, and evening
+
+
+## Example 2: Predicted Values
+
+- To help us with coding,
+
+| Term | Mickey Present | Mickey Not Present |
+|:----------|---------------------:|--------------------:|
+| Intercept | 2.37 | 3.09 |
+| Temperature | 0.02 | 0.009 |
+| Time of Day (Evening) | -0.41 | -1.44 |
+| Time of Day (Morning) | 0.41 | -1.69 |
+| Temp x Evening | -0.001 | 0.01 |
+| Temp x Morning | - 0.01 | 0.02 |
+
+- The base model for when Mickey is present,
+
+```{r}
+# 2.37 + 0.02*temperature - 0.41*evening + 0.41*morning - 0.001*temperature*evening - 0.01*temperature*morning
+```
+
+- The base model for when Mickey is not present,
+
+```{r}
+# 3.09 + 0.009*temperature - 1.44*evening - 1.69*morning + 0.01*temperature*evening + 0.02*temperature*morning 
+```
+
+## Example 2: Predicted Values
+
+- Creating predicted values for when Mickey is present,
+
+```{r}
+pluto <- pluto %>%
+  mutate(squirrels_morning_mickey = exp(2.37 + 0.02*temperature - 0.41*0 + 0.41*1 - 0.001*temperature*0 - 0.01*temperature*1),
+         squirrels_afternoon_mickey = exp(2.37 + 0.02*temperature - 0.41*0 + 0.41*0 - 0.001*temperature*0 - 0.01*temperature*0),
+         squirrels_evening_mickey = exp(2.37 + 0.02*temperature - 0.41*1 + 0.41*0 - 0.001*temperature*1 - 0.01*temperature*0))
+```
+
+- Creating predicted values for when Mickey is not present,
+
+```{r}
+pluto <- pluto %>%
+  mutate(squirrels_morning_no_mickey = exp(3.09 + 0.009009*temperature - 1.44*0 - 1.69*1 + 0.01*temperature*0 + 0.02*temperature*1),
+         squirrels_afternoon_no_mickey = exp(3.09 + 0.009*temperature - 1.44*0 - 1.69*0 + 0.01*temperature*0 + 0.02*temperature*0),
+         squirrels_evening_no_mickey = exp(3.09 + 0.009*temperature - 1.44*1 - 1.69*0 + 0.01*temperature*1 + 0.02*temperature*0))
+```
+
+## Example 2: Predicted Values
+
+- Checking the predicted values,
+
+```{r}
+#| echo: false
+pluto %>% select(squirrels_chased,
+                   squirrels_morning_mickey,
+                   squirrels_afternoon_mickey,
+                   squirrels_evening_mickey,
+                   squirrels_morning_no_mickey,
+                   squirrels_afternoon_no_mickey,
+                   squirrels_evening_no_mickey) %>%
+  head()
+```
+
+## Example 2: Visualizing the Model
+
+- Coding our graph as we have before,
+
+    - Original values for the scatterplot (`geom_point()`)
+    - Predicted values for the lines (`geom_line()`)
+    - Separate graphs for Mickey present vs. not present
+    
+```{r}
+#| eval: false
+pluto %>% ggplot(aes(x = temperature)) +
+  geom_point(aes(y = squirrels_chased), alpha = 0.5) +
+  geom_line(aes(y = squirrels_morning_mickey, color = "Morning"), linewidth = 1.5) +
+  geom_line(aes(y = squirrels_afternoon_mickey, color = "Afternoon"), linewidth = 1.5) +
+  geom_line(aes(y = squirrels_evening_mickey, color = "Evening"), linewidth = 1.5) +
+  scale_color_manual(values = c("Morning" = "#00BA38", 
+                                 "Afternoon" = "#619CFF", 
+                                 "Evening" = "#F8766D"),
+                     breaks = c("Morning", "Afternoon", "Evening")) +
+  labs(x = "Temperature (°F)",
+       y = "Number of Squirrels Chased",
+       color = "Time of Day") +
+  theme_bw() 
+```
+
+## Example 2: Visualizing the Model
+
+- Running the code,
+
+```{r}
+#| echo: false
+#| fig-align: 'center'
+#| fig-alt: 'Scatterplot of number of squirrels chased versus temperature with three regression lines, one for each time of day'
+pluto %>% ggplot(aes(x = temperature)) +
+  geom_point(aes(y = squirrels_chased), alpha = 0.5) +
+  geom_line(aes(y = squirrels_morning_mickey, color = "Morning"), linewidth = 1.5) +
+  geom_line(aes(y = squirrels_afternoon_mickey, color = "Afternoon"), linewidth = 1.5) +
+  geom_line(aes(y = squirrels_evening_mickey, color = "Evening"), linewidth = 1.5) +
+  scale_color_manual(values = c("Morning" = "#00BA38", 
+                                 "Afternoon" = "#619CFF", 
+                                 "Evening" = "#F8766D"),
+                     breaks = c("Morning", "Afternoon", "Evening")) +
+  labs(x = "Temperature (°F)",
+       y = "Number of Squirrels Chased",
+       color = "Time of Day") +
+  theme_bw() 
+```
+
+## Example 2: Visualizing the Model
+
+- The second graph (when Mickey is not present),
+
+```{r}
+
+pluto %>% ggplot(aes(x = temperature)) +
+  geom_point(aes(y = squirrels_chased), alpha = 0.5) +
+  geom_line(aes(y = squirrels_morning_no_mickey, color = "Morning"), linewidth = 1.5) +
+  geom_line(aes(y = squirrels_afternoon_no_mickey, color = "Afternoon"), linewidth = 1.5) +
+  geom_line(aes(y = squirrels_evening_no_mickey, color = "Evening"), linewidth = 1.5) +
+  scale_color_manual(values = c("Morning" = "#00BA38", 
+                                 "Afternoon" = "#619CFF", 
+                                 "Evening" = "#F8766D"),
+                     breaks = c("Morning", "Afternoon", "Evening")) +
+  labs(x = "Temperature (°F)",
+       y = "Number of Squirrels Chased",
+       color = "Time of Day") +
+  theme_bw() 
+```
+
+## Example 2: Visualizing the Model
+
+- Running the code,
+
+```{r}
+#| echo: false
+#| fig-align: 'center'
+#| fig-alt: 'Scatterplot of number of squirrels chased versus temperature with three regression lines, one for each time of day'
+pluto %>% ggplot(aes(x = temperature)) +
+  geom_point(aes(y = squirrels_chased), alpha = 0.5) +
+  geom_line(aes(y = squirrels_morning_no_mickey, color = "Morning"), linewidth = 1.5) +
+  geom_line(aes(y = squirrels_afternoon_no_mickey, color = "Afternoon"), linewidth = 1.5) +
+  geom_line(aes(y = squirrels_evening_no_mickey, color = "Evening"), linewidth = 1.5) +
+  scale_color_manual(values = c("Morning" = "#00BA38", 
+                                 "Afternoon" = "#619CFF", 
+                                 "Evening" = "#F8766D"),
+                     breaks = c("Morning", "Afternoon", "Evening")) +
+  labs(x = "Temperature (°F)",
+       y = "Number of Squirrels Chased",
+       color = "Time of Day") +
+  theme_bw() 
+```
+
+## Example 2: Visualizing the Model
+
+- Putting the two graphs side by side (see .qmd file for details),
+
+```{r}
+#| echo: false
+#| fig-align: 'center'
+#| fig-alt: 'Scatterplots of number of squirrels chased versus temperature with three regression lines, one for each time of day'
+
+p1 <- pluto %>% ggplot(aes(x = temperature)) +
+  geom_point(aes(y = squirrels_chased), alpha = 0.5) +
+  geom_line(aes(y = squirrels_morning_mickey, color = "Morning"), linewidth = 1.5) +
+  geom_line(aes(y = squirrels_afternoon_mickey, color = "Afternoon"), linewidth = 1.5) +
+  geom_line(aes(y = squirrels_evening_mickey, color = "Evening"), linewidth = 1.5) +
+  scale_color_manual(values = c("Morning" = "#00BA38", 
+                                 "Afternoon" = "#619CFF", 
+                                 "Evening" = "#F8766D"),
+                     breaks = c("Morning", "Afternoon", "Evening")) +
+  labs(x = "Temperature (°F)",
+       y = "Number of Squirrels Chased",
+       color = "Time of Day",
+       title = "Mickey Present") +
+  theme_bw() 
+p2 <- pluto %>% ggplot(aes(x = temperature)) +
+  geom_point(aes(y = squirrels_chased), alpha = 0.5) +
+  geom_line(aes(y = squirrels_morning_no_mickey, color = "Morning"), linewidth = 1.5) +
+  geom_line(aes(y = squirrels_afternoon_no_mickey, color = "Afternoon"), linewidth = 1.5) +
+  geom_line(aes(y = squirrels_evening_no_mickey, color = "Evening"), linewidth = 1.5) +
+  scale_color_manual(values = c("Morning" = "#00BA38", 
+                                 "Afternoon" = "#619CFF", 
+                                 "Evening" = "#F8766D"),
+                     breaks = c("Morning", "Afternoon", "Evening")) +
+  labs(x = "Temperature (°F)",
+       y = "Number of Squirrels Chased",
+       color = "Time of Day",
+       title = "Mickey Absent") +
+  theme_bw() 
+ggarrange(p1, p2,
+          ncol = 2, nrow = 1,
+          common.legend = TRUE, legend = "bottom")
+```
+
+## Wrap Up
+
+- In this lecture, we learned how to visualize Poisson and negative binomimal regression models.
+
+    - Remember that we have to "undo" the ln() to get the correct predicted values for either Poisson or negative binomial regression models.
+
+- This lecture completes the new material component of this course!
+
+- Always remember that visualization is a key component of data analysis!
+
+    - We use data visualization to check model assumptions, interpret results, and communicate findings.
+    
+    - When constructing graphs, always think about your audience and the story you want to tell with your data.
+
+- Now, we will focus on putting everything together with a final assignment.
+
+    - You will be presented research questions with corresponding datasets (similar to previous assignments).
+    
+    - Your main focus will be to build appropriate models and visualize them effectively. 
+    
+    

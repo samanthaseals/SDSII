@@ -1,5 +1,0 @@
----
-title: "W6_poisson_reg"
-format: html
----
-
