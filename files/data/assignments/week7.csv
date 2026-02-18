@@ -1,0 +1,1501 @@
+species_size,district,age,commute,public_service,weekend,income,stress,wellbeing,complaint,transport,snacks_purchased
+medium,Sahara Square,42,24.7,1,0,79.85,66.8,0,1,Transit,0
+small,Sahara Square,33,15.3,0,1,90.91,11.7,0.01,1,Transit,1
+large,Downtown,18,36.5,0,1,67.53,13.6,0,1,Transit,1
+large,Rainforest,27,43.7,1,1,58.93,60.5,0,1,Transit,2
+medium,Downtown,25,42.1,1,0,61.53,52.2,0,1,Transit,0
+large,Downtown,24,23.2,0,0,68.78,9.3,0.02,1,Transit,5
+large,Rainforest,29,65.7,0,0,62.62,132.7,0,1,Transit,0
+medium,Rainforest,25,25.7,0,0,70.39,15.2,0,1,Transit,5
+medium,Downtown,26,22.9,0,0,98.64,12.6,0.06,1,Transit,19
+large,Downtown,23,37.1,0,0,42.62,13.6,0,1,Transit,3
+small,Downtown,21,13.6,1,1,141.17,10,0.07,1,Transit,2
+small,Downtown,18,28.6,1,0,101.42,25.4,0,1,Transit,5
+medium,Downtown,38,18.9,0,1,42,8.3,0.14,1,Walk,18
+medium,Tundratown,19,28,0,1,85.61,22.6,0,1,Transit,7
+small,Sahara Square,44,21.2,1,1,81.02,14.9,0,1,Transit,1
+small,Tundratown,36,13.4,1,0,88.05,8.9,0.11,1,Transit,31
+medium,Rainforest,22,34.4,0,0,74.51,33.4,0,1,Transit,4
+large,Downtown,45,16.3,0,0,21.72,11.3,0.05,1,Transit,11
+small,Rainforest,46,26.9,1,0,97.59,13.7,0,1,Transit,10
+small,Downtown,20,10.3,0,0,104.31,4.1,0.43,1,Transit,5
+small,Tundratown,18,9.8,0,1,111.83,4.6,0.45,1,Transit,2
+large,Tundratown,35,81,0,0,22.73,466.1,0,1,Transit,0
+large,Tundratown,33,13.1,0,0,81.37,14.9,0.02,1,Transit,13
+large,Rainforest,28,4.3,1,0,113.84,16.7,0,1,Transit,7
+small,Rainforest,37,30.8,0,0,79.94,16.8,0,1,Transit,6
+small,Downtown,43,10.8,0,1,96.55,7.7,0.14,1,Walk,81
+small,Tundratown,34,7.1,0,0,126.11,12.6,0,1,Walk,6
+medium,Sahara Square,50,4,0,1,112.05,5.7,0.17,1,Fly,1
+large,Rainforest,18,16.2,1,0,95.2,8.7,0.01,1,Personal,4
+small,Sahara Square,29,21.8,0,1,83.57,15.4,0,1,Transit,4
+medium,Sahara Square,24,14.2,0,0,61.86,12.2,0.01,1,Fly,1
+medium,Downtown,40,23.2,0,0,123.65,9.9,0.06,1,Transit,10
+medium,Downtown,29,11.3,0,0,94.77,11.2,0,1,Transit,5
+medium,Tundratown,34,5.4,0,1,48.48,10.6,0.01,1,Walk,15
+small,Rainforest,41,53.8,0,0,76.09,63.7,0,1,Transit,1
+small,Downtown,43,21.6,0,0,120.63,5.6,0.11,1,Transit,10
+large,Downtown,36,35.6,0,0,57.8,14.1,0,1,Transit,3
+large,Sahara Square,18,15,0,1,89.76,13.8,0,1,Fly,25
+medium,Rainforest,21,11.1,1,0,111.19,10.2,0.11,1,Transit,10
+medium,Rainforest,30,47.5,1,0,98.22,47.6,0,1,Transit,3
+large,Tundratown,36,11,0,0,93.06,10.4,0,1,Transit,1
+medium,Tundratown,43,11,0,0,103.26,5.6,0.1,1,Transit,50
+small,Tundratown,18,46.3,0,0,80.09,34.9,0,1,Transit,1
+small,Rainforest,18,16.5,0,1,142.54,6.4,0.33,1,Personal,7
+medium,Rainforest,48,6.7,0,0,104.23,3.4,0.49,1,Personal,11
+medium,Rainforest,34,12.9,0,0,82.04,7,0.31,1,Walk,6
+small,Tundratown,53,27.3,0,0,72.49,16.3,0,1,Transit,16
+medium,Downtown,37,14.7,0,0,56.98,13,0,1,Transit,2
+large,Downtown,26,7.2,0,0,75.47,10.5,0.03,1,Walk,3
+large,Sahara Square,22,33.7,0,1,75.47,19.8,0,1,Transit,4
+small,Tundratown,46,39,0,0,62.63,25.9,0,1,Transit,2
+small,Downtown,35,28.8,1,0,91.42,17.2,0.01,1,Transit,4
+medium,Sahara Square,35,11.6,1,1,64.28,6.8,0.53,1,Transit,6
+small,Rainforest,18,50.1,1,0,89.02,50.9,0,1,Transit,2
+medium,Sahara Square,35,11.1,0,0,63.79,6.3,0.08,1,Personal,33
+small,Sahara Square,28,8.9,0,1,89.91,8.1,0.05,1,Personal,6
+small,Tundratown,18,40.5,0,0,92.28,43.1,0,1,Transit,0
+medium,Tundratown,19,16.5,1,1,97.23,15.2,0,1,Transit,1
+medium,Tundratown,37,35.3,0,0,67.71,51.8,0,1,Transit,0
+medium,Rainforest,28,12.9,0,0,109.72,12.8,0.01,1,Transit,6
+medium,Downtown,26,28.1,1,0,64.03,26.8,0,1,Transit,0
+small,Downtown,45,18.3,0,0,81.45,10.6,0,1,Transit,44
+small,Sahara Square,32,14.2,0,0,88.74,10.4,0.12,1,Personal,15
+small,Rainforest,18,18.2,0,0,54.27,4.7,0.27,1,Transit,8
+large,Tundratown,36,9.9,0,0,82.49,4.3,0.42,1,Fly,7
+small,Rainforest,33,24.5,0,0,91.48,21.3,0,1,Transit,8
+small,Downtown,44,23.9,0,1,60.18,13.8,0,1,Fly,18
+medium,Downtown,27,12,1,0,73.66,9,0.1,1,Transit,3
+small,Rainforest,60,11.9,0,0,104.05,4.6,0.29,1,Personal,19
+large,Downtown,40,12.8,0,1,46.35,13.8,0,1,Transit,1
+small,Sahara Square,49,39.9,0,1,93.74,22.6,0,1,Transit,20
+medium,Sahara Square,31,34.8,1,0,109.78,26.2,0,1,Transit,11
+small,Rainforest,23,32.6,1,1,52.19,28.2,0,1,Transit,1
+small,Tundratown,34,11.3,0,0,127.39,9.4,0,1,Fly,2
+medium,Downtown,51,21.8,1,0,64.54,11.2,0.01,1,Fly,36
+medium,Sahara Square,56,23.3,1,0,104.68,30.6,0,1,Transit,6
+small,Sahara Square,43,8.5,1,0,103.67,8,0.09,1,Transit,8
+medium,Downtown,29,8.2,0,0,111.67,6.8,0.28,1,Walk,14
+small,Rainforest,18,22.6,0,0,85.48,10.3,0.01,1,Walk,4
+medium,Rainforest,32,9,1,0,112.77,8.2,0.17,1,Transit,4
+medium,Tundratown,24,7.2,1,1,102.99,2.5,0.73,1,Personal,2
+small,Sahara Square,34,14.3,0,1,113.01,8,0.1,1,Transit,23
+large,Sahara Square,43,8.3,0,0,106.64,10.2,0.03,1,Personal,16
+small,Sahara Square,18,18.2,1,1,85.14,14.3,0,1,Transit,10
+medium,Downtown,40,42.8,0,1,30,20.5,0,1,Transit,3
+small,Downtown,29,20.5,0,0,102.71,29,0,1,Transit,2
+small,Rainforest,39,23.2,0,0,50.01,16.8,0,1,Transit,18
+small,Downtown,31,11.8,1,0,142.71,15.7,0,1,Transit,0
+small,Sahara Square,18,23.3,0,1,81.55,17.7,0.01,1,Transit,0
+small,Downtown,22,21.9,0,1,61.05,12.6,0.09,1,Transit,1
+small,Sahara Square,46,44,1,0,51.04,96.3,0,1,Transit,0
+medium,Tundratown,23,24.7,0,0,111.66,10.5,0.13,1,Transit,1
+small,Tundratown,23,38.2,0,0,114.61,90.7,0,1,Transit,0
+medium,Tundratown,39,30.3,0,0,78.95,22.8,0,1,Transit,4
+small,Tundratown,28,21,0,0,99.64,14.7,0,1,Transit,2
+medium,Sahara Square,48,20.1,0,0,87.8,15.1,0,1,Transit,16
+small,Tundratown,18,9,1,1,95.02,2.8,0.38,1,Walk,1
+medium,Rainforest,31,7.4,1,0,53.42,10.5,0.05,1,Personal,0
+large,Tundratown,42,16,0,0,64.6,14.1,0,1,Transit,0
+medium,Rainforest,33,8.7,1,0,95.27,11.5,0.09,1,Transit,1
+medium,Rainforest,41,45.3,0,1,87.06,24.8,0,1,Transit,3
+large,Downtown,30,14.6,1,1,73.58,10.6,0.04,1,Transit,30
+medium,Tundratown,35,22.5,1,0,99.95,32.9,0,1,Personal,2
+medium,Downtown,31,25,1,0,34.24,22.3,0,1,Transit,0
+medium,Sahara Square,18,17.8,0,0,83.4,13.6,0.04,1,Fly,0
+small,Sahara Square,21,19.4,0,0,114.42,20.8,0.01,1,Transit,5
+small,Tundratown,37,30.8,0,0,59.6,27.9,0,1,Transit,0
+large,Rainforest,30,31.4,0,1,70.27,50.6,0,1,Transit,0
+small,Sahara Square,33,17.3,0,1,75.95,12.3,0,1,Transit,14
+medium,Tundratown,47,65.8,0,0,90.88,105.5,0,1,Transit,0
+large,Rainforest,26,17.1,0,1,74.9,14,0,1,Transit,3
+medium,Downtown,20,10.7,0,0,95.36,8.5,0.15,1,Transit,22
+small,Downtown,32,9.4,1,0,97.77,15,0.06,1,Transit,6
+small,Rainforest,27,21.6,0,0,60.78,13.7,0,1,Walk,3
+large,Rainforest,44,7.8,0,0,61.71,7.1,0.05,1,Walk,21
+medium,Rainforest,30,31.3,0,0,45.26,24.1,0,1,Transit,2
+small,Downtown,41,8.9,1,0,90.9,7.9,0.17,1,Transit,49
+small,Rainforest,51,35.1,0,0,87.9,38.8,0,1,Fly,0
+medium,Downtown,18,41.5,0,0,30,9.7,0.1,1,Transit,3
+medium,Sahara Square,37,31.6,0,0,99.06,21.7,0,1,Transit,1
+large,Rainforest,49,24.8,1,0,51.94,18.5,0,1,Transit,16
+large,Sahara Square,35,8.9,0,0,79.05,5.2,0.31,1,Fly,4
+small,Downtown,36,26.5,0,0,83.69,13,0,1,Transit,0
+medium,Downtown,33,12.9,0,0,92.25,5.2,0.47,1,Personal,6
+medium,Downtown,20,20.8,0,1,69.12,4.6,0.56,1,Transit,1
+small,Rainforest,28,4.9,0,0,94.12,10.2,0.01,1,Transit,7
+large,Tundratown,18,15.8,0,0,95.79,13,0,1,Transit,5
+medium,Sahara Square,45,38.4,0,0,66.64,26.7,0,1,Transit,2
+medium,Tundratown,38,7.9,0,1,127.78,3.5,0.33,1,Transit,28
+large,Downtown,34,11.6,0,0,91.72,7.7,0.05,1,Walk,27
+medium,Sahara Square,33,27.4,0,1,71.39,26.2,0,1,Personal,0
+small,Tundratown,25,11.1,0,0,83.78,4.5,0.32,1,Transit,7
+small,Tundratown,47,4.9,1,1,106.59,4.2,0.37,1,Personal,23
+small,Sahara Square,37,39.9,1,0,96.76,58.9,0,1,Transit,0
+small,Tundratown,25,17.2,0,0,94.24,9.4,0.02,1,Personal,2
+small,Tundratown,48,30.3,0,0,110.98,40.4,0,1,Transit,4
+medium,Tundratown,54,16,0,1,92.39,10.5,0.01,1,Transit,14
+medium,Tundratown,34,25.8,1,0,100.95,25.3,0,1,Fly,5
+small,Rainforest,33,16.2,0,1,103.01,11,0.16,1,Fly,13
+small,Sahara Square,31,21.7,0,1,49.99,8.9,0.07,1,Transit,22
+medium,Tundratown,46,14.8,0,0,85.34,5.8,0.2,1,Personal,23
+medium,Tundratown,32,28.4,0,0,56.06,23.8,0,1,Transit,3
+small,Tundratown,25,25.8,0,1,99.75,8.4,0.16,1,Transit,4
+large,Sahara Square,46,16,1,0,79.92,13.1,0.01,1,Transit,5
+medium,Downtown,25,34.2,1,0,75.66,19.8,0,1,Transit,1
+small,Rainforest,30,38.3,0,1,66.5,38.1,0,1,Fly,3
+small,Rainforest,43,24.8,0,0,114.67,17.6,0,1,Transit,7
+medium,Sahara Square,30,24.5,0,0,75.03,16.2,0,1,Transit,3
+small,Sahara Square,30,20.2,0,0,123.23,28.3,0,1,Transit,0
+large,Rainforest,34,26.3,0,0,84.04,23.8,0,1,Transit,0
+medium,Rainforest,44,19.5,0,0,82.12,14.7,0.03,1,Transit,14
+large,Tundratown,25,24.4,0,0,76.94,29.6,0,1,Transit,5
+medium,Sahara Square,43,8.2,0,1,102.42,3.9,0.58,1,Transit,102
+large,Rainforest,39,12.3,0,1,108.56,3.6,0.45,1,Transit,17
+small,Sahara Square,29,14.9,0,0,47.85,11.2,0.03,1,Transit,1
+medium,Sahara Square,31,34.6,1,0,94.93,23,0,1,Fly,6
+large,Rainforest,49,23.8,1,1,76,21.4,0,1,Transit,3
+small,Tundratown,25,30.8,0,1,81.15,20.7,0,1,Transit,3
+large,Rainforest,42,19.5,1,0,92.05,20.8,0,1,Transit,6
+large,Sahara Square,18,37.4,1,0,96.76,68.2,0,1,Transit,0
+medium,Tundratown,49,33.3,0,0,44.65,21.7,0,1,Transit,8
+large,Rainforest,30,21.8,0,0,65.79,15,0,1,Transit,3
+small,Tundratown,47,31.3,0,0,80.6,27.7,0,1,Transit,4
+large,Rainforest,57,16,1,1,89.75,11.3,0,1,Personal,20
+large,Sahara Square,49,18.6,0,0,107.24,23.1,0,1,Transit,4
+small,Tundratown,40,23.8,0,0,98.27,17.1,0.01,1,Fly,7
+small,Rainforest,49,6.4,1,0,103.31,12.3,0.08,1,Personal,10
+large,Sahara Square,46,16.7,0,0,68.97,14.5,0.02,1,Transit,7
+medium,Sahara Square,55,32.8,0,0,71.97,34.5,0,1,Transit,8
+small,Sahara Square,23,12.1,1,0,119.78,8.4,0.05,1,Transit,2
+large,Tundratown,29,13.6,0,0,60.11,17.3,0,1,Fly,4
+small,Tundratown,33,12.2,1,0,113.27,14.1,0,1,Personal,6
+medium,Downtown,39,47.7,0,0,53.11,16.2,0,1,Transit,14
+medium,Tundratown,37,33.6,0,1,138.58,30.1,0,1,Transit,2
+large,Downtown,26,17,0,0,86.35,7.4,0.1,1,Fly,2
+medium,Sahara Square,36,24,0,1,80.4,7.6,0.13,1,Transit,9
+small,Rainforest,45,13.4,0,0,89.63,14,0.04,1,Transit,1
+small,Rainforest,49,16,1,1,123.79,6,0.3,1,Transit,15
+medium,Sahara Square,28,13.9,0,0,122.74,10.1,0.06,1,Transit,4
+medium,Rainforest,42,3.4,0,0,72.34,3.2,0.53,1,Personal,3
+large,Sahara Square,27,4.2,0,0,67.32,9.9,0.06,1,Transit,2
+medium,Sahara Square,22,11,0,0,86.41,13.1,0,1,Transit,2
+medium,Sahara Square,26,41.2,0,0,70.42,56.3,0,1,Transit,1
+medium,Sahara Square,30,12.4,0,0,86.51,11.4,0,1,Fly,10
+small,Sahara Square,29,37.9,0,0,72.52,34.5,0,1,Transit,0
+small,Rainforest,45,24.1,0,0,87.11,12.4,0.05,1,Transit,4
+medium,Rainforest,18,28.3,0,0,87.93,21.2,0,1,Transit,2
+small,Tundratown,48,26.2,0,0,92.31,20.3,0,1,Transit,9
+large,Sahara Square,35,9.4,0,0,56.99,16.7,0.01,1,Personal,1
+small,Downtown,49,40.9,0,0,42.73,19.3,0,1,Transit,5
+medium,Downtown,34,28.6,0,0,72.49,13.8,0,1,Transit,1
+small,Rainforest,18,19.2,0,0,77.17,19,0,1,Transit,0
+medium,Rainforest,50,19.8,0,0,79.41,12.5,0.02,1,Personal,38
+small,Sahara Square,38,8.3,0,0,123.12,10.2,0.11,1,Walk,15
+medium,Rainforest,22,17.1,1,0,129.6,27.1,0,1,Walk,2
+large,Sahara Square,49,32.9,0,1,70.59,11.1,0.06,1,Transit,12
+medium,Tundratown,22,18.2,0,0,74.85,8.9,0.03,1,Transit,6
+medium,Rainforest,56,36.9,0,0,82.55,12.7,0.01,1,Transit,0
+large,Rainforest,32,9.7,1,0,88.29,9.5,0.04,1,Personal,2
+small,Rainforest,29,13.4,1,1,126.51,19.2,0,1,Transit,5
+small,Downtown,50,44.8,0,0,71.4,46.2,0,1,Transit,5
+large,Downtown,19,11,0,0,61.57,9,0.02,1,Personal,4
+small,Sahara Square,36,34,1,0,95.72,38.4,0,1,Transit,4
+small,Rainforest,26,42.1,0,0,60.88,33.8,0,1,Transit,0
+small,Downtown,27,19.7,0,0,59.64,7,0.19,1,Fly,9
+medium,Rainforest,22,20.8,1,0,100.85,26.3,0,1,Personal,3
+small,Downtown,41,22.9,0,0,90.37,13.8,0,1,Transit,9
+small,Rainforest,23,31.3,0,0,78.47,24.6,0,1,Transit,3
+medium,Tundratown,19,10.1,0,0,84.03,4.1,0.41,1,Personal,0
+small,Tundratown,32,59.7,1,0,84.57,120.1,0,1,Transit,0
+small,Rainforest,26,27,0,0,82.89,22.3,0,1,Transit,2
+small,Rainforest,62,18.8,0,1,96.76,15.4,0.01,1,Transit,78
+large,Tundratown,23,40.2,0,0,46.02,46.2,0,1,Transit,0
+large,Tundratown,18,31.4,0,1,90.93,14.1,0,1,Transit,1
+small,Tundratown,42,56.7,0,0,67.44,73.4,0,1,Transit,0
+medium,Sahara Square,56,9.7,1,1,107.57,6.3,0.29,1,Fly,24
+small,Downtown,26,27.4,0,0,107.34,11.1,0.01,1,Transit,9
+medium,Tundratown,18,17,1,0,75.26,22,0,1,Fly,1
+medium,Rainforest,37,9.9,0,0,106.16,14.5,0.02,1,Transit,10
+large,Tundratown,32,22.6,0,0,84.88,15.5,0,1,Transit,2
+medium,Downtown,61,15,0,0,114.25,8.2,0.14,1,Transit,23
+medium,Tundratown,54,5.7,1,0,127.39,11.8,0.01,1,Personal,5
+medium,Downtown,26,14.2,0,0,80.19,9.7,0.06,1,Transit,1
+medium,Rainforest,28,25,0,1,81.64,13.1,0,1,Transit,6
+large,Tundratown,40,10.2,0,0,46.62,10.7,0.13,1,Transit,2
+large,Rainforest,25,21,0,0,68.11,21.2,0,1,Transit,0
+medium,Rainforest,28,13.3,0,0,118.16,11.6,0,1,Transit,7
+small,Tundratown,44,26.4,0,1,93.21,10.1,0.15,1,Transit,13
+small,Tundratown,31,13.8,0,0,129.69,3.9,0.47,1,Transit,3
+large,Rainforest,59,29.8,0,0,85.6,43.4,0,1,Transit,0
+large,Rainforest,37,49.1,0,1,50.74,29.2,0,1,Personal,6
+large,Sahara Square,25,32.3,0,1,50.59,39.1,0,1,Transit,1
+small,Downtown,30,38.3,0,0,113.26,23.9,0,1,Transit,6
+large,Downtown,31,27.7,0,0,43.77,6.7,0.1,1,Transit,2
+small,Downtown,39,16.7,0,0,90.22,9.5,0.02,1,Transit,2
+small,Rainforest,31,31.4,0,1,67.03,20,0,1,Transit,21
+small,Rainforest,26,16.6,0,1,113.85,12.8,0,1,Transit,14
+small,Rainforest,65,27.5,1,0,88.05,41,0,1,Transit,1
+medium,Tundratown,22,52.6,0,0,30.29,33.4,0,1,Transit,1
+small,Sahara Square,28,17.5,0,0,97.82,9.2,0.04,1,Transit,7
+medium,Rainforest,47,17.6,0,1,84.35,11,0,1,Transit,23
+large,Rainforest,41,32.2,1,0,63.25,18.9,0,1,Personal,7
+medium,Tundratown,29,18.3,1,0,96.04,10.6,0.01,1,Transit,23
+large,Sahara Square,19,44.8,0,0,12.05,49.1,0,1,Transit,1
+medium,Rainforest,41,23.3,0,0,93.85,18,0,1,Personal,0
+small,Tundratown,47,31.9,0,0,119.12,15.2,0.06,1,Transit,4
+medium,Downtown,48,29.3,1,1,86.18,11.8,0.1,1,Transit,76
+medium,Downtown,42,32.3,0,0,63.17,13.8,0.02,1,Personal,1
+small,Tundratown,33,25.8,1,0,92.62,13,0.04,1,Transit,8
+medium,Rainforest,49,11.4,1,1,124.34,12,0.02,1,Personal,39
+large,Downtown,48,39,1,1,68.74,31.8,0,1,Transit,2
+large,Sahara Square,25,0.9,0,0,95.94,6.6,0.12,1,Fly,24
+medium,Rainforest,45,22.4,0,0,96.04,8.6,0.05,1,Transit,22
+medium,Downtown,53,25.7,0,0,78.46,12.1,0.15,1,Transit,4
+large,Sahara Square,39,7,0,0,93.14,8.4,0.1,1,Transit,5
+large,Sahara Square,44,53.2,0,0,71.25,111.3,0,1,Transit,0
+medium,Rainforest,39,18.4,1,0,108.47,15.9,0,1,Transit,1
+medium,Sahara Square,18,23.7,0,1,91.61,12.8,0.08,1,Fly,3
+small,Rainforest,37,6.6,1,0,113.53,6.1,0.2,1,Personal,5
+large,Rainforest,23,20.7,1,0,101.46,33.6,0,1,Transit,3
+large,Tundratown,18,20.6,0,0,60.68,9,0.1,1,Fly,1
+small,Rainforest,30,45.8,0,0,68.27,119.9,0,1,Transit,0
+small,Sahara Square,27,32.2,0,0,88.37,20,0,1,Transit,3
+medium,Downtown,32,31.9,1,0,105.3,26.5,0,1,Walk,6
+medium,Downtown,45,57.2,0,1,53.67,48.4,0,1,Transit,1
+small,Rainforest,41,12.7,0,0,114.86,12.7,0.01,1,Fly,5
+medium,Rainforest,39,33.3,1,0,79.16,12,0,1,Transit,2
+medium,Rainforest,50,15.5,0,0,91.38,12.1,0,1,Transit,6
+medium,Tundratown,46,42.8,1,0,79.92,53.1,0,1,Transit,0
+small,Downtown,26,37.9,0,0,47.94,49.2,0,1,Transit,0
+small,Rainforest,18,17.2,0,0,101.74,8.4,0.04,1,Transit,5
+small,Tundratown,41,24.3,1,0,102.97,19.8,0,1,Personal,9
+large,Rainforest,27,33.3,1,1,114.12,26.5,0,1,Transit,2
+small,Downtown,46,17,0,1,112.3,7.6,0.1,1,Transit,22
+large,Sahara Square,47,54.6,1,0,58.07,176.7,0,1,Transit,0
+large,Rainforest,21,7.2,0,0,86.2,4.5,0.61,1,Transit,9
+large,Downtown,53,15.7,0,0,96.26,14,0.01,1,Transit,7
+small,Rainforest,32,16.5,0,0,90.45,19.7,0,1,Fly,3
+small,Rainforest,50,61.5,0,1,82.78,49.4,0,1,Transit,2
+large,Rainforest,45,25.4,0,1,66.01,12.5,0.04,1,Transit,1
+medium,Tundratown,24,11.2,0,0,58.41,11.9,0.04,1,Personal,7
+large,Rainforest,48,16.4,1,0,91.09,12.1,0.01,1,Walk,0
+medium,Downtown,38,13.3,1,1,91.36,8.5,0.14,1,Transit,22
+small,Downtown,54,20.1,0,1,105.83,4.8,0.51,1,Fly,9
+small,Downtown,37,31.1,1,0,76.79,22,0,1,Personal,3
+small,Rainforest,37,27,0,0,109.27,13.4,0,1,Transit,0
+small,Downtown,36,10.8,0,0,79.86,7.7,0.11,1,Transit,3
+medium,Downtown,36,45.1,0,0,79.41,70.8,0,1,Transit,0
+large,Rainforest,65,24.8,0,0,95.27,13.9,0,1,Transit,1
+small,Tundratown,35,16.6,0,1,114.45,10.1,0.01,1,Transit,27
+medium,Tundratown,37,24.4,1,0,103.52,20.3,0,1,Fly,0
+medium,Tundratown,30,20.3,0,0,89.99,6.2,0.17,1,Transit,5
+small,Rainforest,39,32.3,0,0,124.05,32.2,0,1,Transit,5
+large,Rainforest,45,33,0,1,88.21,35.2,0,1,Transit,1
+large,Sahara Square,51,19.2,1,1,77.83,21.4,0,1,Transit,3
+small,Rainforest,21,16.7,1,0,103.47,19.8,0,1,Fly,0
+medium,Rainforest,28,22.9,0,0,96.1,14.7,0,1,Transit,4
+medium,Rainforest,52,10.5,0,0,131.58,6.5,0.13,1,Transit,5
+medium,Rainforest,36,19.7,0,0,90.59,28.2,0,1,Transit,4
+medium,Sahara Square,26,47,0,0,51.99,78.7,0,1,Transit,0
+small,Downtown,39,25.8,1,0,88.93,18,0,1,Personal,18
+small,Tundratown,29,18.5,0,1,114.32,7.8,0.18,1,Transit,5
+small,Sahara Square,55,24,0,0,85.56,33.1,0,1,Transit,0
+small,Sahara Square,23,30,0,1,80.63,27,0,1,Transit,2
+medium,Sahara Square,40,21.6,0,0,78.11,11.1,0.09,1,Fly,1
+medium,Rainforest,30,11,0,0,91.54,7.6,0.11,1,Fly,1
+medium,Downtown,37,4.5,1,0,96.6,8.6,0.06,1,Personal,0
+small,Sahara Square,23,16.9,0,0,83.87,18.9,0,1,Transit,1
+small,Sahara Square,24,55.8,0,0,83.13,105.6,0,1,Transit,0
+medium,Sahara Square,52,23.4,0,1,106.95,9.6,0.01,1,Transit,17
+small,Tundratown,52,8.8,0,0,103.09,15.6,0,1,Walk,1
+medium,Sahara Square,44,27.2,0,0,80.98,12.7,0,1,Transit,9
+large,Downtown,27,25.2,0,0,89.59,39.6,0,1,Transit,0
+large,Rainforest,37,16.4,0,1,100.29,10.7,0.01,1,Transit,9
+large,Rainforest,35,25.3,0,1,59.05,25.1,0,1,Transit,3
+small,Downtown,29,13.8,0,0,55.41,9.8,0.06,1,Fly,0
+small,Downtown,18,14.6,0,1,106.71,7.1,0.16,1,Transit,7
+medium,Tundratown,25,21.6,0,0,62.06,13.2,0,1,Transit,0
+medium,Rainforest,35,14.7,1,0,97.85,8.9,0.02,1,Personal,1
+small,Tundratown,44,22.5,0,0,117.09,18.6,0,1,Personal,2
+small,Tundratown,28,13.9,0,0,87.75,6.6,0.18,1,Fly,3
+small,Downtown,30,16,0,0,55.97,6.8,0.27,1,Transit,2
+small,Tundratown,18,12.3,0,0,75.22,9.1,0.03,1,Transit,0
+small,Rainforest,38,47.3,1,0,98.36,61.2,0,1,Transit,1
+small,Downtown,41,33.8,0,0,100.13,10.6,0.01,1,Transit,5
+small,Sahara Square,42,23.2,1,0,119.72,18,0,1,Personal,0
+medium,Downtown,34,18,0,0,98.26,5.2,0.44,1,Transit,1
+medium,Tundratown,45,10.3,0,1,143.17,8.2,0.16,1,Transit,1
+large,Sahara Square,20,28.7,1,0,83.98,26.4,0,1,Transit,0
+medium,Rainforest,38,24.3,0,1,85.51,8.3,0.12,1,Transit,0
+small,Downtown,35,15.7,1,0,90.57,12.3,0,1,Walk,1
+small,Rainforest,46,63.4,0,0,39.35,70.5,0,1,Transit,0
+medium,Sahara Square,29,23.3,0,0,72.03,30,0,1,Transit,2
+medium,Rainforest,27,4,0,1,90.26,3.4,0.66,1,Transit,16
+large,Sahara Square,27,13.8,0,0,82.59,8.8,0.12,1,Transit,0
+small,Sahara Square,25,51.2,0,1,56.09,44.5,0,1,Transit,0
+small,Rainforest,22,45.8,0,0,63.04,45.8,0,1,Transit,1
+large,Sahara Square,50,14.5,0,0,39.09,8.8,0.34,1,Transit,13
+medium,Rainforest,46,39.9,1,1,55.05,29.7,0,1,Transit,1
+large,Rainforest,49,5.1,0,0,82,6.7,0.11,1,Walk,18
+medium,Tundratown,44,21.8,0,1,60.54,12.1,0.02,1,Transit,2
+large,Downtown,61,3.3,0,0,110.95,3.4,0.47,1,Fly,52
+small,Tundratown,32,29.3,0,1,58.01,13.6,0,1,Walk,20
+large,Tundratown,48,49.4,0,0,66.09,63.6,0,1,Transit,0
+medium,Sahara Square,28,19,1,0,115.65,19.4,0,1,Transit,3
+medium,Rainforest,50,34.3,1,0,76.36,40.8,0,1,Transit,1
+small,Downtown,37,64.7,0,0,24.94,131.9,0,1,Transit,0
+small,Tundratown,24,18.9,0,1,101.97,10.5,0.01,1,Transit,5
+small,Rainforest,32,9.8,0,0,111.64,10.5,0.02,1,Fly,7
+medium,Tundratown,27,39.4,0,0,47.92,29.8,0,1,Transit,8
+small,Tundratown,39,22.3,0,1,121.64,23.2,0,1,Transit,11
+large,Sahara Square,32,20.5,0,1,59.89,5.8,0.27,1,Transit,9
+small,Sahara Square,55,6,0,0,93.47,8.4,0.17,1,Transit,19
+small,Downtown,48,13.9,0,0,59.89,6.1,0.1,1,Transit,10
+large,Downtown,35,21.3,1,0,87.23,20.7,0,1,Transit,2
+large,Rainforest,57,7.7,0,0,56.01,15.2,0,1,Walk,2
+medium,Downtown,22,32.6,1,0,86.28,16.7,0,1,Fly,12
+small,Sahara Square,31,23.4,1,1,109.35,22.2,0,1,Transit,3
+medium,Downtown,56,26.8,0,0,41.63,11.4,0,1,Transit,14
+small,Sahara Square,18,31.2,0,0,73.82,19.6,0,1,Personal,0
+medium,Downtown,22,20.4,1,0,91.84,10,0.05,1,Transit,4
+large,Sahara Square,61,5.7,0,0,64,12.2,0,1,Personal,8
+small,Sahara Square,45,15.7,1,1,111.14,9.2,0.06,1,Transit,0
+medium,Rainforest,18,37.6,0,0,61.28,19.9,0,1,Transit,3
+small,Tundratown,20,32,0,0,95.39,19.6,0,1,Transit,0
+medium,Sahara Square,24,33.4,0,1,70.38,38.6,0,1,Transit,1
+small,Tundratown,18,24.1,0,0,115.46,13,0.04,1,Transit,1
+small,Rainforest,48,19.3,1,0,115.16,7.6,0.01,1,Transit,21
+medium,Rainforest,23,25.4,0,0,76.64,30.7,0,1,Transit,1
+medium,Tundratown,37,19.1,0,0,91.13,13,0,1,Personal,9
+medium,Sahara Square,54,25.4,0,0,73.72,15.2,0.09,1,Personal,0
+medium,Tundratown,45,19.3,0,0,100.33,12.5,0,1,Transit,18
+small,Sahara Square,18,9.6,0,1,99.65,7.6,0.19,1,Transit,12
+large,Tundratown,38,35.5,0,0,89.8,28.7,0,1,Transit,0
+small,Rainforest,36,36.3,1,0,85.13,93.7,0,1,Transit,0
+small,Sahara Square,39,34.4,0,0,62.8,26.9,0,1,Transit,0
+large,Sahara Square,24,23.8,0,1,102.99,25.8,0,1,Transit,0
+large,Downtown,18,14.3,0,1,111.09,10.7,0.06,1,Transit,1
+large,Rainforest,43,62.9,0,0,30.54,69.2,0,1,Transit,2
+small,Sahara Square,42,33,1,0,134.31,32.6,0,1,Transit,2
+small,Tundratown,35,13,1,1,102.45,17,0,1,Transit,1
+small,Tundratown,20,45.3,1,0,103.87,51.5,0,1,Transit,1
+large,Tundratown,39,22.9,0,1,113.16,16.6,0,1,Transit,31
+medium,Downtown,48,5.5,0,0,94.24,4.6,0.19,1,Walk,25
+small,Downtown,55,17.8,0,1,120.51,4.4,0.49,1,Walk,63
+small,Downtown,18,9.7,1,1,79.35,4.2,0.44,1,Personal,8
+small,Downtown,43,15.1,0,0,79.43,7.5,0.03,1,Personal,9
+large,Tundratown,44,42.3,0,0,42.9,53,0,1,Transit,0
+small,Downtown,27,14.5,0,0,97.05,8.1,0.16,1,Fly,16
+medium,Tundratown,39,19,0,0,107.54,13.8,0.04,1,Transit,3
+medium,Sahara Square,38,6.3,0,0,91.6,10.3,0.06,1,Transit,0
+medium,Downtown,30,26,0,0,100.72,12.3,0.02,1,Transit,2
+small,Sahara Square,40,32.4,0,0,78.04,27.6,0,1,Transit,8
+medium,Sahara Square,31,52.4,0,0,67.52,86.1,0,1,Transit,0
+small,Downtown,29,39.7,0,0,85.13,23.8,0,1,Transit,0
+medium,Rainforest,47,8.5,0,1,106.55,6.6,0.33,1,Walk,2
+medium,Downtown,34,16.2,0,0,68.59,20.5,0,1,Transit,6
+small,Tundratown,48,16.7,0,0,96.7,5.8,0.28,1,Transit,6
+medium,Sahara Square,56,15.3,0,0,63.45,11.2,0.12,1,Transit,43
+medium,Tundratown,41,28.7,0,1,102.22,5.9,0.28,1,Transit,19
+medium,Downtown,18,33.3,0,1,62.58,26.6,0,1,Transit,2
+medium,Sahara Square,38,11.2,0,0,105.71,13.7,0,1,Transit,6
+small,Tundratown,38,5,0,0,93.91,9.6,0.17,1,Transit,3
+medium,Downtown,49,60.4,0,0,61.27,74.9,0,1,Transit,0
+large,Tundratown,34,27.1,0,0,69.56,16,0,1,Transit,2
+large,Tundratown,36,13.1,0,0,93.12,5.3,0.23,1,Transit,10
+small,Rainforest,19,31,0,0,97.92,23.7,0,1,Transit,15
+medium,Downtown,29,42.9,0,1,92.03,20.3,0,1,Transit,7
+large,Sahara Square,19,45.3,0,0,68.92,104.9,0,1,Transit,0
+small,Tundratown,49,29.2,0,1,79.16,20,0,1,Transit,26
+medium,Rainforest,20,23.3,1,0,60.07,11.5,0.01,1,Personal,4
+medium,Rainforest,19,13.3,0,0,104.34,7.9,0.1,1,Transit,5
+medium,Downtown,35,23.7,0,0,113.75,9.4,0.02,1,Personal,24
+large,Rainforest,18,24.5,0,1,60.56,20.4,0,1,Transit,1
+medium,Rainforest,52,11.5,0,0,97.71,4.9,0.1,1,Transit,2
+small,Downtown,33,14.1,0,0,100.06,15.5,0,1,Transit,18
+medium,Tundratown,43,24.4,0,1,92.11,25.3,0,1,Personal,12
+medium,Rainforest,47,41.4,0,0,66.15,20.9,0,1,Transit,13
+medium,Tundratown,35,30.1,0,0,98.03,13.1,0.02,1,Walk,0
+medium,Downtown,23,20.2,1,0,93.82,28.1,0,1,Transit,4
+medium,Tundratown,35,22.3,0,0,96.71,12.3,0,1,Transit,4
+large,Tundratown,26,12.7,1,0,87.25,8.5,0.04,1,Transit,0
+small,Sahara Square,47,7.5,0,0,95.11,6.8,0.12,1,Walk,14
+medium,Rainforest,61,23.2,0,0,76.63,21.7,0,1,Transit,1
+small,Rainforest,36,44.7,0,0,92.4,68.8,0,1,Transit,0
+large,Rainforest,34,62,0,1,101.32,122.8,0,1,Transit,0
+small,Rainforest,18,28.9,1,1,97.47,18.3,0,1,Transit,0
+medium,Tundratown,30,14.2,1,0,83.93,14.6,0,1,Fly,4
+small,Downtown,25,36.1,0,0,83.15,44.6,0,1,Fly,0
+small,Rainforest,18,17.8,0,0,111.48,14.6,0,1,Transit,1
+medium,Downtown,33,50.7,0,0,41.16,50.8,0,1,Transit,2
+small,Tundratown,39,27.2,0,1,99.31,9.3,0.21,1,Transit,8
+small,Sahara Square,75,39,1,0,90.69,23.4,0,1,Transit,11
+medium,Rainforest,18,22.7,0,0,87.12,18.4,0,1,Transit,3
+medium,Downtown,26,28.2,0,1,84.4,18.2,0,1,Transit,2
+small,Sahara Square,41,41.3,1,0,87.05,105.9,0,1,Transit,0
+small,Tundratown,18,26.9,0,0,107.57,24.7,0,1,Transit,0
+small,Tundratown,39,6.9,1,1,109.15,6.2,0.19,1,Personal,25
+small,Sahara Square,38,26,0,0,90.92,11.7,0.04,1,Transit,4
+medium,Rainforest,27,16.9,0,0,89.04,16,0,1,Fly,0
+medium,Sahara Square,24,0.5,0,1,123.93,4.6,0.5,1,Transit,13
+small,Tundratown,32,34.4,0,0,85.72,23.7,0,1,Transit,8
+medium,Rainforest,18,23.8,0,1,106.03,13.9,0.03,1,Transit,0
+medium,Sahara Square,43,15.4,0,1,103.85,11.4,0.02,1,Transit,11
+medium,Tundratown,18,23.9,0,1,88.26,12,0,1,Transit,1
+medium,Rainforest,26,16.6,0,0,96.61,15.9,0,1,Walk,2
+small,Downtown,18,30,0,0,105.79,13.5,0,1,Transit,2
+medium,Tundratown,29,19,1,0,88.89,11.4,0,1,Transit,5
+large,Sahara Square,34,25.3,0,0,77.33,23.4,0,1,Transit,1
+medium,Sahara Square,24,32.8,1,0,85.12,46.5,0,1,Transit,1
+large,Downtown,41,21.5,0,0,42.65,26.1,0,1,Transit,1
+medium,Rainforest,18,5.1,0,0,63.17,4.8,0.41,1,Transit,3
+large,Downtown,34,7.1,0,0,93.89,2.8,0.46,1,Walk,5
+small,Rainforest,18,15.6,0,0,133.45,22.4,0,1,Personal,3
+medium,Tundratown,28,20.5,1,1,109.43,5.4,0.28,1,Transit,24
+small,Tundratown,18,6.5,1,0,99.12,8.1,0.07,1,Personal,6
+large,Sahara Square,56,10.1,0,0,74.35,5.2,0.32,1,Transit,3
+small,Downtown,51,36.1,1,1,113.15,17.9,0,1,Transit,47
+large,Downtown,43,24.2,0,1,76.45,8.3,0.16,1,Transit,9
+large,Rainforest,28,51.6,0,0,70.23,106.7,0,1,Transit,0
+medium,Tundratown,44,12.3,0,1,96.06,10.7,0.08,1,Transit,41
+medium,Tundratown,30,11.7,0,0,83.16,2.1,0.56,1,Personal,8
+large,Sahara Square,34,27.7,1,0,74.72,19.7,0,1,Transit,3
+medium,Rainforest,45,10.1,0,0,77.74,11.1,0.01,1,Personal,14
+small,Tundratown,22,12.1,1,0,105.77,8.7,0.09,1,Personal,0
+small,Tundratown,42,11.5,0,1,82.6,6.1,0.18,1,Walk,5
+medium,Rainforest,32,16.9,1,0,101.75,26.6,0,1,Transit,1
+medium,Tundratown,18,18,0,0,72.48,23.1,0,1,Walk,8
+small,Rainforest,25,23.4,0,0,81.38,13.9,0,1,Personal,0
+medium,Downtown,31,13.2,0,0,51.78,8.6,0.27,1,Transit,0
+small,Sahara Square,34,79.4,0,0,37.69,149.4,0,1,Transit,0
+medium,Rainforest,53,20,1,0,79.98,7.4,0.24,1,Transit,19
+large,Downtown,43,38.6,0,1,47.19,13,0.01,1,Transit,7
+small,Rainforest,26,16.8,0,0,60.09,13,0,1,Transit,0
+medium,Tundratown,49,21.4,0,0,87.95,13.5,0,1,Walk,9
+medium,Downtown,43,7.8,1,1,126.76,5.1,0.31,1,Personal,2
+small,Tundratown,32,19.6,0,0,94.26,21.9,0,1,Transit,1
+large,Tundratown,38,16.3,0,0,62.69,5.3,0.29,1,Transit,2
+medium,Sahara Square,29,33.5,1,0,96.86,41.8,0,1,Transit,0
+medium,Rainforest,27,13.3,1,1,99.99,11.9,0,1,Walk,0
+small,Rainforest,47,35.4,1,0,113.85,42.3,0,1,Transit,2
+medium,Rainforest,31,14.9,0,1,100.86,4,0.37,1,Walk,25
+small,Sahara Square,40,30.9,0,0,92.93,15.8,0,1,Transit,2
+large,Rainforest,55,12.5,0,0,86.3,7,0.22,1,Transit,8
+medium,Tundratown,37,7.8,0,0,69.26,3.5,0.58,1,Fly,0
+medium,Downtown,24,28.8,1,1,86.04,26.3,0,1,Fly,5
+small,Rainforest,24,32.7,0,0,100.77,15.4,0,1,Transit,1
+small,Downtown,44,22.7,0,0,44,12.3,0,1,Transit,3
+small,Sahara Square,29,20.7,1,0,78.48,10.6,0.08,1,Transit,33
+small,Rainforest,33,45.8,0,1,71.44,23.1,0,1,Transit,7
+medium,Sahara Square,26,20.5,0,0,57.66,21.8,0,1,Transit,1
+small,Rainforest,28,23.9,0,0,79.6,29.6,0,1,Fly,2
+medium,Rainforest,38,43,0,1,61.58,29.2,0,1,Transit,16
+medium,Sahara Square,37,44,0,0,70.26,77.5,0,1,Transit,0
+large,Rainforest,48,21.9,0,0,74,28.2,0,1,Transit,9
+large,Sahara Square,37,13,0,0,83.53,11.5,0.15,1,Transit,5
+small,Rainforest,49,18.6,0,0,83.88,12.5,0,1,Transit,3
+large,Rainforest,29,23.2,0,1,68.99,12.4,0,1,Transit,23
+medium,Sahara Square,41,43.9,0,1,24.02,61.5,0,1,Transit,0
+medium,Downtown,46,10.5,0,0,88.35,7.6,0.23,1,Transit,0
+small,Tundratown,25,22.3,0,0,93.37,10.1,0.04,1,Transit,8
+small,Rainforest,56,24.1,0,0,97.64,10.9,0.01,1,Walk,36
+medium,Tundratown,46,16.5,0,1,77.29,12.9,0,1,Transit,0
+medium,Downtown,45,34.2,0,0,24.31,25.5,0,1,Transit,2
+small,Tundratown,29,13.4,0,0,125.27,8.3,0.12,1,Fly,1
+small,Rainforest,33,28,0,0,65.05,14.4,0,1,Transit,5
+large,Tundratown,23,29.2,1,1,104.86,30.9,0,1,Transit,3
+medium,Sahara Square,33,26.3,0,0,64.3,30.2,0,1,Transit,0
+small,Downtown,43,15.4,1,0,102.01,7.9,0.06,1,Transit,9
+small,Tundratown,59,29.8,1,0,105.58,41.3,0,1,Transit,0
+small,Downtown,28,18.7,1,0,102.94,10,0.01,1,Transit,4
+large,Downtown,44,37.7,0,0,69.52,39,0,1,Transit,3
+medium,Downtown,53,24.2,0,0,63.18,17.6,0,1,Transit,19
+small,Tundratown,32,38.3,0,0,75.81,63.3,0,1,Transit,0
+small,Downtown,56,69,0,0,65.94,105.8,0,1,Transit,0
+large,Rainforest,39,5.1,0,1,81.48,4.2,0.46,1,Personal,18
+small,Downtown,35,22.8,1,0,89.96,17.9,0,1,Transit,12
+large,Downtown,38,5.7,1,0,62.19,7.4,0.06,1,Transit,20
+medium,Downtown,32,10.4,0,1,104.03,6,0.2,1,Transit,13
+small,Sahara Square,36,42.8,1,0,80.88,75.5,0,1,Transit,2
+small,Tundratown,26,29.1,0,1,106.28,19.1,0,1,Transit,8
+small,Sahara Square,26,49.7,0,0,65.23,100.4,0,1,Transit,0
+large,Rainforest,29,28.5,0,0,42.85,23,0,1,Transit,5
+large,Sahara Square,18,24.4,0,0,81.56,16.4,0,1,Transit,5
+medium,Sahara Square,30,11.4,1,0,76,16.5,0,1,Transit,0
+medium,Rainforest,63,21.3,0,0,110.9,15.4,0,1,Transit,5
+large,Tundratown,35,77.7,0,1,12.24,239.6,0,1,Transit,0
+small,Sahara Square,36,28.1,0,0,108.64,26.5,0,1,Transit,5
+small,Downtown,28,16.5,0,0,55.58,11.3,0.01,1,Transit,16
+large,Downtown,41,24.2,1,0,74.9,22.3,0,1,Transit,7
+small,Sahara Square,38,61.5,0,1,87.07,152.1,0,1,Transit,0
+large,Tundratown,18,21.9,0,0,57.71,13.9,0.02,1,Walk,0
+medium,Rainforest,29,22.2,0,1,76.37,18.3,0,1,Transit,28
+medium,Downtown,55,4.2,1,1,130.15,4.1,0.38,1,Fly,15
+medium,Tundratown,27,18.5,1,0,104.36,27.9,0,1,Transit,3
+large,Downtown,34,41,0,0,82.62,58.5,0,1,Transit,0
+medium,Downtown,43,34.3,0,0,62.34,14.2,0,1,Transit,2
+medium,Sahara Square,18,29.4,0,0,97.26,25.8,0,1,Transit,1
+large,Downtown,44,22.8,0,0,54.72,14.2,0,1,Transit,18
+large,Rainforest,31,15.4,1,0,92.27,22.7,0,1,Fly,0
+medium,Sahara Square,37,48,0,1,83.52,35.4,0,1,Transit,0
+large,Sahara Square,54,10.2,0,0,46.83,4.6,0.19,1,Personal,34
+small,Tundratown,47,19.6,0,1,68.51,15.3,0,1,Transit,17
+medium,Downtown,32,16.5,1,0,76.42,15.6,0.02,1,Personal,11
+medium,Downtown,43,12.7,1,0,111.35,8.9,0.1,1,Walk,8
+large,Tundratown,39,13,0,0,66.77,4.2,0.37,1,Transit,13
+small,Tundratown,29,4.5,0,0,103.09,8.7,0.09,1,Fly,1
+large,Sahara Square,19,63.3,0,0,13.33,139.5,0,1,Transit,0
+medium,Rainforest,38,14.7,1,0,118.74,17.9,0,1,Transit,2
+small,Tundratown,46,16.8,0,1,92.81,8.1,0.14,1,Transit,32
+small,Tundratown,30,15.4,0,0,40.69,11.7,0,1,Transit,3
+small,Downtown,37,12.4,0,0,55.41,7,0.25,1,Transit,18
+medium,Rainforest,37,15.6,0,0,130.69,13.9,0,1,Personal,0
+large,Tundratown,37,29.3,0,0,72.24,5.5,0.56,1,Transit,11
+medium,Tundratown,45,26.9,0,0,143.32,22.7,0,1,Transit,2
+small,Sahara Square,51,2.1,1,0,96.54,8.8,0.11,1,Walk,4
+medium,Downtown,53,15.2,0,1,65.84,5.3,0.24,1,Transit,29
+small,Rainforest,55,37.1,1,1,90.96,44,0,1,Transit,2
+small,Rainforest,26,12.2,1,0,125.99,3.7,0.39,1,Transit,2
+small,Rainforest,46,17.8,1,0,109.29,28.3,0,1,Fly,0
+large,Downtown,41,6.3,1,0,84.23,10.7,0,1,Transit,9
+large,Sahara Square,32,45.1,0,0,51.62,48.8,0,1,Transit,0
+medium,Tundratown,46,8.2,0,0,119.41,4,0.26,1,Fly,11
+small,Sahara Square,51,28.9,0,0,70.3,58.4,0,1,Personal,1
+small,Rainforest,37,52.5,0,0,62.71,78.7,0,1,Transit,1
+large,Rainforest,18,19.7,0,0,78.71,11.3,0.03,1,Personal,8
+small,Tundratown,23,18.6,0,1,69.01,11.8,0.02,1,Transit,9
+medium,Tundratown,46,14.6,0,0,56.45,10.2,0.03,1,Walk,8
+medium,Tundratown,47,16.9,0,0,75.37,7.7,0.15,1,Transit,25
+small,Rainforest,26,24.8,0,0,88.77,22,0,1,Transit,4
+large,Downtown,36,9.8,0,0,104.7,7.9,0.05,1,Transit,1
+medium,Downtown,35,5.9,0,0,83.29,7.5,0.12,1,Transit,12
+medium,Sahara Square,38,10.9,0,0,85.47,5.7,0.28,1,Transit,11
+medium,Tundratown,56,3.8,1,0,95.45,7.8,0.13,1,Fly,3
+medium,Downtown,33,17.4,0,1,76.92,8.8,0.02,1,Transit,51
+medium,Sahara Square,18,18.7,0,0,67.69,8.2,0.05,1,Personal,11
+medium,Sahara Square,29,19.8,0,1,89.94,14.1,0,1,Personal,9
+small,Sahara Square,39,11.2,0,0,61.02,8.4,0.01,1,Fly,5
+large,Downtown,48,20,0,0,89.6,12.1,0,1,Fly,8
+small,Downtown,48,17.5,0,1,111.48,8.7,0.24,1,Transit,10
+small,Tundratown,58,30.5,1,0,86.34,24.3,0,1,Transit,1
+small,Tundratown,18,15.2,1,1,115.76,7.6,0.16,1,Personal,1
+small,Downtown,26,14,0,0,115.2,10.4,0.02,1,Transit,1
+medium,Rainforest,47,9.1,0,1,86.8,3.6,0.43,1,Transit,35
+medium,Sahara Square,31,19.5,0,1,76.81,16.3,0.01,1,Fly,2
+medium,Sahara Square,21,20.9,0,0,59.82,11.8,0,1,Transit,1
+medium,Rainforest,20,12.5,0,0,97.24,10.6,0.11,1,Walk,3
+small,Downtown,50,16.4,1,0,134.19,17.3,0,1,Transit,1
+small,Tundratown,44,13,0,0,78.34,10.4,0.09,1,Transit,17
+large,Tundratown,53,10.8,0,0,85.08,7.6,0.08,1,Fly,35
+medium,Tundratown,60,25.1,0,1,106.05,15.7,0.14,1,Transit,8
+medium,Sahara Square,25,24.3,1,1,66.44,26.5,0,1,Transit,4
+medium,Tundratown,42,7.2,0,0,112.59,10,0.05,1,Transit,15
+small,Sahara Square,18,20,0,1,102.86,21.9,0,1,Personal,1
+large,Sahara Square,36,13.4,1,0,77.95,16.6,0,1,Fly,0
+medium,Tundratown,18,15.6,1,0,99.65,17.5,0,1,Transit,0
+medium,Tundratown,59,46.5,0,0,74.77,50.4,0,1,Transit,2
+large,Rainforest,48,26.8,0,0,21.7,11.4,0.01,1,Fly,37
+small,Sahara Square,30,16.9,0,1,103.86,7.9,0.11,1,Personal,6
+small,Rainforest,38,34.6,0,0,83.84,48.2,0,1,Transit,0
+small,Downtown,22,22.8,0,0,76.09,14.8,0,1,Transit,8
+large,Tundratown,31,49.9,1,0,87.72,100.1,0,1,Transit,0
+small,Tundratown,19,40.2,0,0,54,51.9,0,1,Transit,2
+small,Tundratown,47,12.3,0,1,129.7,7.9,0.11,1,Walk,11
+small,Tundratown,36,12.8,1,0,122.88,12.2,0.08,1,Transit,7
+small,Sahara Square,23,28.1,0,1,60.05,25.3,0,1,Transit,0
+medium,Tundratown,18,41.6,0,1,79.04,26.9,0,1,Transit,7
+large,Tundratown,51,18.3,0,1,94.53,17.7,0.01,1,Fly,20
+medium,Downtown,40,22.6,1,0,82.94,14.3,0.02,1,Fly,4
+large,Rainforest,50,20.9,0,1,85.31,21.2,0,1,Transit,7
+small,Tundratown,26,26.9,0,1,59.27,18.7,0,1,Transit,4
+medium,Tundratown,38,22.5,1,0,79.22,32,0,1,Transit,0
+large,Sahara Square,23,22.2,1,0,83.73,36.7,0,1,Transit,0
+large,Sahara Square,42,28.5,1,0,64.09,38.7,0,1,Transit,1
+small,Downtown,35,38.8,1,1,51.7,29.5,0,1,Transit,2
+medium,Tundratown,32,15.4,0,0,79.56,7.9,0.36,1,Personal,6
+medium,Rainforest,41,23.9,0,0,95.76,11.3,0.04,1,Transit,2
+large,Rainforest,37,5.2,0,0,46.67,6.7,0.08,1,Personal,8
+medium,Rainforest,18,15.7,0,1,98.79,11.5,0.02,1,Fly,0
+small,Downtown,36,8.7,0,0,89.88,8.5,0.02,1,Personal,8
+medium,Downtown,28,41.6,0,0,89.32,16,0,1,Transit,2
+medium,Rainforest,27,27.4,0,0,68.44,29.5,0,1,Fly,0
+medium,Downtown,18,7.6,0,1,47.42,7.3,0.23,1,Transit,9
+small,Rainforest,25,16.3,0,1,89.3,7,0.23,1,Transit,20
+small,Downtown,28,11.1,0,0,111.02,11.8,0,1,Transit,16
+small,Downtown,32,50.6,0,1,102.21,34.8,0,1,Transit,2
+small,Downtown,26,5.4,0,1,120.05,5,0.29,1,Transit,0
+medium,Sahara Square,40,15.5,0,0,83.27,15.2,0,1,Transit,12
+medium,Tundratown,39,13.1,0,1,80.35,9.6,0.01,1,Personal,2
+medium,Tundratown,65,30.2,0,1,43.71,22.8,0,1,Transit,7
+medium,Tundratown,18,24.6,1,0,107.27,26.2,0,1,Transit,7
+small,Rainforest,40,15.5,0,1,114.34,9.6,0.06,1,Transit,0
+large,Tundratown,43,32.6,0,0,79.23,16,0,1,Transit,1
+small,Tundratown,34,43.4,0,0,81.94,34.9,0,1,Transit,0
+medium,Sahara Square,25,59.4,1,1,62.3,104.4,0,1,Transit,0
+medium,Rainforest,38,19.3,1,0,106.3,21.5,0,1,Personal,3
+medium,Downtown,22,39.4,0,0,55.71,33.1,0,1,Transit,0
+large,Sahara Square,21,25.3,1,0,80.65,23.3,0,1,Transit,0
+small,Rainforest,20,23.6,0,0,87.75,16.2,0,1,Transit,3
+large,Downtown,38,3.8,1,1,103.11,7.7,0.05,1,Transit,11
+small,Sahara Square,38,24.5,1,0,80.68,33.5,0,1,Transit,0
+large,Tundratown,26,35.3,0,0,18.74,37.1,0,1,Transit,1
+medium,Downtown,26,7.6,0,0,117.44,6.8,0.12,1,Transit,0
+medium,Tundratown,28,22.1,0,0,83.92,16.8,0,1,Transit,5
+small,Downtown,39,23.9,0,0,83.89,8.5,0.08,1,Transit,0
+medium,Downtown,22,1.1,1,0,132.07,5.7,0.25,1,Transit,10
+large,Downtown,44,16.6,1,0,56.49,5.5,0.24,1,Transit,18
+small,Rainforest,36,28.3,1,1,101.31,19.8,0,1,Transit,0
+medium,Sahara Square,31,3.8,0,0,88.31,6.9,0.21,1,Personal,30
+large,Tundratown,24,6.8,0,0,77.59,12.7,0,1,Transit,3
+small,Sahara Square,41,9.2,0,0,93.37,11.7,0.03,1,Transit,5
+large,Downtown,18,17.9,0,0,82.83,12.3,0.07,1,Transit,11
+medium,Downtown,30,4.9,0,1,93.99,3.9,0.48,1,Transit,5
+small,Sahara Square,44,28.9,0,0,84.94,15.9,0,1,Transit,13
+large,Downtown,53,29.9,0,1,97.81,11.1,0.04,1,Transit,31
+medium,Downtown,39,29.3,0,1,76.08,21.5,0,1,Transit,0
+small,Downtown,45,17.2,0,0,79.82,8.4,0.04,1,Transit,17
+small,Tundratown,28,41.4,0,0,70.81,19.9,0,1,Transit,3
+medium,Sahara Square,18,9.7,1,0,104.28,23.6,0,1,Transit,0
+medium,Rainforest,19,25,0,1,106.69,10.7,0,1,Personal,1
+small,Tundratown,18,9.8,0,0,127.14,8.5,0.02,1,Transit,7
+large,Downtown,18,37.8,0,0,28.51,28,0,1,Transit,1
+medium,Tundratown,30,23.8,1,0,126.31,22.3,0,1,Personal,4
+small,Downtown,46,60.7,0,1,62.1,47.9,0,1,Transit,2
+medium,Sahara Square,32,5.6,0,0,78.07,4.8,0.42,1,Transit,1
+small,Sahara Square,32,17.7,1,1,128.18,20.2,0,1,Personal,2
+medium,Tundratown,51,25.2,0,0,116.16,11.2,0.14,1,Transit,22
+small,Tundratown,38,13.5,1,1,143.86,8.5,0.06,1,Transit,0
+large,Sahara Square,40,15.3,0,0,85.49,7.1,0.14,1,Transit,6
+small,Rainforest,48,15.5,0,0,95.32,11.2,0.01,1,Transit,6
+medium,Rainforest,49,24.8,0,0,76.9,25.5,0,1,Transit,0
+small,Tundratown,42,45.8,0,1,94.84,41.5,0,1,Transit,1
+small,Sahara Square,18,16.2,0,0,92.11,10.5,0.02,1,Transit,4
+large,Sahara Square,33,23.6,1,0,104.24,34.7,0,1,Fly,1
+large,Rainforest,40,34,1,1,58.11,44.5,0,1,Transit,3
+small,Rainforest,51,19.5,1,0,64.69,13,0,1,Personal,11
+large,Rainforest,22,62.2,0,1,34.63,119.6,0,1,Transit,0
+small,Sahara Square,18,48,1,0,67.74,75.4,0,1,Transit,0
+small,Downtown,51,20.8,0,0,102.38,16,0.01,1,Transit,1
+small,Sahara Square,49,11.7,0,1,76.98,11.2,0.01,1,Walk,6
+medium,Sahara Square,48,28.3,0,0,102.25,22.9,0,1,Transit,0
+medium,Sahara Square,36,12.5,0,0,82.81,7.3,0.18,1,Personal,7
+medium,Tundratown,28,25,1,0,105.29,45.2,0,1,Walk,2
+medium,Sahara Square,19,23.9,0,0,76.08,13.9,0.01,1,Transit,2
+medium,Downtown,43,34.5,1,0,55.43,39.2,0,1,Transit,5
+medium,Downtown,37,62.6,0,0,54.36,106.4,0,1,Transit,0
+small,Tundratown,45,34.6,1,0,89.31,39.7,0,1,Transit,1
+large,Sahara Square,44,22.4,0,0,104.84,29,0,1,Transit,2
+small,Sahara Square,39,6.8,0,1,85.22,1.7,0.73,1,Personal,4
+medium,Sahara Square,39,16.3,1,0,105.84,31.8,0,1,Walk,0
+medium,Downtown,23,21.5,1,0,85.43,12,0,1,Transit,3
+small,Downtown,27,26.6,0,0,36.63,37.9,0,1,Transit,0
+medium,Tundratown,42,14.2,0,0,87.68,3.4,0.38,1,Personal,7
+medium,Tundratown,35,14.6,1,1,116.96,13,0.07,1,Transit,20
+medium,Sahara Square,27,6.3,0,0,115.05,7.7,0.21,1,Fly,4
+large,Rainforest,22,19.2,1,0,88.48,15.5,0,1,Personal,3
+small,Sahara Square,29,64.7,0,0,73.21,120.5,0,1,Transit,0
+small,Downtown,49,3.1,0,0,66.06,4.5,0.35,1,Transit,2
+large,Sahara Square,42,11.8,0,1,63.39,4.3,0.56,1,Transit,48
+medium,Tundratown,34,16.9,0,0,80.38,8,0.14,1,Transit,3
+small,Rainforest,51,11.6,1,0,118.74,7.8,0.05,1,Transit,5
+medium,Sahara Square,26,12.9,0,1,89.01,17.1,0,1,Transit,4
+medium,Sahara Square,18,20.8,0,0,75,10.9,0.01,1,Transit,1
+small,Downtown,52,46.1,1,0,59.63,77.2,0,1,Transit,2
+small,Downtown,20,27.3,0,0,92.41,13.2,0,1,Transit,2
+medium,Sahara Square,34,8.7,1,1,120.39,10,0.05,1,Transit,6
+medium,Downtown,31,16.1,0,0,57.32,13.5,0,1,Fly,3
+large,Tundratown,45,10.1,1,0,114.97,22.3,0,1,Fly,3
+large,Rainforest,50,34.9,0,1,87.03,21.2,0,1,Transit,6
+large,Sahara Square,50,35.4,0,0,78.45,25.9,0,1,Transit,13
+large,Tundratown,38,17.6,0,1,71.65,8.5,0.05,1,Transit,22
+medium,Tundratown,27,23.5,1,0,73.16,12.5,0.11,1,Transit,1
+medium,Tundratown,27,38.6,0,0,63.33,28.3,0,1,Transit,0
+medium,Tundratown,35,9.3,1,0,95.96,9.8,0.05,1,Walk,28
+small,Downtown,28,25.7,0,0,124.27,22.5,0,1,Transit,0
+large,Downtown,18,28.1,1,0,73.43,15.6,0,1,Transit,11
+medium,Rainforest,35,29.1,0,0,86.27,14,0.06,1,Fly,25
+small,Tundratown,35,28.1,0,0,111.49,23.9,0,1,Transit,5
+large,Sahara Square,44,25.3,1,0,89.12,34.3,0,1,Personal,6
+medium,Rainforest,35,12.8,0,1,100.95,7.5,0.14,1,Transit,2
+small,Sahara Square,32,5.4,0,0,93.21,5,0.37,1,Personal,8
+small,Tundratown,23,15.8,1,0,123.56,8.9,0.18,1,Walk,3
+medium,Rainforest,23,32,0,0,57.34,14,0,1,Transit,3
+small,Rainforest,50,22.5,0,0,73.67,12.2,0,1,Personal,9
+medium,Tundratown,30,6.2,0,1,128.34,3.7,0.49,1,Transit,10
+medium,Downtown,74,47.9,1,0,96.56,49.3,0,1,Transit,0
+medium,Rainforest,29,28.2,0,0,79.17,27.1,0,1,Transit,2
+small,Rainforest,18,51.1,0,1,99.32,49.6,0,1,Transit,0
+small,Tundratown,18,24.3,0,1,99.99,6.5,0.16,1,Transit,14
+medium,Downtown,35,21.9,0,0,78.3,3.3,0.62,1,Transit,9
+small,Downtown,42,17.7,1,0,113.02,13.6,0,1,Transit,1
+large,Downtown,33,33.9,0,0,68.27,18.2,0,1,Transit,3
+medium,Rainforest,45,48.1,0,1,48.3,56,0,1,Transit,4
+large,Sahara Square,45,20.3,0,1,66.62,10.6,0.01,1,Personal,28
+medium,Downtown,36,36.5,0,0,114.74,25.1,0,1,Transit,1
+small,Sahara Square,37,43.7,0,1,83.95,74.1,0,1,Transit,2
+medium,Tundratown,47,23.4,1,0,60.36,29,0,1,Transit,14
+small,Downtown,45,27.2,0,0,93.71,12.7,0.02,1,Transit,4
+small,Sahara Square,18,37.8,0,1,85.47,53.4,0,1,Transit,0
+large,Downtown,40,11.9,0,1,111.13,9.5,0.09,1,Transit,2
+medium,Tundratown,51,14.8,1,0,104.81,18.7,0,1,Transit,2
+small,Rainforest,26,33.5,0,1,62.58,26.1,0,1,Transit,1
+medium,Tundratown,35,19.5,0,0,40.72,14.8,0,1,Transit,5
+small,Sahara Square,20,17.5,0,0,95.6,12.7,0.02,1,Transit,2
+medium,Tundratown,27,34,0,0,70.58,8,0.1,1,Transit,2
+large,Downtown,26,12.2,0,0,104.46,10.7,0,1,Fly,0
+medium,Tundratown,23,14.8,0,0,103.77,10,0.03,1,Transit,3
+medium,Tundratown,38,15,1,0,60.56,14.9,0,1,Personal,1
+large,Rainforest,43,30.9,0,0,48.88,18.5,0,1,Walk,9
+medium,Sahara Square,24,16.1,0,0,66.07,14.6,0,1,Transit,11
+small,Rainforest,41,20.3,0,0,75.22,18.4,0,1,Fly,0
+small,Sahara Square,51,20.2,0,1,71.71,22.7,0,1,Fly,3
+small,Sahara Square,18,20.9,1,0,112.35,43.1,0,1,Transit,2
+medium,Downtown,42,55.4,1,0,73.11,79.1,0,1,Transit,1
+medium,Rainforest,33,11,0,0,108.77,17.3,0,1,Transit,2
+medium,Tundratown,32,42.4,0,0,33.25,43.5,0,1,Transit,1
+large,Rainforest,36,54.4,0,0,59.67,187.2,0,1,Transit,0
+medium,Tundratown,18,18.9,0,0,73.36,19,0,1,Fly,1
+small,Downtown,45,15.7,0,0,79.73,11.5,0.01,1,Transit,10
+small,Rainforest,37,35,1,0,95.12,27.7,0,1,Personal,0
+medium,Sahara Square,18,6.6,0,1,100.4,6.7,0.26,1,Personal,6
+large,Downtown,18,23.1,0,0,81.31,10.8,0.1,1,Transit,4
+medium,Tundratown,23,33.5,1,0,94.11,25.3,0,1,Transit,1
+medium,Rainforest,42,56.7,1,0,107.95,40.1,0,1,Transit,3
+small,Sahara Square,49,34.6,0,1,80.38,24.6,0,1,Transit,5
+medium,Tundratown,48,12,0,1,107.94,3,0.7,1,Transit,0
+medium,Sahara Square,18,17.4,0,0,83.98,16,0.01,1,Transit,20
+small,Rainforest,25,15.9,1,0,141.18,25.5,0,1,Transit,1
+large,Downtown,39,20.3,0,0,71.06,3.3,0.24,1,Transit,3
+small,Tundratown,24,27.9,0,1,82.75,19.9,0,1,Transit,1
+medium,Rainforest,48,11.1,0,0,109.15,4.6,0.13,1,Transit,4
+small,Sahara Square,22,31.7,1,1,92.23,21.3,0,1,Personal,7
+small,Sahara Square,18,32.9,0,0,63.9,20.4,0,1,Transit,2
+medium,Downtown,34,28.5,0,0,71.47,8.1,0.04,1,Fly,2
+small,Downtown,30,13.6,0,0,40.58,8.1,0.1,1,Personal,15
+small,Tundratown,47,23.3,1,0,115.48,16.3,0,1,Transit,40
+medium,Sahara Square,18,28.6,1,1,72.87,38.9,0,1,Transit,1
+medium,Tundratown,49,22.6,0,0,108.01,11,0.07,1,Transit,27
+small,Downtown,20,31.9,0,0,68.11,29.2,0,1,Transit,0
+large,Downtown,32,19.9,1,1,71.28,19.5,0,1,Transit,5
+small,Downtown,18,10.8,1,1,35.86,8.9,0.04,1,Transit,1
+medium,Tundratown,27,46.4,0,1,100.7,74.5,0,1,Transit,0
+large,Rainforest,46,19.8,0,0,44.25,6.9,0.16,1,Transit,1
+medium,Tundratown,35,36.8,1,1,134.97,31.2,0,1,Transit,1
+small,Rainforest,53,14,0,0,88.87,8.4,0.04,1,Transit,1
+large,Downtown,20,11.7,1,1,87.46,8.5,0.08,1,Transit,0
+small,Downtown,53,28.3,0,1,93.55,6.6,0.23,1,Transit,22
+large,Sahara Square,32,21.6,0,0,45.59,34.1,0,1,Transit,1
+large,Sahara Square,47,29.1,0,1,72.41,14.7,0.01,1,Transit,9
+small,Rainforest,33,24.5,1,0,135.18,24.3,0,1,Personal,7
+medium,Tundratown,22,38.2,0,1,100.24,22.9,0,1,Transit,0
+medium,Sahara Square,21,52.5,0,1,64.12,83,0,1,Transit,0
+medium,Tundratown,25,16.4,1,0,112.8,9.9,0.11,1,Transit,0
+small,Downtown,41,19,0,0,66.57,4.4,0.32,1,Transit,30
+small,Sahara Square,28,30.8,1,0,100.87,8.9,0.11,1,Transit,0
+small,Tundratown,49,12.4,0,0,88.05,9.4,0.08,1,Transit,5
+small,Tundratown,29,28.9,1,1,86.18,31.2,0,1,Transit,1
+small,Sahara Square,23,24.7,0,0,87.29,38.7,0,1,Transit,1
+small,Sahara Square,47,2.3,0,1,102.85,6.4,0.24,1,Transit,16
+small,Sahara Square,21,21.6,0,0,77.75,23.1,0,1,Transit,0
+large,Sahara Square,46,17.4,0,1,76.78,6.8,0.26,1,Transit,16
+small,Sahara Square,39,6.7,1,1,95.61,12.9,0.06,1,Personal,39
+medium,Rainforest,18,21.4,0,0,97.4,18.6,0,1,Transit,7
+medium,Tundratown,35,40.6,0,1,50.13,50.5,0,1,Transit,0
+medium,Rainforest,41,15.5,0,0,83.73,13.3,0,1,Walk,0
+small,Rainforest,24,10.5,0,1,134.58,9.7,0.01,1,Transit,4
+small,Tundratown,18,26.1,0,1,141.51,10.5,0.05,1,Transit,1
+medium,Rainforest,40,14.9,0,0,87.24,20.8,0,1,Transit,2
+large,Tundratown,38,67.9,0,1,43.17,119.2,0,1,Transit,0
+medium,Downtown,44,12.2,1,0,64.34,15.6,0,1,Transit,10
+small,Tundratown,32,20.1,0,0,123.65,11.1,0.01,1,Transit,4
+small,Tundratown,18,10.1,0,1,91.64,3.4,0.65,1,Transit,12
+medium,Sahara Square,22,24.9,1,0,96.12,33.8,0,1,Transit,0
+small,Rainforest,18,13.9,0,0,93.62,11,0.02,1,Walk,2
+small,Sahara Square,18,3.9,1,0,97.05,25.5,0,1,Fly,3
+large,Sahara Square,44,8.3,1,1,85.25,10.2,0.17,1,Transit,22
+large,Downtown,37,67.4,0,1,24.2,129.3,0,1,Transit,0
+small,Sahara Square,35,62.7,1,1,77.1,138.9,0,1,Transit,0
+medium,Rainforest,52,23.4,0,0,105.99,10.8,0,1,Fly,4
+medium,Sahara Square,41,28.9,0,0,91.04,17.8,0,1,Personal,11
+large,Downtown,18,17.7,0,1,67.26,5.4,0.28,1,Transit,8
+medium,Rainforest,33,18.7,1,0,99.15,15.9,0,1,Transit,3
+small,Downtown,24,30.6,0,0,82.52,34.8,0,1,Transit,1
+small,Sahara Square,28,35.9,0,0,81.43,28.5,0,1,Transit,1
+small,Tundratown,39,25.2,0,0,80.33,16.8,0,1,Transit,2
+large,Tundratown,18,17.2,0,0,114.61,11.8,0,1,Transit,0
+small,Downtown,26,13.5,0,1,81.11,9,0.06,1,Transit,8
+medium,Rainforest,37,34.3,0,0,72.12,54.8,0,1,Transit,1
+medium,Downtown,38,14.7,1,0,76.32,17.1,0,1,Personal,9
+medium,Rainforest,41,21.8,1,0,71.58,24.2,0,1,Transit,7
+large,Rainforest,41,26.4,0,1,87.26,11.4,0,1,Transit,28
+medium,Rainforest,33,61.6,0,0,56.65,102,0,1,Transit,0
+medium,Tundratown,18,4.1,0,1,76.25,8.3,0.14,1,Transit,3
+medium,Sahara Square,19,44.9,0,0,76.07,39.5,0,1,Transit,0
+medium,Tundratown,20,29.3,1,1,88.26,30,0,1,Transit,4
+medium,Tundratown,34,60,0,0,5,124.4,0,1,Transit,0
+small,Sahara Square,39,17.9,0,1,69.34,7.6,0.23,1,Fly,28
+large,Rainforest,44,26.3,0,1,97.66,22.3,0,1,Transit,1
+small,Rainforest,30,23.5,1,0,76.2,20.4,0,1,Transit,1
+small,Downtown,40,4,0,0,79.2,3.5,0.44,1,Walk,13
+small,Rainforest,35,10.5,0,1,71.11,7,0.35,1,Transit,17
+medium,Downtown,29,17.6,1,0,81.18,17.3,0,1,Transit,1
+large,Sahara Square,37,24.6,0,1,80.1,13.5,0.01,1,Transit,0
+medium,Sahara Square,38,10.4,0,0,78.28,7.7,0.22,1,Transit,5
+medium,Sahara Square,56,21.3,1,1,106.39,23.8,0,1,Transit,2
+medium,Tundratown,18,22.8,0,0,63.29,19.6,0,1,Transit,3
+small,Sahara Square,39,64.3,0,1,102.29,95.8,0,1,Transit,0
+small,Rainforest,37,25.4,1,0,89.82,25.9,0,1,Personal,0
+large,Sahara Square,33,30,1,0,100.33,28.6,0,1,Transit,4
+medium,Sahara Square,32,8.9,0,0,90.76,22,0,1,Personal,2
+small,Sahara Square,25,16.5,0,1,131.58,17.7,0,1,Transit,6
+small,Rainforest,43,24,1,1,125.58,13.8,0,1,Personal,8
+small,Downtown,35,11,1,0,99.71,4.2,0.45,1,Walk,3
+small,Sahara Square,27,10.2,0,0,128.31,4.2,0.3,1,Fly,9
+small,Rainforest,33,8.1,0,0,123.27,15.3,0,1,Fly,0
+medium,Sahara Square,18,13.9,1,1,116.19,13.2,0,1,Walk,0
+small,Downtown,23,18,0,0,65,4.8,0.27,1,Transit,3
+small,Rainforest,42,23.1,0,0,115.5,15.3,0,1,Transit,0
+small,Sahara Square,18,17.9,0,0,45.19,13.9,0,1,Transit,2
+medium,Rainforest,28,27.6,0,0,78.6,14.4,0.01,1,Transit,1
+small,Downtown,34,19.5,1,0,70.52,11.6,0,1,Transit,5
+medium,Downtown,19,6.9,0,1,87.94,2.4,0.35,1,Fly,6
+medium,Downtown,38,16.9,0,0,90.64,10.6,0.09,1,Transit,20
+small,Rainforest,38,23.7,1,0,97.41,34.4,0,1,Transit,3
+small,Downtown,37,6.7,0,0,109.12,5.6,0.47,1,Walk,24
+small,Downtown,62,49.3,0,1,99.43,43.5,0,1,Transit,0
+medium,Rainforest,47,24.5,0,0,63.41,24.7,0,1,Transit,4
+small,Sahara Square,32,14.8,0,0,117.31,12,0.09,1,Transit,0
+medium,Sahara Square,57,26.1,0,0,65.51,26.5,0,1,Transit,3
+large,Sahara Square,40,19.1,0,0,93.36,4.7,0.25,1,Transit,9
+medium,Tundratown,36,61.6,0,0,50.76,97,0,1,Transit,0
+medium,Rainforest,31,11,1,0,84.82,6.2,0.32,1,Transit,14
+large,Tundratown,25,35.8,0,0,48.11,14,0.01,1,Transit,6
+medium,Sahara Square,49,28.1,0,0,78.76,36.4,0,1,Fly,3
+large,Tundratown,29,23.8,0,1,90.13,6.3,0.32,1,Personal,17
+medium,Rainforest,39,39.6,0,0,74.34,49.9,0,1,Transit,1
+medium,Sahara Square,20,12.5,0,0,84.78,16.4,0,1,Fly,1
+medium,Sahara Square,38,38.2,1,0,58.72,57.1,0,1,Transit,1
+large,Tundratown,29,31.4,0,0,52.01,14.6,0.01,1,Transit,3
+large,Rainforest,28,19.4,0,1,76.58,20.2,0,1,Fly,4
+medium,Rainforest,39,15.9,1,0,114.29,22.1,0,1,Personal,4
+small,Sahara Square,45,17.1,0,0,101.79,22.8,0,1,Personal,0
+medium,Tundratown,27,32.4,1,0,120.17,29.6,0,1,Transit,0
+medium,Downtown,37,13.8,0,0,115.54,6.5,0.19,1,Transit,22
+small,Rainforest,45,19,0,1,114.07,21,0,1,Transit,0
+small,Downtown,45,28.1,1,1,94.03,15.4,0,1,Transit,3
+large,Downtown,35,10,1,1,94.58,13.6,0,1,Walk,21
+medium,Tundratown,43,18,0,0,69.88,13.1,0.01,1,Transit,14
+medium,Sahara Square,37,7.2,0,1,89.86,8.4,0.07,1,Walk,3
+small,Sahara Square,41,20.7,1,0,60.71,28.7,0,1,Fly,0
+small,Downtown,32,25.4,1,0,72.48,22.5,0,1,Fly,2
+large,Tundratown,48,39,0,0,42.48,18.5,0,1,Transit,4
+small,Sahara Square,29,21.4,0,0,82.4,24.1,0,1,Transit,6
+small,Rainforest,50,20.7,0,1,82.57,11.6,0.04,1,Walk,1
+large,Sahara Square,37,28.5,0,0,77.58,16.1,0,1,Transit,2
+medium,Downtown,43,7.8,0,0,71,5.3,0.14,1,Fly,6
+small,Rainforest,26,11.1,1,1,140.37,8.4,0.18,1,Transit,9
+medium,Sahara Square,32,9.1,0,0,70.59,3.8,0.33,1,Fly,34
+small,Downtown,23,4.5,0,1,115.4,3.3,0.76,1,Fly,6
+large,Downtown,24,33.4,0,1,48.97,29,0,1,Transit,0
+large,Downtown,42,19.8,0,0,51.35,14.8,0,1,Transit,1
+small,Sahara Square,32,46.7,0,0,87.92,84.9,0,1,Transit,0
+small,Rainforest,36,14.5,0,1,88.98,10.6,0.1,1,Transit,8
+small,Sahara Square,38,21.4,0,1,99.86,8.8,0.22,1,Transit,3
+small,Downtown,35,31.5,0,1,85.67,16,0,1,Fly,8
+medium,Rainforest,46,8.6,0,0,94.26,5.9,0.08,1,Transit,38
+medium,Rainforest,28,14.2,1,0,111.02,8.1,0.13,1,Transit,1
+medium,Downtown,40,20.7,0,0,71.53,13.2,0,1,Transit,9
+medium,Sahara Square,40,30.4,0,0,60.71,60.3,0,1,Transit,1
+medium,Sahara Square,55,24.9,0,0,76.11,24.4,0,1,Transit,14
+small,Sahara Square,35,9.8,1,0,76.05,19.9,0,1,Fly,3
+medium,Downtown,47,23.5,0,1,108.21,13.4,0.03,1,Transit,17
+small,Sahara Square,26,8.6,1,1,107.35,9.2,0.16,1,Transit,2
+medium,Downtown,50,11.4,0,0,80.84,9.6,0.08,1,Transit,8
+small,Sahara Square,18,22.9,1,1,122.39,14,0,1,Transit,5
+medium,Sahara Square,36,24.5,0,0,74.13,20.1,0,1,Transit,3
+medium,Downtown,35,15.1,1,1,78.13,11.4,0.12,1,Transit,25
+medium,Downtown,47,38.7,0,0,36.33,18.3,0,1,Transit,10
+medium,Rainforest,25,27.6,1,0,87.54,30.6,0,1,Transit,3
+medium,Tundratown,29,19.2,0,0,66.14,7.7,0.15,1,Transit,0
+large,Rainforest,42,20.3,0,0,71.33,11,0,1,Personal,8
+medium,Sahara Square,34,17.3,1,1,116.59,18.1,0,1,Walk,1
+medium,Tundratown,46,32.5,0,1,99.1,12.4,0,1,Transit,26
+medium,Downtown,30,7.1,0,0,50.32,6.2,0.46,1,Personal,3
+large,Sahara Square,48,6.2,1,1,87.41,13.8,0.09,1,Personal,0
+medium,Rainforest,37,16.7,0,0,82.86,15.9,0.04,1,Transit,3
+medium,Tundratown,41,20.5,0,0,93.25,15.1,0,1,Transit,9
+large,Rainforest,34,39.5,0,0,51.55,30.7,0,1,Transit,6
+small,Rainforest,49,28.6,0,1,108.26,19.9,0,1,Transit,10
+medium,Downtown,45,32.8,1,0,81.99,24.4,0,1,Transit,10
+large,Downtown,39,28.2,1,0,99.06,11.3,0.09,1,Transit,0
+small,Tundratown,39,4.7,0,1,140.88,3.5,0.56,1,Walk,11
+small,Tundratown,23,9.6,0,0,95,4.3,0.26,1,Fly,1
+large,Downtown,39,15.3,0,0,105.65,11.9,0,1,Transit,15
+small,Downtown,53,26.1,0,0,100.22,12.5,0.01,1,Transit,8
+small,Rainforest,38,16.5,1,0,89.58,11.5,0.02,1,Transit,0
+large,Sahara Square,52,34.1,1,0,75.43,30.4,0,1,Transit,9
+large,Sahara Square,50,44.3,1,0,42.79,39,0,1,Transit,6
+medium,Downtown,25,4.6,0,0,95.14,11.5,0.28,1,Transit,8
+medium,Downtown,24,4.6,0,0,87.42,4.8,0.45,1,Transit,2
+large,Sahara Square,45,4,0,1,55.96,4.9,0.35,1,Walk,54
+small,Downtown,44,23.8,1,1,97.89,6.6,0.13,1,Transit,5
+large,Tundratown,25,16.1,1,1,79.5,3.9,0.55,1,Transit,1
+large,Sahara Square,43,12.3,0,0,123.95,14.3,0.02,1,Fly,2
+large,Rainforest,49,21.2,0,0,83.51,9.8,0.03,1,Transit,8
+small,Rainforest,31,7.8,1,1,117.83,8,0.09,1,Transit,4
+large,Rainforest,45,22.9,1,0,82.76,25.5,0,1,Personal,5
+large,Downtown,53,31.8,0,0,80.99,14.8,0,1,Transit,20
+medium,Rainforest,27,25,0,0,132.86,20.9,0,1,Transit,3
+medium,Downtown,18,10.9,0,0,72.16,4,0.34,1,Personal,2
+medium,Tundratown,36,7.6,0,0,75.5,5.2,0.35,1,Transit,1
+large,Tundratown,25,38.6,0,1,51.94,30.2,0,1,Transit,1
+small,Downtown,53,7.1,0,1,106.53,1.8,0.76,1,Personal,9
+medium,Downtown,54,34.2,0,0,82.35,25.4,0,1,Transit,9
+small,Sahara Square,24,23.3,1,1,92.47,11.7,0.18,1,Transit,5
+medium,Sahara Square,36,18.8,1,1,95.53,13.4,0,1,Fly,23
+medium,Tundratown,48,12,1,0,100.96,15.7,0.01,1,Transit,0
+small,Rainforest,41,21.4,0,1,74.78,12.6,0,1,Transit,2
+medium,Sahara Square,31,25.8,0,1,92.71,16.2,0,1,Transit,8
+small,Rainforest,32,25.1,1,1,64.56,11.9,0.01,1,Transit,1
+medium,Downtown,36,31.1,0,0,42.09,32.8,0,1,Transit,7
+medium,Rainforest,36,28,0,0,41.4,40.8,0,1,Transit,0
+large,Downtown,42,53.8,0,1,68.21,60.2,0,1,Transit,1
+medium,Tundratown,27,24.9,0,0,67.72,11.7,0.01,1,Transit,0
+medium,Tundratown,42,14.7,0,1,89.64,7.7,0.24,1,Transit,37
+medium,Sahara Square,49,14.8,0,0,99.35,15.8,0,1,Transit,10
+small,Rainforest,18,10.7,0,0,81.1,6.8,0.3,1,Fly,0
+large,Tundratown,39,5.3,0,0,69.97,5.4,0.36,1,Personal,3
+small,Sahara Square,31,23.7,0,1,95.71,28.6,0,1,Transit,1
+small,Downtown,49,23.7,0,0,34.51,10.9,0,1,Transit,1
+medium,Sahara Square,28,37.5,0,1,68.06,63.9,0,1,Transit,0
+small,Tundratown,45,33.2,1,1,87.61,19.4,0,1,Transit,9
+medium,Rainforest,18,35.3,0,0,76.32,32.4,0,1,Transit,2
+small,Sahara Square,28,17.4,0,1,93.63,7.7,0.23,1,Transit,24
+medium,Downtown,32,27.2,0,0,74.74,22.2,0,1,Personal,0
+medium,Rainforest,26,13.7,1,0,90.35,18.1,0,1,Personal,0
+small,Rainforest,31,18,0,1,126.47,11.7,0.01,1,Transit,13
+large,Sahara Square,22,16.7,1,0,60.79,16.3,0,1,Walk,11
+medium,Tundratown,51,39.1,1,0,87.63,28.8,0,1,Transit,0
+medium,Sahara Square,31,29.8,1,1,81.91,54.1,0,1,Personal,1
+small,Rainforest,27,35.3,1,0,67.42,19.1,0,1,Transit,1
+small,Downtown,40,19.6,0,0,99.73,8,0.08,1,Transit,26
+medium,Downtown,43,12.6,0,0,101.97,4.1,0.41,1,Transit,16
+medium,Downtown,42,2.3,0,1,95.42,4.2,0.48,1,Transit,44
+small,Tundratown,34,43.6,1,0,103.32,60.6,0,1,Transit,0
+large,Rainforest,26,31,1,0,57.69,34.4,0,1,Personal,1
+small,Tundratown,32,21,1,0,95.71,7.5,0.17,1,Transit,0
+small,Rainforest,28,8,0,0,89.18,1.5,0.62,1,Transit,3
+medium,Sahara Square,42,20.2,0,0,51.2,16.3,0,1,Transit,3
+medium,Sahara Square,19,25.7,0,0,104.82,38.7,0,1,Fly,0
+small,Downtown,53,12.3,1,1,154.82,10.1,0.15,1,Personal,18
+large,Rainforest,45,42.2,0,1,80.09,47.5,0,1,Transit,1
+small,Sahara Square,33,46.5,1,0,97.88,62.6,0,1,Transit,2
+medium,Sahara Square,58,15.9,0,1,92.65,6.8,0.1,1,Personal,2
+medium,Tundratown,22,22.6,0,1,78.14,8.4,0.05,1,Transit,1
+small,Downtown,53,30.8,1,0,104.43,27.8,0,1,Transit,6
+small,Rainforest,33,14.6,0,0,99.26,9.8,0.05,1,Walk,12
+medium,Rainforest,46,24.7,0,0,62.89,20.1,0,1,Transit,4
+medium,Rainforest,52,42.1,0,0,77.79,63.3,0,1,Transit,0
+small,Downtown,41,61.9,0,0,60.97,33.6,0,1,Transit,0
+large,Downtown,20,38,1,1,62.64,27.4,0,1,Transit,1
+medium,Downtown,20,28.7,1,0,74.01,24.6,0,1,Transit,4
+medium,Tundratown,37,4.4,0,1,100.87,4.7,0.33,1,Walk,10
+medium,Tundratown,29,26.3,1,1,82.34,15.2,0,1,Transit,6
+small,Tundratown,56,23.5,1,0,117.18,26.6,0,1,Transit,28
+small,Tundratown,27,48.6,0,0,92.87,62,0,1,Transit,1
+medium,Downtown,41,28.2,0,0,67.02,18.7,0,1,Transit,3
+small,Tundratown,32,5.2,0,0,99.69,11.5,0,1,Transit,6
+medium,Rainforest,39,15.1,0,0,96.6,15.6,0,1,Transit,1
+large,Tundratown,30,83,0,0,52.14,203.9,0,1,Transit,0
+medium,Rainforest,20,24.3,0,0,77.14,30.6,0,1,Transit,0
+medium,Tundratown,31,14.9,0,1,128.41,19,0,1,Transit,4
+small,Tundratown,51,20.6,0,0,104.5,16,0,1,Transit,6
+large,Downtown,28,35.4,0,1,81.13,23.1,0,1,Transit,0
+small,Rainforest,18,20.2,1,0,104.25,25.4,0,1,Transit,2
+medium,Sahara Square,37,27.6,0,0,98.27,33,0,1,Transit,0
+medium,Sahara Square,18,19.4,0,0,45.16,15.9,0,1,Transit,2
+medium,Rainforest,33,22.8,1,0,109.94,6.5,0.15,1,Transit,5
+medium,Tundratown,33,23.8,0,0,90.83,11,0.06,1,Transit,4
+small,Rainforest,18,25.8,0,0,85.45,20.4,0,1,Fly,0
+small,Tundratown,25,20.6,0,0,106.1,22.4,0,1,Walk,2
+small,Tundratown,27,23.8,0,1,103.47,10.5,0,1,Transit,15
+medium,Downtown,44,10.4,1,1,73.85,2.8,0.49,1,Personal,3
+medium,Rainforest,18,20.3,1,0,121.94,13.7,0,1,Personal,0
+medium,Tundratown,33,30.9,1,0,76.6,32.6,0,1,Transit,5
+medium,Downtown,46,18.9,0,0,70.66,7.1,0.09,1,Transit,0
+small,Rainforest,35,17.9,1,0,94.84,9.3,0,1,Transit,0
+small,Tundratown,20,13.1,1,0,97.3,9.1,0.04,1,Transit,1
+small,Rainforest,44,17.8,0,0,107.17,15.2,0.08,1,Transit,0
+small,Rainforest,61,25.3,0,0,50.97,14,0,1,Transit,13
+medium,Rainforest,34,1.5,0,0,105.64,3.4,0.2,1,Walk,20
+medium,Downtown,25,20.7,0,0,57.15,12.7,0.01,1,Transit,12
+medium,Downtown,32,22.9,0,0,58.93,7.6,0.04,1,Walk,4
+medium,Tundratown,51,15.5,1,0,116.11,12.2,0,1,Transit,4
+large,Rainforest,50,12.6,0,0,77.98,11.2,0.02,1,Fly,12
+medium,Sahara Square,36,8.7,1,0,118.25,7.2,0.1,1,Transit,11
+medium,Tundratown,20,21.8,0,0,100.12,19.5,0,1,Transit,0
+large,Sahara Square,35,13.3,0,0,77.14,12.5,0.05,1,Walk,0
+medium,Sahara Square,29,45.2,0,0,76.05,41.1,0,1,Transit,1
+medium,Rainforest,37,3.6,0,1,122.86,6.6,0.15,1,Transit,58
+small,Downtown,61,29.6,0,0,75.46,20.9,0,1,Transit,8
+small,Downtown,18,18.1,0,1,79.32,9.7,0.01,1,Personal,2
+small,Downtown,23,42.6,0,0,67.06,40.6,0,1,Transit,4
+medium,Sahara Square,40,18.6,0,1,105.11,3.4,0.36,1,Transit,6
+medium,Downtown,18,72.5,0,0,40.36,192,0,1,Transit,0
+large,Rainforest,28,46.7,0,0,55.17,31.1,0,1,Transit,1
+small,Sahara Square,20,23.7,0,1,114.45,9.6,0.1,1,Transit,6
+medium,Sahara Square,41,7.4,1,1,86.68,15.9,0,1,Personal,7
+large,Sahara Square,24,20.3,1,0,82.39,37.1,0,1,Personal,1
+small,Rainforest,41,9.7,1,1,113.51,9.6,0.03,1,Transit,22
+medium,Rainforest,42,15.3,1,1,108.03,11.7,0,1,Transit,20
+large,Rainforest,23,22.9,1,1,66.02,25.7,0,1,Transit,15
+medium,Rainforest,32,5.4,0,0,79.93,6.2,0.32,1,Transit,21
+large,Rainforest,38,20.3,0,0,49.88,11.8,0.01,1,Transit,14
+small,Sahara Square,26,36.9,0,0,61.91,47.9,0,1,Transit,5
+small,Downtown,53,22.5,0,0,58.16,6.4,0.31,1,Transit,1
+medium,Sahara Square,48,4.6,0,0,119.3,8.6,0.25,1,Transit,8
+large,Downtown,25,17,1,1,58.2,5.4,0.17,1,Transit,3
+large,Downtown,32,11.9,0,0,76.32,6.6,0.23,1,Transit,3
+small,Tundratown,24,27.2,1,0,95.16,45.5,0,1,Transit,1
+large,Rainforest,47,18.5,0,1,81.43,11.8,0,1,Transit,1
+small,Downtown,28,24.9,0,1,101.4,6.8,0.15,1,Transit,0
+small,Tundratown,42,48.8,0,1,69.85,39.8,0,1,Transit,1
+medium,Rainforest,18,45.6,0,1,19.99,33,0,1,Transit,0
+small,Rainforest,35,23.3,0,0,111.01,20.9,0,1,Transit,0
+small,Rainforest,33,32.8,0,0,59.45,52.8,0,1,Transit,0
+small,Rainforest,46,25.2,1,1,114.34,30.6,0,1,Personal,24
+large,Tundratown,60,34.4,1,0,72.15,40.6,0,1,Transit,2
+small,Rainforest,50,24.8,1,0,115.48,13.3,0,1,Transit,5
+small,Rainforest,35,16.4,0,0,73.91,12.5,0.02,1,Transit,5
+medium,Downtown,27,5.8,0,0,129.63,5.8,0.2,1,Fly,1
+medium,Sahara Square,25,14.1,0,1,86.52,11.8,0,1,Walk,6
+small,Tundratown,55,32.3,0,0,97.1,27.3,0,1,Transit,11
+medium,Downtown,52,26,0,0,63.11,5.1,0.28,1,Transit,19
+large,Rainforest,29,15.2,0,0,49.1,3.6,0.23,1,Walk,12
+small,Sahara Square,61,9.6,0,0,87.25,16.1,0,1,Fly,3
+small,Tundratown,30,19.5,0,0,91.85,17.9,0,1,Transit,1
+medium,Sahara Square,45,23.4,0,1,53.74,29.3,0,1,Personal,4
+small,Sahara Square,46,29.3,0,0,56.15,35.8,0,1,Transit,3
+large,Sahara Square,30,33.4,0,0,50.76,39.2,0,1,Transit,0
+medium,Tundratown,40,4.9,1,0,101.57,6.3,0.07,1,Fly,2
+medium,Downtown,46,14.9,0,0,101.57,11.5,0.01,1,Transit,0
+small,Tundratown,58,35.5,0,0,59.25,37.9,0,1,Transit,19
+small,Rainforest,45,16.8,0,1,75.48,9.5,0.05,1,Transit,7
+small,Downtown,56,28.6,1,0,75.16,18.7,0,1,Personal,29
+medium,Rainforest,44,38.8,0,0,105.69,14.7,0,1,Transit,1
+small,Sahara Square,28,46.5,0,0,81.29,50,0,1,Transit,0
+small,Downtown,48,18.9,0,1,86.86,10.8,0.1,1,Fly,2
+small,Sahara Square,45,6.2,1,0,131.55,9.7,0.04,1,Transit,16
+small,Tundratown,36,14.1,0,0,77.04,5.3,0.28,1,Transit,4
+small,Rainforest,33,32.1,0,1,68.16,39.5,0,1,Transit,0
+small,Sahara Square,41,53.6,0,0,79.15,64.6,0,1,Transit,1
+medium,Downtown,18,41.4,0,1,72.02,25.3,0,1,Transit,1
+medium,Sahara Square,32,4.2,1,0,98.72,5.2,0.15,1,Transit,0
+large,Sahara Square,21,32,0,1,87.03,29.8,0,1,Transit,4
+medium,Sahara Square,42,30,0,0,110.1,74.5,0,1,Transit,0
+small,Sahara Square,38,5,0,0,100.12,9.4,0.06,1,Walk,14
+small,Sahara Square,29,15.6,0,1,111.83,6.1,0.27,1,Personal,8
+medium,Tundratown,37,30.5,0,0,81.56,27.5,0,1,Transit,0
+small,Downtown,24,31.1,0,0,70.1,36.2,0,1,Transit,0
+medium,Sahara Square,54,8.4,0,0,104.93,11.1,0.06,1,Personal,3
+medium,Sahara Square,36,27.1,0,0,66.53,19.8,0,1,Transit,2
+small,Tundratown,30,15.4,0,1,112.84,4.2,0.47,1,Personal,6
+medium,Tundratown,21,12.7,0,0,53.26,10.1,0.01,1,Transit,10
+medium,Downtown,55,14.6,1,0,96.92,9.2,0.1,1,Transit,32
+small,Downtown,39,10.1,0,1,103,5.8,0.25,1,Transit,5
+small,Rainforest,30,8.3,0,1,105.38,15.1,0.09,1,Transit,8
+large,Tundratown,40,24.2,0,0,43.49,13.2,0,1,Transit,8
+small,Tundratown,35,23.5,0,0,89.58,6.2,0.25,1,Transit,2
+medium,Sahara Square,39,15.6,1,0,110.49,16.5,0,1,Fly,5
+small,Tundratown,51,55.4,0,0,78.04,70.3,0,1,Transit,1
+small,Downtown,28,9.4,0,0,117.17,5.5,0.22,1,Personal,11
+medium,Downtown,49,28.7,1,0,88.77,36.2,0,1,Transit,0
+small,Sahara Square,28,7.6,0,1,111.93,1.5,0.69,1,Walk,3
+small,Tundratown,25,8.7,0,0,124.02,9.8,0.05,1,Transit,2
+medium,Sahara Square,63,43.9,0,1,76.74,39.2,0,1,Transit,30
+medium,Tundratown,34,23,1,0,71.83,7.8,0.19,1,Personal,17
+small,Downtown,25,20.1,0,1,60.69,8.6,0.13,1,Transit,2
+medium,Rainforest,46,13.2,0,0,116.51,9.5,0.05,1,Personal,7
+medium,Rainforest,18,38.3,1,0,54.65,58.1,0,1,Transit,1
+medium,Rainforest,29,10.3,0,0,112.61,3.7,0.34,1,Transit,1
+small,Rainforest,28,16.5,0,1,106.25,9,0.04,1,Transit,1
+small,Sahara Square,28,34.6,1,1,125.61,27.9,0,1,Transit,1
+medium,Rainforest,25,18.7,1,1,141.39,9.6,0.02,1,Transit,1
+medium,Downtown,34,17.7,0,0,80.46,14.1,0,1,Transit,0
+small,Rainforest,42,19.1,1,1,131.71,8,0.07,1,Transit,2
+small,Rainforest,47,27.1,1,0,102.01,26.2,0,1,Transit,0
+small,Downtown,46,9.4,1,0,100.3,6.4,0.08,1,Transit,23
+large,Sahara Square,42,8.4,1,1,83.16,4.5,0.66,1,Transit,36
+medium,Tundratown,30,38.8,1,1,67.27,42.6,0,1,Transit,3
+medium,Downtown,34,39.4,0,0,73.27,23.6,0,1,Transit,1
+medium,Sahara Square,35,19,1,0,105.57,39.1,0,1,Transit,1
+medium,Downtown,41,10.6,0,0,59.48,4.4,0.45,1,Fly,5
+small,Rainforest,18,23.9,1,0,104.61,24.8,0,1,Personal,1
+medium,Downtown,52,15.4,0,1,90.81,14,0,1,Transit,45
+small,Tundratown,40,23.8,0,0,105.57,25.8,0,1,Transit,0
+medium,Downtown,28,3.8,1,0,93.78,8.7,0.05,1,Transit,0
+large,Tundratown,47,6.2,1,0,66.94,9.5,0.12,1,Transit,3
+medium,Rainforest,46,22.2,0,0,107.72,13.3,0.02,1,Transit,0
+large,Sahara Square,27,10.7,1,0,73.13,7.4,0.04,1,Walk,1
+medium,Sahara Square,37,12.7,0,0,90.85,8.6,0.01,1,Transit,0
+small,Rainforest,36,58.6,0,0,84.22,26.9,0,1,Transit,0
+medium,Downtown,29,59.7,0,0,62.23,83.1,0,1,Transit,1
+large,Downtown,49,32.2,0,0,44.18,50.4,0,1,Transit,9
+large,Rainforest,34,69.2,0,1,41.56,161.8,0,1,Transit,0
+small,Downtown,40,16.8,0,0,116.94,11.3,0.01,1,Fly,6
+medium,Downtown,18,13.9,0,0,82.55,12.9,0.02,1,Transit,1
+small,Rainforest,31,30,1,1,84.33,39.4,0,1,Transit,5
+small,Downtown,30,27.5,0,0,69.52,20.8,0,1,Transit,0
+medium,Tundratown,41,12.7,0,0,84.79,9.4,0.13,1,Transit,4
+large,Sahara Square,25,47.2,0,1,76.74,44.7,0,1,Transit,1
+medium,Tundratown,54,25.6,0,1,57.66,16.2,0.13,1,Transit,11
+large,Downtown,60,36.2,0,1,70.34,25.8,0,1,Transit,1
+small,Rainforest,38,17.6,1,1,125.72,28.5,0,1,Transit,6
+medium,Downtown,33,21.5,1,1,128.3,17.9,0,1,Personal,13
+small,Downtown,46,17.6,0,1,89.06,3.7,0.57,1,Transit,0
+small,Tundratown,62,21.3,1,1,131.89,10.4,0.04,1,Transit,28
+small,Rainforest,31,27.9,0,1,103.52,10.7,0.01,1,Fly,8
+small,Sahara Square,24,24.3,0,0,104.69,36.8,0,1,Transit,0
+medium,Sahara Square,41,32.6,0,0,61.05,29.1,0,1,Transit,8
+medium,Rainforest,18,17.3,0,0,57.59,11.1,0,1,Fly,1
+large,Downtown,31,2.8,0,1,75.99,3.6,0.37,1,Personal,1
+large,Sahara Square,36,23.7,0,1,56.99,24.7,0,1,Transit,3
+small,Rainforest,36,10.3,0,0,97.98,12.8,0.03,1,Personal,5
+large,Sahara Square,25,10.8,0,1,103.25,6.9,0.23,1,Transit,3
+medium,Sahara Square,43,17.5,0,0,87.1,25.3,0,1,Transit,4
+large,Downtown,32,24.6,0,1,54.11,9.9,0.11,1,Personal,8
+medium,Downtown,56,40.3,0,1,55.69,16.6,0,1,Transit,7
+medium,Rainforest,21,21,0,0,85.72,18.9,0,1,Transit,1
+large,Rainforest,36,21.5,0,1,113.62,16.6,0,1,Personal,15
+medium,Tundratown,33,35.5,0,0,68.58,18.3,0,1,Transit,16
+medium,Tundratown,44,34.1,1,0,90.65,41.9,0,1,Transit,1
+small,Tundratown,52,39.9,0,0,92.36,25.2,0,1,Transit,2
+large,Downtown,19,37.6,1,0,54.71,63.7,0,1,Transit,0
+small,Tundratown,39,13.6,0,0,104.68,7.7,0.13,1,Transit,19
+large,Rainforest,18,32.9,0,1,52.19,14.3,0.01,1,Transit,5
+small,Downtown,34,8.1,0,0,62.57,8,0.06,1,Personal,9
+medium,Downtown,38,36.5,0,0,84,21.2,0,1,Transit,3
+medium,Sahara Square,19,13.5,1,0,98.22,15.3,0,1,Transit,3
+large,Rainforest,21,33.9,1,1,91.73,16.4,0,1,Transit,2
+small,Sahara Square,29,40.1,1,0,74.84,65.5,0,1,Transit,0
+medium,Tundratown,35,54.1,0,0,81.78,91.4,0,1,Transit,0
+large,Tundratown,28,9.2,1,0,121.36,6.3,0.12,1,Transit,14
+small,Downtown,32,29.2,0,1,79.08,12,0,1,Transit,2
+small,Sahara Square,30,19.1,1,0,103.74,22.8,0,1,Transit,7
+medium,Sahara Square,52,22.3,0,0,73.66,45.9,0,1,Personal,0
+medium,Rainforest,18,36.5,0,0,76.82,46.5,0,1,Transit,1
+small,Downtown,35,12.7,0,0,60.29,10.7,0.01,1,Transit,18
+medium,Rainforest,39,16.9,0,1,86.69,6.6,0.12,1,Transit,2
+large,Sahara Square,32,28.9,0,0,92.76,19.5,0,1,Transit,4
+small,Downtown,37,7.7,0,1,83.71,3.9,0.44,1,Personal,3
+medium,Tundratown,18,10.6,1,1,98.7,9.8,0.01,1,Fly,1
+medium,Rainforest,46,12.3,0,1,113.98,2.1,0.54,1,Fly,9
+large,Tundratown,40,37.7,0,0,54.91,26.9,0,1,Transit,1
+small,Sahara Square,31,28.9,0,1,114.2,17,0,1,Transit,2
+medium,Tundratown,42,33.9,0,0,73.71,30.7,0,1,Transit,4
+large,Rainforest,43,29.6,1,0,73.4,46.8,0,1,Transit,0
+medium,Rainforest,40,15,1,0,81.51,16.1,0,1,Transit,2
+small,Tundratown,29,13.7,0,0,67.18,7.7,0.06,1,Transit,5
+large,Sahara Square,33,39,0,0,93.03,69,0,1,Transit,1
+small,Tundratown,37,15.6,0,0,75.9,7.6,0.06,1,Personal,1
+small,Downtown,49,20.9,1,0,75.79,11,0.02,1,Transit,34
+small,Downtown,42,10.7,0,0,84.47,8.4,0.04,1,Transit,3
+medium,Downtown,48,29.4,0,1,86.13,17.6,0,1,Transit,6
+small,Downtown,50,31.7,0,0,58.31,42,0,1,Transit,5
+small,Sahara Square,39,33.7,1,0,84.33,52.4,0,1,Transit,0
+small,Tundratown,27,28.5,0,0,108.5,24.7,0,1,Transit,2
+small,Sahara Square,46,39.6,0,0,23.88,34.1,0,1,Transit,2
+medium,Rainforest,29,12,0,1,95.06,7.6,0.2,1,Transit,42
+medium,Rainforest,40,19.7,0,0,88.75,17.6,0,1,Transit,9
+medium,Sahara Square,22,16.4,0,0,89.19,2.8,0.49,1,Transit,1
+medium,Sahara Square,19,22.6,0,0,119.91,12.2,0,1,Transit,6
+medium,Downtown,42,15.4,0,0,83.51,11.5,0.01,1,Transit,24
+small,Rainforest,42,12.2,0,0,82.97,7.9,0.1,1,Transit,25
+large,Downtown,33,26.6,0,0,31.57,19.4,0,1,Transit,3
+small,Rainforest,31,16.5,1,0,118.83,16.9,0,1,Fly,0
+medium,Rainforest,34,29.7,1,0,74.41,22.4,0,1,Personal,13
+medium,Sahara Square,33,10.7,1,1,85.9,14.5,0.11,1,Transit,2
+small,Downtown,48,27,0,1,92.08,10,0.04,1,Transit,7
+small,Tundratown,32,18.1,0,1,121.91,17.3,0,1,Transit,11
+medium,Tundratown,22,20.4,0,0,106.64,13.8,0.01,1,Transit,0
+small,Sahara Square,50,21.5,0,1,83.37,33.1,0,1,Transit,0
+large,Rainforest,24,19.9,1,0,47.8,21.3,0,1,Personal,1
+medium,Downtown,45,12.4,0,0,83.87,2.9,0.46,1,Transit,9
+medium,Downtown,34,13.3,1,1,99.25,15.3,0.01,1,Transit,9
+small,Tundratown,45,27.4,0,0,97.46,11.6,0,1,Transit,0
+large,Downtown,18,29.5,0,0,51.02,19.1,0,1,Transit,1
+medium,Tundratown,48,24,0,0,103.2,13.1,0,1,Transit,5
+medium,Rainforest,45,30.7,0,1,73.58,8.6,0.18,1,Transit,32
+medium,Tundratown,50,35.5,1,1,110.13,25.1,0,1,Transit,17
+small,Tundratown,28,34.5,1,0,105.92,33,0,1,Personal,10
+large,Sahara Square,63,27,1,0,57.08,14.2,0.12,1,Transit,84
+small,Sahara Square,36,17.4,0,0,88.86,17.1,0,1,Transit,11
+small,Tundratown,39,60.6,0,1,75.78,54,0,1,Transit,0
+medium,Tundratown,38,28.2,0,0,73.55,13.1,0,1,Transit,1
+large,Tundratown,37,16.2,1,0,99.47,12.6,0.07,1,Fly,3
+large,Rainforest,57,14.3,0,1,76.81,3.6,0.46,1,Transit,13
+medium,Downtown,53,30.7,0,1,61.59,28.4,0,1,Transit,7
+medium,Downtown,39,9.3,1,0,74.34,8.5,0.09,1,Transit,1
+large,Tundratown,39,7.5,0,0,132.94,8.8,0.05,1,Transit,18
+medium,Rainforest,39,55.8,0,0,74.17,95.7,0,1,Transit,0
+small,Rainforest,37,24.6,0,1,88.13,19,0,1,Transit,4
+small,Rainforest,37,23.4,0,0,80.89,13.3,0,1,Transit,2
+large,Downtown,20,34.6,0,1,87.2,16,0.02,1,Transit,4
+medium,Tundratown,28,9,0,1,133.74,3.8,0.59,1,Personal,4
+small,Tundratown,33,19.3,0,0,92.95,5.5,0.18,1,Fly,1
+medium,Tundratown,18,45.1,0,1,38.9,58.2,0,1,Transit,0
+medium,Tundratown,58,22.9,1,0,112.22,19.1,0,1,Transit,22
+medium,Tundratown,19,39.2,1,0,98.92,55.7,0,1,Fly,1
+small,Tundratown,33,31.8,1,0,93.26,24.7,0,1,Walk,0
+small,Tundratown,29,31,0,0,85.33,19.5,0,1,Transit,0
+medium,Rainforest,18,23.3,1,0,102.35,22.9,0,1,Personal,2
+large,Tundratown,28,9.3,0,0,72.39,7.1,0.16,1,Personal,1
+medium,Rainforest,39,12.1,0,1,86.94,6.3,0.29,1,Transit,13
+large,Tundratown,45,34.2,0,1,52.03,9.6,0.12,1,Transit,29
+small,Downtown,33,46.7,0,0,92.24,39,0,1,Transit,1
+medium,Tundratown,26,13.2,0,1,96.01,4.8,0.35,1,Transit,13
+small,Downtown,34,31.2,1,1,112.76,15.3,0,1,Transit,8
+small,Sahara Square,31,25.4,1,0,107.97,19.3,0,1,Transit,2
+medium,Tundratown,38,17.9,0,0,81.74,13.7,0,1,Transit,2
+large,Sahara Square,36,37.6,0,1,98.08,30.4,0,1,Transit,0
+small,Tundratown,31,40.8,1,1,104.83,36.8,0,1,Transit,0
+small,Sahara Square,20,19.5,0,0,103.94,10.7,0.02,1,Personal,2
+small,Rainforest,35,8.2,0,1,147.88,7.7,0.29,1,Transit,17
+large,Sahara Square,36,18.7,1,1,86.13,12.5,0.01,1,Transit,15
+small,Tundratown,37,24,0,0,68.76,6.8,0.21,1,Fly,7
+small,Tundratown,24,47.6,1,0,97.55,138.9,0,1,Transit,0
+medium,Tundratown,36,5.2,0,0,103.07,6.7,0.15,1,Personal,11
+medium,Rainforest,20,10.2,1,1,108.05,6,0.21,1,Transit,34
+medium,Tundratown,39,28.7,0,0,69.04,14.4,0,1,Transit,0
+small,Rainforest,36,32.3,0,0,74.35,19.6,0,1,Transit,8
+large,Tundratown,36,26.7,0,0,65.87,22.1,0,1,Fly,2
+medium,Sahara Square,43,23.6,0,0,69.07,13.9,0,1,Transit,6
+medium,Tundratown,56,12,0,0,38.57,3.6,0.45,1,Fly,14
+small,Rainforest,31,10.4,1,0,108.31,14.2,0.05,1,Transit,4
+small,Sahara Square,38,25,0,1,73.76,17.1,0,1,Transit,4
+small,Downtown,37,15.8,1,0,76.38,14.8,0,1,Transit,0
+medium,Tundratown,42,8,0,0,127.29,7,0.23,1,Fly,7
+small,Sahara Square,33,28,0,1,94.47,14.1,0,1,Transit,7
+medium,Downtown,54,14.3,0,1,84.24,13.9,0.07,1,Transit,51
+small,Sahara Square,53,14.1,0,0,94.25,16.4,0,1,Transit,11
+small,Tundratown,36,21.9,0,0,135.87,10.1,0.02,1,Transit,0
+medium,Downtown,30,24.9,0,0,87.48,19.4,0,1,Fly,3
+medium,Tundratown,53,5,1,0,98.32,8.3,0.1,1,Fly,61
+medium,Rainforest,27,49.6,1,0,71.43,82.6,0,1,Transit,0
+medium,Sahara Square,44,37.1,0,0,44.51,25.6,0,1,Transit,0
+large,Rainforest,30,7.6,0,0,94.77,7.4,0.13,1,Transit,15
+small,Tundratown,18,23,0,0,116.36,18.3,0,1,Transit,0
+small,Tundratown,42,61.1,0,0,67.77,50.7,0,1,Transit,7
+medium,Tundratown,27,26.2,1,0,85.14,17.8,0,1,Transit,4
+medium,Sahara Square,18,39.3,1,0,106.29,71.2,0,1,Transit,1
+medium,Rainforest,24,40.8,0,0,42.67,24,0,1,Transit,4
+large,Rainforest,49,10.5,0,1,126.61,8,0.12,1,Personal,30
+medium,Rainforest,34,13.9,0,1,98.1,15.5,0.03,1,Transit,6
+medium,Sahara Square,33,15.9,0,1,90.46,8.7,0.19,1,Transit,4
+small,Rainforest,62,17.7,1,0,74.93,27.6,0,1,Transit,1
+small,Sahara Square,44,14.1,1,0,117.27,15.8,0,1,Transit,8
+medium,Sahara Square,38,6,1,1,122.25,10.6,0.01,1,Personal,11
+medium,Tundratown,39,26,0,1,74.79,8.4,0.03,1,Transit,6
+medium,Downtown,31,49,1,0,42.29,70.5,0,1,Transit,0
+large,Tundratown,34,27.7,0,1,58.58,9.5,0.01,1,Transit,5
+small,Downtown,32,18.9,1,0,85.35,19,0,1,Transit,7
+medium,Rainforest,22,43,0,0,63.88,50.3,0,1,Transit,0
+large,Tundratown,18,23.2,0,0,56.82,13.4,0,1,Transit,0
+medium,Sahara Square,25,57.3,0,0,89.76,66.6,0,1,Transit,0
+small,Sahara Square,24,27.9,0,0,92.88,39.9,0,1,Transit,1
+medium,Rainforest,41,32.2,0,0,44.06,31.6,0,1,Transit,6
+medium,Sahara Square,50,17.3,0,1,58.32,4.2,0.44,1,Personal,26
+small,Sahara Square,44,14.2,1,0,146.89,12.2,0.01,1,Personal,30
+small,Downtown,25,18,0,1,117.63,5.4,0.18,1,Transit,23
+medium,Tundratown,35,20.3,1,0,124.44,13,0,1,Transit,7
+medium,Sahara Square,36,14.8,1,1,124.79,17.3,0,1,Walk,5
+small,Sahara Square,28,27.2,0,0,72.65,41.6,0,1,Transit,3
+medium,Tundratown,45,19,0,0,126.09,8.7,0.11,1,Transit,19
+small,Tundratown,47,68.2,0,0,72.38,243.1,0,1,Transit,0
+small,Sahara Square,19,5.7,1,0,137.18,15.9,0.11,1,Personal,5
+small,Tundratown,33,16.4,1,0,97.21,24.5,0,1,Transit,0
+medium,Rainforest,35,22.4,0,0,111.79,16.2,0,1,Transit,0
+small,Downtown,27,30.6,1,1,75.85,6.9,0.09,1,Transit,1
+large,Downtown,33,13.5,1,0,61.73,11.3,0.02,1,Transit,5
+medium,Tundratown,26,9.5,0,0,76.23,9.1,0.01,1,Transit,7
+medium,Sahara Square,43,32.1,1,1,88.39,37.1,0,1,Transit,0
+small,Sahara Square,38,13.7,0,0,88.79,13.7,0.01,1,Transit,14
+small,Sahara Square,27,17,0,1,71.17,6.4,0.54,1,Transit,5
+small,Downtown,38,23.4,0,0,85.15,11.7,0,1,Transit,2
+large,Tundratown,19,51,0,0,69.41,50.6,0,1,Transit,0
+medium,Downtown,44,17.9,0,0,97.32,9.4,0.1,1,Transit,2
+medium,Rainforest,18,39.2,1,0,90.38,40.5,0,1,Transit,0
+medium,Downtown,35,37.2,0,1,41.67,20.3,0,1,Transit,0
+medium,Downtown,27,29.1,0,0,75.58,21.4,0,1,Transit,3
+medium,Downtown,49,17,0,0,53.77,11.7,0.03,1,Transit,10
+large,Rainforest,31,7.1,0,0,85.42,4.6,0.32,1,Transit,3
+medium,Downtown,21,18.2,0,0,53.4,9,0.03,1,Personal,1
+medium,Tundratown,44,8.5,1,0,107.23,5.8,0.2,1,Transit,4
+medium,Rainforest,23,3.5,0,0,90.56,10.8,0.11,1,Personal,0
+small,Downtown,18,45.4,0,0,86.87,43,0,1,Transit,1
+small,Tundratown,36,10.7,0,0,118.23,3.1,0.53,1,Transit,36
+medium,Tundratown,53,9.7,0,1,110.21,4.4,0.22,1,Personal,40
+large,Rainforest,39,21.1,1,0,41.62,15.4,0,1,Transit,6
+medium,Tundratown,39,37.6,0,0,69.1,18.4,0,1,Transit,9
+small,Tundratown,42,16,0,0,86.16,16.4,0,1,Transit,6
+medium,Rainforest,49,11.8,0,0,68.03,6.6,0.15,1,Transit,1
+medium,Rainforest,31,23.3,1,1,118.29,17.4,0,1,Transit,21
+medium,Sahara Square,30,38.4,1,0,83.34,34,0,1,Transit,5
+small,Tundratown,23,42.3,0,0,70.5,35.1,0,1,Transit,1
+medium,Tundratown,30,12.1,0,0,86.5,3.4,0.35,1,Fly,13
+medium,Sahara Square,37,4.7,0,1,73.21,6.2,0.27,1,Fly,12
+medium,Sahara Square,60,6.8,1,0,110.56,12.1,0.03,1,Personal,9
+medium,Downtown,24,34.5,0,1,65.55,15.4,0.03,1,Transit,7
+small,Rainforest,56,24.4,1,0,107.26,13.8,0,1,Transit,12
+medium,Sahara Square,28,32.6,0,0,76.79,32,0,1,Transit,0
+small,Sahara Square,46,20.6,0,0,78.29,9.3,0.02,1,Transit,24
+medium,Rainforest,52,21.7,1,1,89.69,13.5,0,1,Fly,15
+medium,Downtown,31,13.9,1,0,88.7,8.9,0.01,1,Transit,15
+large,Downtown,32,8,0,0,41.31,7.8,0.18,1,Transit,1
+medium,Tundratown,43,11.2,1,0,114.27,6.3,0.13,1,Fly,4
+large,Sahara Square,32,33.3,1,0,86.11,58.1,0,1,Transit,1
+medium,Tundratown,23,15.5,1,0,113.72,7.9,0.03,1,Fly,2
+small,Rainforest,45,47.3,0,0,61.81,53.4,0,1,Transit,0
+medium,Sahara Square,35,18.2,1,1,117.93,19.4,0,1,Personal,6
+small,Sahara Square,46,31,0,0,79.06,48.8,0,1,Transit,1
+medium,Tundratown,40,30.1,1,0,76.76,53.4,0,1,Fly,2
+large,Rainforest,34,23.4,0,0,81.94,25.6,0,1,Transit,9
+medium,Rainforest,35,22.2,1,1,90.67,9.9,0,1,Transit,2
+small,Rainforest,20,32.4,0,0,82.73,20.6,0,1,Transit,3
+medium,Downtown,24,32.1,0,1,86.75,17.8,0,1,Transit,1
+medium,Downtown,54,17.4,0,0,47.78,10.5,0.02,1,Transit,2
+medium,Sahara Square,34,9.4,1,0,113.87,17.5,0,1,Walk,18
+medium,Rainforest,43,19.8,0,1,98.11,12.3,0,1,Transit,8
+medium,Rainforest,19,31,0,1,103.87,46,0,1,Transit,0
+large,Downtown,18,34.9,0,1,67.48,18.4,0,1,Transit,2
+small,Downtown,44,28.4,1,1,101.41,13.5,0,1,Transit,8
+small,Rainforest,27,23.3,0,0,43.55,26.1,0,1,Transit,1
+medium,Rainforest,33,8.1,0,0,92.48,11.2,0,1,Transit,1
+large,Rainforest,54,11,0,0,80.44,8.7,0.02,1,Transit,25
+small,Tundratown,27,32.7,0,1,103.81,11.9,0.01,1,Transit,10
+small,Rainforest,46,29.4,0,0,92.6,31.3,0,1,Transit,2
+medium,Sahara Square,32,36.7,0,0,103.3,54.9,0,1,Transit,0
+small,Downtown,42,17.5,0,0,71.71,9.2,0.02,1,Fly,17
+medium,Downtown,42,20,1,1,126.9,12.3,0.07,1,Personal,7
+small,Sahara Square,18,35.4,1,0,79.38,33.2,0,1,Transit,1
+small,Rainforest,27,61.8,1,0,93.71,94.2,0,1,Transit,0
+small,Downtown,38,20.2,0,0,76,11.3,0.16,1,Fly,0
+large,Rainforest,50,17.5,1,0,99.2,14.7,0,1,Transit,3
+small,Rainforest,21,7.4,0,1,60,6.8,0.08,1,Transit,2
+medium,Downtown,52,18.2,0,0,73.1,8.3,0.03,1,Personal,4
+large,Tundratown,42,8.6,0,1,62.96,7.7,0.12,1,Personal,6
+small,Rainforest,31,13.8,0,0,120.47,10.6,0.09,1,Personal,5
+medium,Rainforest,72,28.6,0,1,81.22,39.6,0,1,Transit,15
+large,Tundratown,48,46.1,0,1,32.33,32.9,0,1,Transit,7
+medium,Downtown,24,3.4,0,0,75.41,4,0.23,1,Personal,16
+small,Tundratown,31,23.8,0,0,123.71,17,0,1,Transit,7
+medium,Tundratown,18,33.5,0,0,72.33,12.1,0,1,Transit,6
+medium,Downtown,39,50.5,0,0,44.77,47.2,0,1,Transit,1
+small,Downtown,39,28.9,0,1,104.49,15.3,0,1,Transit,8
+large,Downtown,34,10.7,1,0,106.44,14.2,0,1,Transit,6
+small,Tundratown,24,27.4,0,0,92.37,18.1,0,1,Transit,0
+medium,Tundratown,28,19.1,1,0,103.5,12.9,0,1,Personal,4
+large,Sahara Square,49,18.1,0,1,60.33,9,0.08,1,Transit,17
+medium,Sahara Square,26,10,0,1,89.26,5.3,0.49,1,Personal,14
+medium,Rainforest,48,23.1,1,0,104.81,18.8,0,1,Transit,4
+small,Tundratown,25,59.4,0,0,38.61,22.9,0,1,Transit,0
+medium,Downtown,43,12.8,0,0,93.26,9.1,0.02,1,Transit,9
+small,Sahara Square,34,5.9,0,0,105.66,9.3,0.05,1,Transit,20
+medium,Rainforest,31,9.7,0,0,90.25,5.8,0.23,1,Transit,30
+medium,Downtown,18,10.2,0,0,68.95,7.7,0.27,1,Transit,3
+medium,Downtown,35,9.3,0,0,108.62,14.5,0,1,Personal,11
+medium,Rainforest,43,16.5,1,0,74.92,12.5,0.05,1,Transit,5
+small,Rainforest,41,58.7,1,0,100.82,60.6,0,1,Transit,2
+medium,Rainforest,38,20.4,0,0,78.82,14.8,0,1,Transit,8
+medium,Rainforest,18,25,0,0,98.34,10,0,1,Fly,4
+small,Sahara Square,54,26.9,0,0,72.95,31.6,0,1,Transit,1
+small,Tundratown,38,26.4,0,1,59.23,9.1,0.05,1,Transit,17
+small,Downtown,33,11,0,0,83.63,8.4,0.26,1,Transit,9
+small,Sahara Square,59,2.9,0,0,98.44,3.9,0.23,1,Walk,1
+medium,Downtown,21,28.1,0,0,70.97,11.9,0,1,Transit,0
+small,Tundratown,18,9.9,1,0,119.2,16.6,0,1,Transit,3
+large,Tundratown,44,17.1,0,0,103.36,8.4,0.05,1,Fly,5
+medium,Rainforest,40,17.3,1,1,115.35,7.7,0.13,1,Transit,18
+small,Downtown,44,25.6,0,0,74.14,40.1,0,1,Transit,1
+medium,Downtown,30,11.6,0,1,49.97,6.4,0.48,1,Transit,6
+medium,Tundratown,30,40.7,1,0,102.48,36.2,0,1,Transit,6
+medium,Sahara Square,44,37.2,1,0,65.54,62.8,0,1,Transit,1
+small,Tundratown,29,41.1,0,1,131.06,25.4,0,1,Transit,0
+small,Rainforest,43,21.6,0,0,119.96,20.9,0,1,Transit,1
+large,Sahara Square,33,34.7,0,0,41.3,22.2,0,1,Transit,0
+medium,Sahara Square,30,31.1,0,0,65.86,29.7,0,1,Transit,0
+large,Rainforest,48,31.2,1,0,118.66,27.1,0,1,Transit,11
+medium,Tundratown,41,25.7,0,0,136.25,12.1,0.01,1,Transit,3
+medium,Sahara Square,20,11.8,0,1,102.02,7.7,0.27,1,Transit,1
+medium,Rainforest,52,69,0,0,68.25,264.9,0,1,Transit,0
+large,Sahara Square,51,44,0,1,81.59,11.4,0,1,Transit,3
+small,Tundratown,34,19.2,1,0,89.97,7,0.02,1,Transit,0
+medium,Downtown,51,11.6,0,0,107.2,4.2,0.47,1,Walk,1
+large,Rainforest,37,21.9,1,1,91.35,18.9,0,1,Transit,1
+small,Downtown,18,44.4,0,1,78.07,49.7,0,1,Personal,0
+small,Downtown,30,19.3,0,1,49.87,15.2,0.01,1,Transit,15
+medium,Downtown,34,34,0,0,33.96,27,0,1,Transit,6
+medium,Tundratown,24,17.3,0,1,73.47,9.9,0.06,1,Transit,5
+medium,Downtown,40,37.4,1,0,95.33,29.9,0,1,Transit,2
+small,Tundratown,44,33.1,0,0,63.7,17.1,0,1,Transit,10
+small,Tundratown,20,31.4,0,0,110.82,42.2,0,1,Transit,0
+large,Rainforest,42,41.8,0,1,68.7,84.6,0,1,Transit,0
+large,Downtown,40,12.4,1,0,124.11,19.3,0,1,Personal,4
+medium,Downtown,53,36.8,0,0,32.05,20.6,0,1,Transit,1
+small,Rainforest,31,49.8,0,0,90.59,106.9,0,1,Transit,0
+small,Downtown,33,9.7,0,0,118.93,4.8,0.32,1,Personal,5
+small,Downtown,37,20.2,0,1,84.6,8.1,0.04,1,Transit,5
+small,Tundratown,42,35.2,0,0,96.18,16.5,0,1,Transit,35
+small,Rainforest,27,19.2,0,0,86.86,18.8,0,1,Fly,5
+small,Downtown,32,15.9,0,1,120.38,6.1,0.12,1,Transit,1
+medium,Rainforest,49,38.8,1,0,64.81,44.6,0,1,Transit,1
+medium,Rainforest,43,39.3,0,1,65.19,23.1,0,1,Transit,0
+small,Tundratown,51,66,0,1,73.84,156.3,0,1,Transit,0
+medium,Rainforest,29,20.1,0,0,43.57,18.2,0,1,Transit,1
+medium,Tundratown,18,25.3,0,0,22.98,13.2,0,1,Transit,0
+large,Tundratown,34,7.6,0,1,87.63,4.7,0.57,1,Personal,2
+medium,Sahara Square,36,37.4,0,1,44.98,33.3,0,1,Transit,4
+small,Tundratown,43,54.2,1,0,81.51,72.8,0,1,Transit,0
+medium,Downtown,35,22.4,0,1,109.97,18.1,0,1,Walk,5
+medium,Tundratown,47,12.7,0,1,89.33,3,0.55,1,Transit,72
+small,Downtown,43,27.3,0,0,61.33,11.5,0,1,Transit,18
+small,Downtown,22,52.8,1,0,63.47,71.3,0,1,Transit,0
+small,Rainforest,24,60.3,0,0,85.13,44.1,0,1,Transit,0
+small,Downtown,37,21.7,0,1,87.63,10.8,0.03,1,Transit,27
+large,Tundratown,37,43.6,0,0,70.07,26.4,0,1,Transit,0
+small,Downtown,31,5.4,0,0,80.68,6.3,0.14,1,Walk,5
+large,Downtown,50,31.4,0,0,40.04,36.8,0,1,Transit,8
+small,Tundratown,19,42.1,0,1,103.05,28.5,0,1,Transit,0
+medium,Downtown,44,22.4,1,0,55,9.5,0.12,1,Transit,1
+medium,Sahara Square,36,21,0,1,65.22,15,0.02,1,Transit,17
+small,Tundratown,44,15.8,0,0,73.3,12.5,0.04,1,Fly,19
+small,Downtown,35,34.1,1,0,58.37,25,0,1,Transit,2
+large,Sahara Square,41,20.6,1,1,84.43,28.4,0,1,Transit,5
+medium,Sahara Square,62,20.6,1,0,103.9,16,0,1,Transit,36
+medium,Sahara Square,46,20.7,0,1,69.95,17.6,0,1,Transit,18
+medium,Rainforest,30,18.9,0,1,103.53,19.4,0,1,Transit,5
+medium,Rainforest,32,12.5,0,0,90.55,16.6,0,1,Transit,11
+small,Downtown,37,62.4,0,1,81.82,58.5,0,1,Transit,0
+small,Rainforest,33,44,0,0,56.87,45.7,0,1,Transit,1
+large,Rainforest,27,14.2,0,0,68.55,18.1,0,1,Fly,6
+small,Downtown,36,13,0,1,106.11,5.4,0.44,1,Walk,22
+medium,Rainforest,49,30.7,0,0,88.58,6.9,0.06,1,Transit,17
+small,Tundratown,55,22.8,1,0,122.53,23.6,0,1,Transit,4
+large,Tundratown,35,26.2,0,0,55.1,11.9,0,1,Fly,3
+small,Sahara Square,34,35.3,0,0,76.02,59.2,0,1,Transit,1
+small,Tundratown,42,44.7,0,0,106.84,45.6,0,1,Transit,2
+small,Rainforest,45,29,0,0,113.91,19.9,0,1,Transit,9
+small,Tundratown,31,16.8,0,0,93.23,12.4,0.02,1,Fly,1
+small,Tundratown,42,26.8,0,0,119.7,27.8,0,1,Transit,0
+medium,Sahara Square,33,29.7,0,0,95.08,14.1,0,1,Transit,3
+small,Downtown,30,14.4,0,0,89.19,8.6,0.09,1,Transit,4
+large,Sahara Square,31,17.6,0,0,72.67,15.6,0,1,Personal,4
+medium,Sahara Square,47,12,1,1,125.56,7.8,0.17,1,Transit,9
+medium,Downtown,53,33.4,0,0,64.13,18,0,1,Transit,7
+small,Sahara Square,34,36.2,1,1,100.05,30.3,0,1,Fly,0
+small,Tundratown,38,40.3,1,0,101.48,21.1,0,1,Transit,1
+large,Sahara Square,56,9.4,1,0,59.87,8.2,0.18,1,Transit,5
+small,Rainforest,41,29.6,0,0,54.54,16,0,1,Transit,1
+small,Rainforest,37,15.7,0,1,110.41,22.6,0,1,Personal,3
