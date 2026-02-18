@@ -1,5 +1,251 @@
 ---
-title: "A6"
-format: html
+title: "Assignment 6"
+author: "Your Name Here"
+execute:
+  echo: true
+  warning: false
+  message: false
+  error: true
+format: 
+  html:
+    df-print: paged
+    self-contained: true
+    html-math-method: katex
+    code-fold: false
+    code-tools: false
+    incremental: false
+editor: source
 ---
 
+```{r setup}
+library(tidyverse)
+library(ssstats)
+library(broom)
+```
+
+Dunder Mifflin's Scranton branch is piloting a new "productivity initiative" designed by Michael Scott. Corporate has asked the analytics team to evaluate whether the initiative is improving performance or just creating more chaos.
+
+You are given a dataset containing information about employees across several workdays. For each employee-day observation, the dataset includes:
+
+- *meetings*: number of meetings attended that day
+- *coffee_cups*: number of cups of coffee consumed
+- *dwight_supervision*: whether Dwight directly supervised the employee that day 
+- *sales_calls*: number of successful sales calls completed in a day
+- *incidents*: number of unusual workplace incidents observed per day
+
+0a. Download the data from Canvas and import it to R.
+
+```{r}
+
+```
+
+<!-- no actual response is needed here, just your R output -->
+
+**Model 1**
+
+1a. We are interested in modeling the number of incidents observed in a day. Based on the distribution of this outcome, which modeling approach would be most appropriate? Justify your answer.
+
+```{r}
+
+```
+
+<!-- your answer below here -->
+
+<!-- your answer above here -->
+
+
+1b. Fit an appropriate model to predict the number of incidents based on the number of meetings, cups of coffee, and whether Dwight supervised the employee.  Call this model `m1`.
+
+```{r}
+
+```
+
+<!-- no actual response is needed here, just your R output -->
+
+1c. Based on your output, state the resulting model. 
+
+<!-- below is the basic LaTeX for formatting a regression line; please update it with numbers from your model based on the results above -->
+
+$$
+\hat{y} \text{ OR } \hat{\ln(y)} \text{ OR } \hat{\text{logit}(y)} = \beta_0 + \beta_1 x_1 + ... + \beta_k x_k
+$$
+
+1d. Is this a significant regression line? You must provide statistical justification for your answer. Assume $\alpha=0.05$.
+
+```{r}
+
+```
+
+
+<!-- your answer below here -->
+
+<!-- your answer above here -->
+
+1e. Which, if any, are significant predictors of the number of incidents observed? You must provide statistical justification for your answer. Assume $\alpha=0.05$.
+
+```{r}
+
+```
+
+
+<!-- your answer below here -->
+
+<!-- your answer above here -->
+
+1f. Interpret the following effects:
+
+- **number of meetings**: 
+    
+- **cups of coffee**:
+    
+- **Dwight's supervision**: 
+    
+1g. Construct a basic visualization to help you explain model results. Clearly state the following:
+
+- What is on the *x*-axis?
+    
+- What is on the *y*-axis?
+    
+- What will the line(s) represent?
+
+```{r}
+
+```
+
+**Model 2**
+
+2a. We are interested in modeling the number of successful calls completed in a day. Based on the distribution of this outcome, which modeling approach would be most appropriate? Justify your answer.
+
+```{r}
+
+```
+
+<!-- your answer below here -->
+
+<!-- your answer above here -->
+
+2b. Fit an appropriate model to predict the number of successful calls completed in a day based on the number of meetings, cups of coffee, and whether Dwight supervised the employee.  Call this model `m2`.
+
+```{r}
+
+```
+
+<!-- no actual response is needed here, just your R output -->
+
+2c. Based on your output, state the resulting model. 
+
+<!-- below is the basic LaTeX for formatting a regression line; please update it with numbers from your model based on the results above -->
+
+$$
+\hat{y} \text{ OR } \hat{\ln(y)} \text{ OR } \hat{\text{logit}(y)} = \beta_0 + \beta_1 x_1 + ... + \beta_k x_k
+$$
+
+2d. Is this a significant regression line? You must provide statistical justification for your answer. Assume $\alpha=0.05$.
+
+```{r}
+
+```
+
+
+<!-- your answer below here -->
+
+<!-- your answer above here -->
+
+
+2e. Which, if any, are significant predictors of the number of incidents observed? You must provide statistical justification for your answer. Assume $\alpha=0.05$.
+
+```{r}
+
+```
+
+<!-- your answer below here -->
+
+<!-- your answer above here -->
+
+2f. Interpret the following effects:
+
+- **number of meetings**: 
+    
+- **cups of coffee**:
+    
+- **Dwight's supervision**: 
+    
+2g. Construct a basic visualization to help you explain model results. Clearly state the following:
+
+- What is on the *x*-axis?
+    
+- What is on the *y*-axis?
+    
+- What will the line(s) represent?
+
+```{r}
+
+```    
+
+**Summary**
+
+3. Pick either `m1` or `m2` and summarize your findings for Michael. Be sure to include interpretations of the predictors, significance of the model, and any visualizations you created.
+
+<!-- your answer below here -->
+
+<!-- your answer above here -->
+
+**Exploration Time!**
+
+4a. Re-fit `m1` using the normal distribution and examine relevant statistical inference. How different are the results?
+
+```{r}
+
+```
+
+<!-- your answer below here -->
+
+<!-- your answer above here -->
+
+4b. Check the assumptions on the normal distribution. Remember to draw a conclusion.
+
+```{r}
+
+```
+
+<!-- your answer below here -->
+
+<!-- your answer above here -->
+
+4c. Re-fit `m2` using the normal distribution and examine relevant statistical inference. How different are the results?
+
+```{r}
+
+```
+
+<!-- your answer below here -->
+
+<!-- your answer above here -->
+
+4d. Check the assumptions on the normal distribution. Remember to draw a conclusion.
+
+```{r}
+
+```
+
+<!-- your answer below here -->
+
+<!-- your answer above here -->
+
+**Research Time!** 
+
+This section is a **bonus** section for undergraduate students, but a **required** section for graduate students.
+     
+5a. What are the zero-inflated Poisson and zero-inflated negative binomial models? When are they appropriate to employ?
+
+<!-- your answer below here -->
+
+<!-- your answer above here -->
+
+<!-- unless you have extensive experience in statistical modeling, this question cannot be answered without any research :) zero credit will be awarded for answers without proper citations -->
+
+5b. Why aren't the zero-inflated models appropriate for this dataset? What would have to be different about the data for these models to be appropriate?
+
+<!-- your answer below here -->
+
+<!-- your answer above here -->

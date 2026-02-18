@@ -33,7 +33,6 @@ For each employee, the company has recorded several measures of daily work habit
 Management is interested in two different outcomes:
 
 - *promotion_considered*: whether the employee is being considered for a promotion (1 = yes, 0 = no)
-
 - *performance_review*: the employee's performance review rating, which can be "Outstanding", "Adequate", or "Disaster"
 
 **Data Management and Exploration**

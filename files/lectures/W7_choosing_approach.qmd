@@ -1,5 +1,679 @@
 ---
-title: "W7_choosing_distribution"
-format: html
+title: "Choosing a Modeling Approach"
+execute:
+  echo: true
+  warning: false
+  message: false
+  error: true
+format: 
+  html:
+    df-print: paged
+    self-contained: true
+    html-math-method: katex
+    code-fold: false
+    code-tools: false
+    incremental: false
+    toc: true
+editor: source
 ---
+
+# Introduction
+
+This week, we will review how to properly explore data to determine what distribution is appropriate when modeling an outcome.
+
+I keep a "road map" in my mind:
+
+- Continuous? Normal, gamma, beta...?
+- Categorical? One of the logistics.
+- Count? Poisson or negative binomial, look out for zero-inflation.
+    
+However, we need to verify that the data meets basic assumptions of the distribution we are trying to use.
+
+- Continuous data does not always lend itself to the normal distribution. Sometimes it needs a transformation, other times we need a different distribution (gamma, beta, etc).
+- Categorical data needs to be explored to make sure that there is not sparseness in a category, especially when more than two categories exist in one variable.
+- Count data needs to be explored to verify that it is truly a count, determine if we should use either Poisson or negative binomial, and determine if we should consider a zero-inflated model. 
+    
+## Example Dataset
+
+We will use a dataset based on activity at Walt Disney World (note: this is a simulated dataset for demonstration purposes and does not represent data from WDW itself). We have information on the following variables:
+
+- age: guest's age (years)
+- group_size: number of people in the guest's party
+- weekend: if the observation is taken during the weekend (1 = yes, 0 = no)
+- temperature: daily high temp (°F)
+- rain_mm: daily rainfall
+- park: the first WDW park visited that day (Magic Kingdom, EPCOT, Hollywood Studios, Animal Kingdom)
+- favorite_land: the guest's favorite "land" in Magic Kingdom
+- lightning_lanes: number of Lightning Lane reservations used by the guest
+- hotel_guest: if the guest is staying on property (1 = yes, 0 = no)
+- spending: amount spent on merchandise that day (USD)
+- wait_time: average ride wait time (minutes)
+- satisfaction: end-of-day satisfaction score reported by the guest (proportion)
+- will_return: if the guest plans to return within the next year
+- rides: number of rides completed
+- snacks: number of snacks consumed
+	
+```{r}
+library(tidyverse)
+library(ssstats)
+library(broom)
+library(betareg)
+wdw <- read_csv("https://raw.githubusercontent.com/samanthaseals/SDSII/refs/heads/main/files/data/lectures/week7.csv")
+head(wdw)
+```
+
+# Continuous Outcomes
+
+## Example 1 
+
+Researchers at Walt Disney World are studying how guest characteristics and park conditions influence daily merchandise spending per guest. For each sampled guest-day visit, the total amount spent on souvenirs and merchandise (in dollars) is recorded. The research team is interested in whether factors such as park choice, group size, hotel status, and weather conditions are associated with higher or lower spending. 
+
+**Research question:** How do guest demographics and park conditions predict total merchandise spending during a visit?
+
+### Exploring the Dataset
+
+Let's look at what the research team is interested in:
+
+- *The research team is interested in whether factors such as park choice, group size, hotel status, and weather conditions are associated with higher or lower spending.*
+    
+The sentence tells me the following:    
+
+- Outcome: 
+    
+    - spending -- probably continuous
+
+- Predictors:
+
+    - park choice -- definitely categorical
+    - group size -- likely treat as continuous
+    - hotel status -- probably binary
+    - weather conditions
+    
+        - temperature -- definitely continuous
+        - rain_mm -- definitely continuous
+    
+Restricting the dataset to the variables of interest:
+
+```{r}
+wdw %>% 
+  select(spending, park, group_size, 
+         hotel_guest, temperature, rain_mm) %>% 
+  head()
+```
+    
+#### Exploring the Outcome
+
+Because spending is continuous, we should check the shape.
+
+```{r}
+#| fig-align: 'center'
+#| fig-alt: "Histogram of spending"
+hist(wdw$spending)
+```
+
+The distribution of spending appears normal-ish -- I am comfortable modeling this outcome with a normal distribution and then checking the assumptions to verify.
+
+#### Exploring the Predictors
+
+##### Park Choice
+
+Park choice is categorical; let's look at the frequency table.
+
+```{r}
+wdw %>% n_pct(park)
+```
+
+No category is too sparse, so we can keep all four parks in the model.
+
+As a predictor variable, R will automatically use Animal Kingdom as the reference group. Let's check the status of the variable,
+
+```{r}
+levels(wdw$park)
+```
+
+Oops. We read in the .csv file, which does not retain any information regarding factor variables and their levels. 
+
+Let's convert park to a factor and set Magic Kingdom as the reference group, since it is the most popular park.
+
+```{r}
+wdw <- wdw %>%
+  mutate(park = factor(park, levels = c("Magic Kingdom", "EPCOT", "Hollywood Studios", "Animal Kingdom")))
+levels(wdw$park)
+```
+
+##### Group Size
+
+Group size is technically a discrete variable (you can't have 2.5 people in your group), but... we may be able to treat it as continuous. Let's look at the distribution.
+
+```{r}
+#| fig-align: 'center'
+#| fig-alt: "Histogram of group size"
+hist(wdw$group_size)
+```
+
+Looks like the maximum group size is 8, but most guests visit in groups of 1 or 2. Let's look at the frequency table to get a better idea,
+
+```{r}
+wdw %>% n_pct(group_size, rows = 10)
+```
+
+Group size is right-skewed, with most guests visiting in small groups. However, there is still variability in group size, and it is not too sparse until the tail end. I am comfortable treating this variable as continuous in the model, but I would discuss with leadership and ask if it makes sense to categorize group size instead (e.g., solo visitors, small groups, large groups)?
+
+Note that I would never treat it as categorical as is. 8 categories is too many for a predictor variable, and the tail end is too sparse. If I needed to treat it as categorical, I would collapse some categories (e.g., 5+ people in a group).
+
+##### Hotel Guest
+
+We know this is likely binary, but let's check just in case.
+
+```{r}
+wdw %>% n_pct(hotel_guest)
+```
+
+Yes, it is binary. Because it is already coded 0/1, it is ready to go in the model. 
+
+##### Temperature
+
+We know this is continuous. Let's check it out,
+
+```{r}
+#| fig-align: 'center'
+#| fig-alt: "Histogram of temperature"
+hist(wdw$temperature)
+```
+
+We should definitely treat this as continuous. The distribution looks pretty normal (but remember that doesn't matter for predictor variables). Let's look at the summary stats to get a better idea of the range of temperatures in the dataset.
+
+```{r}
+summary(wdw$temperature)
+```
+
+
+##### Rain (mm)
+
+Like temperature, we know this is continuous. Checking it out,
+
+```{r}
+#| fig-align: 'center'
+#| fig-alt: "Histogram of rainfall in mm"
+hist(wdw$rain_mm)
+```
+
+The distribution of rainfall is highly skewed, with most days having no rain and a few days with a lot of rain. If there are estimation issues around $\hat{\beta}_{\text{rain}}$, I would consider categorizing it (e.g., no rain, light rain, heavy rain).
+
+Getting an idea of the range of rainfall in the dataset,
+
+```{r}
+summary(wdw$rain_mm)
+```
+
+### Modeling
+
+Recall, the research team is interested in:
+
+- *The research team is interested in whether factors such as park choice, group size, hotel status, and weather conditions are associated with higher or lower spending.*
+
+In model form,
+
+```{r}
+m1 <- glm(spending ~ park + group_size + hotel_guest + temperature + rain_mm,
+          data = wdw,
+          family = gaussian())
+m1 %>% tidy()
+m1 %>% car::Anova(type = 3) %>% tidy()
+```
+
+Before we move on to inference, we have to check the assumptions on the model.
+
+```{r}
+m1 %>% reg_check()
+```
+
+Yes, we meet the assumptions of normality and equal variance. The qq plot shows an approximate 45-degree line and the histogram shows a bell-shaped distribution of residuals, centered around 0. The scatterplot shows a random scatter of points with no clear pattern. Thus, we can assume,
+
+$$
+\varepsilon_i \sim \text{N}(0, \sigma^2)
+$$
+
+## Example 2
+
+A second team is investigating average ride wait time experienced by guests during their visit. For each guest-day, the researchers calculate the mean wait time (in minutes) across all rides completed. The team wants to understand how weekend status, park choice, and group size influence expected wait times.
+
+**Research question:** Which factors are associated with longer or shorter average ride wait times during a guest's visit?
+
+### Exploring the Dataset
+
+Let's look at what the research team is interested in:
+
+- *The team wants to understand how weekend status, park choice, and group size influence expected wait times.*
+
+The sentence tells me the following:    
+
+- Outcome: 
+    
+    - wait times -- probably continuous
+
+- Predictors:
+
+    - weekend status -- definitely categorical
+    - park choice -- definitely categorical
+    - group size -- likely treat as continuous
+    
+Restricting the dataset to the variables of interest:
+
+```{r}
+wdw %>% 
+  select(wait_time, weekend, park, group_size) %>% 
+  head()
+```
+
+
+#### Exploring the Outcome
+
+Because wait time is likely continuous, we should check the shape.
+
+```{r}
+#| fig-align: 'center'
+#| fig-alt: "Histogram of wait time"
+hist(wdw$wait_time)
+```
+
+This distribution is right-skewed, with most guests experiencing shorter wait times and a few guests experiencing very long wait times. The distribution does not appear to be normal, so we may want to consider a different distribution for modeling this outcome.
+
+We learned gamma and beta regressions for continuous data. Remember that beta regression is used when the outcome is on (0, 1) and typically represents a proportion. Wait time is not a proportion, so beta regression is not appropriate here. Gamma regression is often used for right-skewed continuous data, so it may be a good option for modeling wait time.
+
+#### Exploring the Predictors
+
+Please see Example 1 for exploration on park and group size.
+
+##### Weekend
+
+Weekend sounds like it will be a binary variable. Checking the frequency table,
+
+```{r}
+wdw %>% n_pct(weekend)
+```
+
+Yes, it's binary. Because it is coded as 0/1, it is ready to be used in the model directly.
+
+### Modeling
+
+Recall, the research team is interested in:
+
+- *The team wants to understand how weekend status, park choice, and group size influence expected wait times.*
+
+We suspect we need a gamma distribution, but let's try both normal and gamma and see which one fits better.
+
+First, the normal distribution,
+
+```{r}
+m2_normal <- glm(wait_time ~ weekend + park + group_size,
+                 data = wdw,
+                 family = gaussian())
+m2_normal %>% tidy()
+```
+
+Is the normal distribution appropriate for modeling wait time? Let's check the assumptions.
+
+```{r}
+m2_normal %>% reg_check()
+```
+
+No, we are definitely not looking at a normal distribution. The qq plot shows a clear deviation from the 45-degree line, with many points in the tails deviating from the line. The histogram shows a right-skewed distribution of residuals, and the scatterplot shows a pattern of increasing variance as the mean increase. Therefore, we should not use the normal distribution.
+
+Now applying the gamma,
+
+```{r}
+m2_gamma <- glm(wait_time ~ weekend + park + group_size,
+                data = wdw,
+                family = Gamma)
+m2_gamma %>% tidy()
+```
+
+## Example 3 
+
+At the end of each visit, guests complete a survey rating their overall satisfaction with their day. Scores are scaled to fall between 0 and 1, where values closer to 1 indicate greater satisfaction. The research team is interested in how satisfaction relates to wait times, weather, and access to ride reservations. 
+
+**Research question:** How do operational and environmental factors influence overall guest satisfaction?
+
+### Exploring the Dataset
+
+Let's look at what the research team is interested in:
+
+- *The research team is interested in how satisfaction relates to wait times, weather, and access to ride reservations.*
+    
+The sentence tells me the following:    
+
+- Outcome: 
+    
+    - satisfaction -- continuous on (0, 1)
+
+- Predictors:
+
+    - wait times -- continuous 
+    - temperature -- continuous
+    - Lightning Lane reservations -- likely count, but may treat as continuous.
+    
+Restricting the dataset to the variables of interest:
+
+```{r}
+wdw %>% 
+  select(satisfaction, wait_time, temperature, lightning_lanes) %>% 
+  head()
+```
+
+#### Exploring the Outcome
+
+Because satisfaction is continuous, we should check the shape.
+
+```{r}
+#| fig-align: 'center'
+#| fig-alt: "Histogram of satisfaction"
+hist(wdw$satisfaction)
+```
+
+Beta is definitely appropriate here. Beta regression is used for modeling continuous outcomes that are bounded between 0 and 1, which is the case where. The histogram shows that satisfaction scores are distributed across the range from 0 to 1. Checking the five-number summary,
+
+```{r}
+summary(wdw$satisfaction)
+```
+
+We do not have exact 0 or 1s in the dataset, therefore, do not need to adjust the data. If we had exact 0s or 1s, we would need to adjust the data slightly to fit the beta distribution, as discussed in lecture.
+
+#### Exploring the Predictors
+
+Please see Example 1 for exploration on temperature and Example 2 for exploration on wait time.
+
+##### Lightning Lanes
+
+Lightning Lane reservations are likely a count variable, but we may be able to treat it as continuous. Let's look at the distribution.
+
+```{r}
+#| fig-align: 'center'
+#| fig-alt: "Histogram of Lightning Lane reservations"
+hist(wdw$lightning_lanes)
+```
+
+Since it looks like it does not have too many unique values, let's look at the frequency table.
+
+```{r}
+wdw %>% n_pct(lightning_lanes)
+```
+
+The distribution of Lightning Lane reservations is right-skewed, with most guests using few or no Lightning Lane reservations and a few guests using many. I am comfortable treating this variable as continuous in the model.
+
+### Modeling
+
+Recall, the team is interested in:
+
+- *The research team is interested in how satisfaction relates to wait times, weather, and access to ride reservations.*
+
+We suspect we need a beta distribution, but let's try both normal and beta and see which one fits better.
+
+First, the normal distribution,
+
+```{r}
+m3_normal <- glm(satisfaction ~ wait_time + temperature + lightning_lanes,
+                 data = wdw,
+                 family = gaussian())
+m3_normal %>% tidy()
+```
+
+Is the normal distribution appropriate for modeling wait time? Let's check the assumptions.
+
+```{r}
+m3_normal %>% reg_check()
+```
+
+No, we are definitely not looking at a normal distribution. The qq plot shows deviation from the 45-degree line while the histogram shows a left-skewed distribution of residuals.
+
+Applying beta regression,
+
+```{r}
+m3_beta <- betareg(satisfaction ~ wait_time + temperature + lightning_lanes,
+                   data = wdw,
+                   link = "logit")
+m3_beta %>% tidy()
+```
+
+# Categorical Outcomes
+
+## Example 4
+
+Another group of researchers focuses on guest loyalty. After their visit, guests are asked whether they plan to return to Walt Disney World within the next year (Yes/No). The team is particularly interested in whether satisfaction and hotel status predict the likelihood of returning. 
+
+**Research question:** What factors influence a guest's intention to return within the next year?
+
+### Exploring the Dataset
+
+Let's look at what the research team is interested in:
+
+- *The team is particularly interested in whether satisfaction and hotel status predict the likelihood of returning.*
+
+The sentence tells me the following:    
+
+- Outcome: 
+    
+    - will return -- dichotomous (binary)
+
+- Predictors:
+
+    - satisfaction -- continuous
+    - hotel status -- binary
+    
+Restricting the dataset to the variables of interest:
+
+```{r}
+wdw %>% 
+  select(will_return, satisfaction, hotel_guest) %>% 
+  head()
+```
+
+#### Exploring the Outcome
+
+We suspect returning is a binary variable, but let's check just in case.
+
+```{r}
+wdw %>% n_pct(will_return)
+```
+
+Yes, no sneaky third categories, no typos, just pure 0/1. Because the outcome is 0/1, we know that the binary logistic regression is appropriate.
+
+#### Exploring the Predictors
+
+Please see Example 3 for exploration on satisfaction and Example 1 for exploration on hotel status.
+
+### Modeling
+
+Recall, the team is interested in:
+
+- *The team is particularly interested in whether satisfaction and hotel status predict the likelihood of returning.*
+
+We suspect we need a binomial distribution (binary logistic regression). Modeling,
+
+```{r}
+m4 <- glm(will_return ~ satisfaction + hotel_guest,
+           data = wdw,
+           family = binomial())
+m4 %>% tidy()
+m4 %>% tidy(exponentiate = TRUE)
+```
+
+## Example 5 
+
+Guests are also asked to select their favorite themed area in Magic Kingdom: Main Street, Liberty Square, Adventureland, Frontierland, Fantasyland, or Tomorrowland. Researchers want to understand how age, group composition, and access to ride reservations relate to preferences for different themed areas. 
+
+**Research question:** How do guest characteristics influence their preferred themed area?
+
+### Exploring the Dataset
+
+Let's look at what the research team is interested in:
+
+- *Researchers want to understand how age, group composition, and access to ride reservations relate to preferences for different themed areas.*
+
+The sentence tells me the following:    
+
+- Outcome: 
+    
+    - favorite land -- categorical
+
+- Predictors:
+
+    - satisfaction -- continuous
+    - hotel status -- binary
+    
+Restricting the dataset to the variables of interest:
+
+```{r}
+wdw %>% 
+  select(wait_time, weekend, park, group_size) %>% 
+  head()
+```
+
+#### Exploring the Outcome
+
+The outcome is categorical, so let's look at the frequency table.
+
+```{r}
+wdw %>% n_pct(favorite_land)
+```
+
+The distribution of favorite land is fairly even across the six categories, with no category being too sparse. Because the outcome has more than two categories, we know that multinomial logistic regression is appropriate.
+
+#### Exploring the Predictors
+
+Please see Example 1 for exploration on group size.
+
+##### Age
+
+Age is continuous, so let's look at the distribution.
+
+```{r}
+#| fig-align: 'center'
+#| fig-alt: "Histogram of age"
+hist(wdw$age)
+```
+
+Yes, age should be treated as continuous here. The distribution of age is right-skewed, with most guests being younger and a few guests being older. 
+
+### Modeling
+
+Researchers want to understand how age, group composition, and access to ride reservations relate to preferences for different themed areas. Modeling,
+
+```{r}
+m5 <- nnet::multinom(favorite_land ~ age + group_size, data = wdw)
+m5 %>% tidy()
+```
+
+
+# Count Outcomes
+
+## Example 6
+
+Operations analysts track the number of rides completed by each guest during their visit. This count reflects both guest behavior and park efficiency. The team wants to evaluate how ride reservations, hotel status, and weather affect ride counts. 
+
+**Research question:** What factors are associated with the number of rides a guest completes in a day?
+
+
+### Exploring the Dataset
+
+Let's look at what the research team is interested in:
+
+- *The team wants to evaluate how ride reservations, hotel status, and weather affect ride counts.*
+    
+The sentence tells me the following:    
+
+- Outcome: 
+    
+    - rides -- count, maybe continuous?
+
+- Predictors:
+
+    - Lightning Lanes -- count
+    - hotel status -- binary
+    - temperature -- continuous
+    
+Restricting the dataset to the variables of interest:
+
+```{r}
+wdw %>% 
+  select(rides, lightning_lanes, hotel_guest, temperature) %>% 
+  head()
+```
+
+#### Exploring the Outcome
+
+The outcome is the number of rides completed by each guest, which is a count variable. Let's look at the distribution.
+
+```{r}
+#| fig-align: 'center'
+#| fig-alt: "Histogram of rides completed"
+hist(wdw$rides)
+```
+
+The distribution of rides is right-skewed, with most guests completing a few rides and a few guests completing many rides. Because the outcome is a count variable, we know that either Poisson or negative binomial regression is appropriate. Let's check the assumptions of the Poisson distribution,
+
+```{r}
+mean(wdw$rides)
+var(wdw$rides)
+```
+
+Hmm. Let's check both regressions when we get to the modeling.
+
+#### Exploring the Predictors
+
+Please see Example 1 for explorations related to hotel guest and temperature, and Example 3 for explorations related to Lightning Lane reservations.
+
+### Modeling
+
+Let's first attempt the normal distribution.
+
+```{r}
+m6_normal <- glm(rides ~ lightning_lanes + hotel_guest + temperature,
+                 data = wdw,
+                 family = gaussian())
+m6_normal %>% tidy()
+```
+
+Checking the assumptions,
+
+```{r}
+m6_normal %>% reg_check()
+```
+
+Nope -- the variance is awful. The qq plot shows a clear deviation from the 45-degree line and the histogram shows a right-skewed distribution of residuals. Thus, we should not use the normal distribution.
+
+Let's now apply the Poisson distribution,
+
+```{r}
+m6_poisson <- glm(rides ~ lightning_lanes + hotel_guest + temperature,
+                  data = wdw,
+                  family = poisson())
+m6_poisson %>% tidy()
+```
+
+Let's now apply the negative binomial distribution,
+
+```{r}
+m6_negbin <- MASS::glm.nb(rides ~ lightning_lanes + hotel_guest + temperature,
+                          data = wdw)
+m6_negbin %>% tidy()
+```
+
+Finally, let's use the BIC to determine which model fits better,
+
+```{r}
+BIC(m6_normal, m6_poisson, m6_negbin)
+```
+
+Because the model assuming $y \sim \text{negbin}$ has the lowest BIC, we would choose that model as the best fitting model for this outcome. 
+
+# Wrap Up
+
+This week, we reviewed how to properly explore data to determine what distribution is appropriate when modeling an outcome. We also applied the appropriate regression models for each outcome and checked the assumptions to verify that the model fit the data well.
+
+It is assumed that the student understands statistical inference at this point in the semester.
+
+- Estimation $\ne$ inference. We can estimate parameters in a model, but that does not necessarily mean we can make inferences about the population from those estimates -- we have to check the assumptions first.
+
+- There will be times that we can use the normal distribution even when the outcome is not perfectly normal. However, we *must* check the assumptions to verify that it is appropriate. If the assumptions are not met, we need to consider a different distribution.
 
