@@ -20,6 +20,40 @@ ul.task-list li input[type="checkbox"] {
 width: 0.8em;
 margin: 0 0.8em 0.2em -1em;  vertical-align: middle;
 }
+
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+{ counter-reset: source-line 0; }
+pre.numberSource code > span
+{ position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+{ content: counter(source-line);
+position: relative; left: -1em; text-align: right; vertical-align: baseline;
+border: none; display: inline-block;
+-webkit-touch-callout: none; -webkit-user-select: none;
+-khtml-user-select: none; -moz-user-select: none;
+-ms-user-select: none; user-select: none;
+padding: 0 4px; width: 4em;
+}
+pre.numberSource { margin-left: 3em; padding-left: 4px; }
+div.sourceCode
+{ }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
 </style>
 
 
@@ -1668,7 +1702,7 @@ async function fuseSearch(query, fuse, fuseOptions) {
   return results;
 }
 </script>
-<meta name="quarto:offset" content="../../">
+<meta name="quarto:offset" content="../../../">
 <script>const sectionChanged = new CustomEvent("quarto-sectionChanged", {
   detail: {},
   bubbles: true,
@@ -6026,7 +6060,7 @@ box-shadow: 0 0 0px rgba(0, 0, 0, 0.02);
     <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
       <div class="navbar-container container-fluid">
       <div class="navbar-brand-container mx-auto">
-    <a class="navbar-brand" href="../../index.html">
+    <a class="navbar-brand" href="../../../index.html">
     <span class="navbar-title">Statistics for Data Science II</span>
     </a>
   </div>
@@ -6037,11 +6071,11 @@ box-shadow: 0 0 0px rgba(0, 0, 0, 0.02);
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav navbar-nav-scroll me-auto">
   <li class="nav-item">
-    <a class="nav-link" href="../../files/syllabus.html"> 
+    <a class="nav-link" href="../../../files/syllabus.html"> 
 <span class="menu-text">Syllabus</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="../../files/schedule.html"> 
+    <a class="nav-link" href="../../../files/schedule.html"> 
 <span class="menu-text">Schedule</span></a>
   </li>  
 </ul>
@@ -6121,6 +6155,13 @@ box-shadow: 0 0 0px rgba(0, 0, 0, 0.02);
 <section id="data-exploration" class="level1">
 <h1>Data Exploration</h1>
 <p>0a. Import the dataset into R.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>data <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">&quot;https://raw.githubusercontent.com/samanthaseals/SDSII/refs/heads/main/files/data/assignments/week7.csv&quot;</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-error">
+<pre><code>Error in `read_csv()`:
+! could not find function &quot;read_csv&quot;</code></pre>
+</div>
+</div>
 <p>0b. Explore <em>species_size</em>. What kind of variable is it? What is its distribution like?</p>
 <ul>
 <li><p>Variable type:</p></li>
@@ -6180,8 +6221,8 @@ box-shadow: 0 0 0px rgba(0, 0, 0, 0.02);
 </section>
 <section id="research-question-1" class="level1">
 <h1>Research Question 1</h1>
-<p>Transportation planners record each resident’s primary mode of travel for the day. The research team wants to know how resident characteristics relate to transportation choices.</p>
-<p>Consider modeling transportation choice as a function of species size, district, and income.</p>
+<p>Economic researchers in Zootopia are studying daily income earned by residents. Income is measured in city credits and recorded as a numeric value for each resident-day. The research team wants to explore how demographic and commuting characteristics relate to income.</p>
+<p>Consider modeling income as a function of species size, district, mode of transportation, and commute time.</p>
 <p>1a. What distribution is appropriate for this model? You must justify your answer statistically, including any assumption checking.</p>
 <p>1b. Fit a model to predict the specified outcome using the specified predictors.</p>
 <p>1c. Plan an appropriate data visualization for the model you constructed. Remember that the visualization should help you explain the model results.</p>
@@ -6194,8 +6235,8 @@ box-shadow: 0 0 0px rgba(0, 0, 0, 0.02);
 </section>
 <section id="research-question-2" class="level1">
 <h1>Research Question 2</h1>
-<p>Economic researchers in Zootopia are studying daily income earned by residents. Income is measured in city credits and recorded as a numeric value for each resident-day. The research team wants to explore how demographic and commuting characteristics relate to income.</p>
-<p>Consider modeling income as a function of species size, district, mode of transportation, and commute time.</p>
+<p>Public health officials are monitoring a daily stress index designed to measure how stressful a resident’s day was. The research team wants to explore how demographic characteristics relate to stress.</p>
+<p>Consider modeling stress as a function of species size, district, income, and mode of transport.</p>
 <p>2a. What distribution is appropriate for this model? You must justify your answer statistically, including any assumption checking.</p>
 <p>2b. Fit a model to predict the specified outcome using the specified predictors.</p>
 <p>2c. Plan an appropriate data visualization for the model you constructed. Remember that the visualization should help you explain the model results.</p>
@@ -6208,8 +6249,8 @@ box-shadow: 0 0 0px rgba(0, 0, 0, 0.02);
 </section>
 <section id="research-question-3" class="level1">
 <h1>Research Question 3</h1>
-<p>Nutrition researchers track the number of snacks purchased by each resident. Snack counts vary widely across individuals, and some residents purchase many more snacks than average. The research team wants to determine what factors predict snack purchasing behavior.</p>
-<p>Consider modeling snacks purchased as a function of species size, district, if it’s the weekend, and stress.</p>
+<p>Residents completed a brief survey rating their overall well-being at the end of the day. Scores are scaled between 0 and 1, where values closer to 1 indicate greater well-being. The team wants to determine how daily conditions and demographics influence resident well-being.</p>
+<p>Consider modeling well-being as a function of species size, district, income, stress, and public service.</p>
 <p>3a. What distribution is appropriate for this model? You must justify your answer statistically, including any assumption checking.</p>
 <p>3b. Fit a model to predict the specified outcome using the specified predictors.</p>
 <p>3c. Plan an appropriate data visualization for the model you constructed. Remember that the visualization should help you explain the model results.</p>
@@ -6222,8 +6263,8 @@ box-shadow: 0 0 0px rgba(0, 0, 0, 0.02);
 </section>
 <section id="research-question-4" class="level1">
 <h1>Research Question 4</h1>
-<p>Public health officials are monitoring a daily stress index designed to measure how stressful a resident’s day was. The research team wants to explore how demographic characteristics relate to stress.</p>
-<p>Consider modeling stress as a function of species size, district, income, and mode of transport.</p>
+<p>City administrators track whether a resident reported an incident or complaint during the day. The research team wants to determine what factors influence if a resident reports an incident.</p>
+<p>Consider modeling incident reporting as a function of district, income, and if the day is a weekend.</p>
 <p>4a. What distribution is appropriate for this model? You must justify your answer statistically, including any assumption checking.</p>
 <p>4b. Fit a model to predict the specified outcome using the specified predictors.</p>
 <p>4c. Plan an appropriate data visualization for the model you constructed. Remember that the visualization should help you explain the model results.</p>
@@ -6236,8 +6277,8 @@ box-shadow: 0 0 0px rgba(0, 0, 0, 0.02);
 </section>
 <section id="research-question-5" class="level1">
 <h1>Research Question 5</h1>
-<p>City administrators track whether a resident reported an incident or complaint during the day. The research team wants to determine what factors influence if a resident reports an incident.</p>
-<p>Consider modeling incident reporting as a function of district, income, and if the day is a weekend.</p>
+<p>Transportation planners record each resident’s primary mode of travel for the day. The research team wants to know how resident characteristics relate to transportation choices.</p>
+<p>Consider modeling transportation choice as a function of species size, district, and income.</p>
 <p>5a. What distribution is appropriate for this model? You must justify your answer statistically, including any assumption checking.</p>
 <p>5b. Fit a model to predict the specified outcome using the specified predictors.</p>
 <p>5c. Plan an appropriate data visualization for the model you constructed. Remember that the visualization should help you explain the model results.</p>
@@ -6250,8 +6291,8 @@ box-shadow: 0 0 0px rgba(0, 0, 0, 0.02);
 </section>
 <section id="research-question-6" class="level1">
 <h1>Research Question 6</h1>
-<p>Residents completed a brief survey rating their overall well-being at the end of the day. Scores are scaled between 0 and 1, where values closer to 1 indicate greater well-being. The team wants to determine how daily conditions and demographics influence resident well-being.</p>
-<p>Consider modeling well-being as a function of species size, district, income, stress, and public service.</p>
+<p>Nutrition researchers track the number of snacks purchased by each resident. Snack counts vary widely across individuals, and some residents purchase many more snacks than average. The research team wants to determine what factors predict snack purchasing behavior.</p>
+<p>Consider modeling snacks purchased as a function of species size, district, if it’s the weekend, and stress.</p>
 <p>6a. What distribution is appropriate for this model? You must justify your answer statistically, including any assumption checking.</p>
 <p>6b. Fit a model to predict the specified outcome using the specified predictors.</p>
 <p>6c. Plan an appropriate data visualization for the model you constructed. Remember that the visualization should help you explain the model results.</p>
