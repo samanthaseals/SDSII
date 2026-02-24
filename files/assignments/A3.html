@@ -6112,7 +6112,7 @@ box-shadow: 0 0 0px rgba(0, 0, 0, 0.02);
 }</style>
 </head>
 
-<body class="nav-fixed fullcontent">
+<body class="nav-fixed">
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
@@ -6148,7 +6148,19 @@ box-shadow: 0 0 0px rgba(0, 0, 0, 0.02);
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
 <!-- margin-sidebar -->
-    
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#data-management" id="toc-data-management" class="nav-link active" data-scroll-target="#data-management">Data Management</a></li>
+  <li><a href="#constructing-the-model" id="toc-constructing-the-model" class="nav-link" data-scroll-target="#constructing-the-model">Constructing the Model</a></li>
+  <li><a href="#updating-the-model" id="toc-updating-the-model" class="nav-link" data-scroll-target="#updating-the-model">Updating the Model</a></li>
+  <li><a href="#model-interpretation" id="toc-model-interpretation" class="nav-link" data-scroll-target="#model-interpretation">Model Interpretation</a></li>
+  <li><a href="#model-assumptions" id="toc-model-assumptions" class="nav-link" data-scroll-target="#model-assumptions">Model Assumptions</a></li>
+  </ul>
+</nav>
+    </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
@@ -6177,6 +6189,11 @@ box-shadow: 0 0 0px rgba(0, 0, 0, 0.02);
 </header>
 
 
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ssstats)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(broom)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
 <p>After the success of Michael’s “Sales Summit Scorecard,” corporate decides to expand the analysis to understand structural differences across employees. This time, they collect a one-time snapshot of sales employees across multiple Dunder Mifflin branches, focusing on how role structure and branch culture relate to sales performance.</p>
 <p>Each row in the dataset represents one employee. All variables summarize employee behavior and performance over the same time period. In the <u><b>week2.csv</b></u> data file, you will find the following variables:</p>
 <ul>
@@ -6193,15 +6210,18 @@ box-shadow: 0 0 0px rgba(0, 0, 0, 0.02);
 <li><em>distractions_minutes_day</em>: average minutes/day lost to distractions (pranks, “meetings,” etc.), and</li>
 <li><em>morale_score</em>: morale score (0–10) from anonymous internal survey.</li>
 </ul>
-<p><strong>Data Management</strong></p>
+<section id="data-management" class="level2">
+<h2 class="anchored" data-anchor-id="data-management">Data Management</h2>
 <p>0a. Download the data from Canvas and import it to R.</p>
 <p>0b. Find summary statistics (mean and sd) for the continuous predictor variables in the dataset. Split this by <em>branch</em>.</p>
 <!-- yes, please reuse your code from last week -->
-<p><strong>Constructing the Model</strong></p>
+</section>
+<section id="constructing-the-model" class="level2">
+<h2 class="anchored" data-anchor-id="constructing-the-model">Constructing the Model</h2>
 <p>1a. Fit a multiple linear regression model predicting annual sales (<em>annual_sales_usd</em>) as a function of the number of client meetings per week (<em>meetings_week</em>), the branch (<em>branch</em>; use Scranton as the reference group), the person’s sales role (<em>sales_role</em>), and the interaction between branch and sales role. Call this model <code>m1</code>.</p>
 <p>1b. Based on your output, state the resulting model.</p>
 <p><span class="math display">
-\hat{y} = \beta_0 + \beta_1 x_1 + ... \beta_k x_k
+\hat{y} = \beta_0 + \beta_1 x_1 + ... + \beta_k x_k
 </span></p>
 <p>1c. Is this a significant regression line? You must provide statistical justification for your answer. Assume <span class="math inline">\alpha=0.05</span>.</p>
 <p>1d. Fill in the following table:</p>
@@ -6272,20 +6292,22 @@ box-shadow: 0 0 0px rgba(0, 0, 0, 0.02);
 <p>1g. Using the stratified models from 1f, construct predicted annual sales for each branch and sales role combination, but allowing meetings per week to vary.</p>
 <p>1h. Construct a data visualization to help explain the relationships in your stratified models. For uniformity (for grading purposes), let’s have annual sales (<em>annual_sales_usd</em>) on the <em>y</em>-axis, the number of client meetings (<em>meetings_week</em>) on the <em>x</em>-axis, and the lines defined by the branch (<em>branch</em>). Create one graph for inside sales and a second graph for outside sales.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># predicted values - inside sales</span></span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="co"># predicted values - outside sales</span></span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="co"># graph - inside sales</span></span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="co"># graph - outside sales</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># predicted values - inside sales</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="co"># predicted values - outside sales</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="co"># graph - inside sales</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a><span class="co"># graph - outside sales</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>1i. Based on your visualization in 1h and testing results from 1e, explain to David Wallace that the interaction between sales role and branch is not significant. Use non-technical language appropriate for your audience. David is very, very certain that the Scranton branch is performing the worst because of their sales role structure, so be sure to address this directly.</p>
-<p><strong>Updating the Model</strong></p>
+</section>
+<section id="updating-the-model" class="level2">
+<h2 class="anchored" data-anchor-id="updating-the-model">Updating the Model</h2>
 <p>2a. Fit a multiple linear regression model predicting annual sales (<em>annual_sales_usd</em>) as a function of the number of client meetings per week (<em>meetings_week</em>), the branch (<em>branch</em>; use Scranton as the reference group), and the person’s sales role (<em>sales_role</em>). That is, update <code>m1</code> to remove the interaction term. Call this model <code>m2</code>.</p>
 <p>2b. Based on your output, state the resulting model.</p>
 <p><span class="math display">
-\hat{y} = \beta_0 + \beta_1 x_1 + ... \beta_k x_k
+\hat{y} = \beta_0 + \beta_1 x_1 + ...  + \beta_k x_k
 </span></p>
 <p>2c. Which, if any, are significant predictors of annual sales? You must provide statistical justification for your answers. Assume <span class="math inline">\alpha=0.05</span>.</p>
 <p>2d. Stratify the model by sales role.</p>
@@ -6296,8 +6318,10 @@ box-shadow: 0 0 0px rgba(0, 0, 0, 0.02);
 \end{align*}
 </span></p>
 <p>2e. Compare the stratified models from 2d to those from 1f. How have the interpretations changed now that the interaction term has been removed?</p>
-<p>2f. David Wallace is still very concerned about the Scranton branch’s performance. Thinking about the comparisons you just made, explain to David why the Scranton branch is not performing the worst. Use non-technical language appropriate for your audience. BONUS! Include a visualization comparing predicted annual sales across branches and refer to it in your response to David.</p>
-<p><strong>Model Interpretation</strong></p>
+<p>2f. David Wallace is still very concerned about the Scranton branch’s performance. Thinking about the comparisons you just made, explain to David why the Scranton branch is not performing the worst. Use non-technical language appropriate for your audience. <strong>BONUS!</strong> Include a visualization comparing predicted annual sales across branches and refer to it in your response to David.</p>
+</section>
+<section id="model-interpretation" class="level2">
+<h2 class="anchored" data-anchor-id="model-interpretation">Model Interpretation</h2>
 <p>3a. Provide formal interpretations for each predictor in the model.</p>
 <ul>
 <li>client meetings: <!-- your interpretation here --></li>
@@ -6306,7 +6330,7 @@ box-shadow: 0 0 0px rgba(0, 0, 0, 0.02);
 <li>branch (Albany): <!-- your interpretation here --></li>
 <li>sales role (Outside): <!-- your interpretation here --></li>
 </ul>
-<p>3b. Identify how each of these interpretatiosn can be “seen” on the graphs, if at all. If not, explain why not.</p>
+<p>3b. Identify how each of these interpretations can be “seen” on the graphs, if at all. If not, explain why not.</p>
 <ul>
 <li>client meetings: <!-- your response here --></li>
 <li>branch (Stamford): <!-- your response here --></li>
@@ -6314,12 +6338,16 @@ box-shadow: 0 0 0px rgba(0, 0, 0, 0.02);
 <li>branch (Albany): <!-- your response here --></li>
 <li>sales role (Outside): <!-- your response here --></li>
 </ul>
-<p><strong>Model Assumptions</strong></p>
+</section>
+<section id="model-assumptions" class="level2">
+<h2 class="anchored" data-anchor-id="model-assumptions">Model Assumptions</h2>
 <ol start="4" type="1">
 <li>Can we trust the inference made in this assignment? Do a quick assessment of the assumptions of the linear model. Remember to make a statement about each assumption, then draw your overall conclusion.</li>
 </ol>
+<!-- remember that you need to type a response here in addition to your R code & output. -->
 
 
+</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">

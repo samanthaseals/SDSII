@@ -6112,7 +6112,7 @@ box-shadow: 0 0 0px rgba(0, 0, 0, 0.02);
 }</style>
 </head>
 
-<body class="nav-fixed fullcontent">
+<body class="nav-fixed">
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
@@ -6148,7 +6148,20 @@ box-shadow: 0 0 0px rgba(0, 0, 0, 0.02);
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
 <!-- margin-sidebar -->
-    
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#data-management" id="toc-data-management" class="nav-link active" data-scroll-target="#data-management">Data Management</a></li>
+  <li><a href="#model-1-m1" id="toc-model-1-m1" class="nav-link" data-scroll-target="#model-1-m1">Model 1 (<code>m1</code>)</a></li>
+  <li><a href="#model-2-m2" id="toc-model-2-m2" class="nav-link" data-scroll-target="#model-2-m2">Model 2 (<code>m2</code>)</a></li>
+  <li><a href="#comparing-the-models" id="toc-comparing-the-models" class="nav-link" data-scroll-target="#comparing-the-models">Comparing the Models</a></li>
+  <li><a href="#model-selection" id="toc-model-selection" class="nav-link" data-scroll-target="#model-selection">Model Selection</a></li>
+  <li><a href="#reporting-the-final-model" id="toc-reporting-the-final-model" class="nav-link" data-scroll-target="#reporting-the-final-model">Reporting the Final Model</a></li>
+  </ul>
+</nav>
+    </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
@@ -6179,7 +6192,8 @@ box-shadow: 0 0 0px rgba(0, 0, 0, 0.02);
 
 <div class="cell">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ssstats)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ssstats)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(broom)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Corporate is hosting a “Dunder Mifflin Sales Summit,” and Michael Scott insists Scranton should look elite. HQ collects a one-time snapshot of performance and workstyle metrics for a large group of sales employees across multiple branches (Scranton, Stamford, Utica, Albany, etc.). Each row is one employee, measured during the same month (i.e., this is independent data). In the <u><b>week1.csv</b></u> data file, you will find the following variables:</p>
 <ul>
@@ -6195,21 +6209,26 @@ box-shadow: 0 0 0px rgba(0, 0, 0, 0.02);
 <li><em>morale_score</em>: morale score (0–10) from anonymous internal survey, and</li>
 <li><em>printer_jams_week</em>: average printer jams per week (yes, they tracked it).</li>
 </ul>
-<p><strong>Data Management</strong></p>
-<p>Download the data from Canvas and import it to R.</p>
-<p><strong>Model 1</strong> (<code>m1</code>)</p>
-<p>Fit a multiple linear regression model predicting annual sales (<em>annual_sales_usd</em>) as a function of the number of client calls per week (<em>client_calls_week</em>), the number of client meetings per week (<em>meetings_week</em>), and the number of client-facing emails per week (<em>emails_week</em>). Call this model <code>m1</code>.</p>
+<section id="data-management" class="level2">
+<h2 class="anchored" data-anchor-id="data-management">Data Management</h2>
+<ol start="0" type="1">
+<li>Download the data from Canvas and import it to R.</li>
+</ol>
+</section>
+<section id="model-1-m1" class="level2">
+<h2 class="anchored" data-anchor-id="model-1-m1">Model 1 (<code>m1</code>)</h2>
+<p>1a. Fit a multiple linear regression model predicting annual sales (<em>annual_sales_usd</em>) as a function of the number of client calls per week (<em>client_calls_week</em>), the number of client meetings per week (<em>meetings_week</em>), and the number of client-facing emails per week (<em>emails_week</em>). Call this model <code>m1</code>.</p>
 <!-- no actual response is needed for the modeling portion here, just your R output -->
-<p>1a. Based on your output, state the resulting model.</p>
+<p>1b. Based on your output, state the resulting model.</p>
 <!-- below is the basic LaTeX for formatting a regression line; please update it with numbers from your model based on the results above -->
 <p><span class="math display">
-\hat{y} = \beta_0 + \beta_1 x_1 + ... \beta_k x_k
+\hat{y} = \beta_0 + \beta_1 x_1 + ... + \beta_k x_k
 </span></p>
-<p>1b. Is this a significant regression line? You must provide statistical justification for your answer.</p>
+<p>1c. Is this a significant regression line? You must provide statistical justification for your answer. Assume <span class="math inline">\alpha=0.05</span>.</p>
 <!-- pretend that I do not know how to read or interpret
      R output; you must give a verbal response here -- I
      want you to tell me what the output means in context -->
-<p>1c. Fill in the following table:</p>
+<p>1d. Fill in the following table:</p>
 <table class="caption-top table">
 <colgroup>
 <col style="width: 26%">
@@ -6241,23 +6260,25 @@ box-shadow: 0 0 0px rgba(0, 0, 0, 0.02);
 </tr>
 </tbody>
 </table>
-<p>1d. Which, if any, are significant predictors of annual sales? You must provide statistical justification for your answers.</p>
+<p>1e. Which, if any, are significant predictors of annual sales? You must provide statistical justification for your answers. Assume <span class="math inline">\alpha=0.05</span>.</p>
 <!-- pretend that I do not know how to read or interpret
      R output; you must give a verbal response here -- I
      want you to tell me what the output means in context -->
-<p><strong>Model 2</strong> (<code>m2</code>)</p>
-<p>Fit a multiple linear regression model predicting annual sales (<em>annual_sales_usd</em>) as a function of the number of client calls per week (<em>client_calls_week</em>), the number of client meetings per week (<em>meetings_week</em>), the number of client-facing emails per week (<em>emails_week</em>), the number of cups of coffee per day (<em>coffee_cups_day</em>), and the time lost to distractions per day (<em>distractions_minutes_day</em>). Call this model <code>m2</code>.</p>
+</section>
+<section id="model-2-m2" class="level2">
+<h2 class="anchored" data-anchor-id="model-2-m2">Model 2 (<code>m2</code>)</h2>
+<p>2a. Fit a multiple linear regression model predicting annual sales (<em>annual_sales_usd</em>) as a function of the number of client calls per week (<em>client_calls_week</em>), the number of client meetings per week (<em>meetings_week</em>), the number of client-facing emails per week (<em>emails_week</em>), the number of cups of coffee per day (<em>coffee_cups_day</em>), and the time lost to distractions per day (<em>distractions_minutes_day</em>). Call this model <code>m2</code>.</p>
 <!-- no actual response is needed for the modeling portion here, just your R output -->
-<p>2a. Based on your output, state the resulting model.</p>
+<p>2b. Based on your output, state the resulting model.</p>
 <!-- below is the basic LaTeX for formatting a regression line; please update it with numbers from your model based on the results above -->
 <p><span class="math display">
-\hat{y} = \beta_0 + \beta_1 x_1 + ... \beta_k x_k
+\hat{y} = \beta_0 + \beta_1 x_1 + ... + \beta_k x_k
 </span></p>
-<p>2b. Is this a significant regression line? You must provide statistical justification for your answer. Assume <span class="math inline">\alpha=0.05</span>.</p>
+<p>2c. Is this a significant regression line? You must provide statistical justification for your answer. Assume <span class="math inline">\alpha=0.05</span>.</p>
 <!-- pretend that I do not know how to read or interpret
      R output; you must give a verbal response here -- I
      want you to tell me what the output means in context -->
-<p>2c. Fill in the following table:</p>
+<p>2d. Fill in the following table:</p>
 <table class="caption-top table">
 <colgroup>
 <col style="width: 27%">
@@ -6299,11 +6320,13 @@ box-shadow: 0 0 0px rgba(0, 0, 0, 0.02);
 </tr>
 </tbody>
 </table>
-<p>2d. Which, if any, are significant predictors of annual sales? You must provide statistical justification for your answers. Assume <span class="math inline">\alpha=0.05</span>.</p>
+<p>2e. Which, if any, are significant predictors of annual sales? You must provide statistical justification for your answers. Assume <span class="math inline">\alpha=0.05</span>.</p>
 <!-- pretend that I do not know how to read or interpret
      R output; you must give a verbal response here -- I
      want you to tell me what the output means in context -->
-<p><strong>Comparing the Models</strong></p>
+</section>
+<section id="comparing-the-models" class="level2">
+<h2 class="anchored" data-anchor-id="comparing-the-models">Comparing the Models</h2>
 <p>3a. Let’s compare the two models side-by-side. Fill in the following table:</p>
 <!-- please copy and paste from your tables above and pick out what you need -->
 <table class="caption-top table">
@@ -6365,7 +6388,9 @@ box-shadow: 0 0 0px rgba(0, 0, 0, 0.02);
 <!-- pretend that I do not know how to read or interpret
      R output; you must give a verbal response here -- I
      want you to tell me what the output means in context -->
-<p><strong>Model Selection</strong></p>
+</section>
+<section id="model-selection" class="level2">
+<h2 class="anchored" data-anchor-id="model-selection">Model Selection</h2>
 <p>4a. Find the <span class="math inline">R_{\text{adj}}^2</span> for each model. What do these values mean?</p>
 <ul>
 <li><p><code>m1</code>:</p></li>
@@ -6400,7 +6425,9 @@ box-shadow: 0 0 0px rgba(0, 0, 0, 0.02);
 <!-- remember to justify your answer -->
 <p>4e. Considering your answers to 4b and 4d, which model will you choose as your final model? Why?</p>
 <!-- remember to justify your answer -->
-<p><strong>Reporting the Final Model</strong></p>
+</section>
+<section id="reporting-the-final-model" class="level2">
+<h2 class="anchored" data-anchor-id="reporting-the-final-model">Reporting the Final Model</h2>
 <p>5a. Using the model chosen in 4e, paste in either the appropriate model summary table (from 1c or 2c).</p>
 <!-- literally -- scroll up, copy the appropriate table, scroll back here, then paste the table :) -->
 <p>5b. Provide formal interpretations for each predictor in the final model. Note that all predictors are shown for completeness; please remove any predictors that do not appear in your final model.</p>
@@ -6411,10 +6438,12 @@ box-shadow: 0 0 0px rgba(0, 0, 0, 0.02);
 <li>coffee cups: <!-- your interpretation here --></li>
 <li>distractions: <!-- your interpretation here --></li>
 </ul>
+<!-- hint: for a 1-unit increase in x.... -->
 <p>5c. Construct an appropriate data visualization to help explain the relationships in your final model. While there is no single “right” answer here, you should consider your audience (…potentially Michael Scott…) and what would be most helpful for them to understand what the math is suggesting. For uniformity (for grading purposes), let’s have annual sales (<em>annual_sales_usd</em>) on the <em>y</em>-axis and number of client meetings (<em>meetings_week</em>) on the <em>x</em>-axis. For predicted values, please plug in the <code>median()</code> value for all other predictors in the model.</p>
 <p>5d. Pretend that you are preparing to meet with Michael Scott to review the analysis results. Summarize the key takeaways from your model and visualization. Remember your audience here – <a href="https://www.youtube.com/watch?v=IBJJrZ5LAVQ">Michael is not a statistician</a>, so you should avoid jargon and technical language. What would be most helpful for him to know to improve sales performance at Dunder Mifflin?</p>
 
 
+</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">

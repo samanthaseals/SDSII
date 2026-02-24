@@ -20,6 +20,40 @@ ul.task-list li input[type="checkbox"] {
 width: 0.8em;
 margin: 0 0.8em 0.2em -1em;  vertical-align: middle;
 }
+
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+{ counter-reset: source-line 0; }
+pre.numberSource code > span
+{ position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+{ content: counter(source-line);
+position: relative; left: -1em; text-align: right; vertical-align: baseline;
+border: none; display: inline-block;
+-webkit-touch-callout: none; -webkit-user-select: none;
+-khtml-user-select: none; -moz-user-select: none;
+-ms-user-select: none; user-select: none;
+padding: 0 4px; width: 4em;
+}
+pre.numberSource { margin-left: 3em; padding-left: 4px; }
+div.sourceCode
+{ }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
 </style>
 
 
@@ -6078,7 +6112,7 @@ box-shadow: 0 0 0px rgba(0, 0, 0, 0.02);
 }</style>
 </head>
 
-<body class="nav-fixed fullcontent">
+<body class="nav-fixed">
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
@@ -6114,7 +6148,18 @@ box-shadow: 0 0 0px rgba(0, 0, 0, 0.02);
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
 <!-- margin-sidebar -->
-    
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#data-management" id="toc-data-management" class="nav-link active" data-scroll-target="#data-management">Data Management</a></li>
+  <li><a href="#constructing-the-model" id="toc-constructing-the-model" class="nav-link" data-scroll-target="#constructing-the-model">Constructing the Model</a></li>
+  <li><a href="#model-assumptions" id="toc-model-assumptions" class="nav-link" data-scroll-target="#model-assumptions">Model Assumptions</a></li>
+  <li><a href="#model-interpretation" id="toc-model-interpretation" class="nav-link" data-scroll-target="#model-interpretation">Model Interpretation</a></li>
+  </ul>
+</nav>
+    </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
@@ -6143,11 +6188,16 @@ box-shadow: 0 0 0px rgba(0, 0, 0, 0.02);
 </header>
 
 
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ssstats)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(broom)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
 <p>After the success of Michael’s “Sales Summit Scorecard,” corporate decides to expand the analysis to understand structural differences across employees. This time, they collect a one-time snapshot of sales employees across multiple Dunder Mifflin branches, focusing on how role structure and branch culture relate to sales performance.</p>
-<p>Each row in the dataset represents one employee. All variables summarize employee behavior and performance over the same time period. In the <u><b>week2.csv</b></u> data file, you will find the following variables:</p>
+<p>Each row in the dataset represents one employee. All variables summarize employee behavior and performance over the same time period. In the <u><b>week2.csv</b></u> data file (yes, we are reusing last week’s data), you will find the following variables:</p>
 <ul>
 <li><em>annual_sales_usd</em>: annual sales for the employee (USD),</li>
-<li><em>sale_role</em>: sales role (Inside vs. Outside),</li>
+<li><em>sales_role</em>: sales role (Inside vs. Outside),</li>
 <li><em>branch</em>: branch location (Scranton, Stamford, Utica, Albany),</li>
 <li><em>client_calls_week</em>: average number of client calls per week,</li>
 <li><em>meetings_week</em>: average number of client meetings per week,</li>
@@ -6159,16 +6209,19 @@ box-shadow: 0 0 0px rgba(0, 0, 0, 0.02);
 <li><em>distractions_minutes_day</em>: average minutes/day lost to distractions (pranks, “meetings,” etc.), and</li>
 <li><em>morale_score</em>: morale score (0–10) from anonymous internal survey.</li>
 </ul>
-<p><strong>Data Management</strong></p>
+<section id="data-management" class="level2">
+<h2 class="anchored" data-anchor-id="data-management">Data Management</h2>
 <p>0a. Download the data from Canvas and import it to R.</p>
 <p>0b. Examine what is contained in the <em>sales_role</em> variable by producing a frequency table.</p>
 <p>0c. Examine what is contained in the <em>branch</em> variable by producing a frequency table.</p>
 <p>0d. Find summary statistics (mean and sd) for the continuous predictor variables in the dataset. Split this by <em>branch</em>.</p>
-<p><strong>Constructing the Model</strong></p>
+</section>
+<section id="constructing-the-model" class="level2">
+<h2 class="anchored" data-anchor-id="constructing-the-model">Constructing the Model</h2>
 <p>1a. Fit a multiple linear regression model predicting annual sales (<em>annual_sales_usd</em>) as a function of the number of client calls per week (<em>client_calls_week</em>), the number of client meetings per week (<em>meetings_week</em>), and the branch (<em>branch</em>; use Scranton as the reference group). Call this model <code>m1</code>.</p>
 <p>1b. Based on your output, state the resulting model.</p>
 <p><span class="math display">
-\hat{y} = \beta_0 + \beta_1 x_1 + ... \beta_k x_k
+\hat{y} = \beta_0 + \beta_1 x_1 + ... + \beta_k x_k
 </span></p>
 <p>1c. Is this a significant regression line? You must provide statistical justification for your answer. Assume <span class="math inline">\alpha=0.05</span>.</p>
 <p>1d. Fill in the following table:</p>
@@ -6214,11 +6267,15 @@ box-shadow: 0 0 0px rgba(0, 0, 0, 0.02);
 </tbody>
 </table>
 <p>1e. Which, if any, are significant predictors of annual sales? You must provide statistical justification for your answers. Assume <span class="math inline">\alpha=0.05</span>.</p>
-<p><strong>Model Assumptions</strong></p>
+</section>
+<section id="model-assumptions" class="level2">
+<h2 class="anchored" data-anchor-id="model-assumptions">Model Assumptions</h2>
 <p>2a. State the assumptions on the linear model.</p>
 <p>2b. Construct the appropriate graph(s) to check assumptions listed in 2a.</p>
 <p>2c. Do we meet the assumptions for the linear model? Are we okay to proceed with statistical inference?</p>
-<p><strong>Model Interpretation</strong></p>
+</section>
+<section id="model-interpretation" class="level2">
+<h2 class="anchored" data-anchor-id="model-interpretation">Model Interpretation</h2>
 <p>3a. Provide formal interpretations for each predictor in the model.</p>
 <ul>
 <li>client calls: <!-- your interpretation here --></li>
@@ -6232,6 +6289,7 @@ box-shadow: 0 0 0px rgba(0, 0, 0, 0.02);
 <p>3d. Pretend that you are preparing to meet with Michael Scott to review the analysis results. Summarize the key takeaways from your model and visualization. Remember your audience here – <a href="https://www.youtube.com/watch?v=IBJJrZ5LAVQ">Michael is not a statistician</a>, so you should avoid jargon and technical language. What would be most helpful for him to know to improve sales performance at Dunder Mifflin? What has changed from last week’s analysis?</p>
 
 
+</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
