@@ -72,7 +72,7 @@ $$\ln\left( y \right) = \beta_0 + \beta_1 x_1 + ... + \beta_k x_k$$
     
 - Poisson regression assumes that the mean and variance of the count variable are equal (equidispersion).
 
-    - When we have overdispersion (mean > variance), the negative binomial regression can be a better fit.
+    - When we have overdispersion (variance > mean), the negative binomial regression can be a better fit.
     
 - Negative binomial regression includes an additional parameter, $\theta$, to account for overdispersion.
 
@@ -132,7 +132,7 @@ var(dataset_name$count_variable)
     
 - Another way to eyeball: histogram.
 
-    - We will see very skewed data if the mean > variance.
+    - We will see very skewed data if the variance > mean.
 
 ```{r}
 #| eval: false

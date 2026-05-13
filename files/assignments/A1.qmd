@@ -9,6 +9,7 @@ execute:
 format: 
   html:
     df-print: paged
+    toc: true
     self-contained: true
     html-math-method: katex
     code-fold: false
@@ -20,6 +21,7 @@ editor: source
 ```{r setup}	
 library(tidyverse)
 library(ssstats)
+library(broom)
 ```
 
 Corporate is hosting a "Dunder Mifflin Sales Summit," and Michael Scott insists Scranton should look elite. HQ collects a one-time snapshot of performance and workstyle metrics for a large group of sales employees across multiple branches (Scranton, Stamford, Utica, Albany, etc.). Each row is one employee, measured during the same month (i.e., this is independent data). In the <u><b>week1.csv</b></u> data file, you will find the following variables:
@@ -33,20 +35,19 @@ Corporate is hosting a "Dunder Mifflin Sales Summit," and Michael Scott insists 
 - *crm_minutes_day*: average minutes/day spent in CRM,
 - *coffee_cups_day*: average cups of coffee per day,
 - *distractions_minutes_day*: average minutes/day lost to distractions (pranks, "meetings," etc.),
-- *morale_score*: morale score (0–10) from anonymous internal survey, and
-- *printer_jams_week*: average printer jams per week (yes, they tracked it).
+- *morale_score*: morale score (0–10) from anonymous internal survey.
 
-**Data Management**
+## Data Management
 
-Download the data from Canvas and import it to R.
+0a. Download the data from Canvas and import it to R OR import it from GitHub.
 
 ```{r}
 
 ```
 
-**Model 1** (`m1`)
+## Model 1 (`m1`)
 
-Fit a multiple linear regression model predicting annual sales (*annual_sales_usd*) as a function of the number of client calls per week (*client_calls_week*), the number of client meetings per week (*meetings_week*), and the number of client-facing emails per week (*emails_week*). Call this model `m1`.
+1a. Fit a multiple linear regression model predicting annual sales (*annual_sales_usd*) as a function of the number of client calls per week (*client_calls_week*), the number of client meetings per week (*meetings_week*), and the number of client-facing emails per week (*emails_week*). Call this model `m1`.
 
 ```{r}
 
@@ -54,25 +55,40 @@ Fit a multiple linear regression model predicting annual sales (*annual_sales_us
 
 <!-- no actual response is needed for the modeling portion here, just your R output -->
 
-1a. Based on your output, state the resulting model. 
+1b. Based on your output, state the resulting model. 
 
 <!-- below is the basic LaTeX for formatting a regression line; please update it with numbers from your model based on the results above -->
 
 $$
-\hat{y} = \beta_0 + \beta_1 x_1 + ... \beta_k x_k
+\hat{y} = \beta_0 + \beta_1 x_1 + ... + \beta_k x_k
 $$
 
-1b. Is this a significant regression line? You must provide statistical justification for your answer.
+1c. Is this a significant regression line? You must provide statistical justification for your answer. Assume $\alpha=0.05$.
 
 ```{r}
 
 ```
 
-<!-- pretend that I do not know how to read or interpret
-     R output; you must give a verbal response here -- I
-     want you to tell me what the output means in context -->
+**Hypotheses**:
+
+- $H_0:$
+- $H_1:$
+
+**Test Statistic and $p$-value**
+
+- $statistic =$ <!-- please replace the word "statistic" with the type of test statistic you have (e.g., F, t, etc.) -->
+- $p=$
+
+**Rejection Region**
+
+- Reject $H_0$ if ...
+
+**Conclusion and Interpretation**
+
+- Reject or fail to reject $H_0$. <!-- pick the appropriate one... do not leave as is -->
+- There is or is not sufficient evidence to conclude... <!-- pick the appropriate choice & write the conclusion in the problem's context -->
      
-1c. Fill in the following table:
+1d. Fill in the following table:
 
 | Predictor          | $\hat{\beta}_i$ (95% CI for $\beta_i$) | *p*-value |
 |--------------------|:-----------------------------------------:|-----------:|
@@ -80,24 +96,86 @@ $$
 | client meetings    |                                         |           |
 | client emails      |                                         |           |
 
-```{r}
-
-```
-
-1d. Which, if any, are significant predictors of annual sales? You must provide statistical justification for your answers.
+<!-- note that you must fill in the above table!
+- the second column is the estimated coefficient for that predictor AND the corresponding 95% confidence interval
+- the third column is the *p*-value for that specific term in the model -->
 
 ```{r}
 
 ```
 
-<!-- pretend that I do not know how to read or interpret
-     R output; you must give a verbal response here -- I
-     want you to tell me what the output means in context -->
+1e. Which, if any, are significant predictors of annual sales? You must provide statistical justification for your answers. Assume $\alpha=0.05$.
 
+```{r}
 
-**Model 2** (`m2`)
+```
 
-Fit a multiple linear regression model predicting annual sales (*annual_sales_usd*) as a function of the number of client calls per week (*client_calls_week*), the number of client meetings per week (*meetings_week*), the number of client-facing emails per week (*emails_week*), the number of cups of coffee per day (*coffee_cups_day*), and the time lost to distractions per day (*distractions_minutes_day*). Call this model `m2`.
+*Client Calls*
+
+**Hypotheses**:
+
+- $H_0:$
+- $H_1:$
+
+**Test Statistic and $p$-value**
+
+- $statistic =$ <!-- please replace the word "statistic" with the type of test statistic you have (e.g., F, t, etc.) -->
+- $p=$
+
+**Rejection Region**
+
+- Reject $H_0$ if ...
+
+**Conclusion and Interpretation**
+
+- Reject or fail to reject $H_0$. <!-- pick the appropriate one... do not leave as is -->
+- There is or is not sufficient evidence to conclude... <!-- pick the appropriate choice & write the conclusion in the problem's context -->
+
+*Client Meetings*
+
+**Hypotheses**:
+
+- $H_0:$
+- $H_1:$
+
+**Test Statistic and $p$-value**
+
+- $statistic =$ <!-- please replace the word "statistic" with the type of test statistic you have (e.g., F, t, etc.) -->
+- $p=$
+
+**Rejection Region**
+
+- Reject $H_0$ if ...
+
+**Conclusion and Interpretation**
+
+- Reject or fail to reject $H_0$. <!-- pick the appropriate one... do not leave as is -->
+- There is or is not sufficient evidence to conclude... <!-- pick the appropriate choice & write the conclusion in the problem's context -->
+
+*Client Emails*
+
+**Hypotheses**:
+
+- $H_0:$
+- $H_1:$
+
+**Test Statistic and $p$-value**
+
+- $statistic =$ <!-- please replace the word "statistic" with the type of test statistic you have (e.g., F, t, etc.) -->
+- $p=$
+
+**Rejection Region**
+
+- Reject $H_0$ if ...
+
+**Conclusion and Interpretation**
+
+- Reject or fail to reject $H_0$. <!-- pick the appropriate one... do not leave as is -->
+- There is or is not sufficient evidence to conclude... <!-- pick the appropriate choice & write the conclusion in the problem's context -->
+
+## Model 2 (`m2`)
+
+2a. Fit a multiple linear regression model predicting annual sales (*annual_sales_usd*) as a function of the number of client calls per week (*client_calls_week*), the number of client meetings per week (*meetings_week*), the number of client-facing emails per week (*emails_week*), the number of cups of coffee per day (*coffee_cups_day*), and the time lost to distractions per day (*distractions_minutes_day*). Call this model `m2`.
 
 ```{r}
 
@@ -105,25 +183,40 @@ Fit a multiple linear regression model predicting annual sales (*annual_sales_us
 
 <!-- no actual response is needed for the modeling portion here, just your R output -->
 
-2a. Based on your output, state the resulting model. 
+2b. Based on your output, state the resulting model. 
 
 <!-- below is the basic LaTeX for formatting a regression line; please update it with numbers from your model based on the results above -->
 
 $$
-\hat{y} = \beta_0 + \beta_1 x_1 + ... \beta_k x_k
+\hat{y} = \beta_0 + \beta_1 x_1 + ... + \beta_k x_k
 $$
 
-2b. Is this a significant regression line? You must provide statistical justification for your answer.  Assume $\alpha=0.05$.
+2c. Is this a significant regression line? You must provide statistical justification for your answer.  Assume $\alpha=0.05$.
 
 ```{r}
 
 ```
 
-<!-- pretend that I do not know how to read or interpret
-     R output; you must give a verbal response here -- I
-     want you to tell me what the output means in context -->
+**Hypotheses**:
+
+- $H_0:$
+- $H_1:$
+
+**Test Statistic and $p$-value**
+
+- $statistic =$ <!-- please replace the word "statistic" with the type of test statistic you have (e.g., F, t, etc.) -->
+- $p=$
+
+**Rejection Region**
+
+- Reject $H_0$ if ...
+
+**Conclusion and Interpretation**
+
+- Reject or fail to reject $H_0$. <!-- pick the appropriate one... do not leave as is -->
+- There is or is not sufficient evidence to conclude... <!-- pick the appropriate choice & write the conclusion in the problem's context -->
      
-2c. Fill in the following table:
+2d. Fill in the following table:
 
 | Predictor          | $\hat{\beta}_i$ (95% CI for $\beta_i$) | *p*-value |
 |--------------------|:---------------------------------------:|-----------:|
@@ -133,21 +226,126 @@ $$
 | coffee cups       |                                         |           |
 | distractions      |                                         |           |
 
-```{r}
-
-```
-
-2d. Which, if any, are significant predictors of annual sales? You must provide statistical justification for your answers. Assume $\alpha=0.05$.
+<!-- note that you must fill in the above table!
+- the second column is the estimated coefficient for that predictor AND the corresponding 95% confidence interval
+- the third column is the *p*-value for that specific term in the model -->
 
 ```{r}
 
 ```
 
-<!-- pretend that I do not know how to read or interpret
-     R output; you must give a verbal response here -- I
-     want you to tell me what the output means in context -->
+2e. Which, if any, are significant predictors of annual sales? You must provide statistical justification for your answers. Assume $\alpha=0.05$.
 
-**Comparing the Models**
+```{r}
+
+```
+
+*Client Calls*
+
+**Hypotheses**:
+
+- $H_0:$
+- $H_1:$
+
+**Test Statistic and $p$-value**
+
+- $statistic =$ <!-- please replace the word "statistic" with the type of test statistic you have (e.g., F, t, etc.) -->
+- $p=$
+
+**Rejection Region**
+
+- Reject $H_0$ if ...
+
+**Conclusion and Interpretation**
+
+- Reject or fail to reject $H_0$. <!-- pick the appropriate one... do not leave as is -->
+- There is or is not sufficient evidence to conclude... <!-- pick the appropriate choice & write the conclusion in the problem's context -->
+
+*Client Meetings*
+
+**Hypotheses**:
+
+- $H_0:$
+- $H_1:$
+
+**Test Statistic and $p$-value**
+
+- $statistic =$ <!-- please replace the word "statistic" with the type of test statistic you have (e.g., F, t, etc.) -->
+- $p=$
+
+**Rejection Region**
+
+- Reject $H_0$ if ...
+
+**Conclusion and Interpretation**
+
+- Reject or fail to reject $H_0$. <!-- pick the appropriate one... do not leave as is -->
+- There is or is not sufficient evidence to conclude... <!-- pick the appropriate choice & write the conclusion in the problem's context -->
+
+*Client Emails*
+
+**Hypotheses**:
+
+- $H_0:$
+- $H_1:$
+
+**Test Statistic and $p$-value**
+
+- $statistic =$ <!-- please replace the word "statistic" with the type of test statistic you have (e.g., F, t, etc.) -->
+- $p=$
+
+**Rejection Region**
+
+- Reject $H_0$ if ...
+
+**Conclusion and Interpretation**
+
+- Reject or fail to reject $H_0$. <!-- pick the appropriate one... do not leave as is -->
+- There is or is not sufficient evidence to conclude... <!-- pick the appropriate choice & write the conclusion in the problem's context -->
+
+*Coffee Cups*
+
+**Hypotheses**:
+
+- $H_0:$
+- $H_1:$
+
+**Test Statistic and $p$-value**
+
+- $statistic =$ <!-- please replace the word "statistic" with the type of test statistic you have (e.g., F, t, etc.) -->
+- $p=$
+
+**Rejection Region**
+
+- Reject $H_0$ if ...
+
+**Conclusion and Interpretation**
+
+- Reject or fail to reject $H_0$. <!-- pick the appropriate one... do not leave as is -->
+- There is or is not sufficient evidence to conclude... <!-- pick the appropriate choice & write the conclusion in the problem's context -->
+
+*Distractions*
+
+**Hypotheses**:
+
+- $H_0:$
+- $H_1:$
+
+**Test Statistic and $p$-value**
+
+- $statistic =$ <!-- please replace the word "statistic" with the type of test statistic you have (e.g., F, t, etc.) -->
+- $p=$
+
+**Rejection Region**
+
+- Reject $H_0$ if ...
+
+**Conclusion and Interpretation**
+
+- Reject or fail to reject $H_0$. <!-- pick the appropriate one... do not leave as is -->
+- There is or is not sufficient evidence to conclude... <!-- pick the appropriate choice & write the conclusion in the problem's context -->
+
+## Comparing the Models
 
 3a. Let's compare the two models side-by-side. Fill in the following table:
 
@@ -161,13 +359,15 @@ $$
 | coffee cups        | xxxxxxx | xxxx |             |            |
 | distractions       | xxxxxxx | xxxx |             |            |
 
+<!-- note that you must fill in the above table! -->
+
 3b. How different are the model results? You should compare the coefficients and significance of each predictor across the two models.
 
 <!-- pretend that I do not know how to read or interpret
      R output; you must give a verbal response here -- I
      want you to tell me what the output means in context -->
 
-**Model Selection**
+## Model Selection
 
 4a. Find the $R_{\text{adj}}^2$ for each model. What do these values mean? 
 
@@ -175,11 +375,9 @@ $$
 
 ```
 
-* `m1`:
+- $R_{\text{adj}}^2$ for `m1`:
 
-* `m2`:
-
-<!-- remember to intepret the values for me :) -->
+- $R_{\text{adj}}^2$ for `m2`:
 
 4b. Based on $R_{\text{adj}}^2$, which model is preferred? Why?
 
@@ -196,6 +394,8 @@ $$
 | `m1`  |      |      |
 | `m2`  |      |      |
 
+<!-- note that you must fill in the above table! -->
+
 4d. Based on AIC and BIC, which model is preferred? Why?
 
 <!-- remember to justify your answer -->
@@ -204,9 +404,9 @@ $$
 
 <!-- remember to justify your answer -->
 
-**Reporting the Final Model**
+## Reporting the Final Model 
 
-5a. Using the model chosen in 4e, paste in either the appropriate model summary table (from 1c or 2c).
+5a. Using the model chosen in 4e, paste in either the appropriate model summary table (from 1d or 2d).
 
 <!-- literally -- scroll up, copy the appropriate table, scroll back here, then paste the table :) -->
 
@@ -220,12 +420,14 @@ $$
 * coffee cups: <!-- your interpretation here -->
 * distractions: <!-- your interpretation here -->
 
+<!-- hint: for a 1-unit increase in x.... -->
 
-5c. Construct an appropriate data visualization to help explain the relationships in your final model. While there is no single "right" answer here, you should consider your audience (...potentially Michael Scott...) and what would be most helpful for them to understand what the math is suggesting. For uniformity (for grading purposes), let's have annual sales (*annual_sales_usd*) on the *y*-axis and number of client meetings (*meetings_week*) on the *x*-axis. For predicted values, please plug in the `median()` value for all other predictors in the model.
+
+5c. Construct an appropriate data visualization to help explain the relationships in your final model. While there is no single "right" answer here, you should consider your audience (...potentially Michael Scott...) and what would be most helpful for them to understand what the math is suggesting. As the outcome, annual sales (*annual_sales_usd*) should be on the *y*-axis. Pick the predictor you beleive has the strongest relationship with annual sales as the *x*-axis. To then construct predicted values, please plug in the `median()` value of all other predictors.
 
 ```{r}
 
 ```
 
-5d. Pretend that you are preparing to meet with Michael Scott to review the analysis results. Summarize the key takeaways from your model and visualization. Remember your audience here -- [Michael is not a statistician](https://www.youtube.com/watch?v=IBJJrZ5LAVQ), so you should avoid jargon and technical language. What would be most helpful for him to know to improve sales performance at Dunder Mifflin?
+5d. Pretend that you are preparing to meet with Michael Scott to review the analysis results. Remember your audience here -- [Michael is not a statistician](https://www.youtube.com/watch?v=IBJJrZ5LAVQ), so you should avoid jargon and technical language. Write a brief paragraph to go with your visualization that explains the analysis results in plain language and include a suggestion for increasing annual sales. 
 

@@ -9,6 +9,7 @@ execute:
 format: 
   html:
     df-print: paged
+    toc: true
     self-contained: true
     html-math-method: katex
     code-fold: false
@@ -17,12 +18,18 @@ format:
 editor: source
 ---
 
+```{r setup}
+library(tidyverse)
+library(ssstats)
+library(broom)
+```
+
 After the success of Michael's "Sales Summit Scorecard," corporate decides to expand the analysis to understand structural differences across employees. This time, they collect a one-time snapshot of sales employees across multiple Dunder Mifflin branches, focusing on how role structure and branch culture relate to sales performance.
 
-Each row in the dataset represents one employee. All variables summarize employee behavior and performance over the same time period. In the <u><b>week2.csv</b></u> data file, you will find the following variables:
+Each row in the dataset represents one employee. All variables summarize employee behavior and performance over the same time period. In the <u><b>week2.csv</b></u> data file (yes, we are reusing last week's data), you will find the following variables:
 
 - *annual_sales_usd*: annual sales for the employee (USD),
-- *sale_role*: sales role (Inside vs. Outside),
+- *sales_role*: sales role (Inside vs. Outside),
 - *branch*: branch location (Scranton, Stamford, Utica, Albany),
 - *client_calls_week*: average number of client calls per week,
 - *meetings_week*: average number of client meetings per week,
@@ -35,33 +42,33 @@ Each row in the dataset represents one employee. All variables summarize employe
 - *morale_score*: morale score (0–10) from anonymous internal survey.
 
 
-**Data Management**
+## Data Management
 
-0a. Download the data from Canvas and import it to R.
-
-```{r}
-
-```
-
-0b. Examine what is contained in the *sales_role* variable by producing a frequency table.
+0a. Download the data from Canvas and import it to R OR import it from GitHub.
 
 ```{r}
 
 ```
 
-0c. Examine what is contained in the *branch* variable by producing a frequency table.
+0b. Examine what is contained in the *branch* variable by producing a frequency table.
 
 ```{r}
 
 ```
 
-0d. Find summary statistics (mean and sd) for the continuous predictor variables in the dataset. Split this by *branch*.
+<!-- 
+if you do not know how to find summary statistics in R, please see this lecture 
+from my Biostatistics course: 
+https://samanthaseals.github.io/STA4173Fa25/files/slides/01-2-estimation-in-R.html
+-->
+
+0c. Find summary statistics (mean and sd) for the continuous predictor variables in the dataset. Split this by *branch*.
 
 ```{r}
 
 ```
 
-**Constructing the Model**
+## Constructing the Model
 
 1a. Fit a multiple linear regression model predicting annual sales (*annual_sales_usd*) as a function of the number of client calls per week (*client_calls_week*), the number of client meetings per week (*meetings_week*), and the branch (*branch*; use Scranton as the reference group). Call this model `m1`.
 
@@ -71,8 +78,10 @@ Each row in the dataset represents one employee. All variables summarize employe
 
 1b. Based on your output, state the resulting model. 
 
+<!-- below is the basic LaTeX for formatting a regression line; please update it with numbers from your model based on the results above -->
+
 $$
-\hat{y} = \beta_0 + \beta_1 x_1 + ... \beta_k x_k
+\hat{y} = \beta_0 + \beta_1 x_1 + ... + \beta_k x_k
 $$
 
 1c. Is this a significant regression line? You must provide statistical justification for your answer. Assume $\alpha=0.05$.
@@ -80,6 +89,25 @@ $$
 ```{r}
 
 ```
+
+**Hypotheses**:
+
+- $H_0:$
+- $H_1:$
+
+**Test Statistic and $p$-value**
+
+- $statistic =$ <!-- please replace the word "statistic" with the type of test statistic you have (e.g., F, t, etc.) -->
+- $p=$
+
+**Rejection Region**
+
+- Reject $H_0$ if ...
+
+**Conclusion and Interpretation**
+
+- Reject or fail to reject $H_0$. <!-- pick the appropriate one... do not leave as is -->
+- There is or is not sufficient evidence to conclude... <!-- pick the appropriate choice & write the conclusion in the problem's context -->
      
 1d. Fill in the following table:
 
@@ -101,7 +129,139 @@ $$
 
 ```
 
-**Model Assumptions**
+*Client Calls*
+
+**Hypotheses**:
+
+- $H_0:$
+- $H_1:$
+
+**Test Statistic and $p$-value**
+
+- $statistic =$ <!-- please replace the word "statistic" with the type of test statistic you have (e.g., F, t, etc.) -->
+- $p=$
+
+**Rejection Region**
+
+- Reject $H_0$ if ...
+
+**Conclusion and Interpretation**
+
+- Reject or fail to reject $H_0$. <!-- pick the appropriate one... do not leave as is -->
+- There is or is not sufficient evidence to conclude... <!-- pick the appropriate choice & write the conclusion in the problem's context -->
+
+*Client Meetings*
+
+**Hypotheses**:
+
+- $H_0:$
+- $H_1:$
+
+**Test Statistic and $p$-value**
+
+- $statistic =$ <!-- please replace the word "statistic" with the type of test statistic you have (e.g., F, t, etc.) -->
+- $p=$
+
+**Rejection Region**
+
+- Reject $H_0$ if ...
+
+**Conclusion and Interpretation**
+
+- Reject or fail to reject $H_0$. <!-- pick the appropriate one... do not leave as is -->
+- There is or is not sufficient evidence to conclude... <!-- pick the appropriate choice & write the conclusion in the problem's context -->
+
+*Branch*
+
+**Hypotheses**:
+
+- $H_0:$
+- $H_1:$
+
+**Test Statistic and $p$-value**
+
+- $statistic =$ <!-- please replace the word "statistic" with the type of test statistic you have (e.g., F, t, etc.) -->
+- $p=$
+
+**Rejection Region**
+
+- Reject $H_0$ if ...
+
+**Conclusion and Interpretation**
+
+- Reject or fail to reject $H_0$. <!-- pick the appropriate one... do not leave as is -->
+- There is or is not sufficient evidence to conclude... <!-- pick the appropriate choice & write the conclusion in the problem's context -->
+
+1f. Which branches, if any, are significantly different from Scranton? You must provide statistical justification for your answers. Assume $\alpha=0.05$.
+
+```{r}
+
+```
+
+*Albany*
+
+**Hypotheses**:
+
+- $H_0:$
+- $H_1:$
+
+**Test Statistic and $p$-value**
+
+- $statistic =$ <!-- please replace the word "statistic" with the type of test statistic you have (e.g., F, t, etc.) -->
+- $p=$
+
+**Rejection Region**
+
+- Reject $H_0$ if ...
+
+**Conclusion and Interpretation**
+
+- Reject or fail to reject $H_0$. <!-- pick the appropriate one... do not leave as is -->
+- There is or is not sufficient evidence to conclude... <!-- pick the appropriate choice & write the conclusion in the problem's context -->
+
+*Stamford*
+
+**Hypotheses**:
+
+- $H_0:$
+- $H_1:$
+
+**Test Statistic and $p$-value**
+
+- $statistic =$ <!-- please replace the word "statistic" with the type of test statistic you have (e.g., F, t, etc.) -->
+- $p=$
+
+**Rejection Region**
+
+- Reject $H_0$ if ...
+
+**Conclusion and Interpretation**
+
+- Reject or fail to reject $H_0$. <!-- pick the appropriate one... do not leave as is -->
+- There is or is not sufficient evidence to conclude... <!-- pick the appropriate choice & write the conclusion in the problem's context -->
+
+*Utica*
+
+**Hypotheses**:
+
+- $H_0:$
+- $H_1:$
+
+**Test Statistic and $p$-value**
+
+- $statistic =$ <!-- please replace the word "statistic" with the type of test statistic you have (e.g., F, t, etc.) -->
+- $p=$
+
+**Rejection Region**
+
+- Reject $H_0$ if ...
+
+**Conclusion and Interpretation**
+
+- Reject or fail to reject $H_0$. <!-- pick the appropriate one... do not leave as is -->
+- There is or is not sufficient evidence to conclude... <!-- pick the appropriate choice & write the conclusion in the problem's context -->
+
+## Model Assumptions
 
 2a. State the assumptions on the linear model.
 
@@ -113,31 +273,34 @@ $$
 
 ```
 
-2c. Do we meet the assumptions for the linear model? Are we okay to proceed with statistical inference?
+<!-- make sure that you follow only the methods outlined in lecture -->
+
+2c. Do we meet the assumptions for the linear model? Why or why not? Does this mean our inference is valid or invalid?
 
 
-
-**Model Interpretation**
+## Model Interpretation
 
 3a. Provide formal interpretations for each predictor in the model. 
 
-* client calls: <!-- your interpretation here --> 
-* client meetings: <!-- your interpretation here -->
-* branch (Stamford): <!-- your interpretation here -->
-* branch (Utica): <!-- your interpretation here -->
-* branch (Albany): <!-- your interpretation here -->
+- client calls: <!-- your interpretation here --> 
+- client meetings: <!-- your interpretation here -->
+- branch (Stamford): <!-- your interpretation here -->
+- branch (Utica): <!-- your interpretation here -->
+- branch (Albany): <!-- your interpretation here -->
 
-3b. Find the adjusted $R^2$ for the model. What does this mean in context?
-
-
-
-3c. Construct an appropriate data visualization to help explain the relationships in your final model.For uniformity (for grading purposes), let's again have annual sales (*annual_sales_usd*) on the *y*-axis, the number of client meetings (*meetings_week*) on the *x*-axis, and the lines defined by the branch (*branch*). For predicted values, please plug plausible values for the other predictors in the model.
+3b. Find the adjusted $R^2$ for the model. What does this mean in the problem's context?
 
 ```{r}
 
 ```
 
-3d. Pretend that you are preparing to meet with Michael Scott to review the analysis results. Summarize the key takeaways from your model and visualization. Remember your audience here -- [Michael is not a statistician](https://www.youtube.com/watch?v=IBJJrZ5LAVQ), so you should avoid jargon and technical language. What would be most helpful for him to know to improve sales performance at Dunder Mifflin? What has changed from last week's analysis?
+3c. Construct an appropriate data visualization to help explain the relationships in your final model. While there is no single "right" answer here, you should consider your audience (...potentially Michael Scott...) and what would be most helpful for them to understand what the math is suggesting. As the outcome, annual sales (*annual_sales_usd*) should be on the *y*-axis. Pick the continuous predictor you beleive has the strongest relationship with annual sales as the *x*-axis. There should be a predicted line for every branch. To then construct predicted values, please plug in the `median()` value of all other continuous predictors.
+
+```{r}
+
+```
+
+3d. Pretend that you are preparing to meet with Michael Scott to review the analysis results. Remember your audience here -- [Michael is not a statistician](https://www.youtube.com/watch?v=IBJJrZ5LAVQ), so you should avoid jargon and technical language. Write a brief paragraph to go with your visualization that explains the analysis results in plain language and include a suggestion for increasing annual sales. 
 
 
 

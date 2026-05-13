@@ -1,5 +1,384 @@
 ---
-title: "A6"
-format: html
+title: "Assignment 7"
+author: "Your Name Here"
+execute:
+  echo: true
+  warning: false
+  message: false
+  error: true
+format: 
+  html:
+    df-print: paged
+    self-contained: true
+    html-math-method: katex
+    code-fold: false
+    code-tools: false
+    incremental: false
+    toc: true
+editor: source
 ---
+
+```{r setup}
+library(tidyverse)
+library(ssstats)
+library(broom)
+```
+
+## Introduction
+
+This assignment uses data from a citywide research project conducted in Zootopia. Researchers collected one-day observational records from 1,500 adult residents across multiple districts of Zootopia to study how demographic characteristics, commuting patterns, and work conditions relate to income, stress, well-being, productivity, and daily behaviors. Each row of the dataset represents a single resident observed over one day. 
+
+This dataset contains the following variables:
+
+- *species_size*: size of resident
+- *district*: district of residence
+- *age*: resident's age (years)
+- *commute*: resident's commute to work (minutes)
+- *public_service*: 1 = works in city services, 0 = does not
+- *weekend*: 1 = weekend day, 0 = week day
+- *income*: resident's daily income
+- *stress*: resident's stress index
+- *wellbeing*: resident's wellbeing score
+- *complaint*: 1 = filed a complaint today, 0 = did not
+- *transport*: resident's primary travel mode
+- *snacks_purchased*: how many snacks the resident purchased that day
+
+## Data Exploration
+
+0a. Import the dataset into R.
+
+```{r}
+
+```
+
+0b. Explore *species_size*. What kind of variable is it? What is its distribution like?
+
+```{r}
+
+```
+
+- Variable type: 
+
+- Description of distribution:
+
+0c. Explore *district*. What kind of variable is it? What is its distribution like?
+
+```{r}
+
+```
+
+- Variable type: 
+
+- Description of distribution:
+
+0d. Explore *age*. What kind of variable is it? What is its distribution like?
+
+```{r}
+
+```
+
+- Variable type: 
+
+- Description of distribution:
+
+0e. Explore *commute*. What kind of variable is it? What is its distribution like?
+
+```{r}
+
+```
+
+- Variable type: 
+
+- Description of distribution:
+
+0f. Explore *public_service*. What kind of variable is it? What is its distribution like?
+
+```{r}
+
+```
+
+- Variable type: 
+
+- Description of distribution:
+
+0g. Explore *weekend*. What kind of variable is it? What is its distribution like?
+
+```{r}
+
+```
+
+- Variable type: 
+
+- Description of distribution:
+
+0h. Explore *income*. What kind of variable is it? What is its distribution like?
+
+```{r}
+
+```
+
+- Variable type: 
+
+- Description of distribution:
+
+0i. Explore *stress*. What kind of variable is it? What is its distribution like?
+
+```{r}
+
+```
+
+- Variable type: 
+
+- Description of distribution:
+
+
+0j. Explore *wellbeing*. What kind of variable is it? What is its distribution like?
+
+```{r}
+
+```
+
+- Variable type: 
+
+- Description of distribution:
+
+
+0k. Explore *complaint*. What kind of variable is it? What is its distribution like?
+
+```{r}
+
+```
+
+- Variable type: 
+
+- Description of distribution:
+
+
+0l. Explore *transport*. What kind of variable is it? What is its distribution like?
+
+```{r}
+
+```
+
+- Variable type: 
+
+- Description of distribution:
+
+0m. Explore *snacks_purchased*. What kind of variable is it? What is its distribution like?
+
+```{r}
+
+```
+
+- Variable type: 
+
+- Description of distribution:
+
+## Research Question 1
+
+Transportation planners record each resident's primary mode of travel for the day. The research team wants to know how  resident characteristics relate to transportation choices.
+
+Consider modeling transportation choice as a function of species size, district, and income.
+
+1a. What distribution is appropriate for this model? You must justify your answer statistically, including any assumption checking.
+
+```{r}
+
+```
+
+1b. Fit a model to predict the specified outcome using the specified predictors. 
+
+```{r}
+
+```
+
+1c. Plan an appropriate data visualization for the model you constructed. Remember that the visualization should help you explain the model results.
+
+- What is on the *y*-axis? 
+
+- What is on the *x*-axis?
+
+- What will the line(s) represent?
+
+1d. Construct the visualization you planned in 1c. Remember to include both a scatterplot of the original observations and at least one line representing the fitted model.
+
+```{r}
+
+```
+
+## Research Question 2
+
+Economic researchers in Zootopia are studying daily income earned by residents. Income is measured in city credits and recorded as a numeric value for each resident-day. The research team wants to explore how demographic and commuting characteristics relate to income. 
+
+Consider modeling income as a function of species size, district, mode of transportation, and commute time.
+
+2a. What distribution is appropriate for this model? You must justify your answer statistically, including any assumption checking.
+
+```{r}
+
+```
+
+2b. Fit a model to predict the specified outcome using the specified predictors. 
+
+```{r}
+
+```
+
+2c. Plan an appropriate data visualization for the model you constructed. Remember that the visualization should help you explain the model results.
+
+- What is on the *y*-axis? 
+
+- What is on the *x*-axis?
+
+- What will the line(s) represent?
+
+2d. Construct the visualization you planned in 2c. Remember to include both a scatterplot of the original observations and at least one line representing the fitted model.
+
+```{r}
+
+```
+
+## Research Question 3
+
+Nutrition researchers track the number of snacks purchased by each resident. Snack counts vary widely across individuals, and some residents purchase many more snacks than average. The research team wants to determine what factors predict snack purchasing behavior.
+
+Consider modeling snacks purchased as a function of species size, district, if it's the weekend, and stress.
+
+3a. What distribution is appropriate for this model? You must justify your answer statistically, including any assumption checking.
+
+```{r}
+
+```
+
+3b. Fit a model to predict the specified outcome using the specified predictors. 
+
+```{r}
+
+```
+
+3c. Plan an appropriate data visualization for the model you constructed. Remember that the visualization should help you explain the model results.
+
+- What is on the *y*-axis? 
+
+- What is on the *x*-axis?
+
+- What will the line(s) represent?
+
+3d. Construct the visualization you planned in 3c. Remember to include both a scatterplot of the original observations and at least one line representing the fitted model.
+
+```{r}
+
+```
+
+## Research Question 4
+
+Public health officials are monitoring a daily stress index designed to measure how stressful a resident's day was.  The research team wants to explore how demographic characteristics relate to stress. 
+
+Consider modeling stress as a function of species size, district, income, and mode of transport.
+
+4a. What distribution is appropriate for this model? You must justify your answer statistically, including any assumption checking.
+
+```{r}
+
+```
+
+4b. Fit a model to predict the specified outcome using the specified predictors. 
+
+```{r}
+
+```
+
+4c. Plan an appropriate data visualization for the model you constructed. Remember that the visualization should help you explain the model results.
+
+- What is on the *y*-axis? 
+
+- What is on the *x*-axis?
+
+- What will the line(s) represent?
+
+4d. Construct the visualization you planned in 4c. Remember to include both a scatterplot of the original observations and at least one line representing the fitted model.
+
+```{r}
+
+```
+
+## Research Question 5
+
+City administrators track whether a resident reported an incident or complaint during the day. The research team wants to determine what factors influence if a resident reports an incident.
+
+Consider modeling incident reporting as a function of district, income, and if the day is a weekend.
+
+5a. What distribution is appropriate for this model? You must justify your answer statistically, including any assumption checking.
+
+```{r}
+
+```
+
+5b. Fit a model to predict the specified outcome using the specified predictors. 
+
+```{r}
+
+```
+
+5c. Plan an appropriate data visualization for the model you constructed. Remember that the visualization should help you explain the model results.
+
+- What is on the *y*-axis? 
+
+- What is on the *x*-axis?
+
+- What will the line(s) represent?
+
+5d. Construct the visualization you planned in 5c. Remember to include both a scatterplot of the original observations and at least one line representing the fitted model.
+
+```{r}
+
+```
+
+## Research Question 6
+
+Residents completed a brief survey rating their overall well-being at the end of the day. Scores are scaled between 0 and 1, where values closer to 1 indicate greater well-being. The team wants to determine how daily conditions and demographics influence resident well-being.
+
+Consider modeling well-being as a function of species size, district, income, stress, and public service.
+
+6a. What distribution is appropriate for this model? You must justify your answer statistically, including any assumption checking.
+
+```{r}
+
+```
+
+6b. Fit a model to predict the specified outcome using the specified predictors. 
+
+```{r}
+
+```
+
+6c. Plan an appropriate data visualization for the model you constructed. Remember that the visualization should help you explain the model results.
+
+- What is on the *y*-axis? 
+
+- What is on the *x*-axis?
+
+- What will the line(s) represent?
+
+6d. Construct the visualization you planned in 6c. Remember to include both a scatterplot of the original observations and at least one line representing the fitted model.
+
+```{r}
+
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 

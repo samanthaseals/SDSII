@@ -1,5 +1,0 @@
----
-title: "W5_L2_ordinal_logistic"
-format: html
----
-
