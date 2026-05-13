@@ -37,7 +37,7 @@ Management is interested in two different outcomes:
 - *promotion_considered*: whether the employee is being considered for a promotion (1 = yes, 0 = no)
 - *performance_review*: the employee's performance review rating, which can be "Outstanding", "Adequate", or "Disaster"
 
-## Data Management and Exploration
+## Data Management
 
 0a. Download the data from Canvas and import it to R.
 
@@ -47,46 +47,29 @@ Management is interested in two different outcomes:
 
 <!-- no actual response is needed here, just your R output -->
 
-0b. Construct a frequency table for the first outcome, whether the employee is being considered for a promotion (*promotion_considered*).
-
-```{r}
-
-```
-
-<!-- no actual response is needed here, just your R output -->
-
-0c. Based on the frequency table in 0b, what modeling approach do you feel is most appropriate for modeling the outcome variable? Why?
-
-
-0d. Based on the results from 0b and distribution choice in 0c, perform any additional data management that needs to be done prior to modeling. Explain why this data management was or was not necessary.
-
-<!-- if you do not need data management, you do not need this code chunk -->
-```{r}
-
-```
-
-0e. Construct the frequency table for the second outcome, the employee's performance review rating (*performance_review*).
-
-```{r}
-
-```
-
-<!-- no actual response is needed here, just your R output -->
-
-0f. Based on the frequency table results from 0e what modeling approach do you feel is most appropriate for modeling the outcome variable?
-
-
-0g. Based on the results from 0e and distribution choice in 0f, perform any additional data management that needs to be done prior to modeling. Explain why this data management was or was not necessary.
-
-<!-- if you do not need data management, you do not need this code chunk -->
-```{r}
-
-```
-
-
 ## Model 1 (`m1`)
 
-1a. Let's fit a multiple regression model predicting the probability that an employee is considered for promotion (*promotion_considered*) as a function of number of sales calls (*sales_call_per_day*), number of hours at desk (*hours_at_desk*), and if Michael has recently hung a new motivational poster (*motivational_poster*; 1 = yes, 0 = no). Call this model `m1`.
+Our goal is to fit a multiple regression model predicting the probability that an employee is considered for promotion (*promotion_considered*) as a function of number of sales calls (*sales_call_per_day*), number of hours at desk (*hours_at_desk*), and if Michael has recently hung a new motivational poster (*motivational_poster*; 1 = yes, 0 = no).
+
+1a. Construct a frequency table for if the employee is being considered for a promotion (*promotion_considered*).
+
+```{r}
+
+```
+
+<!-- no actual response is needed here, just your R output -->
+
+1b. Based on the frequency table in 1a, what modeling approach do you feel is most appropriate for modeling the outcome variable? Why?
+
+
+1c. Based on the results from 1a and distribution choice in 1b, perform any additional data management that needs to be done prior to modeling. Explain why this data management was or was not necessary.
+
+<!-- if you do not need data management, you do not need this code chunk -->
+```{r}
+
+```
+
+1d. Construct the model described in the Model 1 set up. Call this model `m1`.
 
 ```{r}
 
@@ -94,7 +77,7 @@ Management is interested in two different outcomes:
 
 <!-- no actual response is needed for the modeling portion here, just your R output -->
 
-1b. Based on your output, state the resulting model. 
+1e. Based on your output, state the resulting model. 
 
 <!-- below is the basic LaTeX for formatting a regression line; please update it with numbers from your model based on the results above -->
 
@@ -104,7 +87,7 @@ $$
 
 <!-- imperative for full credit: remove the pieces of the left hand side that you do not need -->
 
-1c. Fill out the following table,
+1f. Fill out the following table,
 
 | Predictor          | $\hat{\text{OR}}_i$ (95% CI for $\text{OR}_i$)  | *p*-value |
 |--------------------|:---------------------------------------:|----------:|
@@ -117,34 +100,140 @@ $$
 
 ```
 
-1d. Is this a significant regression line? You must provide statistical justification for your answer. Assume $\alpha=0.05$.
+1g. Is this a significant regression line? You must provide statistical justification for your answer. Assume $\alpha=0.05$.
 
 ```{r}
 
 ```
 
+**Hypotheses**:
 
-1e. Which, if any, are significant predictors of being up for promotion? You must provide statistical justification for your answers. Assume $\alpha=0.05$.
+- $H_0:$
+- $H_1:$
+
+**Test Statistic and $p$-value**
+
+- $statistic =$ <!-- please replace the word "statistic" with the type of test statistic you have (e.g., F, t, etc.) -->
+- $p=$
+
+**Rejection Region**
+
+- Reject $H_0$ if ...
+
+**Conclusion and Interpretation**
+
+- Reject or fail to reject $H_0$. <!-- pick the appropriate one... do not leave as is -->
+- There is or is not sufficient evidence to conclude... <!-- pick the appropriate choice & write the conclusion in the problem's context -->
+
+
+1h. Which, if any, are significant predictors of being up for promotion? You must provide statistical justification for your answers. Assume $\alpha=0.05$.
 
 ```{r}
 
 ```
 
-1f. Provide formal interpretations for each predictor in the model. 
+*Sales Calls*
 
-* sales calls: <!-- your interpretation here -->
-* hours at desk: <!-- your interpretation here -->
-* motivational poster: <!-- your interpretation here -->
+**Hypotheses**:
 
-1g. Construct an appropriate data visualization to help explain the relationships in your model. For uniformity (for grading purposes), let's have promotion consideration (*promotion_considered*) on the *y*-axis, the number of hours at their desk (*hours_at_desk*) on the *x*-axis, and the lines defined by the presence of a motivational poster (*motivational_poster*). For predicted values, plug in plausible values for other predictors in the model.
+- $H_0:$
+- $H_1:$
+
+**Test Statistic and $p$-value**
+
+- $statistic =$ <!-- please replace the word "statistic" with the type of test statistic you have (e.g., F, t, etc.) -->
+- $p=$
+
+**Rejection Region**
+
+- Reject $H_0$ if ...
+
+**Conclusion and Interpretation**
+
+- Reject or fail to reject $H_0$. <!-- pick the appropriate one... do not leave as is -->
+- There is or is not sufficient evidence to conclude... <!-- pick the appropriate choice & write the conclusion in the problem's context -->
+
+*Hours at Desk*
+
+**Hypotheses**:
+
+- $H_0:$
+- $H_1:$
+
+**Test Statistic and $p$-value**
+
+- $statistic =$ <!-- please replace the word "statistic" with the type of test statistic you have (e.g., F, t, etc.) -->
+- $p=$
+
+**Rejection Region**
+
+- Reject $H_0$ if ...
+
+**Conclusion and Interpretation**
+
+- Reject or fail to reject $H_0$. <!-- pick the appropriate one... do not leave as is -->
+- There is or is not sufficient evidence to conclude... <!-- pick the appropriate choice & write the conclusion in the problem's context -->
+
+*Motivational Poster*
+
+**Hypotheses**:
+
+- $H_0:$
+- $H_1:$
+
+**Test Statistic and $p$-value**
+
+- $statistic =$ <!-- please replace the word "statistic" with the type of test statistic you have (e.g., F, t, etc.) -->
+- $p=$
+
+**Rejection Region**
+
+- Reject $H_0$ if ...
+
+**Conclusion and Interpretation**
+
+- Reject or fail to reject $H_0$. <!-- pick the appropriate one... do not leave as is -->
+- There is or is not sufficient evidence to conclude... <!-- pick the appropriate choice & write the conclusion in the problem's context -->
+
+1i. Provide formal interpretations for each predictor in the model. 
+
+- sales calls: <!-- your interpretation here -->
+- hours at desk: <!-- your interpretation here -->
+- motivational poster: <!-- your interpretation here -->
+
+1j. Construct an appropriate data visualization to help explain the relationships in your model. For uniformity (for grading purposes), let's have promotion consideration (*promotion_considered*) on the *y*-axis, the number of hours at their desk (*hours_at_desk*) on the *x*-axis, and the lines defined by the presence of a motivational poster (*motivational_poster*). For predicted values, plug in plausible values for other predictors in the model.
 
 ```{r}
 
 ```
+
+1k. Pretend that you are preparing to meet with Michael Scott to review the analysis results. Remember your audience here -- [Michael is not a statistician](https://www.youtube.com/watch?v=IBJJrZ5LAVQ), so you should avoid jargon and technical language. Write a brief paragraph to go with your visualization that explains the analysis results in plain language.
+
+
 
 ## Model 2 (`m2`)
 
-2a. Fit a multiple regression model predicting the result of an employee's evaluation (*performance_review*) as a function of number of sales calls (*sales_call_per_day*), number of hours at desk (*hours_at_desk*), and if Michael has recently hung a new motivational poster (*motivational_poster*; 1 = yes, 0 = no). Call this model `m2`.
+Our goal is now to fit a multiple regression model predicting the result of an employee's evaluation (*performance_review*) as a function of number of sales calls (*sales_call_per_day*), number of hours at desk (*hours_at_desk*), and if Michael has recently hung a new motivational poster (*motivational_poster*; 1 = yes, 0 = no). 
+
+2a. Construct the frequency table for the second outcome, the employee's performance review rating (*performance_review*).
+
+```{r}
+
+```
+
+<!-- no actual response is needed here, just your R output -->
+
+2b. Based on the frequency table results from 2a what modeling approach do you feel is most appropriate for modeling the outcome variable?
+
+
+2c. Based on the results from 2a and distribution choice in 2b, perform any additional data management that needs to be done prior to modeling. Explain why this data management was or was not necessary.
+
+<!-- if you do not need data management, you do not need this code chunk -->
+```{r}
+
+```
+
+2d. Construct the model described in the Model 2 set up. Call this model `m2`.
 
 ```{r}
 
@@ -152,7 +241,7 @@ $$
 
 <!-- no actual response is needed for the modeling portion here, just your R output -->
 
-2b. Based on your output, state the resulting models. 
+2e. Based on your output, state the resulting models. 
 
 <!-- below is the basic LaTeX for formatting a regression line; please update it with numbers from your model based on the results above -->
 
@@ -166,113 +255,124 @@ $$
 <!-- imperative for full credit: remove the pieces of the left hand side that you do not need -->
 
 
-2c. Is this a significant regression line? You must provide statistical justification for your answer. Assume $\alpha=0.05$.
+2f. Is this a significant regression line? You must provide statistical justification for your answer. Assume $\alpha=0.05$.
 
 ```{r}
 
 ```
 
+**Hypotheses**:
 
-2d. Which, if any, are significant predictors of evaluation result? You must provide statistical justification for your answers. Assume $\alpha=0.05$.
+- $H_0:$
+- $H_1:$
 
-```{r}
+**Test Statistic and $p$-value**
 
-```
+- $statistic =$ <!-- please replace the word "statistic" with the type of test statistic you have (e.g., F, t, etc.) -->
+- $p=$
 
-2e. Provide formal interpretations for each predictor in the model. 
+**Rejection Region**
 
-- For (group 1) vs. (reference group):
+- Reject $H_0$ if ...
 
-    - sales calls: <!-- your interpretation here -->
-    - hours at desk: <!-- your interpretation here -->
-    - motivational poster: <!-- your interpretation here -->
-    
-- For (group 2) vs. (reference group):
+**Conclusion and Interpretation**
 
-    - sales calls: <!-- your interpretation here -->
-    - hours at desk: <!-- your interpretation here -->
-    - motivational poster: <!-- your interpretation here -->
+- Reject or fail to reject $H_0$. <!-- pick the appropriate one... do not leave as is -->
+- There is or is not sufficient evidence to conclude... <!-- pick the appropriate choice & write the conclusion in the problem's context -->
 
-2f. Construct an appropriate data visualization to help explain the relationships in your model. For uniformity (for grading purposes), let's have some version of evaluation result (*performance_review*) on the *y*-axis, the number of hours at their desk (*hours_at_desk*) on the *x*-axis, and the lines defined by the presence of a motivational poster (*motivational_poster*). For predicted values, plug in plausible values for other predictors in the model.
+2g. Which, if any, are overall significant predictors of evaluation result? You must provide statistical justification for your answers. Assume $\alpha=0.05$.
 
 ```{r}
 
 ```
 
-## Summary
+*Sales Calls*
 
-3. Pick either `m1` or `m2` and summarize your findings for Michael. Be sure to include interpretations of the predictors, significance of the model, and any visualizations you created.
+**Hypotheses**:
 
+- $H_0:$
+- $H_1:$
 
+**Test Statistic and $p$-value**
 
-## Exploration and Research Time!
+- $statistic =$ <!-- please replace the word "statistic" with the type of test statistic you have (e.g., F, t, etc.) -->
+- $p=$
 
-This section is a **bonus** section for undergraduate students, but a **required** section for graduate students.
+**Rejection Region**
 
-4a. Re-fit `m1` using the normal distribution and examine relevant statistical inference. How different are the results?
+- Reject $H_0$ if ...
+
+**Conclusion and Interpretation**
+
+- Reject or fail to reject $H_0$. <!-- pick the appropriate one... do not leave as is -->
+- There is or is not sufficient evidence to conclude... <!-- pick the appropriate choice & write the conclusion in the problem's context -->
+
+*Hours at Desk*
+
+**Hypotheses**:
+
+- $H_0:$
+- $H_1:$
+
+**Test Statistic and $p$-value**
+
+- $statistic =$ <!-- please replace the word "statistic" with the type of test statistic you have (e.g., F, t, etc.) -->
+- $p=$
+
+**Rejection Region**
+
+- Reject $H_0$ if ...
+
+**Conclusion and Interpretation**
+
+- Reject or fail to reject $H_0$. <!-- pick the appropriate one... do not leave as is -->
+- There is or is not sufficient evidence to conclude... <!-- pick the appropriate choice & write the conclusion in the problem's context -->
+
+*Motivational Poster*
+
+**Hypotheses**:
+
+- $H_0:$
+- $H_1:$
+
+**Test Statistic and $p$-value**
+
+- $statistic =$ <!-- please replace the word "statistic" with the type of test statistic you have (e.g., F, t, etc.) -->
+- $p=$
+
+**Rejection Region**
+
+- Reject $H_0$ if ...
+
+**Conclusion and Interpretation**
+
+- Reject or fail to reject $H_0$. <!-- pick the appropriate one... do not leave as is -->
+- There is or is not sufficient evidence to conclude... <!-- pick the appropriate choice & write the conclusion in the problem's context -->
+
+2h. Pick <u>one</u> of the models reported in 2e and provide formal interpretations for each predictor in the model.
+
+- sales calls: <!-- your interpretation here -->
+- hours at desk: <!-- your interpretation here -->
+- motivational poster: <!-- your interpretation here -->
+
+2i. Construct an appropriate data visualization to help explain the relationships in your model. For uniformity (for grading purposes), let's have performance review (*performance_review*) on the *y*-axis, the number of hours at their desk (*hours_at_desk*) on the *x*-axis, and the lines defined by the presence of a motivational poster (*motivational_poster*). For predicted values, plug in plausible values for other predictors in the model.
 
 ```{r}
 
 ```
 
-<!-- hint: for inference, you want to check/compare the overall significance of the line as well as the individual predictors -->
+2j. Pretend that you are preparing to meet with Michael Scott to review the analysis results. Remember your audience here -- [Michael is not a statistician](https://www.youtube.com/watch?v=IBJJrZ5LAVQ), so you should avoid jargon and technical language. Write a brief paragraph to go with your visualization that explains the analysis results in plain language.
 
-4b. Check the assumptions on the normal distribution. Remember to draw a conclusion.
+## Reflection
 
-```{r}
+This section is **required** for graduate students and **optional** for undergraduate students. This section can be written more technically (for Dr. Seals, not Michael Scott), but you should still be explicitly clear in your writing. Please write one paragraph (hard limit) answering each of the following prompts.
 
-```
+<!-- Friends, please note that the prompts below are intentionally open-ended. There is no single "right" answer here, but there are definitely wrong answers. I ask these questions to make you critically think about and synthesize the class material, so the important thing is that you provide a thoughtful, well-reasoned response that demonstrates an appropriate level of understanding of the material.   -->
 
-5a. What is ordinal logistic regression? When is it used?
+3a. Reflect on the modeling decisions you made for Model 1. Why is the modeling approach you chose more appropriate than ordinary linear regression for that outcome? Please consider and address what assumption(s) of linear regression would be violated if you had used it instead.
 
-<!-- unless you have extensive experience in statistical modeling, this question cannot be answered without any research :) zero credit will be awarded for answers without proper citations -->
+3b. Reflect on the modeling decisions you made for Model 2. Why is the modeling approach you chose more appropriate than ordinary linear regression for that outcome? Please consider and address what assumption(s) of linear regression would be violated if you had used it instead.
 
-5b. What is the generic form of the resulting models in ordinal logistic regression?
+3c. Both models use the same set of predictors but different outcomes. Compare the results across Model 1 and Model 2. Are the predictors that were significant in one model also significant in the other? What does this suggest, if anything, about the relationship between being considered for promotion and performance review ratings?
 
-<!-- 
-e.g., in the normal distribution our model was
-$$
-\hat{y} = \hat{\beta}_0 + \hat{\beta}_1 x_1 + ... + \hat{\beta}_k x_k
-$$
--->
-
-<!-- unless you have extensive experience in statistical modeling, this question cannot be answered without any research :) zero credit will be awarded for answers without proper citations -->
-
-5c. What is the difference between ordinal and multinomial logistic regressions? When would you choose one over the other?
-
-<!-- unless you have extensive experience in statistical modeling, this question cannot be answered without any research :) zero credit will be awarded for answers without proper citations -->
-
-6a. Re-fit `m2` using ordinal logistic regression and examine relevant statistical inference. Assume $\alpha=0.05$. How different are the results?
-
-```{r}
-
-```
-
-<!-- hint: for inference, you want to check/compare the overall significance of the line as well as the individual predictors -->
-
-6b. Check the assumptions on ordinal logistic regression. Remember to draw a conclusion.
-
-```{r}
-
-```
-
-<!-- your answer below here -->
-
-<!-- your answer above here -->
-
-<!-- unless you have extensive experience in statistical modeling, this question cannot be answered without any research :) zero credit will be awarded for answers without proper citations -->
-
-<!-- hint: there is a formal test! if you have not found anything, keep looking & adjust your search terms for google :) -->
-
-6c. If you were choosing between ordinal logistic regression and multinomial logistic regression -- which one would you choose? For full credit, you must clearly justify your choice.
-
-```{r}
-
-```
-
-<!-- your answer below here -->
-
-<!-- your answer above here -->
-
-<!-- note: you may or may not need the code chunk. 
-if you do not need it, you can ignore it :) -->
+3d. Suppose you are preparing for your meeting with the higher ups at Dunder Mifflin. Are there any limitations of this analysis? What additional data would you want to collect to further inform recommendations? Are there other analyses you would suggest? (i.e., what would be your next steps if you were moving forward with this analysis?)

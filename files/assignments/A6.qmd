@@ -34,7 +34,7 @@ You are given a dataset containing information about employees across several wo
 - *sales_calls*: number of successful sales calls completed in a day
 - *incidents*: number of unusual workplace incidents observed per day
 
-## Data Management and Exploration
+## Data Management
 
 0a. Download the data from Canvas and import it to R.
 
@@ -42,33 +42,13 @@ You are given a dataset containing information about employees across several wo
 
 ```
 
-<!-- no actual response is needed here, just your R output -->
-
-0b. Construct the histogram for the number of unusual workplace incidents observed per day (*incidents*).
-
-```{r}
-
-```
-
-<!-- no actual response is needed here, just your R output -->
-
-0c. Based on the histogram results from 0b, what distribution do you feel is most appropriate for modeling the number of unusual workplace incidents observed per day?
-
-0d. Construct the histogram for the number of successful calls completed in a day (*sales_calls*).
-
-```{r}
-
-```
-
-<!-- no actual response is needed here, just your R output -->
-
-0e. Based on the histogram results from 0d, what distribution do you feel is most appropriate for modeling the number of successful calls completed in a day?
-
-
+<!-- no actual response is needed here  -->
 
 ## Model 1 (`m1`)
 
-1a. Fit an appropriate model to predict the number of incidents based on the number of meetings, cups of coffee, and whether Dwight supervised the employee.  Call this model `m1`.
+Our goal is to fit an appropriate model to predict the number of incidents (*incidents*) based on the number of meetings (*meetings*), cups of coffee (*coffee_cups*), and whether Dwight supervised the employee (*dwight_supervision*).
+
+1a. Construct the histogram for the number of unusual workplace incidents observed per day (*incidents*).
 
 ```{r}
 
@@ -76,7 +56,25 @@ You are given a dataset containing information about employees across several wo
 
 <!-- no actual response is needed here, just your R output -->
 
-1b. Based on your output, state the resulting model. 
+1b. Find the mean and variance of the number of unusual workplace incidents observed per day (*incidents*).
+
+```{r}
+
+```
+
+<!-- no actual response is needed here, just your R output -->
+
+1c. Based on the results from 1a and 1b, what distribution do you feel is most appropriate for modeling the number of unusual workplace incidents observed per day? You must justify your answer.
+
+<!-- hint: do not say the normal distribution -- revisit the topics from this week -->
+
+1d. Construct the model specified in the problem set up. Call this model `m1`.
+
+```{r}
+
+```
+
+1e. Based on your output, state the resulting model. 
 
 <!-- below is the basic LaTeX for formatting a regression line; please update it with numbers from your model based on the results above -->
 
@@ -84,21 +82,101 @@ $$
 \hat{y} \text{ OR } \hat{\ln(y)} \text{ OR } \hat{\text{logit}(y)} = \beta_0 + \beta_1 x_1 + ... + \beta_k x_k
 $$
 
-1c. Is this a significant regression line? You must provide statistical justification for your answer. Assume $\alpha=0.05$.
+1f. Is this a significant regression line? You must provide statistical justification for your answer. Assume $\alpha=0.05$.
 
 ```{r}
 
 ```
 
+**Hypotheses**:
 
-1d. Which, if any, are significant predictors of the number of incidents observed? You must provide statistical justification for your answer. Assume $\alpha=0.05$.
+- $H_0:$
+- $H_1:$
+
+**Test Statistic and $p$-value**
+
+- $statistic =$ <!-- please replace the word "statistic" with the type of test statistic you have (e.g., F, t, etc.) -->
+- $p=$
+
+**Rejection Region**
+
+- Reject $H_0$ if ...
+
+**Conclusion and Interpretation**
+
+- Reject or fail to reject $H_0$. <!-- pick the appropriate one... do not leave as is -->
+- There is or is not sufficient evidence to conclude... <!-- pick the appropriate choice & write the conclusion in the problem's context -->
+
+1g. Which, if any, are significant predictors of the number of incidents observed? You must provide statistical justification for your answer. Assume $\alpha=0.05$.
 
 ```{r}
 
 ```
 
+*Number of Meetings*
 
-1e. Interpret the following effects:
+**Hypotheses**:
+
+- $H_0:$
+- $H_1:$
+
+**Test Statistic and $p$-value**
+
+- $statistic =$ <!-- please replace the word "statistic" with the type of test statistic you have (e.g., F, t, etc.) -->
+- $p=$
+
+**Rejection Region**
+
+- Reject $H_0$ if ...
+
+**Conclusion and Interpretation**
+
+- Reject or fail to reject $H_0$. <!-- pick the appropriate one... do not leave as is -->
+- There is or is not sufficient evidence to conclude... <!-- pick the appropriate choice & write the conclusion in the problem's context -->
+
+*Cups of Coffee*
+
+**Hypotheses**:
+
+- $H_0:$
+- $H_1:$
+
+**Test Statistic and $p$-value**
+
+- $statistic =$ <!-- please replace the word "statistic" with the type of test statistic you have (e.g., F, t, etc.) -->
+- $p=$
+
+**Rejection Region**
+
+- Reject $H_0$ if ...
+
+**Conclusion and Interpretation**
+
+- Reject or fail to reject $H_0$. <!-- pick the appropriate one... do not leave as is -->
+- There is or is not sufficient evidence to conclude... <!-- pick the appropriate choice & write the conclusion in the problem's context -->
+
+*Dwight's Supervision*
+
+**Hypotheses**:
+
+- $H_0:$
+- $H_1:$
+
+**Test Statistic and $p$-value**
+
+- $statistic =$ <!-- please replace the word "statistic" with the type of test statistic you have (e.g., F, t, etc.) -->
+- $p=$
+
+**Rejection Region**
+
+- Reject $H_0$ if ...
+
+**Conclusion and Interpretation**
+
+- Reject or fail to reject $H_0$. <!-- pick the appropriate one... do not leave as is -->
+- There is or is not sufficient evidence to conclude... <!-- pick the appropriate choice & write the conclusion in the problem's context -->
+
+1h. Provide formal interpretations for the following slopes:
 
 - number of meetings: 
     
@@ -106,21 +184,23 @@ $$
     
 - Dwight's supervision: 
     
-1f. Construct a basic visualization to help you explain model results. Clearly state the following:
+1i. Construct a data visualization to help explain the relationships in your model. For uniformity, let's have the number of unusual workplace incidents observed per day (*incidents*) on the *y*-axis, the number of cups of coffee (*coffee_cups*) on the *x*-axis, and lines defined by when Dwight is supervising (*dwight_supervision*). We will plug in the overall median value of number of meetings (*meetings*).
 
-- What is on the *x*-axis?
-    
-- What is on the *y*-axis?
-    
-- What will the line(s) represent?
 
 ```{r}
 
 ```
+
+
+1j. Pretend that you are preparing to meet with corporate to review the analysis results. Remember your audience here -- you should avoid jargon and technical language. Write a brief paragraph to go with your visualization that explains the analysis results in plain language and include a suggestion for decreasing the number of incidents.
+
+
 
 ## Model 2 (`m2`)
 
-2a. Fit an appropriate model to predict the number of successful calls completed in a day based on the number of meetings, cups of coffee, and whether Dwight supervised the employee.  Call this model `m2`.
+We are now interested in modeling the number of successful sales calls completed in a day (*sales_calls*) based on the same predictors: number of meetings (*meetings*), cups of coffee (*coffee_cups*), and whether Dwight supervised the employee (*dwight_supervision*).
+
+2a. Construct the histogram for the number of successful calls completed in a day (*sales_calls*).
 
 ```{r}
 
@@ -128,7 +208,25 @@ $$
 
 <!-- no actual response is needed here, just your R output -->
 
-2b. Based on your output, state the resulting model. 
+2b. Find the mean and variance of the number of successful calls completed in a day (*sales_calls*).
+
+```{r}
+
+```
+
+<!-- no actual response is needed here, just your R output -->
+
+2c. Based on the results from 2a and 2b, what distribution do you feel is most appropriate for modeling the number of successful calls completed in a day? You must justify your answer.
+
+<!-- hint: do not say the normal distribution -- revisit the topics from this week -->
+
+2d. Construct the model specified in the problem set up. Call this model `m2`.
+
+```{r}
+
+```
+
+2e. Based on your output, state the resulting model. 
 
 <!-- below is the basic LaTeX for formatting a regression line; please update it with numbers from your model based on the results above -->
 
@@ -136,20 +234,101 @@ $$
 \hat{y} \text{ OR } \hat{\ln(y)} \text{ OR } \hat{\text{logit}(y)} = \beta_0 + \beta_1 x_1 + ... + \beta_k x_k
 $$
 
-2c. Is this a significant regression line? You must provide statistical justification for your answer. Assume $\alpha=0.05$.
+2f. Is this a significant regression line? You must provide statistical justification for your answer. Assume $\alpha=0.05$.
 
 ```{r}
 
 ```
 
+**Hypotheses**:
 
-2d. Which, if any, are significant predictors of the number of successful calls completed in a day? You must provide statistical justification for your answer. Assume $\alpha=0.05$.
+- $H_0:$
+- $H_1:$
+
+**Test Statistic and $p$-value**
+
+- $statistic =$ <!-- please replace the word "statistic" with the type of test statistic you have (e.g., F, t, etc.) -->
+- $p=$
+
+**Rejection Region**
+
+- Reject $H_0$ if ...
+
+**Conclusion and Interpretation**
+
+- Reject or fail to reject $H_0$. <!-- pick the appropriate one... do not leave as is -->
+- There is or is not sufficient evidence to conclude... <!-- pick the appropriate choice & write the conclusion in the problem's context -->
+
+2g. Which, if any, are significant predictors of the number of successful calls completed in a day? You must provide statistical justification for your answer. Assume $\alpha=0.05$.
 
 ```{r}
 
 ```
 
-2e. Interpret the following effects:
+*Number of Meetings*
+
+**Hypotheses**:
+
+- $H_0:$
+- $H_1:$
+
+**Test Statistic and $p$-value**
+
+- $statistic =$ <!-- please replace the word "statistic" with the type of test statistic you have (e.g., F, t, etc.) -->
+- $p=$
+
+**Rejection Region**
+
+- Reject $H_0$ if ...
+
+**Conclusion and Interpretation**
+
+- Reject or fail to reject $H_0$. <!-- pick the appropriate one... do not leave as is -->
+- There is or is not sufficient evidence to conclude... <!-- pick the appropriate choice & write the conclusion in the problem's context -->
+
+*Cups of Coffee*
+
+**Hypotheses**:
+
+- $H_0:$
+- $H_1:$
+
+**Test Statistic and $p$-value**
+
+- $statistic =$ <!-- please replace the word "statistic" with the type of test statistic you have (e.g., F, t, etc.) -->
+- $p=$
+
+**Rejection Region**
+
+- Reject $H_0$ if ...
+
+**Conclusion and Interpretation**
+
+- Reject or fail to reject $H_0$. <!-- pick the appropriate one... do not leave as is -->
+- There is or is not sufficient evidence to conclude... <!-- pick the appropriate choice & write the conclusion in the problem's context -->
+
+*Dwight's Supervision*
+
+**Hypotheses**:
+
+- $H_0:$
+- $H_1:$
+
+**Test Statistic and $p$-value**
+
+- $statistic =$ <!-- please replace the word "statistic" with the type of test statistic you have (e.g., F, t, etc.) -->
+- $p=$
+
+**Rejection Region**
+
+- Reject $H_0$ if ...
+
+**Conclusion and Interpretation**
+
+- Reject or fail to reject $H_0$. <!-- pick the appropriate one... do not leave as is -->
+- There is or is not sufficient evidence to conclude... <!-- pick the appropriate choice & write the conclusion in the problem's context -->
+
+2h. Interpret the following effects:
 
 - number of meetings: 
     
@@ -157,56 +336,33 @@ $$
     
 - Dwight's supervision: 
     
-2f. Construct a basic visualization to help you explain model results. Clearly state the following:
+2i. Construct a data visualization to help explain the relationships in your model. For uniformity, let's have the number of sales calls per day (*sales_calls*) on the *y*-axis, the number of cups of coffee (*coffee_cups*) on the *x*-axis, and lines defined by when Dwight is supervising (*dwight_supervision*). We will plug in the overall median value of number of meetings (*meetings*).
 
-- What is on the *x*-axis?
-    
-- What is on the *y*-axis?
-    
-- What will the line(s) represent?
-
-```{r}
-
-```    
-
-## Summary
-
-3. Pick either `m1` or `m2` and summarize your findings for Michael. Be sure to include interpretations of the predictors, significance of the model, and any visualizations you created.
-
-## Exploration Time!
-
-4a. Re-fit `m1` using the normal distribution and examine relevant statistical inference. How different are the results?
 
 ```{r}
 
 ```
 
 
-4b. Check the assumptions on the normal distribution. Remember to draw a conclusion.
+2j. Pretend that you are preparing to meet with corporate to review the analysis results. Remember your audience here -- you should avoid jargon and technical language. Write a brief paragraph to go with your visualization that explains the analysis results in plain language and include a suggestion for decreasing the number of incidents.
 
-```{r}
+## Reflection
 
-```
+This section is **required** for graduate students and **optional** for undergraduate students. This section can be written more technically (for Dr. Seals, not Michael Scott), but you should still be explicitly clear in your writing. Please write one paragraph (hard limit) answering each of the following prompts.
+
+<!-- Friends, please note that the prompts below are intentionally open-ended. There is no single "right" answer here, but there are definitely wrong answers. I ask these questions to make you critically think about and synthesize the class material, so the important thing is that you provide a thoughtful, well-reasoned response that demonstrates an appropriate level of understanding of the material.   -->
+
+3a. Reflect on the modeling decisions you made for Model 1. Why is the modeling approach you chose more appropriate than ordinary linear regression for that outcome? Please consider and address what assumption(s) of linear regression would be violated if you had used it instead. 
 
 
-4c. Re-fit `m2` using the normal distribution and examine relevant statistical inference. How different are the results?
 
-```{r}
+3b. Reflect on the modeling decisions you made for Model 2. Why is the modeling approach you chose more appropriate than ordinary linear regression for that outcome? Please consider and address what assumption(s) of linear regression would be violated if you had used it instead.
 
-```
 
-4d. Check the assumptions on the normal distribution. Remember to draw a conclusion.
 
-```{r}
+3c. In both models, you have the same set of predictors but different outcomes. Compare the results across Model 1 and Model 2. Are the predictors that were significant in one model also significant in the other? What does this pattern (or lack of one) suggest about how meetings, coffee, and Dwight's supervision relate to workplace behavior at Dunder Mifflin?
 
-```
 
-## Research Time!
 
-This section is a **bonus** section for undergraduate students, but a **required** section for graduate students.
-     
-5a. What are the zero-inflated Poisson and zero-inflated negative binomial models? When are they appropriate to employ?
+3d. Suppose you are preparing for your meeting with the higher ups at Dunder Mifflin. Are there any limitations of this analysis? What additional data would you want to collect to further inform recommendations? Are there other analyses you would suggest? (i.e., what would be your next steps if you were moving forward with this analysis?)
 
-<!-- unless you have extensive experience in statistical modeling, this question cannot be answered without any research :) zero credit will be awarded for answers without proper citations -->
-
-5b. Why aren't the zero-inflated models appropriate for this dataset? What would have to be different about the data for these models to be appropriate?
