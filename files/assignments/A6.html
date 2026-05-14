@@ -6153,12 +6153,10 @@ box-shadow: 0 0 0px rgba(0, 0, 0, 0.02);
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#data-management-and-exploration" id="toc-data-management-and-exploration" class="nav-link active" data-scroll-target="#data-management-and-exploration">Data Management and Exploration</a></li>
+  <li><a href="#data-management" id="toc-data-management" class="nav-link active" data-scroll-target="#data-management">Data Management</a></li>
   <li><a href="#model-1-m1" id="toc-model-1-m1" class="nav-link" data-scroll-target="#model-1-m1">Model 1 (<code>m1</code>)</a></li>
   <li><a href="#model-2-m2" id="toc-model-2-m2" class="nav-link" data-scroll-target="#model-2-m2">Model 2 (<code>m2</code>)</a></li>
-  <li><a href="#summary" id="toc-summary" class="nav-link" data-scroll-target="#summary">Summary</a></li>
-  <li><a href="#exploration-time" id="toc-exploration-time" class="nav-link" data-scroll-target="#exploration-time">Exploration Time!</a></li>
-  <li><a href="#research-time" id="toc-research-time" class="nav-link" data-scroll-target="#research-time">Research Time!</a></li>
+  <li><a href="#reflection" id="toc-reflection" class="nav-link" data-scroll-target="#reflection">Reflection</a></li>
   </ul>
 </nav>
     </div>
@@ -6204,84 +6202,229 @@ box-shadow: 0 0 0px rgba(0, 0, 0, 0.02);
 <li><em>sales_calls</em>: number of successful sales calls completed in a day</li>
 <li><em>incidents</em>: number of unusual workplace incidents observed per day</li>
 </ul>
-<section id="data-management-and-exploration" class="level2">
-<h2 class="anchored" data-anchor-id="data-management-and-exploration">Data Management and Exploration</h2>
+<section id="data-management" class="level2">
+<h2 class="anchored" data-anchor-id="data-management">Data Management</h2>
 <p>0a. Download the data from Canvas and import it to R.</p>
-<!-- no actual response is needed here, just your R output -->
-<p>0b. Construct the histogram for the number of unusual workplace incidents observed per day (<em>incidents</em>).</p>
-<!-- no actual response is needed here, just your R output -->
-<p>0c. Based on the histogram results from 0b, what distribution do you feel is most appropriate for modeling the number of unusual workplace incidents observed per day?</p>
-<p>0d. Construct the histogram for the number of successful calls completed in a day (<em>sales_calls</em>).</p>
-<!-- no actual response is needed here, just your R output -->
-<p>0e. Based on the histogram results from 0d, what distribution do you feel is most appropriate for modeling the number of successful calls completed in a day?</p>
+<!-- no actual response is needed here  -->
 </section>
 <section id="model-1-m1" class="level2">
 <h2 class="anchored" data-anchor-id="model-1-m1">Model 1 (<code>m1</code>)</h2>
-<p>1a. Fit an appropriate model to predict the number of incidents based on the number of meetings, cups of coffee, and whether Dwight supervised the employee. Call this model <code>m1</code>.</p>
+<p>Our goal is to fit an appropriate model to predict the number of incidents (<em>incidents</em>) based on the number of meetings (<em>meetings</em>), cups of coffee (<em>coffee_cups</em>), and whether Dwight supervised the employee (<em>dwight_supervision</em>).</p>
+<p>1a. Construct the histogram for the number of unusual workplace incidents observed per day (<em>incidents</em>).</p>
 <!-- no actual response is needed here, just your R output -->
-<p>1b. Based on your output, state the resulting model.</p>
+<p>1b. Find the mean and variance of the number of unusual workplace incidents observed per day (<em>incidents</em>).</p>
+<!-- no actual response is needed here, just your R output -->
+<p>1c. Based on the results from 1a and 1b, what distribution do you feel is most appropriate for modeling the number of unusual workplace incidents observed per day? You must justify your answer.</p>
+<!-- hint: do not say the normal distribution -- revisit the topics from this week -->
+<p>1d. Construct the model specified in the problem set up. Call this model <code>m1</code>.</p>
+<p>1e. Based on your output, state the resulting model.</p>
 <!-- below is the basic LaTeX for formatting a regression line; please update it with numbers from your model based on the results above -->
 <p><span class="math display">
 \hat{y} \text{ OR } \hat{\ln(y)} \text{ OR } \hat{\text{logit}(y)} = \beta_0 + \beta_1 x_1 + ... + \beta_k x_k
 </span></p>
-<p>1c. Is this a significant regression line? You must provide statistical justification for your answer. Assume <span class="math inline">\alpha=0.05</span>.</p>
-<p>1d. Which, if any, are significant predictors of the number of incidents observed? You must provide statistical justification for your answer. Assume <span class="math inline">\alpha=0.05</span>.</p>
-<p>1e. Interpret the following effects:</p>
+<p>1f. Is this a significant regression line? You must provide statistical justification for your answer. Assume <span class="math inline">\alpha=0.05</span>.</p>
+<p><strong>Hypotheses</strong>:</p>
+<ul>
+<li><span class="math inline">H_0:</span></li>
+<li><span class="math inline">H_1:</span></li>
+</ul>
+<p><strong>Test Statistic and <span class="math inline">p</span>-value</strong></p>
+<ul>
+<li><span class="math inline">statistic =</span> <!-- please replace the word "statistic" with the type of test statistic you have (e.g., F, t, etc.) --></li>
+<li><span class="math inline">p=</span></li>
+</ul>
+<p><strong>Rejection Region</strong></p>
+<ul>
+<li>Reject <span class="math inline">H_0</span> if …</li>
+</ul>
+<p><strong>Conclusion and Interpretation</strong></p>
+<ul>
+<li>Reject or fail to reject <span class="math inline">H_0</span>. <!-- pick the appropriate one... do not leave as is --></li>
+<li>There is or is not sufficient evidence to conclude… <!-- pick the appropriate choice & write the conclusion in the problem's context --></li>
+</ul>
+<p>1g. Which, if any, are significant predictors of the number of incidents observed? You must provide statistical justification for your answer. Assume <span class="math inline">\alpha=0.05</span>.</p>
+<p><em>Number of Meetings</em></p>
+<p><strong>Hypotheses</strong>:</p>
+<ul>
+<li><span class="math inline">H_0:</span></li>
+<li><span class="math inline">H_1:</span></li>
+</ul>
+<p><strong>Test Statistic and <span class="math inline">p</span>-value</strong></p>
+<ul>
+<li><span class="math inline">statistic =</span> <!-- please replace the word "statistic" with the type of test statistic you have (e.g., F, t, etc.) --></li>
+<li><span class="math inline">p=</span></li>
+</ul>
+<p><strong>Rejection Region</strong></p>
+<ul>
+<li>Reject <span class="math inline">H_0</span> if …</li>
+</ul>
+<p><strong>Conclusion and Interpretation</strong></p>
+<ul>
+<li>Reject or fail to reject <span class="math inline">H_0</span>. <!-- pick the appropriate one... do not leave as is --></li>
+<li>There is or is not sufficient evidence to conclude… <!-- pick the appropriate choice & write the conclusion in the problem's context --></li>
+</ul>
+<p><em>Cups of Coffee</em></p>
+<p><strong>Hypotheses</strong>:</p>
+<ul>
+<li><span class="math inline">H_0:</span></li>
+<li><span class="math inline">H_1:</span></li>
+</ul>
+<p><strong>Test Statistic and <span class="math inline">p</span>-value</strong></p>
+<ul>
+<li><span class="math inline">statistic =</span> <!-- please replace the word "statistic" with the type of test statistic you have (e.g., F, t, etc.) --></li>
+<li><span class="math inline">p=</span></li>
+</ul>
+<p><strong>Rejection Region</strong></p>
+<ul>
+<li>Reject <span class="math inline">H_0</span> if …</li>
+</ul>
+<p><strong>Conclusion and Interpretation</strong></p>
+<ul>
+<li>Reject or fail to reject <span class="math inline">H_0</span>. <!-- pick the appropriate one... do not leave as is --></li>
+<li>There is or is not sufficient evidence to conclude… <!-- pick the appropriate choice & write the conclusion in the problem's context --></li>
+</ul>
+<p><em>Dwight’s Supervision</em></p>
+<p><strong>Hypotheses</strong>:</p>
+<ul>
+<li><span class="math inline">H_0:</span></li>
+<li><span class="math inline">H_1:</span></li>
+</ul>
+<p><strong>Test Statistic and <span class="math inline">p</span>-value</strong></p>
+<ul>
+<li><span class="math inline">statistic =</span> <!-- please replace the word "statistic" with the type of test statistic you have (e.g., F, t, etc.) --></li>
+<li><span class="math inline">p=</span></li>
+</ul>
+<p><strong>Rejection Region</strong></p>
+<ul>
+<li>Reject <span class="math inline">H_0</span> if …</li>
+</ul>
+<p><strong>Conclusion and Interpretation</strong></p>
+<ul>
+<li>Reject or fail to reject <span class="math inline">H_0</span>. <!-- pick the appropriate one... do not leave as is --></li>
+<li>There is or is not sufficient evidence to conclude… <!-- pick the appropriate choice & write the conclusion in the problem's context --></li>
+</ul>
+<p>1h. Provide formal interpretations for the following slopes:</p>
 <ul>
 <li><p>number of meetings:</p></li>
 <li><p>cups of coffee:</p></li>
 <li><p>Dwight’s supervision:</p></li>
 </ul>
-<p>1f. Construct a basic visualization to help you explain model results. Clearly state the following:</p>
-<ul>
-<li><p>What is on the <em>x</em>-axis?</p></li>
-<li><p>What is on the <em>y</em>-axis?</p></li>
-<li><p>What will the line(s) represent?</p></li>
-</ul>
+<p>1i. Construct a data visualization to help explain the relationships in your model. For uniformity, let’s have the number of unusual workplace incidents observed per day (<em>incidents</em>) on the <em>y</em>-axis, the number of cups of coffee (<em>coffee_cups</em>) on the <em>x</em>-axis, and lines defined by when Dwight is supervising (<em>dwight_supervision</em>). We will plug in the overall median value of number of meetings (<em>meetings</em>).</p>
+<p>1j. Pretend that you are preparing to meet with corporate to review the analysis results. Remember your audience here – you should avoid jargon and technical language. Write a brief paragraph to go with your visualization that explains the analysis results in plain language and include a suggestion for decreasing the number of incidents.</p>
 </section>
 <section id="model-2-m2" class="level2">
 <h2 class="anchored" data-anchor-id="model-2-m2">Model 2 (<code>m2</code>)</h2>
-<p>2a. Fit an appropriate model to predict the number of successful calls completed in a day based on the number of meetings, cups of coffee, and whether Dwight supervised the employee. Call this model <code>m2</code>.</p>
+<p>We are now interested in modeling the number of successful sales calls completed in a day (<em>sales_calls</em>) based on the same predictors: number of meetings (<em>meetings</em>), cups of coffee (<em>coffee_cups</em>), and whether Dwight supervised the employee (<em>dwight_supervision</em>).</p>
+<p>2a. Construct the histogram for the number of successful calls completed in a day (<em>sales_calls</em>).</p>
 <!-- no actual response is needed here, just your R output -->
-<p>2b. Based on your output, state the resulting model.</p>
+<p>2b. Find the mean and variance of the number of successful calls completed in a day (<em>sales_calls</em>).</p>
+<!-- no actual response is needed here, just your R output -->
+<p>2c. Based on the results from 2a and 2b, what distribution do you feel is most appropriate for modeling the number of successful calls completed in a day? You must justify your answer.</p>
+<!-- hint: do not say the normal distribution -- revisit the topics from this week -->
+<p>2d. Construct the model specified in the problem set up. Call this model <code>m2</code>.</p>
+<p>2e. Based on your output, state the resulting model.</p>
 <!-- below is the basic LaTeX for formatting a regression line; please update it with numbers from your model based on the results above -->
 <p><span class="math display">
 \hat{y} \text{ OR } \hat{\ln(y)} \text{ OR } \hat{\text{logit}(y)} = \beta_0 + \beta_1 x_1 + ... + \beta_k x_k
 </span></p>
-<p>2c. Is this a significant regression line? You must provide statistical justification for your answer. Assume <span class="math inline">\alpha=0.05</span>.</p>
-<p>2d. Which, if any, are significant predictors of the number of successful calls completed in a day? You must provide statistical justification for your answer. Assume <span class="math inline">\alpha=0.05</span>.</p>
-<p>2e. Interpret the following effects:</p>
+<p>2f. Is this a significant regression line? You must provide statistical justification for your answer. Assume <span class="math inline">\alpha=0.05</span>.</p>
+<p><strong>Hypotheses</strong>:</p>
+<ul>
+<li><span class="math inline">H_0:</span></li>
+<li><span class="math inline">H_1:</span></li>
+</ul>
+<p><strong>Test Statistic and <span class="math inline">p</span>-value</strong></p>
+<ul>
+<li><span class="math inline">statistic =</span> <!-- please replace the word "statistic" with the type of test statistic you have (e.g., F, t, etc.) --></li>
+<li><span class="math inline">p=</span></li>
+</ul>
+<p><strong>Rejection Region</strong></p>
+<ul>
+<li>Reject <span class="math inline">H_0</span> if …</li>
+</ul>
+<p><strong>Conclusion and Interpretation</strong></p>
+<ul>
+<li>Reject or fail to reject <span class="math inline">H_0</span>. <!-- pick the appropriate one... do not leave as is --></li>
+<li>There is or is not sufficient evidence to conclude… <!-- pick the appropriate choice & write the conclusion in the problem's context --></li>
+</ul>
+<p>2g. Which, if any, are significant predictors of the number of successful calls completed in a day? You must provide statistical justification for your answer. Assume <span class="math inline">\alpha=0.05</span>.</p>
+<p><em>Number of Meetings</em></p>
+<p><strong>Hypotheses</strong>:</p>
+<ul>
+<li><span class="math inline">H_0:</span></li>
+<li><span class="math inline">H_1:</span></li>
+</ul>
+<p><strong>Test Statistic and <span class="math inline">p</span>-value</strong></p>
+<ul>
+<li><span class="math inline">statistic =</span> <!-- please replace the word "statistic" with the type of test statistic you have (e.g., F, t, etc.) --></li>
+<li><span class="math inline">p=</span></li>
+</ul>
+<p><strong>Rejection Region</strong></p>
+<ul>
+<li>Reject <span class="math inline">H_0</span> if …</li>
+</ul>
+<p><strong>Conclusion and Interpretation</strong></p>
+<ul>
+<li>Reject or fail to reject <span class="math inline">H_0</span>. <!-- pick the appropriate one... do not leave as is --></li>
+<li>There is or is not sufficient evidence to conclude… <!-- pick the appropriate choice & write the conclusion in the problem's context --></li>
+</ul>
+<p><em>Cups of Coffee</em></p>
+<p><strong>Hypotheses</strong>:</p>
+<ul>
+<li><span class="math inline">H_0:</span></li>
+<li><span class="math inline">H_1:</span></li>
+</ul>
+<p><strong>Test Statistic and <span class="math inline">p</span>-value</strong></p>
+<ul>
+<li><span class="math inline">statistic =</span> <!-- please replace the word "statistic" with the type of test statistic you have (e.g., F, t, etc.) --></li>
+<li><span class="math inline">p=</span></li>
+</ul>
+<p><strong>Rejection Region</strong></p>
+<ul>
+<li>Reject <span class="math inline">H_0</span> if …</li>
+</ul>
+<p><strong>Conclusion and Interpretation</strong></p>
+<ul>
+<li>Reject or fail to reject <span class="math inline">H_0</span>. <!-- pick the appropriate one... do not leave as is --></li>
+<li>There is or is not sufficient evidence to conclude… <!-- pick the appropriate choice & write the conclusion in the problem's context --></li>
+</ul>
+<p><em>Dwight’s Supervision</em></p>
+<p><strong>Hypotheses</strong>:</p>
+<ul>
+<li><span class="math inline">H_0:</span></li>
+<li><span class="math inline">H_1:</span></li>
+</ul>
+<p><strong>Test Statistic and <span class="math inline">p</span>-value</strong></p>
+<ul>
+<li><span class="math inline">statistic =</span> <!-- please replace the word "statistic" with the type of test statistic you have (e.g., F, t, etc.) --></li>
+<li><span class="math inline">p=</span></li>
+</ul>
+<p><strong>Rejection Region</strong></p>
+<ul>
+<li>Reject <span class="math inline">H_0</span> if …</li>
+</ul>
+<p><strong>Conclusion and Interpretation</strong></p>
+<ul>
+<li>Reject or fail to reject <span class="math inline">H_0</span>. <!-- pick the appropriate one... do not leave as is --></li>
+<li>There is or is not sufficient evidence to conclude… <!-- pick the appropriate choice & write the conclusion in the problem's context --></li>
+</ul>
+<p>2h. Interpret the following effects:</p>
 <ul>
 <li><p>number of meetings:</p></li>
 <li><p>cups of coffee:</p></li>
 <li><p>Dwight’s supervision:</p></li>
 </ul>
-<p>2f. Construct a basic visualization to help you explain model results. Clearly state the following:</p>
-<ul>
-<li><p>What is on the <em>x</em>-axis?</p></li>
-<li><p>What is on the <em>y</em>-axis?</p></li>
-<li><p>What will the line(s) represent?</p></li>
-</ul>
+<p>2i. Construct a data visualization to help explain the relationships in your model. For uniformity, let’s have the number of sales calls per day (<em>sales_calls</em>) on the <em>y</em>-axis, the number of cups of coffee (<em>coffee_cups</em>) on the <em>x</em>-axis, and lines defined by when Dwight is supervising (<em>dwight_supervision</em>). We will plug in the overall median value of number of meetings (<em>meetings</em>).</p>
+<p>2j. Pretend that you are preparing to meet with corporate to review the analysis results. Remember your audience here – you should avoid jargon and technical language. Write a brief paragraph to go with your visualization that explains the analysis results in plain language and include a suggestion for decreasing the number of incidents.</p>
 </section>
-<section id="summary" class="level2">
-<h2 class="anchored" data-anchor-id="summary">Summary</h2>
-<ol start="3" type="1">
-<li>Pick either <code>m1</code> or <code>m2</code> and summarize your findings for Michael. Be sure to include interpretations of the predictors, significance of the model, and any visualizations you created.</li>
-</ol>
-</section>
-<section id="exploration-time" class="level2">
-<h2 class="anchored" data-anchor-id="exploration-time">Exploration Time!</h2>
-<p>4a. Re-fit <code>m1</code> using the normal distribution and examine relevant statistical inference. How different are the results?</p>
-<p>4b. Check the assumptions on the normal distribution. Remember to draw a conclusion.</p>
-<p>4c. Re-fit <code>m2</code> using the normal distribution and examine relevant statistical inference. How different are the results?</p>
-<p>4d. Check the assumptions on the normal distribution. Remember to draw a conclusion.</p>
-</section>
-<section id="research-time" class="level2">
-<h2 class="anchored" data-anchor-id="research-time">Research Time!</h2>
-<p>This section is a <strong>bonus</strong> section for undergraduate students, but a <strong>required</strong> section for graduate students.</p>
-<p>5a. What are the zero-inflated Poisson and zero-inflated negative binomial models? When are they appropriate to employ?</p>
-<!-- unless you have extensive experience in statistical modeling, this question cannot be answered without any research :) zero credit will be awarded for answers without proper citations -->
-<p>5b. Why aren’t the zero-inflated models appropriate for this dataset? What would have to be different about the data for these models to be appropriate?</p>
+<section id="reflection" class="level2">
+<h2 class="anchored" data-anchor-id="reflection">Reflection</h2>
+<p>This section is <strong>required</strong> for graduate students and <strong>optional</strong> for undergraduate students. This section can be written more technically (for Dr. Seals, not Michael Scott), but you should still be explicitly clear in your writing. Please write one paragraph (hard limit) answering each of the following prompts.</p>
+<!-- Friends, please note that the prompts below are intentionally open-ended. There is no single "right" answer here, but there are definitely wrong answers. I ask these questions to make you critically think about and synthesize the class material, so the important thing is that you provide a thoughtful, well-reasoned response that demonstrates an appropriate level of understanding of the material.   -->
+<p>3a. Reflect on the modeling decisions you made for Model 1. Why is the modeling approach you chose more appropriate than ordinary linear regression for that outcome? Please consider and address what assumption(s) of linear regression would be violated if you had used it instead.</p>
+<p>3b. Reflect on the modeling decisions you made for Model 2. Why is the modeling approach you chose more appropriate than ordinary linear regression for that outcome? Please consider and address what assumption(s) of linear regression would be violated if you had used it instead.</p>
+<p>3c. In both models, you have the same set of predictors but different outcomes. Compare the results across Model 1 and Model 2. Are the predictors that were significant in one model also significant in the other? What does this pattern (or lack of one) suggest about how meetings, coffee, and Dwight’s supervision relate to workplace behavior at Dunder Mifflin?</p>
+<p>3d. Suppose you are preparing for your meeting with the higher ups at Dunder Mifflin. Are there any limitations of this analysis? What additional data would you want to collect to further inform recommendations? Are there other analyses you would suggest? (i.e., what would be your next steps if you were moving forward with this analysis?)</p>
 
 
 </section>

@@ -6206,14 +6206,11 @@ box-shadow: 0 0 0px rgba(0, 0, 0, 0.02);
 <li><em>crm_minutes_day</em>: average minutes/day spent in CRM,</li>
 <li><em>coffee_cups_day</em>: average cups of coffee per day,</li>
 <li><em>distractions_minutes_day</em>: average minutes/day lost to distractions (pranks, “meetings,” etc.),</li>
-<li><em>morale_score</em>: morale score (0–10) from anonymous internal survey, and</li>
-<li><em>printer_jams_week</em>: average printer jams per week (yes, they tracked it).</li>
+<li><em>morale_score</em>: morale score (0–10) from anonymous internal survey.</li>
 </ul>
 <section id="data-management" class="level2">
 <h2 class="anchored" data-anchor-id="data-management">Data Management</h2>
-<ol start="0" type="1">
-<li>Download the data from Canvas and import it to R.</li>
-</ol>
+<p>0a. Download the data from Canvas and import it to R OR import it from GitHub.</p>
 </section>
 <section id="model-1-m1" class="level2">
 <h2 class="anchored" data-anchor-id="model-1-m1">Model 1 (<code>m1</code>)</h2>
@@ -6225,9 +6222,25 @@ box-shadow: 0 0 0px rgba(0, 0, 0, 0.02);
 \hat{y} = \beta_0 + \beta_1 x_1 + ... + \beta_k x_k
 </span></p>
 <p>1c. Is this a significant regression line? You must provide statistical justification for your answer. Assume <span class="math inline">\alpha=0.05</span>.</p>
-<!-- pretend that I do not know how to read or interpret
-     R output; you must give a verbal response here -- I
-     want you to tell me what the output means in context -->
+<p><strong>Hypotheses</strong>:</p>
+<ul>
+<li><span class="math inline">H_0:</span></li>
+<li><span class="math inline">H_1:</span></li>
+</ul>
+<p><strong>Test Statistic and <span class="math inline">p</span>-value</strong></p>
+<ul>
+<li><span class="math inline">statistic =</span> <!-- please replace the word "statistic" with the type of test statistic you have (e.g., F, t, etc.) --></li>
+<li><span class="math inline">p=</span></li>
+</ul>
+<p><strong>Rejection Region</strong></p>
+<ul>
+<li>Reject <span class="math inline">H_0</span> if …</li>
+</ul>
+<p><strong>Conclusion and Interpretation</strong></p>
+<ul>
+<li>Reject or fail to reject <span class="math inline">H_0</span>. <!-- pick the appropriate one... do not leave as is --></li>
+<li>There is or is not sufficient evidence to conclude… <!-- pick the appropriate choice & write the conclusion in the problem's context --></li>
+</ul>
 <p>1d. Fill in the following table:</p>
 <table class="caption-top table">
 <colgroup>
@@ -6260,10 +6273,70 @@ box-shadow: 0 0 0px rgba(0, 0, 0, 0.02);
 </tr>
 </tbody>
 </table>
+<!-- note that you must fill in the above table!
+- the second column is the estimated coefficient for that predictor AND the corresponding 95% confidence interval
+- the third column is the *p*-value for that specific term in the model -->
 <p>1e. Which, if any, are significant predictors of annual sales? You must provide statistical justification for your answers. Assume <span class="math inline">\alpha=0.05</span>.</p>
-<!-- pretend that I do not know how to read or interpret
-     R output; you must give a verbal response here -- I
-     want you to tell me what the output means in context -->
+<p><em>Client Calls</em></p>
+<p><strong>Hypotheses</strong>:</p>
+<ul>
+<li><span class="math inline">H_0:</span></li>
+<li><span class="math inline">H_1:</span></li>
+</ul>
+<p><strong>Test Statistic and <span class="math inline">p</span>-value</strong></p>
+<ul>
+<li><span class="math inline">statistic =</span> <!-- please replace the word "statistic" with the type of test statistic you have (e.g., F, t, etc.) --></li>
+<li><span class="math inline">p=</span></li>
+</ul>
+<p><strong>Rejection Region</strong></p>
+<ul>
+<li>Reject <span class="math inline">H_0</span> if …</li>
+</ul>
+<p><strong>Conclusion and Interpretation</strong></p>
+<ul>
+<li>Reject or fail to reject <span class="math inline">H_0</span>. <!-- pick the appropriate one... do not leave as is --></li>
+<li>There is or is not sufficient evidence to conclude… <!-- pick the appropriate choice & write the conclusion in the problem's context --></li>
+</ul>
+<p><em>Client Meetings</em></p>
+<p><strong>Hypotheses</strong>:</p>
+<ul>
+<li><span class="math inline">H_0:</span></li>
+<li><span class="math inline">H_1:</span></li>
+</ul>
+<p><strong>Test Statistic and <span class="math inline">p</span>-value</strong></p>
+<ul>
+<li><span class="math inline">statistic =</span> <!-- please replace the word "statistic" with the type of test statistic you have (e.g., F, t, etc.) --></li>
+<li><span class="math inline">p=</span></li>
+</ul>
+<p><strong>Rejection Region</strong></p>
+<ul>
+<li>Reject <span class="math inline">H_0</span> if …</li>
+</ul>
+<p><strong>Conclusion and Interpretation</strong></p>
+<ul>
+<li>Reject or fail to reject <span class="math inline">H_0</span>. <!-- pick the appropriate one... do not leave as is --></li>
+<li>There is or is not sufficient evidence to conclude… <!-- pick the appropriate choice & write the conclusion in the problem's context --></li>
+</ul>
+<p><em>Client Emails</em></p>
+<p><strong>Hypotheses</strong>:</p>
+<ul>
+<li><span class="math inline">H_0:</span></li>
+<li><span class="math inline">H_1:</span></li>
+</ul>
+<p><strong>Test Statistic and <span class="math inline">p</span>-value</strong></p>
+<ul>
+<li><span class="math inline">statistic =</span> <!-- please replace the word "statistic" with the type of test statistic you have (e.g., F, t, etc.) --></li>
+<li><span class="math inline">p=</span></li>
+</ul>
+<p><strong>Rejection Region</strong></p>
+<ul>
+<li>Reject <span class="math inline">H_0</span> if …</li>
+</ul>
+<p><strong>Conclusion and Interpretation</strong></p>
+<ul>
+<li>Reject or fail to reject <span class="math inline">H_0</span>. <!-- pick the appropriate one... do not leave as is --></li>
+<li>There is or is not sufficient evidence to conclude… <!-- pick the appropriate choice & write the conclusion in the problem's context --></li>
+</ul>
 </section>
 <section id="model-2-m2" class="level2">
 <h2 class="anchored" data-anchor-id="model-2-m2">Model 2 (<code>m2</code>)</h2>
@@ -6275,9 +6348,25 @@ box-shadow: 0 0 0px rgba(0, 0, 0, 0.02);
 \hat{y} = \beta_0 + \beta_1 x_1 + ... + \beta_k x_k
 </span></p>
 <p>2c. Is this a significant regression line? You must provide statistical justification for your answer. Assume <span class="math inline">\alpha=0.05</span>.</p>
-<!-- pretend that I do not know how to read or interpret
-     R output; you must give a verbal response here -- I
-     want you to tell me what the output means in context -->
+<p><strong>Hypotheses</strong>:</p>
+<ul>
+<li><span class="math inline">H_0:</span></li>
+<li><span class="math inline">H_1:</span></li>
+</ul>
+<p><strong>Test Statistic and <span class="math inline">p</span>-value</strong></p>
+<ul>
+<li><span class="math inline">statistic =</span> <!-- please replace the word "statistic" with the type of test statistic you have (e.g., F, t, etc.) --></li>
+<li><span class="math inline">p=</span></li>
+</ul>
+<p><strong>Rejection Region</strong></p>
+<ul>
+<li>Reject <span class="math inline">H_0</span> if …</li>
+</ul>
+<p><strong>Conclusion and Interpretation</strong></p>
+<ul>
+<li>Reject or fail to reject <span class="math inline">H_0</span>. <!-- pick the appropriate one... do not leave as is --></li>
+<li>There is or is not sufficient evidence to conclude… <!-- pick the appropriate choice & write the conclusion in the problem's context --></li>
+</ul>
 <p>2d. Fill in the following table:</p>
 <table class="caption-top table">
 <colgroup>
@@ -6320,10 +6409,110 @@ box-shadow: 0 0 0px rgba(0, 0, 0, 0.02);
 </tr>
 </tbody>
 </table>
+<!-- note that you must fill in the above table!
+- the second column is the estimated coefficient for that predictor AND the corresponding 95% confidence interval
+- the third column is the *p*-value for that specific term in the model -->
 <p>2e. Which, if any, are significant predictors of annual sales? You must provide statistical justification for your answers. Assume <span class="math inline">\alpha=0.05</span>.</p>
-<!-- pretend that I do not know how to read or interpret
-     R output; you must give a verbal response here -- I
-     want you to tell me what the output means in context -->
+<p><em>Client Calls</em></p>
+<p><strong>Hypotheses</strong>:</p>
+<ul>
+<li><span class="math inline">H_0:</span></li>
+<li><span class="math inline">H_1:</span></li>
+</ul>
+<p><strong>Test Statistic and <span class="math inline">p</span>-value</strong></p>
+<ul>
+<li><span class="math inline">statistic =</span> <!-- please replace the word "statistic" with the type of test statistic you have (e.g., F, t, etc.) --></li>
+<li><span class="math inline">p=</span></li>
+</ul>
+<p><strong>Rejection Region</strong></p>
+<ul>
+<li>Reject <span class="math inline">H_0</span> if …</li>
+</ul>
+<p><strong>Conclusion and Interpretation</strong></p>
+<ul>
+<li>Reject or fail to reject <span class="math inline">H_0</span>. <!-- pick the appropriate one... do not leave as is --></li>
+<li>There is or is not sufficient evidence to conclude… <!-- pick the appropriate choice & write the conclusion in the problem's context --></li>
+</ul>
+<p><em>Client Meetings</em></p>
+<p><strong>Hypotheses</strong>:</p>
+<ul>
+<li><span class="math inline">H_0:</span></li>
+<li><span class="math inline">H_1:</span></li>
+</ul>
+<p><strong>Test Statistic and <span class="math inline">p</span>-value</strong></p>
+<ul>
+<li><span class="math inline">statistic =</span> <!-- please replace the word "statistic" with the type of test statistic you have (e.g., F, t, etc.) --></li>
+<li><span class="math inline">p=</span></li>
+</ul>
+<p><strong>Rejection Region</strong></p>
+<ul>
+<li>Reject <span class="math inline">H_0</span> if …</li>
+</ul>
+<p><strong>Conclusion and Interpretation</strong></p>
+<ul>
+<li>Reject or fail to reject <span class="math inline">H_0</span>. <!-- pick the appropriate one... do not leave as is --></li>
+<li>There is or is not sufficient evidence to conclude… <!-- pick the appropriate choice & write the conclusion in the problem's context --></li>
+</ul>
+<p><em>Client Emails</em></p>
+<p><strong>Hypotheses</strong>:</p>
+<ul>
+<li><span class="math inline">H_0:</span></li>
+<li><span class="math inline">H_1:</span></li>
+</ul>
+<p><strong>Test Statistic and <span class="math inline">p</span>-value</strong></p>
+<ul>
+<li><span class="math inline">statistic =</span> <!-- please replace the word "statistic" with the type of test statistic you have (e.g., F, t, etc.) --></li>
+<li><span class="math inline">p=</span></li>
+</ul>
+<p><strong>Rejection Region</strong></p>
+<ul>
+<li>Reject <span class="math inline">H_0</span> if …</li>
+</ul>
+<p><strong>Conclusion and Interpretation</strong></p>
+<ul>
+<li>Reject or fail to reject <span class="math inline">H_0</span>. <!-- pick the appropriate one... do not leave as is --></li>
+<li>There is or is not sufficient evidence to conclude… <!-- pick the appropriate choice & write the conclusion in the problem's context --></li>
+</ul>
+<p><em>Coffee Cups</em></p>
+<p><strong>Hypotheses</strong>:</p>
+<ul>
+<li><span class="math inline">H_0:</span></li>
+<li><span class="math inline">H_1:</span></li>
+</ul>
+<p><strong>Test Statistic and <span class="math inline">p</span>-value</strong></p>
+<ul>
+<li><span class="math inline">statistic =</span> <!-- please replace the word "statistic" with the type of test statistic you have (e.g., F, t, etc.) --></li>
+<li><span class="math inline">p=</span></li>
+</ul>
+<p><strong>Rejection Region</strong></p>
+<ul>
+<li>Reject <span class="math inline">H_0</span> if …</li>
+</ul>
+<p><strong>Conclusion and Interpretation</strong></p>
+<ul>
+<li>Reject or fail to reject <span class="math inline">H_0</span>. <!-- pick the appropriate one... do not leave as is --></li>
+<li>There is or is not sufficient evidence to conclude… <!-- pick the appropriate choice & write the conclusion in the problem's context --></li>
+</ul>
+<p><em>Distractions</em></p>
+<p><strong>Hypotheses</strong>:</p>
+<ul>
+<li><span class="math inline">H_0:</span></li>
+<li><span class="math inline">H_1:</span></li>
+</ul>
+<p><strong>Test Statistic and <span class="math inline">p</span>-value</strong></p>
+<ul>
+<li><span class="math inline">statistic =</span> <!-- please replace the word "statistic" with the type of test statistic you have (e.g., F, t, etc.) --></li>
+<li><span class="math inline">p=</span></li>
+</ul>
+<p><strong>Rejection Region</strong></p>
+<ul>
+<li>Reject <span class="math inline">H_0</span> if …</li>
+</ul>
+<p><strong>Conclusion and Interpretation</strong></p>
+<ul>
+<li>Reject or fail to reject <span class="math inline">H_0</span>. <!-- pick the appropriate one... do not leave as is --></li>
+<li>There is or is not sufficient evidence to conclude… <!-- pick the appropriate choice & write the conclusion in the problem's context --></li>
+</ul>
 </section>
 <section id="comparing-the-models" class="level2">
 <h2 class="anchored" data-anchor-id="comparing-the-models">Comparing the Models</h2>
@@ -6384,6 +6573,7 @@ box-shadow: 0 0 0px rgba(0, 0, 0, 0.02);
 </tr>
 </tbody>
 </table>
+<!-- note that you must fill in the above table! -->
 <p>3b. How different are the model results? You should compare the coefficients and significance of each predictor across the two models.</p>
 <!-- pretend that I do not know how to read or interpret
      R output; you must give a verbal response here -- I
@@ -6393,10 +6583,9 @@ box-shadow: 0 0 0px rgba(0, 0, 0, 0.02);
 <h2 class="anchored" data-anchor-id="model-selection">Model Selection</h2>
 <p>4a. Find the <span class="math inline">R_{\text{adj}}^2</span> for each model. What do these values mean?</p>
 <ul>
-<li><p><code>m1</code>:</p></li>
-<li><p><code>m2</code>:</p></li>
+<li><p><span class="math inline">R_{\text{adj}}^2</span> for <code>m1</code>:</p></li>
+<li><p><span class="math inline">R_{\text{adj}}^2</span> for <code>m2</code>:</p></li>
 </ul>
-<!-- remember to intepret the values for me :) -->
 <p>4b. Based on <span class="math inline">R_{\text{adj}}^2</span>, which model is preferred? Why?</p>
 <!-- remember to justify your answer -->
 <p>4c. Find the AIC and BIC values for each model.</p>
@@ -6421,6 +6610,7 @@ box-shadow: 0 0 0px rgba(0, 0, 0, 0.02);
 </tr>
 </tbody>
 </table>
+<!-- note that you must fill in the above table! -->
 <p>4d. Based on AIC and BIC, which model is preferred? Why?</p>
 <!-- remember to justify your answer -->
 <p>4e. Considering your answers to 4b and 4d, which model will you choose as your final model? Why?</p>
@@ -6428,7 +6618,7 @@ box-shadow: 0 0 0px rgba(0, 0, 0, 0.02);
 </section>
 <section id="reporting-the-final-model" class="level2">
 <h2 class="anchored" data-anchor-id="reporting-the-final-model">Reporting the Final Model</h2>
-<p>5a. Using the model chosen in 4e, paste in either the appropriate model summary table (from 1c or 2c).</p>
+<p>5a. Using the model chosen in 4e, paste in either the appropriate model summary table (from 1d or 2d).</p>
 <!-- literally -- scroll up, copy the appropriate table, scroll back here, then paste the table :) -->
 <p>5b. Provide formal interpretations for each predictor in the final model. Note that all predictors are shown for completeness; please remove any predictors that do not appear in your final model.</p>
 <ul>
@@ -6439,8 +6629,8 @@ box-shadow: 0 0 0px rgba(0, 0, 0, 0.02);
 <li>distractions: <!-- your interpretation here --></li>
 </ul>
 <!-- hint: for a 1-unit increase in x.... -->
-<p>5c. Construct an appropriate data visualization to help explain the relationships in your final model. While there is no single “right” answer here, you should consider your audience (…potentially Michael Scott…) and what would be most helpful for them to understand what the math is suggesting. For uniformity (for grading purposes), let’s have annual sales (<em>annual_sales_usd</em>) on the <em>y</em>-axis and number of client meetings (<em>meetings_week</em>) on the <em>x</em>-axis. For predicted values, please plug in the <code>median()</code> value for all other predictors in the model.</p>
-<p>5d. Pretend that you are preparing to meet with Michael Scott to review the analysis results. Summarize the key takeaways from your model and visualization. Remember your audience here – <a href="https://www.youtube.com/watch?v=IBJJrZ5LAVQ">Michael is not a statistician</a>, so you should avoid jargon and technical language. What would be most helpful for him to know to improve sales performance at Dunder Mifflin?</p>
+<p>5c. Construct an appropriate data visualization to help explain the relationships in your final model. While there is no single “right” answer here, you should consider your audience (…potentially Michael Scott…) and what would be most helpful for them to understand what the math is suggesting. As the outcome, annual sales (<em>annual_sales_usd</em>) should be on the <em>y</em>-axis. Pick the predictor you beleive has the strongest relationship with annual sales as the <em>x</em>-axis. To then construct predicted values, please plug in the <code>median()</code> value of all other predictors.</p>
+<p>5d. Pretend that you are preparing to meet with Michael Scott to review the analysis results. Remember your audience here – <a href="https://www.youtube.com/watch?v=IBJJrZ5LAVQ">Michael is not a statistician</a>, so you should avoid jargon and technical language. Write a brief paragraph to go with your visualization that explains the analysis results in plain language and include a suggestion for increasing annual sales.</p>
 
 
 </section>

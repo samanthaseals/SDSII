@@ -6211,19 +6211,43 @@ box-shadow: 0 0 0px rgba(0, 0, 0, 0.02);
 </ul>
 <section id="data-management" class="level2">
 <h2 class="anchored" data-anchor-id="data-management">Data Management</h2>
-<p>0a. Download the data from Canvas and import it to R.</p>
-<p>0b. Examine what is contained in the <em>sales_role</em> variable by producing a frequency table.</p>
-<p>0c. Examine what is contained in the <em>branch</em> variable by producing a frequency table.</p>
-<p>0d. Find summary statistics (mean and sd) for the continuous predictor variables in the dataset. Split this by <em>branch</em>.</p>
+<p>0a. Download the data from Canvas and import it to R OR import it from GitHub.</p>
+<p>0b. Examine what is contained in the <em>branch</em> variable by producing a frequency table.</p>
+<!-- 
+if you do not know how to find summary statistics in R, please see this lecture 
+from my Biostatistics course: 
+https://samanthaseals.github.io/STA4173Fa25/files/slides/01-2-estimation-in-R.html
+-->
+<p>0c. Find summary statistics (mean and sd) for the continuous predictor variables in the dataset. Split this by <em>branch</em>.</p>
 </section>
 <section id="constructing-the-model" class="level2">
 <h2 class="anchored" data-anchor-id="constructing-the-model">Constructing the Model</h2>
 <p>1a. Fit a multiple linear regression model predicting annual sales (<em>annual_sales_usd</em>) as a function of the number of client calls per week (<em>client_calls_week</em>), the number of client meetings per week (<em>meetings_week</em>), and the branch (<em>branch</em>; use Scranton as the reference group). Call this model <code>m1</code>.</p>
 <p>1b. Based on your output, state the resulting model.</p>
+<!-- below is the basic LaTeX for formatting a regression line; please update it with numbers from your model based on the results above -->
 <p><span class="math display">
 \hat{y} = \beta_0 + \beta_1 x_1 + ... + \beta_k x_k
 </span></p>
 <p>1c. Is this a significant regression line? You must provide statistical justification for your answer. Assume <span class="math inline">\alpha=0.05</span>.</p>
+<p><strong>Hypotheses</strong>:</p>
+<ul>
+<li><span class="math inline">H_0:</span></li>
+<li><span class="math inline">H_1:</span></li>
+</ul>
+<p><strong>Test Statistic and <span class="math inline">p</span>-value</strong></p>
+<ul>
+<li><span class="math inline">statistic =</span> <!-- please replace the word "statistic" with the type of test statistic you have (e.g., F, t, etc.) --></li>
+<li><span class="math inline">p=</span></li>
+</ul>
+<p><strong>Rejection Region</strong></p>
+<ul>
+<li>Reject <span class="math inline">H_0</span> if …</li>
+</ul>
+<p><strong>Conclusion and Interpretation</strong></p>
+<ul>
+<li>Reject or fail to reject <span class="math inline">H_0</span>. <!-- pick the appropriate one... do not leave as is --></li>
+<li>There is or is not sufficient evidence to conclude… <!-- pick the appropriate choice & write the conclusion in the problem's context --></li>
+</ul>
 <p>1d. Fill in the following table:</p>
 <table class="caption-top table">
 <colgroup>
@@ -6267,12 +6291,134 @@ box-shadow: 0 0 0px rgba(0, 0, 0, 0.02);
 </tbody>
 </table>
 <p>1e. Which, if any, are significant predictors of annual sales? You must provide statistical justification for your answers. Assume <span class="math inline">\alpha=0.05</span>.</p>
+<p><em>Client Calls</em></p>
+<p><strong>Hypotheses</strong>:</p>
+<ul>
+<li><span class="math inline">H_0:</span></li>
+<li><span class="math inline">H_1:</span></li>
+</ul>
+<p><strong>Test Statistic and <span class="math inline">p</span>-value</strong></p>
+<ul>
+<li><span class="math inline">statistic =</span> <!-- please replace the word "statistic" with the type of test statistic you have (e.g., F, t, etc.) --></li>
+<li><span class="math inline">p=</span></li>
+</ul>
+<p><strong>Rejection Region</strong></p>
+<ul>
+<li>Reject <span class="math inline">H_0</span> if …</li>
+</ul>
+<p><strong>Conclusion and Interpretation</strong></p>
+<ul>
+<li>Reject or fail to reject <span class="math inline">H_0</span>. <!-- pick the appropriate one... do not leave as is --></li>
+<li>There is or is not sufficient evidence to conclude… <!-- pick the appropriate choice & write the conclusion in the problem's context --></li>
+</ul>
+<p><em>Client Meetings</em></p>
+<p><strong>Hypotheses</strong>:</p>
+<ul>
+<li><span class="math inline">H_0:</span></li>
+<li><span class="math inline">H_1:</span></li>
+</ul>
+<p><strong>Test Statistic and <span class="math inline">p</span>-value</strong></p>
+<ul>
+<li><span class="math inline">statistic =</span> <!-- please replace the word "statistic" with the type of test statistic you have (e.g., F, t, etc.) --></li>
+<li><span class="math inline">p=</span></li>
+</ul>
+<p><strong>Rejection Region</strong></p>
+<ul>
+<li>Reject <span class="math inline">H_0</span> if …</li>
+</ul>
+<p><strong>Conclusion and Interpretation</strong></p>
+<ul>
+<li>Reject or fail to reject <span class="math inline">H_0</span>. <!-- pick the appropriate one... do not leave as is --></li>
+<li>There is or is not sufficient evidence to conclude… <!-- pick the appropriate choice & write the conclusion in the problem's context --></li>
+</ul>
+<p><em>Branch</em></p>
+<p><strong>Hypotheses</strong>:</p>
+<ul>
+<li><span class="math inline">H_0:</span></li>
+<li><span class="math inline">H_1:</span></li>
+</ul>
+<p><strong>Test Statistic and <span class="math inline">p</span>-value</strong></p>
+<ul>
+<li><span class="math inline">statistic =</span> <!-- please replace the word "statistic" with the type of test statistic you have (e.g., F, t, etc.) --></li>
+<li><span class="math inline">p=</span></li>
+</ul>
+<p><strong>Rejection Region</strong></p>
+<ul>
+<li>Reject <span class="math inline">H_0</span> if …</li>
+</ul>
+<p><strong>Conclusion and Interpretation</strong></p>
+<ul>
+<li>Reject or fail to reject <span class="math inline">H_0</span>. <!-- pick the appropriate one... do not leave as is --></li>
+<li>There is or is not sufficient evidence to conclude… <!-- pick the appropriate choice & write the conclusion in the problem's context --></li>
+</ul>
+<p>1f. Which branches, if any, are significantly different from Scranton? You must provide statistical justification for your answers. Assume <span class="math inline">\alpha=0.05</span>.</p>
+<p><em>Albany</em></p>
+<p><strong>Hypotheses</strong>:</p>
+<ul>
+<li><span class="math inline">H_0:</span></li>
+<li><span class="math inline">H_1:</span></li>
+</ul>
+<p><strong>Test Statistic and <span class="math inline">p</span>-value</strong></p>
+<ul>
+<li><span class="math inline">statistic =</span> <!-- please replace the word "statistic" with the type of test statistic you have (e.g., F, t, etc.) --></li>
+<li><span class="math inline">p=</span></li>
+</ul>
+<p><strong>Rejection Region</strong></p>
+<ul>
+<li>Reject <span class="math inline">H_0</span> if …</li>
+</ul>
+<p><strong>Conclusion and Interpretation</strong></p>
+<ul>
+<li>Reject or fail to reject <span class="math inline">H_0</span>. <!-- pick the appropriate one... do not leave as is --></li>
+<li>There is or is not sufficient evidence to conclude… <!-- pick the appropriate choice & write the conclusion in the problem's context --></li>
+</ul>
+<p><em>Stamford</em></p>
+<p><strong>Hypotheses</strong>:</p>
+<ul>
+<li><span class="math inline">H_0:</span></li>
+<li><span class="math inline">H_1:</span></li>
+</ul>
+<p><strong>Test Statistic and <span class="math inline">p</span>-value</strong></p>
+<ul>
+<li><span class="math inline">statistic =</span> <!-- please replace the word "statistic" with the type of test statistic you have (e.g., F, t, etc.) --></li>
+<li><span class="math inline">p=</span></li>
+</ul>
+<p><strong>Rejection Region</strong></p>
+<ul>
+<li>Reject <span class="math inline">H_0</span> if …</li>
+</ul>
+<p><strong>Conclusion and Interpretation</strong></p>
+<ul>
+<li>Reject or fail to reject <span class="math inline">H_0</span>. <!-- pick the appropriate one... do not leave as is --></li>
+<li>There is or is not sufficient evidence to conclude… <!-- pick the appropriate choice & write the conclusion in the problem's context --></li>
+</ul>
+<p><em>Utica</em></p>
+<p><strong>Hypotheses</strong>:</p>
+<ul>
+<li><span class="math inline">H_0:</span></li>
+<li><span class="math inline">H_1:</span></li>
+</ul>
+<p><strong>Test Statistic and <span class="math inline">p</span>-value</strong></p>
+<ul>
+<li><span class="math inline">statistic =</span> <!-- please replace the word "statistic" with the type of test statistic you have (e.g., F, t, etc.) --></li>
+<li><span class="math inline">p=</span></li>
+</ul>
+<p><strong>Rejection Region</strong></p>
+<ul>
+<li>Reject <span class="math inline">H_0</span> if …</li>
+</ul>
+<p><strong>Conclusion and Interpretation</strong></p>
+<ul>
+<li>Reject or fail to reject <span class="math inline">H_0</span>. <!-- pick the appropriate one... do not leave as is --></li>
+<li>There is or is not sufficient evidence to conclude… <!-- pick the appropriate choice & write the conclusion in the problem's context --></li>
+</ul>
 </section>
 <section id="model-assumptions" class="level2">
 <h2 class="anchored" data-anchor-id="model-assumptions">Model Assumptions</h2>
 <p>2a. State the assumptions on the linear model.</p>
 <p>2b. Construct the appropriate graph(s) to check assumptions listed in 2a.</p>
-<p>2c. Do we meet the assumptions for the linear model? Are we okay to proceed with statistical inference?</p>
+<!-- make sure that you follow only the methods outlined in lecture -->
+<p>2c. Do we meet the assumptions for the linear model? Why or why not? Does this mean our inference is valid or invalid?</p>
 </section>
 <section id="model-interpretation" class="level2">
 <h2 class="anchored" data-anchor-id="model-interpretation">Model Interpretation</h2>
@@ -6284,9 +6430,9 @@ box-shadow: 0 0 0px rgba(0, 0, 0, 0.02);
 <li>branch (Utica): <!-- your interpretation here --></li>
 <li>branch (Albany): <!-- your interpretation here --></li>
 </ul>
-<p>3b. Find the adjusted <span class="math inline">R^2</span> for the model. What does this mean in context?</p>
-<p>3c. Construct an appropriate data visualization to help explain the relationships in your final model.For uniformity (for grading purposes), let’s again have annual sales (<em>annual_sales_usd</em>) on the <em>y</em>-axis, the number of client meetings (<em>meetings_week</em>) on the <em>x</em>-axis, and the lines defined by the branch (<em>branch</em>). For predicted values, please plug plausible values for the other predictors in the model.</p>
-<p>3d. Pretend that you are preparing to meet with Michael Scott to review the analysis results. Summarize the key takeaways from your model and visualization. Remember your audience here – <a href="https://www.youtube.com/watch?v=IBJJrZ5LAVQ">Michael is not a statistician</a>, so you should avoid jargon and technical language. What would be most helpful for him to know to improve sales performance at Dunder Mifflin? What has changed from last week’s analysis?</p>
+<p>3b. Find the adjusted <span class="math inline">R^2</span> for the model. What does this mean in the problem’s context?</p>
+<p>3c. Construct an appropriate data visualization to help explain the relationships in your final model. While there is no single “right” answer here, you should consider your audience (…potentially Michael Scott…) and what would be most helpful for them to understand what the math is suggesting. As the outcome, annual sales (<em>annual_sales_usd</em>) should be on the <em>y</em>-axis. Pick the continuous predictor you beleive has the strongest relationship with annual sales as the <em>x</em>-axis. There should be a predicted line for every branch. To then construct predicted values, please plug in the <code>median()</code> value of all other continuous predictors.</p>
+<p>3d. Pretend that you are preparing to meet with Michael Scott to review the analysis results. Remember your audience here – <a href="https://www.youtube.com/watch?v=IBJJrZ5LAVQ">Michael is not a statistician</a>, so you should avoid jargon and technical language. Write a brief paragraph to go with your visualization that explains the analysis results in plain language and include a suggestion for increasing annual sales.</p>
 
 
 </section>
